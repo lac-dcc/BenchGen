@@ -1,1 +1,2 @@
-insert IF(search IF(CALL(insert IF(B, LOOP(A)) remove), _), LOOP(insert IF(search IF(CALL(A), _), LOOP(insert IF(B, LOOP(A)) remove)) remove)) remove
+var A = insert end end
+A IF(A, _) end end

@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "../reader/reader.h"
+#include "../shared/enums.h"
 #include "../shared/typedefs.h"
 
 vector<token> getTokens(string, vector<lexer_rule>);
@@ -17,6 +18,8 @@ vector<lexer_rule> loadLexerConfig(string);
 bool matchAnyRule(string, vector<lexer_rule>);
 
 int matchToken(string, vector<lexer_rule>);
+
+int getTokenFromId(string);
 
 #include "lexer.cpp"
 
