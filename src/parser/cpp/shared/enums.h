@@ -14,14 +14,15 @@ enum Token {
     TOK_CONTAINS = -10,
 
     TOK_VAR = -11,
+    TOK_END = -12,
 
-    TOK_OPAREN = -12,
-    TOK_CPAREN = -13,
-    TOK_COMMA = -14,
-    TOK_EQUAL = -15,
-    TOK_UNDERLINE = -16,
+    TOK_OPAREN = -13,
+    TOK_CPAREN = -14,
+    TOK_COMMA = -15,
+    TOK_EQUAL = -16,
+    TOK_UNDERLINE = -17,
 
-    TOK_ID = -17,
+    TOK_ID = -18,
 
     TOK_ERROR = -1
 };

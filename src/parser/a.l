@@ -1,2 +1,10 @@
-var A = insert end end
-A IF(A, _) end end
+var A = insert A ;
+A
+IF ( A ; , _ ) 
+insert
+LOOP (
+    LOOP (
+        A;
+    ) ;
+)
+remove ;

@@ -165,10 +165,6 @@ void parse_VSTRUCTS() {
 }
 
 void parse_STRUCTS() {
-    if (tokenIndex >= tokens.size()) {
-        return;
-    }
-
     switch (get<0>(tokens[tokenIndex])) {
         case TOK_IF:
             parse_STRUCT();
@@ -206,8 +202,9 @@ void parse_STRUCTS() {
             parse_STRUCT();
             parse_STRUCTS();
             break;
-        case TOK_VAR:
-            return;
+        case TOK_END:
+            match(TOK_END);
+            break;
         case TOK_ID:
             parse_STRUCT();
             parse_STRUCTS();
@@ -229,40 +226,35 @@ void parse_STRUCT() {
         case TOK_LOOP:
             match(TOK_LOOP);
             match(TOK_OPAREN);
-            parse_CODE();
+            parse_STRUCTS();
             match(TOK_CPAREN);
             break;
         case TOK_CALL:
             match(TOK_CALL);
             match(TOK_OPAREN);
-            parse_CODE();
+            parse_STRUCTS();
             match(TOK_CPAREN);
             break;
         case TOK_SEQ:
             match(TOK_SEQ);
             match(TOK_OPAREN);
-            parse_CODE();
+            parse_STRUCTS();
             match(TOK_CPAREN);
             break;
         case TOK_INSERT:
             match(TOK_INSERT);
-            parse_STRUCTS();
             break;
         case TOK_REMOVE:
             match(TOK_REMOVE);
-            parse_STRUCTS();
             break;
         case TOK_DEL:
             match(TOK_DEL);
-            parse_STRUCTS();
             break;
         case TOK_NEW:
             match(TOK_NEW);
-            parse_STRUCTS();
             break;
         case TOK_CONTAINS:
             match(TOK_CONTAINS);
-            parse_STRUCTS();
             break;
         case TOK_ID:
             match(TOK_ID);
@@ -277,58 +269,58 @@ void parse_STRUCT() {
 void parse_PARAMIF() {
     switch (get<0>(tokens[tokenIndex])) {
         case TOK_IF:
-            parse_STRUCT();
+            parse_STRUCTS();
             match(TOK_COMMA);
             parse_ELSE();
             break;
         case TOK_LOOP:
-            parse_STRUCT();
+            parse_STRUCTS();
             match(TOK_COMMA);
             parse_ELSE();
             break;
         case TOK_CALL:
-            parse_STRUCT();
+            parse_STRUCTS();
             match(TOK_COMMA);
             parse_ELSE();
             break;
         case TOK_SEQ:
-            parse_STRUCT();
+            parse_STRUCTS();
             match(TOK_COMMA);
             parse_ELSE();
             break;
         case TOK_INSERT:
-            parse_STRUCT();
+            parse_STRUCTS();
             match(TOK_COMMA);
             parse_ELSE();
             break;
         case TOK_REMOVE:
-            parse_STRUCT();
+            parse_STRUCTS();
             match(TOK_COMMA);
             parse_ELSE();
             break;
         case TOK_DEL:
-            parse_STRUCT();
+            parse_STRUCTS();
             match(TOK_COMMA);
             parse_ELSE();
             break;
         case TOK_NEW:
-            parse_STRUCT();
+            parse_STRUCTS();
             match(TOK_COMMA);
             parse_ELSE();
             break;
         case TOK_CONTAINS:
-            parse_STRUCT();
+            parse_STRUCTS();
             match(TOK_COMMA);
             parse_ELSE();
             break;
         case TOK_UNDERLINE:
             match(TOK_UNDERLINE);
             match(TOK_COMMA);
-            parse_STRUCT();
+            parse_STRUCTS();
             match(TOK_CPAREN);
             break;
         case TOK_ID:
-            parse_STRUCT();
+            parse_STRUCTS();
             match(TOK_COMMA);
             parse_ELSE();
             break;
@@ -342,39 +334,39 @@ void parse_PARAMIF() {
 void parse_ELSE() {
     switch (get<0>(tokens[tokenIndex])) {
         case TOK_IF:
-            parse_STRUCT();
+            parse_STRUCTS();
             match(TOK_CPAREN);
             break;
         case TOK_LOOP:
-            parse_STRUCT();
+            parse_STRUCTS();
             match(TOK_CPAREN);
             break;
         case TOK_CALL:
-            parse_STRUCT();
+            parse_STRUCTS();
             match(TOK_CPAREN);
             break;
         case TOK_SEQ:
-            parse_STRUCT();
+            parse_STRUCTS();
             match(TOK_CPAREN);
             break;
         case TOK_INSERT:
-            parse_STRUCT();
+            parse_STRUCTS();
             match(TOK_CPAREN);
             break;
         case TOK_REMOVE:
-            parse_STRUCT();
+            parse_STRUCTS();
             match(TOK_CPAREN);
             break;
         case TOK_DEL:
-            parse_STRUCT();
+            parse_STRUCTS();
             match(TOK_CPAREN);
             break;
         case TOK_NEW:
-            parse_STRUCT();
+            parse_STRUCTS();
             match(TOK_CPAREN);
             break;
         case TOK_CONTAINS:
-            parse_STRUCT();
+            parse_STRUCTS();
             match(TOK_CPAREN);
             break;
         case TOK_UNDERLINE:
@@ -382,7 +374,7 @@ void parse_ELSE() {
             match(TOK_CPAREN);
             break;
         case TOK_ID:
-            parse_STRUCT();
+            parse_STRUCTS();
             match(TOK_CPAREN);
             break;
         default:

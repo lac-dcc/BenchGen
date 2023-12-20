@@ -127,6 +127,8 @@ int getTokenFromId(string tokStr) {
         return TOK_CONTAINS;
     } else if (tokStr == "var") {
         return TOK_VAR;
+    } else if (tokStr == "end") {
+        return TOK_END;
     } else if (tokStr == "oparen") {
         return TOK_OPAREN;
     } else if (tokStr == "cparen") {
