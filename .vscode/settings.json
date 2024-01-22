@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "*.flex": "cpp",
+        "iostream": "cpp"
+    }
+}
