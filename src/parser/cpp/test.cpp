@@ -5,7 +5,7 @@
 
 using namespace std;
 
-int main() {
+int main(int argc, char const *argv[]) {
     string LEXER_CONFIG_FILE = "../lexer.cfg";
     cout << "Reading lexer tokens configuration file..." << endl;
     vector<lexer_rule> rules = loadLexerConfig(LEXER_CONFIG_FILE);
@@ -16,8 +16,12 @@ int main() {
     //     cout << "Lexeme: " << get<0>(rule) << "\t Token: " << get<1>(rule) << endl;
     // }
 
-    cout << "Tokenizing a.l file..." << endl;
     string CODE_FILE = "../a.l";
+    if (argc > 1) {
+        CODE_FILE = argv[1];
+    }
+
+    cout << "Tokenizing file " << CODE_FILE << "..." << endl;
     vector<token> tokenSeq = getTokens(CODE_FILE, rules);
     cout << "Successfully tokenized!" << endl;
 
