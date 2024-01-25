@@ -1,10 +1,4 @@
-var A = insert A ;
-A
-IF ( A ; , _ ) 
-insert
-LOOP (
-    LOOP (
-        A;
-    ) ;
-)
-remove ;
+var A = insert IF( new A ; , B ; ) ;
+var B = remove ;
+
+LOOP(A B ;) ;

@@ -1,4 +1,6 @@
-void match(int symbol) {
+#include "parser.h"
+
+void Parser::match(int symbol) {
     if (get<0>(tokens[tokenIndex]) == symbol) {
         tokenIndex++;
     } else {
@@ -7,14 +9,12 @@ void match(int symbol) {
     }
 }
 
-void parse(vector<token> _tokens) {
-    tokenIndex = 0;
-    tokens = _tokens;
+void Parser::parse() {
     parse_S();
     std::cout << "Parsing successful!" << std::endl;
 }
 
-void parse_S() {
+void Parser::parse_S() {
     tokenIndex = 0;
     switch (get<0>(tokens[tokenIndex])) {
         case TOK_IF:
@@ -37,7 +37,7 @@ void parse_S() {
     }
 }
 
-void parse_CODE() {
+void Parser::parse_CODE() {
     switch (get<0>(tokens[tokenIndex])) {
         case TOK_IF:
         case TOK_LOOP:
@@ -62,12 +62,13 @@ void parse_CODE() {
     }
 }
 
-void parse_ATRIB() {
+void Parser::parse_ATRIB() {
     switch (get<0>(tokens[tokenIndex])) {
         case TOK_VAR:
             match(TOK_VAR);
             match(TOK_ID);
             match(TOK_EQUAL);
+            generator.generateAtrib(get<1>(tokens[tokenIndex - 2]));
             parse_VSTRUCTS();
             break;
         default:
@@ -77,7 +78,7 @@ void parse_ATRIB() {
     }
 }
 
-void parse_VSTRUCTS() {
+void Parser::parse_VSTRUCTS() {
     switch (get<0>(tokens[tokenIndex])) {
         case TOK_IF:
         case TOK_LOOP:
@@ -99,7 +100,7 @@ void parse_VSTRUCTS() {
     }
 }
 
-void parse_STRUCTS() {
+void Parser::parse_STRUCTS() {
     switch (get<0>(tokens[tokenIndex])) {
         case TOK_IF:
         case TOK_LOOP:
@@ -116,6 +117,7 @@ void parse_STRUCTS() {
             break;
         case TOK_END:
             match(TOK_END);
+            generator.scopeEnd();
             break;
         default:
             // TODO: Error handling
@@ -124,16 +126,18 @@ void parse_STRUCTS() {
     }
 }
 
-void parse_STRUCT() {
+void Parser::parse_STRUCT() {
     switch (get<0>(tokens[tokenIndex])) {
         case TOK_IF:
             match(TOK_IF);
             match(TOK_OPAREN);
+            generator.generateFunc(TOK_IF);
             parse_PARAMIF();
             break;
         case TOK_LOOP:
             match(TOK_LOOP);
             match(TOK_OPAREN);
+            generator.generateFunc(TOK_LOOP);
             parse_STRUCTS();
             match(TOK_CPAREN);
             break;
@@ -149,23 +153,17 @@ void parse_STRUCT() {
             parse_STRUCTS();
             match(TOK_CPAREN);
             break;
-        case TOK_INSERT:
-            match(TOK_INSERT);
-            break;
-        case TOK_REMOVE:
-            match(TOK_REMOVE);
-            break;
-        case TOK_DEL:
-            match(TOK_DEL);
-            break;
-        case TOK_NEW:
-            match(TOK_NEW);
-            break;
-        case TOK_CONTAINS:
-            match(TOK_CONTAINS);
-            break;
         case TOK_ID:
             match(TOK_ID);
+            generator.generateIdCall(get<1>(tokens[tokenIndex - 1]));
+            break;
+        case TOK_INSERT:
+        case TOK_REMOVE:
+        case TOK_DEL:
+        case TOK_NEW:
+        case TOK_CONTAINS:
+            match(get<0>(tokens[tokenIndex]));
+            generator.generateAlloc(get<0>(tokens[tokenIndex - 1]));
             break;
         default:
             // TODO: Error handling
@@ -174,7 +172,7 @@ void parse_STRUCT() {
     }
 }
 
-void parse_PARAMIF() {
+void Parser::parse_PARAMIF() {
     switch (get<0>(tokens[tokenIndex])) {
         case TOK_IF:
         case TOK_LOOP:
@@ -188,11 +186,14 @@ void parse_PARAMIF() {
         case TOK_ID:
             parse_STRUCTS();
             match(TOK_COMMA);
+            generator.generateElse();
             parse_ELSE();
             break;
         case TOK_UNDERLINE:
             match(TOK_UNDERLINE);
+            generator.scopeEnd();
             match(TOK_COMMA);
+            generator.generateElse();
             parse_STRUCTS();
             match(TOK_CPAREN);
             break;
@@ -203,7 +204,7 @@ void parse_PARAMIF() {
     }
 }
 
-void parse_ELSE() {
+void Parser::parse_ELSE() {
     switch (get<0>(tokens[tokenIndex])) {
         case TOK_IF:
         case TOK_LOOP:
@@ -220,6 +221,7 @@ void parse_ELSE() {
             break;
         case TOK_UNDERLINE:
             match(TOK_UNDERLINE);
+            generator.scopeEnd();
             match(TOK_CPAREN);
             break;
         default:

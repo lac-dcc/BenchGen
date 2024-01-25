@@ -30,8 +30,16 @@ int main(int argc, char const *argv[]) {
         cout << "Token: " << get<0>(tok) << "\t Lexeme: " << get<1>(tok) << endl;
     }
 
+    Parser parser(tokenSeq);
     cout << "Parsing token sequence..." << endl;
-    parse(tokenSeq);
+    parser.parse();
+
+    // cout << "Generating code..." << endl;
+    // cout << "Code generated!" << endl;
+
+    cout << "Writing code to file output.c..." << endl;
+    parser.generator.writeToFile("output.c");
+    cout << "Code written to file!" << endl;
 
     return 0;
 }
