@@ -1,5 +1,5 @@
 '''
-This script is designed to run Linux's 'perf stat' in over SPEC CPU 2017 'run cpu' command.
+This script is designed to run Linux's 'perf stat' over SPEC CPU 2017 'run cpu' command.
 Also, it will execute the 'run cpu' command using the 'train' size, and it will perform only one iteration.
 
 To run the script, you need to provide four essential inputs:
