@@ -5,21 +5,26 @@
 #include <regex>
 #include <vector>
 
-#include "../reader/reader.h"
 #include "../shared/enums.h"
 #include "../shared/typedefs.h"
 
-vector<token> getTokens(string, vector<lexer_rule>);
+using std::ifstream;
 
-vector<token> tokenize(string, vector<lexer_rule>);
+class Lexer {
+   private:
+    vector<lexer_rule> rules;
+    vector<string> readFile(string);
+    vector<token> tokenize(string);
+    bool matchAnyRule(string);
+    int matchToken(string);
+    int getTokenFromId(string);
 
-vector<lexer_rule> loadLexerConfig(string);
+   public:
+    Lexer() {}
 
-bool matchAnyRule(string, vector<lexer_rule>);
-
-int matchToken(string, vector<lexer_rule>);
-
-int getTokenFromId(string);
+    void loadConfiguration(string);
+    vector<token> getTokens(string);
+};
 
 #include "lexer.cpp"
 

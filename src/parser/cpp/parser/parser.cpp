@@ -5,13 +5,8 @@ void Parser::match(int symbol) {
         tokenIndex++;
     } else {
         // TODO: Error handling
-        std::cout << "ERROR PARSING!" << std::endl;
+        cout << "ERROR PARSING! AT " << get<0>(tokens[tokenIndex]) << endl;
     }
-}
-
-void Parser::parse() {
-    parse_S();
-    std::cout << "Parsing successful!" << std::endl;
 }
 
 void Parser::parse_S() {
@@ -32,7 +27,7 @@ void Parser::parse_S() {
             break;
         default:
             // TODO: Error handling
-            std::cout << "ERROR PARSING!" << std::endl;
+            cout << "ERROR PARSING! AT " << get<0>(tokens[tokenIndex]) << endl;
             break;
     }
 }
@@ -57,7 +52,7 @@ void Parser::parse_CODE() {
             break;
         default:
             // TODO: Error handling
-            std::cout << "ERROR PARSING!" << std::endl;
+            cout << "ERROR PARSING! AT " << get<0>(tokens[tokenIndex]) << endl;
             break;
     }
 }
@@ -73,7 +68,7 @@ void Parser::parse_ATRIB() {
             break;
         default:
             // TODO: Error handling
-            std::cout << "ERROR PARSING!" << std::endl;
+            cout << "ERROR PARSING! AT " << get<0>(tokens[tokenIndex]) << endl;
             break;
     }
 }
@@ -95,7 +90,7 @@ void Parser::parse_VSTRUCTS() {
             break;
         default:
             // TODO: Error handling
-            std::cout << "ERROR PARSING!" << std::endl;
+            cout << "ERROR PARSING! AT " << get<0>(tokens[tokenIndex]) << endl;
             break;
     }
 }
@@ -121,7 +116,7 @@ void Parser::parse_STRUCTS() {
             break;
         default:
             // TODO: Error handling
-            std::cout << "ERROR PARSING!" << std::endl;
+            cout << "ERROR PARSING! AT " << get<0>(tokens[tokenIndex]) << endl;
             break;
     }
 }
@@ -144,6 +139,7 @@ void Parser::parse_STRUCT() {
         case TOK_CALL:
             match(TOK_CALL);
             match(TOK_OPAREN);
+            generator.generateFunc(TOK_CALL);
             parse_STRUCTS();
             match(TOK_CPAREN);
             break;
@@ -167,7 +163,7 @@ void Parser::parse_STRUCT() {
             break;
         default:
             // TODO: Error handling
-            std::cout << "ERROR PARSING!" << std::endl;
+            cout << "ERROR PARSING! AT " << get<0>(tokens[tokenIndex]) << endl;
             break;
     }
 }
@@ -199,7 +195,7 @@ void Parser::parse_PARAMIF() {
             break;
         default:
             // TODO: Error handling
-            std::cout << "ERROR PARSING!" << std::endl;
+            cout << "ERROR PARSING! AT " << get<0>(tokens[tokenIndex]) << endl;
             break;
     }
 }
@@ -226,7 +222,31 @@ void Parser::parse_ELSE() {
             break;
         default:
             // TODO: Error handling
-            std::cout << "ERROR PARSING!" << std::endl;
+            cout << "ERROR PARSING! AT " << get<0>(tokens[tokenIndex]) << endl;
             break;
     }
+}
+
+void Parser::loadLexerConfiguration(string fileName) {
+    cout << "Reading lexer configuration file..." << endl;
+    lexer.loadConfiguration(fileName);
+    cout << "File read succesfully!\n";
+}
+
+void Parser::getTokens(string fileName) {
+    cout << "Tokenizing file " << fileName << "..." << endl;
+    tokens = lexer.getTokens(fileName);
+    cout << "Successfully tokenized!" << endl;
+}
+
+void Parser::parse() {
+    cout << "Parsing token sequence..." << endl;
+    parse_S();
+    cout << "Parsing successful!" << endl;
+}
+
+void Parser::writeToFile(string fileName) {
+    cout << "Writing code to file " + fileName + "..." << endl;
+    generator.writeToFile(fileName);
+    cout << "Code written to file!" << endl;
 }

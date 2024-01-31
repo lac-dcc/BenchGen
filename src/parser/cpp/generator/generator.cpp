@@ -2,9 +2,6 @@
 
 #include <fstream>
 
-using std::endl;
-using std::ofstream;
-
 void Generator::generateIncludes() {
     includes.push_back("#include <stdio.h>");
     includes.push_back("#include <stdlib.h>");
@@ -17,7 +14,7 @@ void Generator::generateMainFunction() {
 }
 
 void Generator::returnMainFunction() {
-    mainFunction.insert(mainFunction.end() - 1, "      return 0;");
+    mainFunction.insert(mainFunction.end() - 1, "   return 0;");
 }
 
 void Generator::generateIdCall(string id) {
@@ -28,12 +25,11 @@ void Generator::generateAtrib(string id) {
     vector<string> func;
     func.push_back("void " + id + "() {");
     functions.push_back(func);
-    currentScope.push_back(&functions[functions.size() - 1]);
+    currentScope.push_back(&(functions.back()));
 }
 
 void Generator::generateAlloc(int symbol) {
     string line = "";
-    std::cout << "ALLOC GERADO! -> " << symbol << "\n";
     switch (symbol) {
         case TOK_INSERT:
             line = "printf(\"INSERTED!\\n\");";
@@ -59,22 +55,36 @@ void Generator::generateFunc(int symbol) {
     switch (symbol) {
         case TOK_IF:
             line = "if(1 < 2) {";
+            currentScope.back()->push_back(line);
+            currentScope.push_back(currentScope.back());
             break;
         case TOK_LOOP: {
+            static int forLevel = 0;
             string var = "i" + std::to_string(forLevel);
             line = "for(int " + var + " = 0; " + var + " < 10; " + var + "++) {";
             forLevel++;
+            currentScope.back()->push_back(line);
+            currentScope.push_back(currentScope.back());
             break;
         }
-        case TOK_CALL:
-            line = "";
+        case TOK_CALL: {
+            static int funcCount = 0;
+            string funcName = "func" + std::to_string(funcCount);
+            line = funcName + "();";
+            currentScope.back()->push_back(line);
+
+            vector<string> func;
+            func.push_back("void " + funcName + "() {");
+            functions.push_back(func);
+            currentScope.push_back(&(functions.back()));
+
+            funcCount++;
             break;
+        }
         case TOK_SEQ:
             line = "";
             break;
     }
-    currentScope.back()->push_back(line);
-    currentScope.push_back(currentScope.back());
 }
 
 void Generator::generateElse() {
@@ -91,19 +101,31 @@ void Generator::writeToFile(string filename) {
     returnMainFunction();
     ofstream file;
     file.open(filename);
+    // Includes
     for (auto include : includes) {
         file << include << endl;
     }
     file << endl;
+    // Headers
+    for (auto func : functions) {
+        string header = func[0];
+        header.pop_back();
+        header.pop_back();
+        header += ";";
+        file << header << endl;
+    }
+    file << endl;
+    // Main function
+    for (auto func : mainFunction) {
+        file << func << endl;
+    }
+    file << endl;
+    // Functions
     for (auto func : functions) {
         for (auto line : func) {
             file << line << endl;
         }
         file << endl;
-    }
-    file << endl;
-    for (auto func : mainFunction) {
-        file << func << endl;
     }
     file.close();
 }

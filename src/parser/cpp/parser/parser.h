@@ -8,18 +8,13 @@
 #include "../shared/typedefs.h"
 
 class Parser {
-   public:
+   private:
     int tokenIndex;
     vector<token> tokens;
     Generator generator;
-
-    Parser(vector<token> _tokens) {
-        tokenIndex = 0;
-        tokens = _tokens;
-    }
+    Lexer lexer;
 
     void match(int);
-    void parse();
     void parse_S();
     void parse_CODE();
     void parse_ATRIB();
@@ -28,6 +23,16 @@ class Parser {
     void parse_STRUCT();
     void parse_PARAMIF();
     void parse_ELSE();
+
+   public:
+    Parser() {
+        tokenIndex = 0;
+    }
+
+    void loadLexerConfiguration(string);
+    void getTokens(string);
+    void parse();
+    void writeToFile(string);
 };
 
 #include "parser.cpp"

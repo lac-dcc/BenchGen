@@ -13,21 +13,19 @@ The only dependency is a C++ compiler. Here are some suggestions:
 
 ## Compiling
 
-Currently, we don't have a main file to compile. Because of that, we need to compile a test file (cpp/test.cpp). The paths in the program
-
 Compilation example:
 
 ```
-clang++ cpp/test.cpp -o cpp/test.out
+clang++ cpp/main.cpp -o cpp/main
 ```
 
 ## Running
 
-Run the binary output with a input file as parameter. The paths in the program require it to be run inside the cpp folder.
+Run the binary output with a input and output file as parameter. The paths in the program requires it to be run inside the cpp folder.
 
-Execution example (using the a.l file as input):
+Execution example. This example uses a file named "test.l" as input and creates a file "output.c" as the output C file:
 
 ```
 cd cpp
-./test.out ../a.l
+./main test.l output.c
 ```

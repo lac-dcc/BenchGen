@@ -3,19 +3,22 @@
 using std::ifstream;
 using std::regex;
 
-vector<token> getTokens(string fileName, vector<lexer_rule> rules) {
-    vector<string> fileLines = readFile(fileName);
-    vector<token> tokens = {};
-    for (auto line : fileLines) {
-        vector<token> line_tokens = tokenize(line, rules);
-        tokens.insert(tokens.begin() + tokens.size(),
-                      line_tokens.begin(),
-                      line_tokens.begin() + line_tokens.size());
+vector<string> Lexer::readFile(string fileName) {
+    vector<string> code = {};
+    ifstream file("./" + fileName);
+    if (file.is_open()) {
+        string line;
+        while (getline(file, line)) {
+            code.push_back(line);
+        }
+        file.close();
+    } else {
+        // TODO: Error handling: file not found
     }
-    return tokens;
+    return code;
 }
 
-vector<token> tokenize(string code, vector<lexer_rule> rules) {
+vector<token> Lexer::tokenize(string code) {
     vector<token> tokens = {};
     for (int i = 0; i < code.size(); i++) {
         // Building lexeme
@@ -25,14 +28,14 @@ vector<token> tokenize(string code, vector<lexer_rule> rules) {
             continue;
         }
 
-        if (!matchAnyRule(lexeme, rules)) {
+        if (!matchAnyRule(lexeme)) {
             // TODO: Error handling: unknown lexeme
         }
 
         // Getting largest sequence possible using lookahead
 
         bool lookaheaded = false;
-        while (matchAnyRule(lexeme, rules) && i < code.length() - 1) {
+        while (matchAnyRule(lexeme) && i < code.length() - 1) {
             lookaheaded = true;
             i++;
             string c = code.substr(i, 1);
@@ -42,50 +45,19 @@ vector<token> tokenize(string code, vector<lexer_rule> rules) {
                 break;
             }
         }
-        if (lookaheaded && !matchAnyRule(lexeme, rules)) {
+        if (lookaheaded && !matchAnyRule(lexeme)) {
             lexeme = lexeme.substr(0, lexeme.length() - 1);
             i--;
         }
 
-        int cur_token = matchToken(lexeme, rules);
+        int cur_token = matchToken(lexeme);
         token t = make_tuple(cur_token, lexeme);
         tokens.push_back(t);
     }
     return tokens;
 }
 
-vector<lexer_rule> loadLexerConfig(string LEXER_CONFIG_FILE) {
-    ifstream file(LEXER_CONFIG_FILE);
-    if (file.is_open()) {
-        vector<lexer_rule> rules = {};
-        string line;
-        while (getline(file, line)) {
-            if (line.length() < 1 || line[0] == '#') {
-                continue;
-            }
-            int regexLimit = line.find(' ');
-            if (regexLimit == string::npos) {
-                // TODO: Error handling: error in config file
-            }
-            string lineRegex = line.substr(0, regexLimit);
-
-            int tokIdStart = line.find_last_of(' ') + 1;
-            int lineLength = line.length();
-            string lineTokenStr = line.substr(tokIdStart, lineLength);
-            int lineToken = getTokenFromId(lineTokenStr);
-
-            lexer_rule token = make_tuple(lineRegex, lineToken);
-            rules.push_back(token);
-        }
-        file.close();
-        return rules;
-    } else {
-        // TODO: Error handling: lexer config file not found
-    }
-    return {};
-}
-
-bool matchAnyRule(string s, vector<lexer_rule> rules) {
+bool Lexer::matchAnyRule(string s) {
     for (lexer_rule rule : rules) {
         regex re(std::get<0>(rule));
         if (regex_match(s, re) && std::get<1>(rule) != -1) {
@@ -95,7 +67,7 @@ bool matchAnyRule(string s, vector<lexer_rule> rules) {
     return false;
 }
 
-int matchToken(string lexeme, vector<lexer_rule> rules) {
+int Lexer::matchToken(string lexeme) {
     for (lexer_rule rule : rules) {
         regex re(std::get<0>(rule));
         if (regex_match(lexeme, re)) {
@@ -106,7 +78,7 @@ int matchToken(string lexeme, vector<lexer_rule> rules) {
     return -1;
 }
 
-int getTokenFromId(string tokStr) {
+int Lexer::getTokenFromId(string tokStr) {
     if (tokStr == "if") {
         return TOK_IF;
     } else if (tokStr == "loop") {
@@ -144,4 +116,44 @@ int getTokenFromId(string tokStr) {
     } else {
         return TOK_ERROR;
     }
+}
+
+void Lexer::loadConfiguration(string LEXER_CONFIG_FILE) {
+    ifstream file(LEXER_CONFIG_FILE);
+    if (file.is_open()) {
+        string line;
+        while (getline(file, line)) {
+            if (line.length() < 1 || line[0] == '#') {
+                continue;
+            }
+            int regexLimit = line.find(' ');
+            if (regexLimit == string::npos) {
+                // TODO: Error handling: error in config file
+            }
+            string lineRegex = line.substr(0, regexLimit);
+
+            int tokIdStart = line.find_last_of(' ') + 1;
+            int lineLength = line.length();
+            string lineTokenStr = line.substr(tokIdStart, lineLength);
+            int lineToken = getTokenFromId(lineTokenStr);
+
+            lexer_rule token = make_tuple(lineRegex, lineToken);
+            rules.push_back(token);
+        }
+        file.close();
+    } else {
+        // TODO: Error handling: lexer config file not found
+    }
+}
+
+vector<token> Lexer::getTokens(string fileName) {
+    vector<string> fileLines = readFile(fileName);
+    vector<token> tokens = {};
+    for (auto line : fileLines) {
+        vector<token> line_tokens = tokenize(line);
+        tokens.insert(tokens.begin() + tokens.size(),
+                      line_tokens.begin(),
+                      line_tokens.begin() + line_tokens.size());
+    }
+    return tokens;
 }
