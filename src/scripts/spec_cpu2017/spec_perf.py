@@ -22,6 +22,9 @@ In the current directory, there are examples provided for the 'file_list' and 'p
 Before executing this script, ensure that the 'runcpu' command is available in your system's PATH. 
 Additionally, make sure that the SPEC paths are properly configured by running the 'shrc' script,
 provided by SPEC.
+
+A paper analyzing similar results by using Linux Perf over SPEC 2017 can be found here:
+https://tosiron.com/papers/2018/SPEC2017_ISPASS18.pdf
 '''
 
 import subprocess
