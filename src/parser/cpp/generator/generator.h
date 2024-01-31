@@ -26,7 +26,7 @@ class Generator {
     }
 
     void generateIdCall(string);
-    void generateAtrib(string);
+    void generateDeclaration(string);
     void generateAlloc(int);
     void generateFunc(int);
     void generateElse();

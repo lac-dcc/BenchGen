@@ -17,12 +17,13 @@ class Parser {
     void match(int);
     void parse_S();
     void parse_CODE();
-    void parse_ATRIB();
+    void parse_DECL();
     void parse_VSTRUCTS();
     void parse_STRUCTS();
     void parse_STRUCT();
     void parse_PARAMIF();
     void parse_ELSE();
+    bool isDeclarationLookahead();
 
    public:
     Parser() {

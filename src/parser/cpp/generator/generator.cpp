@@ -21,7 +21,7 @@ void Generator::generateIdCall(string id) {
     currentScope.back()->push_back(id + "();");
 }
 
-void Generator::generateAtrib(string id) {
+void Generator::generateDeclaration(string id) {
     vector<string> func;
     func.push_back("void " + id + "() {");
     functions.push_back(func);

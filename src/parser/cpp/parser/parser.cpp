@@ -21,7 +21,6 @@ void Parser::parse_S() {
         case TOK_DEL:
         case TOK_NEW:
         case TOK_CONTAINS:
-        case TOK_VAR:
         case TOK_ID:
             parse_CODE();
             break;
@@ -44,11 +43,12 @@ void Parser::parse_CODE() {
         case TOK_NEW:
         case TOK_CONTAINS:
         case TOK_ID:
-            parse_VSTRUCTS();
-            break;
-        case TOK_VAR:
-            parse_ATRIB();
-            parse_CODE();
+            if (isDeclarationLookahead()) {
+                parse_DECL();
+                parse_CODE();
+            } else {
+                parse_VSTRUCTS();
+            }
             break;
         default:
             // TODO: Error handling
@@ -57,13 +57,12 @@ void Parser::parse_CODE() {
     }
 }
 
-void Parser::parse_ATRIB() {
+void Parser::parse_DECL() {
     switch (get<0>(tokens[tokenIndex])) {
-        case TOK_VAR:
-            match(TOK_VAR);
+        case TOK_ID:
             match(TOK_ID);
             match(TOK_EQUAL);
-            generator.generateAtrib(get<1>(tokens[tokenIndex - 2]));
+            generator.generateDeclaration(get<1>(tokens[tokenIndex - 2]));
             parse_VSTRUCTS();
             break;
         default:
@@ -225,6 +224,10 @@ void Parser::parse_ELSE() {
             cout << "ERROR PARSING! AT " << get<0>(tokens[tokenIndex]) << endl;
             break;
     }
+}
+
+bool Parser::isDeclarationLookahead() {
+    return get<0>(tokens[tokenIndex]) == TOK_ID && get<0>(tokens[tokenIndex + 1]) == TOK_EQUAL;
 }
 
 void Parser::loadLexerConfiguration(string fileName) {
