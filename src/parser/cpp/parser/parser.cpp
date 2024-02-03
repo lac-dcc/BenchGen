@@ -64,6 +64,8 @@ void Parser::parse_DECL() {
             match(TOK_EQUAL);
             generator.generateDeclaration(get<1>(tokens[tokenIndex - 2]));
             parse_VSTRUCTS();
+            match(TOK_END);
+            generator.scopeEnd();
             break;
         default:
             // TODO: Error handling
@@ -95,6 +97,10 @@ void Parser::parse_VSTRUCTS() {
 }
 
 void Parser::parse_STRUCTS() {
+    if (tokenIndex == tokens.size()) {
+        generator.scopeEnd();
+        return;
+    }
     switch (get<0>(tokens[tokenIndex])) {
         case TOK_IF:
         case TOK_LOOP:
@@ -109,9 +115,11 @@ void Parser::parse_STRUCTS() {
             parse_STRUCT();
             parse_STRUCTS();
             break;
-        case TOK_END:
-            match(TOK_END);
+        case TOK_COMMA:
+        case TOK_CPAREN:
             generator.scopeEnd();
+            break;
+        case TOK_END:
             break;
         default:
             // TODO: Error handling
