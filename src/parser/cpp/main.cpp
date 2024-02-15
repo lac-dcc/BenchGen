@@ -27,10 +27,10 @@ int main(int argc, char const *argv[]) {
     // Read production rules
     vector<production_rule> productionRules = lexer.getProductionRules(productionRulesFile);
     // Read input string
-    vector<token> inputString = lexer.getTokens(inputFile);
+    vector<token> inputTokens = lexer.getTokens(inputFile);
     // Apply production rules n times to input string and write token sequence (L-System)
     // TODO: Kael
-    vector<token> tokenSequence = inputString;
+    vector<token> tokenSequence = inputTokens;
     cout << "Machine 0 ended successfully!" << endl;
 
     cout << "Starting machine 1..." << endl;
