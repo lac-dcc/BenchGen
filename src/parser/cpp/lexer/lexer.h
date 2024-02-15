@@ -24,6 +24,7 @@ class Lexer {
 
     void loadConfiguration(string);
     vector<token> getTokens(string);
+    vector<production_rule> getProductionRules(string);
 };
 
 #include "lexer.cpp"

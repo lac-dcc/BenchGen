@@ -155,3 +155,29 @@ vector<token> Lexer::getTokens(string fileName) {
     }
     return tokens;
 }
+
+vector<production_rule> Lexer::getProductionRules(string fileName) {
+    vector<production_rule> productionRules = {};
+    vector<token> tokens = getTokens(fileName);
+    for (int i = 0; i < tokens.size(); i++) {
+        if (std::get<0>(tokens[i]) == TOK_ID) {
+            string id = std::get<1>(tokens[i]);
+            i++;
+            if (std::get<0>(tokens[i]) == TOK_EQUAL) {
+                i++;
+                vector<token> production = {};
+                while (std::get<0>(tokens[i]) != TOK_END && i < tokens.size()) {
+                    production.push_back(tokens[i]);
+                    i++;
+                }
+                production_rule rule = make_tuple(id, production);
+                productionRules.push_back(rule);
+            } else {
+                // TODO: Error handling: unexpected token. expected '='
+            }
+        } else {
+            // TODO: Error handling: unexpected token. expected id
+        }
+    }
+    return productionRules;
+}

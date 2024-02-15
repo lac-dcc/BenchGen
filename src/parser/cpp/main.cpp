@@ -1,25 +1,61 @@
 #include <iostream>
 
+#include "lexer/lexer.h"
 #include "parser/parser.h"
 
 int main(int argc, char const *argv[]) {
-    if (argc < 3) {
+    if (argc < 5) {
         cout << "ERROR! Missing arguments!" << endl;
-        cout << "Please provide input and output files." << endl;
-        cout << "Usage: ./main <input_file> <output_file>" << endl;
+        cout << "Please provide Production Rules, Number of Iterations, Input File and Output File." << endl;
+        cout << "Usage: ./main <production_rules_file> <number_of_iterations> <input_file> <output_file>" << endl;
         return 1;
     }
 
-    Parser parser;
+    string productionRulesFile = argv[1];
+    int iterations = std::stoi(argv[2]);
+    string inputFile = argv[3];
+    string outputFile = argv[4];
 
+    cout << "Starting machine 0..." << endl;
+    /**
+     * MACHINE 0
+     * L-System implementation
+     */
     const string LEXER_CONFIG_FILE = "../lexer.cfg";
-    parser.loadLexerConfiguration(LEXER_CONFIG_FILE);
+    Lexer lexer;
+    lexer.loadConfiguration(LEXER_CONFIG_FILE);
+    // Read production rules
+    vector<production_rule> productionRules = lexer.getProductionRules(productionRulesFile);
+    // Read input string
+    vector<token> inputString = lexer.getTokens(inputFile);
+    // Apply production rules n times to input string and write token sequence (L-System)
+    // TODO: Kael
+    vector<token> tokenSequence = inputString;
+    cout << "Machine 0 ended successfully!" << endl;
 
-    parser.getTokens(argv[1]);
-
+    cout << "Starting machine 1..." << endl;
+    /**
+     * MACHINE 1
+     * Control-flow creation
+     */
+    Parser parser;
+    parser.setTokens(tokenSequence);
+    // Parse the token sequence into a control-flow graph
     parser.parse();
+    shared_ptr<Block> controlFlowGraph = parser.getControlFlowGraph();
+    cout << "Machine 1 ended successfully!" << endl;
 
-    parser.writeToFile(argv[2]);
+    cout << "Starting machine 2..." << endl;
+    /**
+     * MACHINE 2
+     * Code generation
+     */
+    // Apply "behavior" to control-flow graph
+    // Generate code
+    // Write code to file
+    cout << "Machine 2 ended successfully!" << endl;
+
+    cout << "Done!" << endl;
 
     return 0;
 }

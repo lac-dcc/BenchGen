@@ -8,7 +8,7 @@
 
 typedef tuple<string, int> lexer_rule;
 typedef tuple<int, string> token;
+typedef tuple<string, vector<token>> production_rule;
 typedef tuple<int, vector<int>> parser_rule;
-typedef map<tuple<int, int>, parser_rule> parsing_table;
 
 #endif

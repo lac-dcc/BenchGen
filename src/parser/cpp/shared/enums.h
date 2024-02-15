@@ -26,4 +26,11 @@ enum Token {
     TOK_ERROR = -1
 };
 
+enum BlockType {
+    BT_FUNCTION = 0,
+    BT_IF = 1,
+    BT_ELSE = 2,
+    BT_LOOP = 3
+};
+
 #endif
