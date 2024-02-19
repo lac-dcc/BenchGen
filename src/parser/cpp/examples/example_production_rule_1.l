@@ -1,0 +1,1 @@
+A = IF(new,del);

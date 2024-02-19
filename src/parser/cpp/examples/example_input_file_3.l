@@ -1,0 +1,1 @@
+IF(A,insert contains LOOP(A)) CALL(new insert)

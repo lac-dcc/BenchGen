@@ -1,0 +1,1 @@
+IF(LOOP(CALL(B)),A)
