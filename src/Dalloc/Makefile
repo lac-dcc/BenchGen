@@ -4,6 +4,7 @@ OBJ=obj/example.o obj/Dalloc.o
 
 all: example
 
+# gcc -Wl,--wrap,malloc,--wrap,free prog.o Dalloc.o
 example: $(OBJ)
 	$(CC) $(CARGS) -o $@ $^
 
