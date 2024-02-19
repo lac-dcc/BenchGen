@@ -6,13 +6,13 @@
 int main(int argc, char const *argv[]) {
     if (argc < 5) {
         cout << "ERROR! Missing arguments!" << endl;
-        cout << "Please provide Production Rules, Number of Iterations, Input File and Output File." << endl;
-        cout << "Usage: ./main <production_rules_file> <number_of_iterations> <input_file> <output_file>" << endl;
+        cout << "Please provide Number of Iterations, Production Rules, Input File and Output File." << endl;
+        cout << "Usage: ./main <number_of_iterations> <production_rules_file> <input_file> <output_file>" << endl;
         return 1;
     }
 
-    string productionRulesFile = argv[1];
-    int iterations = std::stoi(argv[2]);
+    int iterations = std::stoi(argv[1]);
+    string productionRulesFile = argv[2];
     string inputFile = argv[3];
     string outputFile = argv[4];
 
