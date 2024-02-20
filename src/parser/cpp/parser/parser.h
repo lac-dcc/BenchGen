@@ -11,19 +11,20 @@ class Parser {
    private:
     int tokenIndex;
     vector<token> tokens;
-    unique_ptr<S> AST;
+    shared_ptr<S> AST;
 
     void match(int);
-    void parse_S();
-    void parse_CODE();
-    void parse_STRUCTS();
-    void parse_STRUCT();
-    void parse_PARAMIF();
-    void parse_ELSE();
+    shared_ptr<S> parse_S();
+    shared_ptr<Code> parse_CODE();
+    shared_ptr<Structs> parse_STRUCTS();
+    shared_ptr<Struct> parse_STRUCT();
+    shared_ptr<ParamIf> parse_PARAMIF();
+    shared_ptr<Else> parse_ELSE();
 
    public:
     Parser() {
         tokenIndex = 0;
+        AST = nullptr;
     }
 
     void setTokens(vector<token>);

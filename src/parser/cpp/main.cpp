@@ -3,6 +3,90 @@
 #include "lexer/lexer.h"
 #include "parser/parser.h"
 
+// TODO: Erase this later
+void printAST(shared_ptr<Block> node, int ident = 0) {
+    if (node == nullptr) {
+        return;
+    }
+    for (int i = 0; i < ident; i++) {
+        cout << "   ";
+    }
+    cout << " |--";
+    switch (node->type) {
+        case AST_S:
+            cout << "S" << endl;
+            printAST(node->code, ident + 1);
+            break;
+        case AST_CODE:
+            cout << "CODE" << endl;
+            printAST(node->struct_, ident + 1);
+            printAST(node->structs, ident + 1);
+            break;
+        case AST_STRUCT_STRUCTS:
+            cout << "STRUCT" << endl;
+            printAST(node->struct_, ident + 1);
+            printAST(node->structs, ident + 1);
+            break;
+        case AST_LAMBDA_STRUCTS:
+            cout << "LAMBDA" << endl;
+            break;
+        case AST_INSERT_STRUCT:
+            cout << "INSERT" << endl;
+            break;
+        case AST_REMOVE_STRUCT:
+            cout << "REMOVE" << endl;
+            break;
+        case AST_NEW_STRUCT:
+            cout << "NEW" << endl;
+            break;
+        case AST_DEL_STRUCT:
+            cout << "DEL" << endl;
+            break;
+        case AST_CONTAINS_STRUCT:
+            cout << "CONTAINS" << endl;
+            break;
+        case AST_LOOP_STRUCT:
+            cout << "LOOP" << endl;
+            printAST(node->structs, ident + 1);
+            break;
+        case AST_CALL_STRUCT:
+            cout << "CALL" << endl;
+            printAST(node->structs, ident + 1);
+            break;
+        case AST_SEQ_STRUCT:
+            cout << "SEQ" << endl;
+            printAST(node->structs, ident + 1);
+            break;
+        case AST_IF_STRUCT:
+            cout << "IF" << endl;
+            printAST(node->paramIf, ident + 1);
+            printAST(node->else_, ident + 1);
+            break;
+        case AST_ID_STRUCT:
+            cout << "ID" << endl;
+            break;
+        case AST_STRUCTS_PARAM_IF:
+            cout << "PARAM_IF" << endl;
+            printAST(node->structs, ident + 1);
+            printAST(node->paramIf, ident + 1);
+            break;
+        case AST_UNDERLINE_PARAM_IF:
+            cout << "UNDERLINE_PARAM_IF" << endl;
+            break;
+        case AST_STRUCTS_ELSE:
+            cout << "ELSE" << endl;
+            printAST(node->structs, ident + 1);
+            printAST(node->else_, ident + 1);
+            break;
+        case AST_UNDERLINE_ELSE:
+            cout << "UNDERLINE_ELSE" << endl;
+            break;
+        default:
+            cout << "UNKNOWN: " << node->type << endl;
+            break;
+    }
+}
+
 int main(int argc, char const *argv[]) {
     if (argc < 5) {
         cout << "ERROR! Missing arguments!" << endl;
@@ -42,7 +126,7 @@ int main(int argc, char const *argv[]) {
     parser.setTokens(tokenSequence);
     // Parse the token sequence into a control-flow graph
     parser.parse();
-    // shared_ptr<Block> controlFlowGraph = parser.getControlFlowGraph();
+    shared_ptr<S> AST = parser.getAST();
     cout << "Machine 1 ended successfully!" << endl;
 
     cout << "Starting machine 2..." << endl;
@@ -56,6 +140,11 @@ int main(int argc, char const *argv[]) {
     cout << "Machine 2 ended successfully!" << endl;
 
     cout << "Done!" << endl;
+
+    cout << "========================================================" << endl;
+    cout << "AST:" << endl;
+    printAST(AST);
+    cout << "========================================================" << endl;
 
     return 0;
 }

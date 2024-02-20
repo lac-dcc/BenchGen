@@ -17,6 +17,7 @@ using std::list;
 using std::make_shared;
 using std::make_unique;
 using std::map;
+using std::move;
 using std::set;
 using std::shared_ptr;
 using std::string;

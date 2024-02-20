@@ -9,7 +9,7 @@ void Parser::match(int symbol) {
     }
 }
 
-void Parser::parse_S() {
+shared_ptr<S> Parser::parse_S() {
     tokenIndex = 0;
     switch (get<0>(tokens[tokenIndex])) {
         case TOK_INSERT:
@@ -22,16 +22,16 @@ void Parser::parse_S() {
         case TOK_SEQ:
         case TOK_IF:
         case TOK_ID:
-            parse_CODE();
-            break;
+            return make_shared<S>(S(parse_CODE()));
         default:
             // TODO: Error handling
             cout << "ERROR PARSING! AT " << get<0>(tokens[tokenIndex]) << endl;
             break;
     }
+    return nullptr;
 }
 
-void Parser::parse_CODE() {
+shared_ptr<Code> Parser::parse_CODE() {
     switch (get<0>(tokens[tokenIndex])) {
         case TOK_INSERT:
         case TOK_REMOVE:
@@ -43,20 +43,18 @@ void Parser::parse_CODE() {
         case TOK_SEQ:
         case TOK_IF:
         case TOK_ID:
-            parse_STRUCT();
-            parse_STRUCTS();
-            break;
+            return make_shared<Code>(Code(parse_STRUCT(), parse_STRUCTS()));
         default:
             // TODO: Error handling
             cout << "ERROR PARSING! AT " << get<0>(tokens[tokenIndex]) << endl;
             break;
     }
+    return nullptr;
 }
 
-void Parser::parse_STRUCTS() {
+shared_ptr<Structs> Parser::parse_STRUCTS() {
     if (tokenIndex == tokens.size()) {
-        // generator.scopeEnd();
-        return;
+        return make_shared<LambdaStructs>(LambdaStructs());
     }
     switch (get<0>(tokens[tokenIndex])) {
         case TOK_INSERT:
@@ -69,21 +67,19 @@ void Parser::parse_STRUCTS() {
         case TOK_SEQ:
         case TOK_IF:
         case TOK_ID:
-            parse_STRUCT();
-            parse_STRUCTS();
-            break;
+            return make_shared<StructStructs>(StructStructs(parse_STRUCT(), parse_STRUCTS()));
         case TOK_COMMA:
         case TOK_CPAREN:
-            // generator.scopeEnd();
-            break;
+            return make_shared<LambdaStructs>(LambdaStructs());
         default:
             // TODO: Error handling
             cout << "ERROR PARSING! AT " << get<0>(tokens[tokenIndex]) << endl;
             break;
     }
+    return nullptr;
 }
 
-void Parser::parse_STRUCT() {
+shared_ptr<Struct> Parser::parse_STRUCT() {
     switch (get<0>(tokens[tokenIndex])) {
         case TOK_INSERT:
         case TOK_REMOVE:
@@ -91,49 +87,32 @@ void Parser::parse_STRUCT() {
         case TOK_NEW:
         case TOK_CONTAINS:
             match(get<0>(tokens[tokenIndex]));
-            // generator.generateAlloc(get<0>(tokens[tokenIndex - 1]));
-            break;
-        case TOK_LOOP: {
-            match(TOK_LOOP);
+            return make_shared<AllocationStruct>(AllocationStruct(get<0>(tokens[tokenIndex - 1])));
+        case TOK_LOOP:
+        case TOK_CALL:
+        case TOK_SEQ: {
+            match(get<0>(tokens[tokenIndex]));
             match(TOK_OPAREN);
-            // generator.generateFunc(TOK_LOOP);
-            parse_STRUCTS();
+            shared_ptr<FunctionalStruct> fStruct = make_shared<FunctionalStruct>(FunctionalStruct(get<0>(tokens[tokenIndex - 2]), parse_STRUCTS()));
             match(TOK_CPAREN);
-            break;
+            return fStruct;
         }
-        case TOK_CALL: {
-            match(TOK_CALL);
-            match(TOK_OPAREN);
-            // generator.generateFunc(TOK_CALL);
-            parse_STRUCTS();
-            match(TOK_CPAREN);
-            break;
-        }
-        case TOK_SEQ:
-            match(TOK_SEQ);
-            match(TOK_OPAREN);
-            parse_STRUCTS();
-            match(TOK_CPAREN);
-            break;
         case TOK_IF:
             match(TOK_IF);
             match(TOK_OPAREN);
-            // generator.generateFunc(TOK_IF);
-            parse_PARAMIF();
-            break;
+            return make_shared<IfStruct>(IfStruct(parse_PARAMIF()));
         case TOK_ID:
             match(TOK_ID);
-            // generate?
-            parse_STRUCTS();
-            break;
+            return make_shared<IdStruct>(IdStruct(get<1>(tokens[tokenIndex - 1])));
         default:
             // TODO: Error handling
             cout << "ERROR PARSING! AT " << get<0>(tokens[tokenIndex]) << endl;
             break;
     }
+    return nullptr;
 }
 
-void Parser::parse_PARAMIF() {
+shared_ptr<ParamIf> Parser::parse_PARAMIF() {
     switch (get<0>(tokens[tokenIndex])) {
         case TOK_IF:
         case TOK_LOOP:
@@ -144,28 +123,25 @@ void Parser::parse_PARAMIF() {
         case TOK_DEL:
         case TOK_NEW:
         case TOK_CONTAINS:
-        case TOK_ID:
-            parse_STRUCTS();
+        case TOK_ID: {
+            shared_ptr<Structs> structs = parse_STRUCTS();
             match(TOK_COMMA);
-            // generator.generateElse();
-            parse_ELSE();
-            break;
+            return make_shared<StructsParamIf>(StructsParamIf(structs, parse_ELSE()));
+        }
         case TOK_UNDERLINE:
             match(TOK_UNDERLINE);
         case TOK_COMMA:
-            // generator.scopeEnd();
             match(TOK_COMMA);
-            // generator.generateElse();
-            parse_ELSE();
-            break;
+            return make_shared<UnderlineParamIf>(UnderlineParamIf(parse_ELSE()));
         default:
             // TODO: Error handling
             cout << "ERROR PARSING! AT " << get<0>(tokens[tokenIndex]) << endl;
             break;
     }
+    return nullptr;
 }
 
-void Parser::parse_ELSE() {
+shared_ptr<Else> Parser::parse_ELSE() {
     switch (get<0>(tokens[tokenIndex])) {
         case TOK_IF:
         case TOK_LOOP:
@@ -176,21 +152,22 @@ void Parser::parse_ELSE() {
         case TOK_DEL:
         case TOK_NEW:
         case TOK_CONTAINS:
-        case TOK_ID:
-            parse_STRUCTS();
+        case TOK_ID: {
+            shared_ptr<Structs> structs = parse_STRUCTS();
             match(TOK_CPAREN);
-            break;
+            return make_shared<StructsElse>(StructsElse(structs));
+        }
         case TOK_UNDERLINE:
             match(TOK_UNDERLINE);
         case TOK_CPAREN:
             match(TOK_CPAREN);
-            // generator.scopeEnd();
-            break;
+            return make_shared<UnderlineElse>(UnderlineElse());
         default:
             // TODO: Error handling
             cout << "ERROR PARSING! AT " << get<0>(tokens[tokenIndex]) << endl;
             break;
     }
+    return nullptr;
 }
 
 void Parser::setTokens(vector<token> _tokens) {
@@ -198,9 +175,9 @@ void Parser::setTokens(vector<token> _tokens) {
 }
 
 void Parser::parse() {
-    parse_S();
+    AST = parse_S();
 }
 
 shared_ptr<S> Parser::getAST() {
-    return make_shared<S>(move(AST));
+    return move(AST);
 }

@@ -11,14 +11,8 @@ class Structs;
 class StructSctructs;
 class LambdaStructs;
 class Struct;
-class InsertStruct;
-class RemoveStruct;
-class NewStruct;
-class DelStruct;
-class ContainsStruct;
-class LoopStruct;
-class CallStruct;
-class SeqStruct;
+class AllocationStruct;
+class FunctionalStruct;
 class IfStruct;
 class IdStruct;
 class ParamIf;
@@ -31,32 +25,36 @@ class UnderlineElse;
 class Block {
    public:
     int type;
+
+    shared_ptr<Code> code;
+    shared_ptr<Struct> struct_;
+    shared_ptr<Structs> structs;
+    string id;
+    shared_ptr<ParamIf> paramIf;
+    shared_ptr<Else> else_;
+
     Block() {}
 };
 
 class S : public Block {
    public:
-    shared_ptr<Code> code;
-
-    S(shared_ptr<Code> code) : code(code) {
+    S(shared_ptr<Code> code) {
         type = AST_S;
+        this->code = code;
     }
 };
 
 class Code : public Block {
    public:
-    shared_ptr<Struct> struct_;
-    shared_ptr<Structs> structs;
-
-    Code(shared_ptr<Struct> struct_, shared_ptr<Structs> structs) : struct_(struct_), structs(structs) {
+    Code(shared_ptr<Struct> struct_, shared_ptr<Structs> structs) {
         type = AST_CODE;
+        this->struct_ = struct_;
+        this->structs = structs;
     }
 };
 
 class Structs : public Block {
    public:
-    shared_ptr<Struct> struct_;
-    shared_ptr<Structs> structs;
     Structs() {}
 };
 
@@ -78,67 +76,46 @@ class LambdaStructs : public Structs {
 
 class Struct : public Block {
    public:
-    shared_ptr<Structs> structs;
-    shared_ptr<ParamIf> paramIf;
-
     Struct() {}
 };
 
-class InsertStruct : public Struct {
+class AllocationStruct : public Struct {
    public:
-    InsertStruct() {
-        type = AST_INSERT_STRUCT;
+    AllocationStruct(int tok) {
+        switch (tok) {
+            case TOK_INSERT:
+                type = AST_INSERT_STRUCT;
+                break;
+            case TOK_REMOVE:
+                type = AST_REMOVE_STRUCT;
+                break;
+            case TOK_NEW:
+                type = AST_NEW_STRUCT;
+                break;
+            case TOK_DEL:
+                type = AST_DEL_STRUCT;
+                break;
+            case TOK_CONTAINS:
+                type = AST_CONTAINS_STRUCT;
+                break;
+        }
     }
 };
 
-class RemoveStruct : public Struct {
+class FunctionalStruct : public Struct {
    public:
-    RemoveStruct() {
-        type = AST_REMOVE_STRUCT;
-    }
-};
-
-class NewStruct : public Struct {
-   public:
-    NewStruct() {
-        type = AST_NEW_STRUCT;
-    }
-};
-
-class DelStruct : public Struct {
-   public:
-    DelStruct() {
-        type = AST_DEL_STRUCT;
-    }
-};
-
-class ContainsStruct : public Struct {
-   public:
-    ContainsStruct() {
-        type = AST_CONTAINS_STRUCT;
-    }
-};
-
-class LoopStruct : public Struct {
-   public:
-    LoopStruct(shared_ptr<Structs> structs) {
-        type = AST_LOOP_STRUCT;
-        this->structs = structs;
-    }
-};
-
-class CallStruct : public Struct {
-   public:
-    CallStruct(shared_ptr<Structs> structs) {
-        type = AST_CALL_STRUCT;
-        this->structs = structs;
-    }
-};
-
-class SeqStruct : public Struct {
-   public:
-    SeqStruct(shared_ptr<Structs> structs) {
-        type = AST_SEQ_STRUCT;
+    FunctionalStruct(int tok, shared_ptr<Structs> structs) {
+        switch (tok) {
+            case TOK_LOOP:
+                type = AST_LOOP_STRUCT;
+                break;
+            case TOK_CALL:
+                type = AST_CALL_STRUCT;
+                break;
+            case TOK_SEQ:
+                type = AST_SEQ_STRUCT;
+                break;
+        }
         this->structs = structs;
     }
 };
@@ -153,15 +130,14 @@ class IfStruct : public Struct {
 
 class IdStruct : public Struct {
    public:
-    IdStruct() {
+    IdStruct(string id) {
+        this->id = id;
         type = AST_ID_STRUCT;
     }
 };
 
 class ParamIf : public Block {
    public:
-    shared_ptr<Structs> structs;
-    shared_ptr<Else> else_;
     ParamIf() {}
 };
 
@@ -184,7 +160,6 @@ class UnderlineParamIf : public ParamIf {
 
 class Else : public Block {
    public:
-    shared_ptr<Structs> structs;
     Else() {}
 };
 
