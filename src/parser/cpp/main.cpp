@@ -42,7 +42,7 @@ int main(int argc, char const *argv[]) {
     parser.setTokens(tokenSequence);
     // Parse the token sequence into a control-flow graph
     parser.parse();
-    shared_ptr<Block> controlFlowGraph = parser.getControlFlowGraph();
+    // shared_ptr<Block> controlFlowGraph = parser.getControlFlowGraph();
     cout << "Machine 1 ended successfully!" << endl;
 
     cout << "Starting machine 2..." << endl;

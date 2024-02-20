@@ -56,7 +56,6 @@ void Parser::parse_CODE() {
 void Parser::parse_STRUCTS() {
     if (tokenIndex == tokens.size()) {
         // generator.scopeEnd();
-
         return;
     }
     switch (get<0>(tokens[tokenIndex])) {
@@ -202,6 +201,6 @@ void Parser::parse() {
     parse_S();
 }
 
-shared_ptr<Block> Parser::getControlFlowGraph() {
-    return parentBlock;
+shared_ptr<S> Parser::getAST() {
+    return make_shared<S>(move(AST));
 }

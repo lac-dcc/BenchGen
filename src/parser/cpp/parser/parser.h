@@ -3,7 +3,7 @@
 #include <iostream>
 
 #include "../generator/generator.h"
-#include "../shared/block.h"
+#include "../shared/ast.h"
 #include "../shared/enums.h"
 #include "../shared/typedefs.h"
 
@@ -11,8 +11,7 @@ class Parser {
    private:
     int tokenIndex;
     vector<token> tokens;
-    shared_ptr<Block> currentBlock;
-    shared_ptr<Block> parentBlock;
+    unique_ptr<S> AST;
 
     void match(int);
     void parse_S();
@@ -25,13 +24,11 @@ class Parser {
    public:
     Parser() {
         tokenIndex = 0;
-        currentBlock = make_shared<Block>(BT_FUNCTION, nullptr);
-        parentBlock = move(currentBlock);
     }
 
     void setTokens(vector<token>);
     void parse();
-    shared_ptr<Block> getControlFlowGraph();
+    shared_ptr<S> getAST();
 };
 
 #include "parser.cpp"
