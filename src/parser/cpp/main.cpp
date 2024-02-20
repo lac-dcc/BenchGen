@@ -2,6 +2,7 @@
 
 #include "lexer/lexer.h"
 #include "parser/parser.h"
+#include "lSystem/lSystem.h"
 
 // TODO: Erase this later
 void printAST(shared_ptr<Block> node, int ident = 0) {
@@ -108,13 +109,23 @@ int main(int argc, char const *argv[]) {
     const string LEXER_CONFIG_FILE = "../lexer.cfg";
     Lexer lexer;
     lexer.loadConfiguration(LEXER_CONFIG_FILE);
+
     // Read production rules
     vector<production_rule> productionRules = lexer.getProductionRules(productionRulesFile);
     // Read input string
     vector<token> inputTokens = lexer.getTokens(inputFile);
+
     // Apply production rules n times to input string and write token sequence (L-System)
-    // TODO: Kael
-    vector<token> tokenSequence = inputTokens;
+	/*
+	 *	Takes in the number of iterations (n), the production rules and a vector 
+	 *	of tokens representing the seed string and outputs the sequence of tokens
+	 *	with the rules applied n times.
+	 *
+	 *	Input: 2; A -> Print(HI) A; Start A End; 
+	 *	Output: Start Print(HI) Print(HI) End
+	 */
+
+    vector<token> tokenSequence = lSystem::lSystem(iterations, productionRules, inputTokens);
     cout << "Machine 0 ended successfully!" << endl;
 
     cout << "Starting machine 1..." << endl;
