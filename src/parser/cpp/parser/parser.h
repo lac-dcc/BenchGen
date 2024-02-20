@@ -10,7 +10,7 @@
 class Parser {
    private:
     int tokenIndex;
-    std::vector<token> tokens;
+    std::vector<Token> tokens;
     std::shared_ptr<S> AST;
 
     void match(int);
@@ -27,7 +27,7 @@ class Parser {
         AST = nullptr;
     }
 
-    void setTokens(std::vector<token>);
+    void setTokens(std::vector<Token>);
     void parse();
     std::shared_ptr<S> getAST();
 };

@@ -1,17 +1,17 @@
 #include "parser.h"
 
 void Parser::match(int symbol) {
-    if (std::get<0>(tokens[tokenIndex]) == symbol) {
+    if (tokens[tokenIndex].type == symbol) {
         tokenIndex++;
     } else {
         // TODO: Error handling
-        std::cout << "ERROR PARSING! AT " << std::get<0>(tokens[tokenIndex]) << std::endl;
+        std::cout << "ERROR PARSING! AT " << tokens[tokenIndex].type << std::endl;
     }
 }
 
 std::shared_ptr<S> Parser::parse_S() {
     tokenIndex = 0;
-    switch (std::get<0>(tokens[tokenIndex])) {
+    switch (tokens[tokenIndex].type) {
         case TOK_INSERT:
         case TOK_REMOVE:
         case TOK_NEW:
@@ -25,14 +25,14 @@ std::shared_ptr<S> Parser::parse_S() {
             return std::make_shared<S>(S(parse_CODE()));
         default:
             // TODO: Error handling
-            std::cout << "ERROR PARSING! AT " << std::get<0>(tokens[tokenIndex]) << std::endl;
+            std::cout << "ERROR PARSING! AT " << tokens[tokenIndex].type << std::endl;
             break;
     }
     return nullptr;
 }
 
 std::shared_ptr<Code> Parser::parse_CODE() {
-    switch (std::get<0>(tokens[tokenIndex])) {
+    switch (tokens[tokenIndex].type) {
         case TOK_INSERT:
         case TOK_REMOVE:
         case TOK_NEW:
@@ -46,7 +46,7 @@ std::shared_ptr<Code> Parser::parse_CODE() {
             return std::make_shared<Code>(Code(parse_STRUCT(), parse_STRUCTS()));
         default:
             // TODO: Error handling
-            std::cout << "ERROR PARSING! AT " << std::get<0>(tokens[tokenIndex]) << std::endl;
+            std::cout << "ERROR PARSING! AT " << tokens[tokenIndex].type << std::endl;
             break;
     }
     return nullptr;
@@ -56,7 +56,7 @@ std::shared_ptr<Structs> Parser::parse_STRUCTS() {
     if (tokenIndex == tokens.size()) {
         return std::make_shared<LambdaStructs>(LambdaStructs());
     }
-    switch (std::get<0>(tokens[tokenIndex])) {
+    switch (tokens[tokenIndex].type) {
         case TOK_INSERT:
         case TOK_REMOVE:
         case TOK_NEW:
@@ -73,27 +73,27 @@ std::shared_ptr<Structs> Parser::parse_STRUCTS() {
             return std::make_shared<LambdaStructs>(LambdaStructs());
         default:
             // TODO: Error handling
-            std::cout << "ERROR PARSING! AT " << std::get<0>(tokens[tokenIndex]) << std::endl;
+            std::cout << "ERROR PARSING! AT " << tokens[tokenIndex].type << std::endl;
             break;
     }
     return nullptr;
 }
 
 std::shared_ptr<Struct> Parser::parse_STRUCT() {
-    switch (std::get<0>(tokens[tokenIndex])) {
+    switch (tokens[tokenIndex].type) {
         case TOK_INSERT:
         case TOK_REMOVE:
         case TOK_DEL:
         case TOK_NEW:
         case TOK_CONTAINS:
-            match(std::get<0>(tokens[tokenIndex]));
-            return std::make_shared<AllocationStruct>(AllocationStruct(std::get<0>(tokens[tokenIndex - 1])));
+            match(tokens[tokenIndex].type);
+            return std::make_shared<AllocationStruct>(AllocationStruct(tokens[tokenIndex - 1].type));
         case TOK_LOOP:
         case TOK_CALL:
         case TOK_SEQ: {
-            match(std::get<0>(tokens[tokenIndex]));
+            match(tokens[tokenIndex].type);
             match(TOK_OPAREN);
-            std::shared_ptr<FunctionalStruct> fStruct = std::make_shared<FunctionalStruct>(FunctionalStruct(std::get<0>(tokens[tokenIndex - 2]), parse_STRUCTS()));
+            std::shared_ptr<FunctionalStruct> fStruct = std::make_shared<FunctionalStruct>(FunctionalStruct(tokens[tokenIndex - 2].type, parse_STRUCTS()));
             match(TOK_CPAREN);
             return fStruct;
         }
@@ -103,17 +103,17 @@ std::shared_ptr<Struct> Parser::parse_STRUCT() {
             return std::make_shared<IfStruct>(IfStruct(parse_PARAMIF()));
         case TOK_ID:
             match(TOK_ID);
-            return std::make_shared<IdStruct>(IdStruct(std::get<1>(tokens[tokenIndex - 1])));
+            return std::make_shared<IdStruct>(IdStruct(tokens[tokenIndex - 1].text));
         default:
             // TODO: Error handling
-            std::cout << "ERROR PARSING! AT " << std::get<0>(tokens[tokenIndex]) << std::endl;
+            std::cout << "ERROR PARSING! AT " << tokens[tokenIndex].type << std::endl;
             break;
     }
     return nullptr;
 }
 
 std::shared_ptr<ParamIf> Parser::parse_PARAMIF() {
-    switch (std::get<0>(tokens[tokenIndex])) {
+    switch (tokens[tokenIndex].type) {
         case TOK_IF:
         case TOK_LOOP:
         case TOK_CALL:
@@ -135,14 +135,14 @@ std::shared_ptr<ParamIf> Parser::parse_PARAMIF() {
             return std::make_shared<UnderlineParamIf>(UnderlineParamIf(parse_ELSE()));
         default:
             // TODO: Error handling
-            std::cout << "ERROR PARSING! AT " << std::get<0>(tokens[tokenIndex]) << std::endl;
+            std::cout << "ERROR PARSING! AT " << tokens[tokenIndex].type << std::endl;
             break;
     }
     return nullptr;
 }
 
 std::shared_ptr<Else> Parser::parse_ELSE() {
-    switch (std::get<0>(tokens[tokenIndex])) {
+    switch (tokens[tokenIndex].type) {
         case TOK_IF:
         case TOK_LOOP:
         case TOK_CALL:
@@ -164,13 +164,13 @@ std::shared_ptr<Else> Parser::parse_ELSE() {
             return std::make_shared<UnderlineElse>(UnderlineElse());
         default:
             // TODO: Error handling
-            std::cout << "ERROR PARSING! AT " << std::get<0>(tokens[tokenIndex]) << std::endl;
+            std::cout << "ERROR PARSING! AT " << tokens[tokenIndex].type << std::endl;
             break;
     }
     return nullptr;
 }
 
-void Parser::setTokens(std::vector<token> _tokens) {
+void Parser::setTokens(std::vector<Token> _tokens) {
     tokens = _tokens;
 }
 

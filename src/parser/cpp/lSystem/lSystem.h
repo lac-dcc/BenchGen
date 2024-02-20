@@ -10,8 +10,8 @@
 #define PRODUCTION_TOK TOK_ID
 
 namespace lSystem{
-	std::vector<token> lSystem(int, const std::vector<production_rule>&, const std::vector<token>&);
-	int match(std::string, const std::vector<production_rule>&);
+	std::vector<Token> lSystem(int, const std::vector<ProductionRule>&, const std::vector<Token>&);
+	int match(std::string, const std::vector<ProductionRule>&);
 }
 
 #include "lSystem.cpp"

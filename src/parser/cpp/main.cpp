@@ -111,9 +111,9 @@ int main(int argc, char const *argv[]) {
     lexer.loadConfiguration(LEXER_CONFIG_FILE);
 
     // Read production rules
-    std::vector<production_rule> productionRules = lexer.getProductionRules(productionRulesFile);
+    std::vector<ProductionRule> productionRules = lexer.getProductionRules(productionRulesFile);
     // Read input string
-    std::vector<token> inputTokens = lexer.getTokens(inputFile);
+    std::vector<Token> inputTokens = lexer.getTokens(inputFile);
 
     // Apply production rules n times to input string and write token sequence (L-System)
 	/*
@@ -125,7 +125,7 @@ int main(int argc, char const *argv[]) {
 	 *	Output: Start Print(HI) Print(HI) End
 	 */
 
-    std::vector<token> tokenSequence = lSystem::lSystem(iterations, productionRules, inputTokens);
+    std::vector<Token> tokenSequence = lSystem::lSystem(iterations, productionRules, inputTokens);
     std::cout << "Machine 0 ended successfully!" << std::endl;
 
     std::cout << "Starting machine 1..." << std::endl;

@@ -1,8 +1,8 @@
 #include "lSystem.h"
 
-std::vector<token> lSystem::lSystem(int iterations, const std::vector<production_rule>& productionRules, const std::vector<token>& inputTokens){
+std::vector<Token> lSystem::lSystem(int iterations, const std::vector<ProductionRule>& productionRules, const std::vector<Token>& inputTokens){
 	//Return Variable
-	std::vector<token> outputTokens = inputTokens;
+	std::vector<Token> outputTokens = inputTokens;
 	
 	//L-System main loop
 	for(int t = 0; t < iterations; t++){
@@ -11,12 +11,12 @@ std::vector<token> lSystem::lSystem(int iterations, const std::vector<production
 		
 		// TODO: outputTokens should be a linked list for improved performance
 		for(int i = outputTokens.size() - 1; i >= 0; i--){
-			if(std::get<0>(outputTokens[i]) != PRODUCTION_TOK) continue; 
-			std::string toSubstitute = std::get<1>(outputTokens[i]);
+			if(outputTokens[i].type != PRODUCTION_TOK) continue; 
+			std::string toSubstitute = outputTokens[i].text;
 
-			// Find equivalent rule
-			int rule = match(toSubstitute, productionRules);
-			if(rule == -1){
+			// Find equivalent rule index
+			int ruleIndex = match(toSubstitute, productionRules);
+			if(ruleIndex == -1){
 				std::cerr << "Error: No match of " << toSubstitute << " in production rules.";
 				exit(1);
 			}
@@ -26,17 +26,17 @@ std::vector<token> lSystem::lSystem(int iterations, const std::vector<production
 			outputTokens.erase(pos);
 
 			// Insert rule into the vector
-			outputTokens.insert(pos, std::begin(std::get<1>(productionRules[rule])), std::end(std::get<1>(productionRules[rule])));
+			outputTokens.insert(pos, std::begin(productionRules[ruleIndex].production), std::end(productionRules[ruleIndex].production));
 		}
 	}
 
 	return outputTokens;
 }
 
-int lSystem::match(std::string match, const std::vector<production_rule>& rules){
+int lSystem::match(std::string match, const std::vector<ProductionRule>& rules){
 	int i = 0;
 	for(; i < rules.size(); i++){
-		if(match == std::get<0>(rules[i])) return i;
+		if(match == rules[i].rule) return i;
 	}
 
 	return -1;

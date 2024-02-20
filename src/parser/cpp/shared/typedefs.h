@@ -6,9 +6,19 @@
 
 #include "globalIncludes.h"
 
-typedef std::tuple<std::string, int> lexer_rule;
-typedef std::tuple<int, std::string> token;
-typedef std::tuple<std::string, std::vector<token>> production_rule;
-typedef std::tuple<int, std::vector<int>> parser_rule;
+typedef struct LexerRule {
+	int type;
+	std::string regex;
+} LexerRule;
+
+typedef struct Token {
+	int type;
+	std::string text;
+} Token;
+
+typedef struct ProductionRule {
+	std::string rule;
+	std::vector<Token> production;
+} ProductionRule;
 
 #endif

@@ -18,8 +18,8 @@ std::vector<std::string> Lexer::readFile(std::string fileName) {
     return code;
 }
 
-std::vector<token> Lexer::tokenize(std::string code) {
-    std::vector<token> tokens = {};
+std::vector<Token> Lexer::tokenize(std::string code) {
+    std::vector<Token> tokens = {};
     for (int i = 0; i < code.size(); i++) {
         // Building lexeme
         std::string lexeme = code.substr(i, 1);
@@ -54,16 +54,16 @@ std::vector<token> Lexer::tokenize(std::string code) {
         if (cur_token == TOK_COMMENT) {
             break;
         }
-        token t = make_tuple(cur_token, lexeme);
+        Token t = {cur_token, lexeme};
         tokens.push_back(t);
     }
     return tokens;
 }
 
 bool Lexer::matchAnyRule(std::string s) {
-    for (lexer_rule rule : rules) {
-        regex re(std::get<0>(rule));
-        if (regex_match(s, re) && std::get<1>(rule) != -1) {
+    for (LexerRule rule : rules) {
+        regex re(rule.regex);
+        if (regex_match(s, re) && rule.type != -1) {
             return true;
         }
     }
@@ -71,10 +71,10 @@ bool Lexer::matchAnyRule(std::string s) {
 }
 
 int Lexer::matchToken(std::string lexeme) {
-    for (lexer_rule rule : rules) {
-        regex re(std::get<0>(rule));
+    for (LexerRule rule : rules) {
+        regex re(rule.regex);
         if (regex_match(lexeme, re)) {
-            return std::get<1>(rule);
+            return rule.type;
         }
     }
     // TODO: Error handling: unknown lexeme
@@ -140,7 +140,7 @@ void Lexer::loadConfiguration(std::string LEXER_CONFIG_FILE) {
             std::string lineTokenStr = line.substr(tokIdStart, lineLength);
             int lineToken = getTokenFromId(lineTokenStr);
 
-            lexer_rule token = make_tuple(lineRegex, lineToken);
+            LexerRule token = {lineToken, lineRegex};
             rules.push_back(token);
         }
         file.close();
@@ -149,11 +149,11 @@ void Lexer::loadConfiguration(std::string LEXER_CONFIG_FILE) {
     }
 }
 
-std::vector<token> Lexer::getTokens(std::string fileName) {
+std::vector<Token> Lexer::getTokens(std::string fileName) {
     std::vector<std::string> fileLines = readFile(fileName);
-    std::vector<token> tokens = {};
+    std::vector<Token> tokens = {};
     for (auto line : fileLines) {
-        std::vector<token> line_tokens = tokenize(line);
+        std::vector<Token> line_tokens = tokenize(line);
         tokens.insert(tokens.begin() + tokens.size(),
                       line_tokens.begin(),
                       line_tokens.begin() + line_tokens.size());
@@ -161,21 +161,21 @@ std::vector<token> Lexer::getTokens(std::string fileName) {
     return tokens;
 }
 
-std::vector<production_rule> Lexer::getProductionRules(std::string fileName) {
-    std::vector<production_rule> productionRules = {};
-    std::vector<token> tokens = getTokens(fileName);
+std::vector<ProductionRule> Lexer::getProductionRules(std::string fileName) {
+    std::vector<ProductionRule> productionRules = {};
+    std::vector<Token> tokens = getTokens(fileName);
     for (int i = 0; i < tokens.size(); i++) {
-        if (std::get<0>(tokens[i]) == TOK_ID) {
-            std::string id = std::get<1>(tokens[i]);
+        if (tokens[i].type == TOK_ID) {
+            std::string id = tokens[i].text;
             i++;
-            if (std::get<0>(tokens[i]) == TOK_EQUAL) {
+            if (tokens[i].type == TOK_EQUAL) {
                 i++;
-                std::vector<token> production = {};
-                while (std::get<0>(tokens[i]) != TOK_END && i < tokens.size()) {
+                std::vector<Token> production = {};
+                while (tokens[i].type != TOK_END && i < tokens.size()) {
                     production.push_back(tokens[i]);
                     i++;
                 }
-                production_rule rule = make_tuple(id, production);
+                ProductionRule rule = {id, production};
                 productionRules.push_back(rule);
             } else {
                 // TODO: Error handling: unexpected token. expected '='
