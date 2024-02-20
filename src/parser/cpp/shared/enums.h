@@ -20,8 +20,9 @@ enum Token {
     TOK_COMMA = -14,
     TOK_EQUAL = -15,
     TOK_UNDERLINE = -16,
+    TOK_COMMENT = -17,
 
-    TOK_ID = -17,
+    TOK_ID = -18,
 
     TOK_ERROR = -1
 };

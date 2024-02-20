@@ -51,6 +51,9 @@ vector<token> Lexer::tokenize(string code) {
         }
 
         int cur_token = matchToken(lexeme);
+        if (cur_token == TOK_COMMENT) {
+            break;
+        }
         token t = make_tuple(cur_token, lexeme);
         tokens.push_back(t);
     }
@@ -109,6 +112,8 @@ int Lexer::getTokenFromId(string tokStr) {
         return TOK_EQUAL;
     } else if (tokStr == "underline") {
         return TOK_UNDERLINE;
+    } else if (tokStr == "comment") {
+        return TOK_COMMENT;
     } else if (tokStr == "id") {
         return TOK_ID;
     } else {
