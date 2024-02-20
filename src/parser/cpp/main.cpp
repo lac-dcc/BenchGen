@@ -5,115 +5,115 @@
 #include "lSystem/lSystem.h"
 
 // TODO: Erase this later
-void printAST(shared_ptr<Block> node, int ident = 0) {
+void printAST(std::shared_ptr<Block> node, int ident = 0) {
     if (node == nullptr) {
         return;
     }
     for (int i = 0; i < ident; i++) {
-        cout << "   ";
+		std::cout << "   ";
     }
-    cout << " |--";
+    std::cout << " |--";
     switch (node->type) {
         case AST_S:
-            cout << "S" << endl;
+			std::cout << "S" << std::endl;
             printAST(node->code, ident + 1);
             break;
         case AST_CODE:
-            cout << "CODE" << endl;
+			std::cout << "CODE" << std::endl;
             printAST(node->struct_, ident + 1);
             printAST(node->structs, ident + 1);
             break;
         case AST_STRUCT_STRUCTS:
-            cout << "STRUCT" << endl;
+			std::cout << "STRUCT" << std::endl;
             printAST(node->struct_, ident + 1);
             printAST(node->structs, ident + 1);
             break;
         case AST_LAMBDA_STRUCTS:
-            cout << "LAMBDA" << endl;
+			std::cout << "LAMBDA" << std::endl;
             break;
         case AST_INSERT_STRUCT:
-            cout << "INSERT" << endl;
+			std::cout << "INSERT" << std::endl;
             break;
         case AST_REMOVE_STRUCT:
-            cout << "REMOVE" << endl;
+			std::cout << "REMOVE" << std::endl;
             break;
         case AST_NEW_STRUCT:
-            cout << "NEW" << endl;
+			std::cout << "NEW" << std::endl;
             break;
         case AST_DEL_STRUCT:
-            cout << "DEL" << endl;
+			std::cout << "DEL" << std::endl;
             break;
         case AST_CONTAINS_STRUCT:
-            cout << "CONTAINS" << endl;
+			std::cout << "CONTAINS" << std::endl;
             break;
         case AST_LOOP_STRUCT:
-            cout << "LOOP" << endl;
+			std::cout << "LOOP" << std::endl;
             printAST(node->structs, ident + 1);
             break;
         case AST_CALL_STRUCT:
-            cout << "CALL" << endl;
+            std::cout << "CALL" << std::endl;
             printAST(node->structs, ident + 1);
             break;
         case AST_SEQ_STRUCT:
-            cout << "SEQ" << endl;
+            std::cout << "SEQ" << std::endl;
             printAST(node->structs, ident + 1);
             break;
         case AST_IF_STRUCT:
-            cout << "IF" << endl;
+            std::cout << "IF" << std::endl;
             printAST(node->paramIf, ident + 1);
             printAST(node->else_, ident + 1);
             break;
         case AST_ID_STRUCT:
-            cout << "ID" << endl;
+            std::cout << "ID" << std::endl;
             break;
         case AST_STRUCTS_PARAM_IF:
-            cout << "PARAM_IF" << endl;
+            std::cout << "PARAM_IF" << std::endl;
             printAST(node->structs, ident + 1);
             printAST(node->paramIf, ident + 1);
             break;
         case AST_UNDERLINE_PARAM_IF:
-            cout << "UNDERLINE_PARAM_IF" << endl;
+            std::cout << "UNDERLINE_PARAM_IF" << std::endl;
             break;
         case AST_STRUCTS_ELSE:
-            cout << "ELSE" << endl;
+            std::cout << "ELSE" << std::endl;
             printAST(node->structs, ident + 1);
             printAST(node->else_, ident + 1);
             break;
         case AST_UNDERLINE_ELSE:
-            cout << "UNDERLINE_ELSE" << endl;
+            std::cout << "UNDERLINE_ELSE" << std::endl;
             break;
         default:
-            cout << "UNKNOWN: " << node->type << endl;
+            std::cout << "UNKNOWN: " << node->type << std::endl;
             break;
     }
 }
 
 int main(int argc, char const *argv[]) {
     if (argc < 5) {
-        cout << "ERROR! Missing arguments!" << endl;
-        cout << "Please provide Number of Iterations, Production Rules, Input File and Output File." << endl;
-        cout << "Usage: ./main <number_of_iterations> <production_rules_file> <input_file> <output_file>" << endl;
+        std::cout << "ERROR! Missing arguments!" << std::endl;
+        std::cout << "Please provide Number of Iterations, Production Rules, Input File and Output File." << std::endl;
+        std::cout << "Usage: ./main <number_of_iterations> <production_rules_file> <input_file> <output_file>" << std::endl;
         return 1;
     }
 
     int iterations = std::stoi(argv[1]);
-    string productionRulesFile = argv[2];
-    string inputFile = argv[3];
-    string outputFile = argv[4];
+    std::string productionRulesFile = argv[2];
+    std::string inputFile = argv[3];
+    std::string outputFile = argv[4];
 
-    cout << "Starting machine 0..." << endl;
+    std::cout << "Starting machine 0..." << std::endl;
     /**
      * MACHINE 0
      * L-System implementation
      */
-    const string LEXER_CONFIG_FILE = "../lexer.cfg";
+    const std::string LEXER_CONFIG_FILE = "../lexer.cfg";
     Lexer lexer;
     lexer.loadConfiguration(LEXER_CONFIG_FILE);
 
     // Read production rules
-    vector<production_rule> productionRules = lexer.getProductionRules(productionRulesFile);
+    std::vector<production_rule> productionRules = lexer.getProductionRules(productionRulesFile);
     // Read input string
-    vector<token> inputTokens = lexer.getTokens(inputFile);
+    std::vector<token> inputTokens = lexer.getTokens(inputFile);
 
     // Apply production rules n times to input string and write token sequence (L-System)
 	/*
@@ -125,10 +125,10 @@ int main(int argc, char const *argv[]) {
 	 *	Output: Start Print(HI) Print(HI) End
 	 */
 
-    vector<token> tokenSequence = lSystem::lSystem(iterations, productionRules, inputTokens);
-    cout << "Machine 0 ended successfully!" << endl;
+    std::vector<token> tokenSequence = lSystem::lSystem(iterations, productionRules, inputTokens);
+    std::cout << "Machine 0 ended successfully!" << std::endl;
 
-    cout << "Starting machine 1..." << endl;
+    std::cout << "Starting machine 1..." << std::endl;
     /**
      * MACHINE 1
      * Control-flow creation
@@ -137,10 +137,10 @@ int main(int argc, char const *argv[]) {
     parser.setTokens(tokenSequence);
     // Parse the token sequence into a control-flow graph
     parser.parse();
-    shared_ptr<S> AST = parser.getAST();
-    cout << "Machine 1 ended successfully!" << endl;
+    std::shared_ptr<S> AST = parser.getAST();
+    std::cout << "Machine 1 ended successfully!" << std::endl;
 
-    cout << "Starting machine 2..." << endl;
+    std::cout << "Starting machine 2..." << std::endl;
     /**
      * MACHINE 2
      * Code generation
@@ -148,14 +148,14 @@ int main(int argc, char const *argv[]) {
     // Apply "behavior" to control-flow graph
     // Generate code
     // Write code to file
-    cout << "Machine 2 ended successfully!" << endl;
+    std::cout << "Machine 2 ended successfully!" << std::endl;
 
-    cout << "Done!" << endl;
+    std::cout << "Done!" << std::endl;
 
-    cout << "========================================================" << endl;
-    cout << "AST:" << endl;
-    printAST(AST);
-    cout << "========================================================" << endl;
+    std::cout << "========================================================" << std::endl;
+    std::cout << "AST:" << std::endl;
+    //printAST(AST, 0);
+	std::cout << "========================================================" << std::endl;
 
     return 0;
 }

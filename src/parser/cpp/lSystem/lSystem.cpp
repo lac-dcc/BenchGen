@@ -1,8 +1,8 @@
 #include "lSystem.h"
 
-vector<token> lSystem::lSystem(int iterations, const vector<production_rule>& productionRules, const vector<token>& inputTokens){
+std::vector<token> lSystem::lSystem(int iterations, const std::vector<production_rule>& productionRules, const std::vector<token>& inputTokens){
 	//Return Variable
-	vector<token> outputTokens = inputTokens;
+	std::vector<token> outputTokens = inputTokens;
 	
 	//L-System main loop
 	for(int t = 0; t < iterations; t++){
@@ -11,8 +11,8 @@ vector<token> lSystem::lSystem(int iterations, const vector<production_rule>& pr
 		
 		// TODO: outputTokens should be a linked list for improved performance
 		for(int i = outputTokens.size() - 1; i >= 0; i--){
-			if(get<0>(outputTokens[i]) != PRODUCTION_TOK) continue; 
-			string toSubstitute = get<1>(outputTokens[i]);
+			if(std::get<0>(outputTokens[i]) != PRODUCTION_TOK) continue; 
+			std::string toSubstitute = std::get<1>(outputTokens[i]);
 
 			// Find equivalent rule
 			int rule = match(toSubstitute, productionRules);
@@ -26,17 +26,17 @@ vector<token> lSystem::lSystem(int iterations, const vector<production_rule>& pr
 			outputTokens.erase(pos);
 
 			// Insert rule into the vector
-			outputTokens.insert(pos, std::begin(get<1>(productionRules[rule])), std::end(get<1>(productionRules[rule])));
+			outputTokens.insert(pos, std::begin(std::get<1>(productionRules[rule])), std::end(std::get<1>(productionRules[rule])));
 		}
 	}
 
 	return outputTokens;
 }
 
-int lSystem::match(string match, const vector<production_rule>& rules){
+int lSystem::match(std::string match, const std::vector<production_rule>& rules){
 	int i = 0;
 	for(; i < rules.size(); i++){
-		if(match == get<0>(rules[i])) return i;
+		if(match == std::get<0>(rules[i])) return i;
 	}
 
 	return -1;

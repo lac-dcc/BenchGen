@@ -17,19 +17,19 @@ void Generator::returnMainFunction() {
     mainFunction.insert(mainFunction.end() - 1, "   return 0;");
 }
 
-void Generator::generateIdCall(string id) {
+void Generator::generateIdCall(std::string id) {
     currentScope.back()->push_back(id + "();");
 }
 
-void Generator::generateDeclaration(string id) {
-    vector<string> func;
+void Generator::generateDeclaration(std::string id) {
+    std::vector<std::string> func;
     func.push_back("void " + id + "() {");
     functions.push_back(func);
     currentScope.push_back(&(functions.back()));
 }
 
 void Generator::generateAlloc(int symbol) {
-    string line = "";
+    std::string line = "";
     switch (symbol) {
         case TOK_INSERT:
             line = "printf(\"INSERTED!\\n\");";
@@ -51,7 +51,7 @@ void Generator::generateAlloc(int symbol) {
 }
 
 void Generator::generateFunc(int symbol) {
-    string line = "";
+    std::string line = "";
     switch (symbol) {
         case TOK_IF:
             line = "if(1 < 2) {";
@@ -60,7 +60,7 @@ void Generator::generateFunc(int symbol) {
             break;
         case TOK_LOOP: {
             static int forLevel = 0;
-            string var = "i" + std::to_string(forLevel);
+            std::string var = "i" + std::to_string(forLevel);
             line = "for(int " + var + " = 0; " + var + " < 10; " + var + "++) {";
             forLevel++;
             currentScope.back()->push_back(line);
@@ -69,11 +69,11 @@ void Generator::generateFunc(int symbol) {
         }
         case TOK_CALL: {
             static int funcCount = 0;
-            string funcName = "func" + std::to_string(funcCount);
+            std::string funcName = "func" + std::to_string(funcCount);
             line = funcName + "();";
             currentScope.back()->push_back(line);
 
-            vector<string> func;
+            std::vector<std::string> func;
             func.push_back("void " + funcName + "() {");
             functions.push_back(func);
             currentScope.push_back(&(functions.back()));
@@ -97,35 +97,35 @@ void Generator::scopeEnd() {
     currentScope.pop_back();
 }
 
-void Generator::writeToFile(string filename) {
+void Generator::writeToFile(std::string filename) {
     returnMainFunction();
     ofstream file;
     file.open(filename);
     // Includes
     for (auto include : includes) {
-        file << include << endl;
+        file << include << std::endl;
     }
-    file << endl;
+    file << std::endl;
     // Headers
     for (auto func : functions) {
-        string header = func[0];
+        std::string header = func[0];
         header.pop_back();
         header.pop_back();
         header += ";";
-        file << header << endl;
+        file << header << std::endl;
     }
-    file << endl;
+    file << std::endl;
     // Main function
     for (auto func : mainFunction) {
-        file << func << endl;
+        file << func << std::endl;
     }
-    file << endl;
+    file << std::endl;
     // Functions
     for (auto func : functions) {
         for (auto line : func) {
-            file << line << endl;
+            file << line << std::endl;
         }
-        file << endl;
+        file << std::endl;
     }
     file.close();
 }

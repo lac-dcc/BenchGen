@@ -26,19 +26,19 @@ class Block {
    public:
     int type;
 
-    shared_ptr<Code> code;
-    shared_ptr<Struct> struct_;
-    shared_ptr<Structs> structs;
-    string id;
-    shared_ptr<ParamIf> paramIf;
-    shared_ptr<Else> else_;
+	std::shared_ptr<Code> code;
+	std::shared_ptr<Struct> struct_;
+	std::shared_ptr<Structs> structs;
+	std::string id;
+	std::shared_ptr<ParamIf> paramIf;
+	std::shared_ptr<Else> else_;
 
     Block() {}
 };
 
 class S : public Block {
    public:
-    S(shared_ptr<Code> code) {
+    S(std::shared_ptr<Code> code) {
         type = AST_S;
         this->code = code;
     }
@@ -46,7 +46,7 @@ class S : public Block {
 
 class Code : public Block {
    public:
-    Code(shared_ptr<Struct> struct_, shared_ptr<Structs> structs) {
+    Code(std::shared_ptr<Struct> struct_, std::shared_ptr<Structs> structs) {
         type = AST_CODE;
         this->struct_ = struct_;
         this->structs = structs;
@@ -60,7 +60,7 @@ class Structs : public Block {
 
 class StructStructs : public Structs {
    public:
-    StructStructs(shared_ptr<Struct> struct_, shared_ptr<Structs> structs) {
+    StructStructs(std::shared_ptr<Struct> struct_, std::shared_ptr<Structs> structs) {
         type = AST_STRUCT_STRUCTS;
         this->struct_ = struct_;
         this->structs = structs;
@@ -104,7 +104,7 @@ class AllocationStruct : public Struct {
 
 class FunctionalStruct : public Struct {
    public:
-    FunctionalStruct(int tok, shared_ptr<Structs> structs) {
+    FunctionalStruct(int tok, std::shared_ptr<Structs> structs) {
         switch (tok) {
             case TOK_LOOP:
                 type = AST_LOOP_STRUCT;
@@ -122,7 +122,7 @@ class FunctionalStruct : public Struct {
 
 class IfStruct : public Struct {
    public:
-    IfStruct(shared_ptr<ParamIf> paramIf) {
+    IfStruct(std::shared_ptr<ParamIf> paramIf) {
         type = AST_IF_STRUCT;
         this->paramIf = paramIf;
     }
@@ -130,7 +130,7 @@ class IfStruct : public Struct {
 
 class IdStruct : public Struct {
    public:
-    IdStruct(string id) {
+    IdStruct(std::string id) {
         this->id = id;
         type = AST_ID_STRUCT;
     }
@@ -143,7 +143,7 @@ class ParamIf : public Block {
 
 class StructsParamIf : public ParamIf {
    public:
-    StructsParamIf(shared_ptr<Structs> structs, shared_ptr<Else> else_) {
+    StructsParamIf(std::shared_ptr<Structs> structs, std::shared_ptr<Else> else_) {
         type = AST_STRUCTS_PARAM_IF;
         this->structs = structs;
         this->else_ = else_;
@@ -152,7 +152,7 @@ class StructsParamIf : public ParamIf {
 
 class UnderlineParamIf : public ParamIf {
    public:
-    UnderlineParamIf(shared_ptr<Else> else_) {
+    UnderlineParamIf(std::shared_ptr<Else> else_) {
         type = AST_UNDERLINE_PARAM_IF;
         this->else_ = else_;
     }
@@ -165,7 +165,7 @@ class Else : public Block {
 
 class StructsElse : public Else {
    public:
-    StructsElse(shared_ptr<Structs> structs) {
+    StructsElse(std::shared_ptr<Structs> structs) {
         type = AST_STRUCTS_ELSE;
         this->structs = structs;
     }

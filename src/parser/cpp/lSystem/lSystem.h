@@ -3,15 +3,15 @@
 #include <iostream>
 
 #include "../generator/generator.h"
-#include "../shared/block.h"
+#include "../shared/ast.h"
 #include "../shared/enums.h"
 #include "../shared/typedefs.h"
 
 #define PRODUCTION_TOK TOK_ID
 
 namespace lSystem{
-	vector<token> lSystem(int, const vector<production_rule>&, const vector<token>&);
-	int match(string, const vector<production_rule>&);
+	std::vector<token> lSystem(int, const std::vector<production_rule>&, const std::vector<token>&);
+	int match(std::string, const std::vector<production_rule>&);
 }
 
 #include "lSystem.cpp"

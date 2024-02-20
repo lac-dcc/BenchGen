@@ -3,11 +3,11 @@
 using std::ifstream;
 using std::regex;
 
-vector<string> Lexer::readFile(string fileName) {
-    vector<string> code = {};
+std::vector<std::string> Lexer::readFile(std::string fileName) {
+    std::vector<std::string> code = {};
     ifstream file("./" + fileName);
     if (file.is_open()) {
-        string line;
+        std::string line;
         while (getline(file, line)) {
             code.push_back(line);
         }
@@ -18,11 +18,11 @@ vector<string> Lexer::readFile(string fileName) {
     return code;
 }
 
-vector<token> Lexer::tokenize(string code) {
-    vector<token> tokens = {};
+std::vector<token> Lexer::tokenize(std::string code) {
+    std::vector<token> tokens = {};
     for (int i = 0; i < code.size(); i++) {
         // Building lexeme
-        string lexeme = code.substr(i, 1);
+        std::string lexeme = code.substr(i, 1);
 
         if (lexeme[0] == ' ') {
             continue;
@@ -38,7 +38,7 @@ vector<token> Lexer::tokenize(string code) {
         while (matchAnyRule(lexeme) && i < code.length() - 1) {
             lookaheaded = true;
             i++;
-            string c = code.substr(i, 1);
+            std::string c = code.substr(i, 1);
             lexeme += c;
 
             if (c[0] == ' ') {
@@ -60,7 +60,7 @@ vector<token> Lexer::tokenize(string code) {
     return tokens;
 }
 
-bool Lexer::matchAnyRule(string s) {
+bool Lexer::matchAnyRule(std::string s) {
     for (lexer_rule rule : rules) {
         regex re(std::get<0>(rule));
         if (regex_match(s, re) && std::get<1>(rule) != -1) {
@@ -70,7 +70,7 @@ bool Lexer::matchAnyRule(string s) {
     return false;
 }
 
-int Lexer::matchToken(string lexeme) {
+int Lexer::matchToken(std::string lexeme) {
     for (lexer_rule rule : rules) {
         regex re(std::get<0>(rule));
         if (regex_match(lexeme, re)) {
@@ -81,7 +81,7 @@ int Lexer::matchToken(string lexeme) {
     return -1;
 }
 
-int Lexer::getTokenFromId(string tokStr) {
+int Lexer::getTokenFromId(std::string tokStr) {
     if (tokStr == "if") {
         return TOK_IF;
     } else if (tokStr == "loop") {
@@ -121,23 +121,23 @@ int Lexer::getTokenFromId(string tokStr) {
     }
 }
 
-void Lexer::loadConfiguration(string LEXER_CONFIG_FILE) {
+void Lexer::loadConfiguration(std::string LEXER_CONFIG_FILE) {
     ifstream file(LEXER_CONFIG_FILE);
     if (file.is_open()) {
-        string line;
+        std::string line;
         while (getline(file, line)) {
             if (line.length() < 1 || line[0] == '#') {
                 continue;
             }
             int regexLimit = line.find(' ');
-            if (regexLimit == string::npos) {
+            if (regexLimit == std::string::npos) {
                 // TODO: Error handling: error in config file
             }
-            string lineRegex = line.substr(0, regexLimit);
+            std::string lineRegex = line.substr(0, regexLimit);
 
             int tokIdStart = line.find_last_of(' ') + 1;
             int lineLength = line.length();
-            string lineTokenStr = line.substr(tokIdStart, lineLength);
+            std::string lineTokenStr = line.substr(tokIdStart, lineLength);
             int lineToken = getTokenFromId(lineTokenStr);
 
             lexer_rule token = make_tuple(lineRegex, lineToken);
@@ -149,11 +149,11 @@ void Lexer::loadConfiguration(string LEXER_CONFIG_FILE) {
     }
 }
 
-vector<token> Lexer::getTokens(string fileName) {
-    vector<string> fileLines = readFile(fileName);
-    vector<token> tokens = {};
+std::vector<token> Lexer::getTokens(std::string fileName) {
+    std::vector<std::string> fileLines = readFile(fileName);
+    std::vector<token> tokens = {};
     for (auto line : fileLines) {
-        vector<token> line_tokens = tokenize(line);
+        std::vector<token> line_tokens = tokenize(line);
         tokens.insert(tokens.begin() + tokens.size(),
                       line_tokens.begin(),
                       line_tokens.begin() + line_tokens.size());
@@ -161,16 +161,16 @@ vector<token> Lexer::getTokens(string fileName) {
     return tokens;
 }
 
-vector<production_rule> Lexer::getProductionRules(string fileName) {
-    vector<production_rule> productionRules = {};
-    vector<token> tokens = getTokens(fileName);
+std::vector<production_rule> Lexer::getProductionRules(std::string fileName) {
+    std::vector<production_rule> productionRules = {};
+    std::vector<token> tokens = getTokens(fileName);
     for (int i = 0; i < tokens.size(); i++) {
         if (std::get<0>(tokens[i]) == TOK_ID) {
-            string id = std::get<1>(tokens[i]);
+            std::string id = std::get<1>(tokens[i]);
             i++;
             if (std::get<0>(tokens[i]) == TOK_EQUAL) {
                 i++;
-                vector<token> production = {};
+                std::vector<token> production = {};
                 while (std::get<0>(tokens[i]) != TOK_END && i < tokens.size()) {
                     production.push_back(tokens[i]);
                     i++;

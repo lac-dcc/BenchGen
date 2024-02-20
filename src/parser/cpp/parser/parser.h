@@ -10,16 +10,16 @@
 class Parser {
    private:
     int tokenIndex;
-    vector<token> tokens;
-    shared_ptr<S> AST;
+    std::vector<token> tokens;
+    std::shared_ptr<S> AST;
 
     void match(int);
-    shared_ptr<S> parse_S();
-    shared_ptr<Code> parse_CODE();
-    shared_ptr<Structs> parse_STRUCTS();
-    shared_ptr<Struct> parse_STRUCT();
-    shared_ptr<ParamIf> parse_PARAMIF();
-    shared_ptr<Else> parse_ELSE();
+    std::shared_ptr<S> parse_S();
+    std::shared_ptr<Code> parse_CODE();
+    std::shared_ptr<Structs> parse_STRUCTS();
+    std::shared_ptr<Struct> parse_STRUCT();
+    std::shared_ptr<ParamIf> parse_PARAMIF();
+    std::shared_ptr<Else> parse_ELSE();
 
    public:
     Parser() {
@@ -27,9 +27,9 @@ class Parser {
         AST = nullptr;
     }
 
-    void setTokens(vector<token>);
+    void setTokens(std::vector<token>);
     void parse();
-    shared_ptr<S> getAST();
+    std::shared_ptr<S> getAST();
 };
 
 #include "parser.cpp"

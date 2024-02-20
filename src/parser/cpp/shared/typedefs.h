@@ -4,11 +4,11 @@
 #include <tuple>
 #include <vector>
 
-#include "namespaces.h"
+#include "globalIncludes.h"
 
-typedef tuple<string, int> lexer_rule;
-typedef tuple<int, string> token;
-typedef tuple<string, vector<token>> production_rule;
-typedef tuple<int, vector<int>> parser_rule;
+typedef std::tuple<std::string, int> lexer_rule;
+typedef std::tuple<int, std::string> token;
+typedef std::tuple<std::string, std::vector<token>> production_rule;
+typedef std::tuple<int, std::vector<int>> parser_rule;
 
 #endif

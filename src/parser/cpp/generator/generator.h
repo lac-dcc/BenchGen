@@ -9,10 +9,10 @@ using std::ofstream;
 
 class Generator {
    private:
-    vector<string> includes;
-    vector<string> mainFunction;
-    list<vector<string>> functions;
-    vector<vector<string>*> currentScope;
+	std::vector<std::string> includes;
+    std::vector<std::string> mainFunction;
+    std::list<std::vector<std::string>> functions;
+    std::vector<std::vector<std::string>*> currentScope;
 
     void generateIncludes();
     void generateMainFunction();
@@ -25,13 +25,13 @@ class Generator {
         generateMainFunction();
     }
 
-    void generateIdCall(string);
-    void generateDeclaration(string);
+    void generateIdCall(std::string);
+    void generateDeclaration(std::string);
     void generateAlloc(int);
     void generateFunc(int);
     void generateElse();
     void scopeEnd();
-    void writeToFile(string);
+    void writeToFile(std::string);
 };
 
 #include "generator.cpp"

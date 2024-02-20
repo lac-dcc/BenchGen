@@ -1,7 +1,7 @@
 #ifndef ENUMS_H
 #define ENUMS_H
 
-enum Token {
+enum TokenType {
     TOK_IF = -2,
     TOK_LOOP = -3,
     TOK_CALL = -4,

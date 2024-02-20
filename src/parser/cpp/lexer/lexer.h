@@ -12,19 +12,19 @@ using std::ifstream;
 
 class Lexer {
    private:
-    vector<lexer_rule> rules;
-    vector<string> readFile(string);
-    vector<token> tokenize(string);
-    bool matchAnyRule(string);
-    int matchToken(string);
-    int getTokenFromId(string);
+    std::vector<lexer_rule> rules;
+    std::vector<std::string> readFile(std::string);
+    std::vector<token> tokenize(std::string);
+    bool matchAnyRule(std::string);
+    int matchToken(std::string);
+    int getTokenFromId(std::string);
 
    public:
     Lexer() {}
 
-    void loadConfiguration(string);
-    vector<token> getTokens(string);
-    vector<production_rule> getProductionRules(string);
+    void loadConfiguration(std::string);
+    std::vector<token> getTokens(std::string);
+    std::vector<production_rule> getProductionRules(std::string);
 };
 
 #include "lexer.cpp"
