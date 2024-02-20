@@ -21,6 +21,7 @@ void Parser::parse_S() {
         case TOK_CALL:
         case TOK_SEQ:
         case TOK_IF:
+        case TOK_ID:
             parse_CODE();
             break;
         default:
@@ -41,6 +42,7 @@ void Parser::parse_CODE() {
         case TOK_CALL:
         case TOK_SEQ:
         case TOK_IF:
+        case TOK_ID:
             parse_STRUCT();
             parse_STRUCTS();
             break;
@@ -67,6 +69,7 @@ void Parser::parse_STRUCTS() {
         case TOK_CALL:
         case TOK_SEQ:
         case TOK_IF:
+        case TOK_ID:
             parse_STRUCT();
             parse_STRUCTS();
             break;
@@ -119,6 +122,11 @@ void Parser::parse_STRUCT() {
             // generator.generateFunc(TOK_IF);
             parse_PARAMIF();
             break;
+        case TOK_ID:
+            match(TOK_ID);
+            // generate?
+            parse_STRUCTS();
+            break;
         default:
             // TODO: Error handling
             cout << "ERROR PARSING! AT " << get<0>(tokens[tokenIndex]) << endl;
@@ -137,6 +145,7 @@ void Parser::parse_PARAMIF() {
         case TOK_DEL:
         case TOK_NEW:
         case TOK_CONTAINS:
+        case TOK_ID:
             parse_STRUCTS();
             match(TOK_COMMA);
             // generator.generateElse();
@@ -168,6 +177,7 @@ void Parser::parse_ELSE() {
         case TOK_DEL:
         case TOK_NEW:
         case TOK_CONTAINS:
+        case TOK_ID:
             parse_STRUCTS();
             match(TOK_CPAREN);
             break;
