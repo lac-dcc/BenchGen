@@ -144,11 +144,11 @@ void Parser::parse_PARAMIF() {
             break;
         case TOK_UNDERLINE:
             match(TOK_UNDERLINE);
+        case TOK_COMMA:
             // generator.scopeEnd();
             match(TOK_COMMA);
             // generator.generateElse();
-            parse_STRUCTS();
-            match(TOK_CPAREN);
+            parse_ELSE();
             break;
         default:
             // TODO: Error handling
@@ -173,8 +173,9 @@ void Parser::parse_ELSE() {
             break;
         case TOK_UNDERLINE:
             match(TOK_UNDERLINE);
-            // generator.scopeEnd();
+        case TOK_CPAREN:
             match(TOK_CPAREN);
+            // generator.scopeEnd();
             break;
         default:
             // TODO: Error handling
