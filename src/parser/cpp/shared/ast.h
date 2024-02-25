@@ -5,176 +5,126 @@
 #include "typedefs.h"
 
 class Block;
-class S;
 class Code;
-class Structs;
-class StructSctructs;
-class LambdaStructs;
-class Struct;
-class AllocationStruct;
-class FunctionalStruct;
-class IfStruct;
-class IdStruct;
-class ParamIf;
-class StructsParamIf;
-class UnderlineParamIf;
+class Instruction;
+class IfParam;
 class Else;
-class StructsElse;
-class UnderlineElse;
 
 class Block {
    public:
     int type;
 
-	std::shared_ptr<Code> code;
-	std::shared_ptr<Struct> struct_;
-	std::shared_ptr<Structs> structs;
-	std::string id;
-	std::shared_ptr<ParamIf> paramIf;
-	std::shared_ptr<Else> else_;
+    std::shared_ptr<Instruction> instruction;
+    std::shared_ptr<Code> code;
+    std::string id;
+    std::shared_ptr<IfParam> ifParam;
+    std::shared_ptr<Else> else_;
 
-    Block() {}
-};
-
-class S : public Block {
-   public:
-    S(std::shared_ptr<Code> code) {
-        type = AST_S;
-        this->code = code;
-    }
+    virtual void codegen() = 0;
 };
 
 class Code : public Block {
    public:
-    Code(std::shared_ptr<Struct> struct_, std::shared_ptr<Structs> structs) {
+    Code(std::shared_ptr<Instruction> instruction, std::shared_ptr<Code> code) {
         type = AST_CODE;
-        this->struct_ = struct_;
-        this->structs = structs;
+        this->instruction = instruction;
+        this->code = code;
+    }
+
+    Code() {
+        type = AST_LAMBDA;
+    }
+
+    void codegen() override {
     }
 };
 
-class Structs : public Block {
+class Instruction : public Block {
    public:
-    Structs() {}
-};
-
-class StructStructs : public Structs {
-   public:
-    StructStructs(std::shared_ptr<Struct> struct_, std::shared_ptr<Structs> structs) {
-        type = AST_STRUCT_STRUCTS;
-        this->struct_ = struct_;
-        this->structs = structs;
+    Instruction(std::string id) {
+        type = AST_ID;
+        this->id = id;
     }
-};
 
-class LambdaStructs : public Structs {
-   public:
-    LambdaStructs() {
-        type = AST_LAMBDA_STRUCTS;
-    }
-};
-
-class Struct : public Block {
-   public:
-    Struct() {}
-};
-
-class AllocationStruct : public Struct {
-   public:
-    AllocationStruct(int tok) {
-        switch (tok) {
+    Instruction(int tokenType) {
+        switch (tokenType) {
             case TOK_INSERT:
-                type = AST_INSERT_STRUCT;
+                type = AST_INSERT;
                 break;
             case TOK_REMOVE:
-                type = AST_REMOVE_STRUCT;
+                type = AST_REMOVE;
                 break;
             case TOK_NEW:
-                type = AST_NEW_STRUCT;
+                type = AST_NEW;
                 break;
             case TOK_DEL:
-                type = AST_DEL_STRUCT;
+                type = AST_DEL;
                 break;
             case TOK_CONTAINS:
-                type = AST_CONTAINS_STRUCT;
+                type = AST_CONTAINS;
+                break;
+            default:
+                // TODO: Error handling
                 break;
         }
     }
-};
 
-class FunctionalStruct : public Struct {
-   public:
-    FunctionalStruct(int tok, std::shared_ptr<Structs> structs) {
-        switch (tok) {
+    Instruction(int tokenType, std::shared_ptr<Code> code) {
+        switch (tokenType) {
             case TOK_LOOP:
-                type = AST_LOOP_STRUCT;
+                type = AST_LOOP;
                 break;
             case TOK_CALL:
-                type = AST_CALL_STRUCT;
+                type = AST_CALL;
                 break;
             case TOK_SEQ:
-                type = AST_SEQ_STRUCT;
+                type = AST_SEQ;
+                break;
+            default:
+                // TODO: Error handling
                 break;
         }
-        this->structs = structs;
+        this->code = code;
+    }
+
+    Instruction(std::shared_ptr<IfParam> ifParam) {
+        type = AST_IF;
+        this->ifParam = ifParam;
+    }
+
+    void codegen() override {
     }
 };
 
-class IfStruct : public Struct {
+class IfParam : public Block {
    public:
-    IfStruct(std::shared_ptr<ParamIf> paramIf) {
-        type = AST_IF_STRUCT;
-        this->paramIf = paramIf;
-    }
-};
-
-class IdStruct : public Struct {
-   public:
-    IdStruct(std::string id) {
-        this->id = id;
-        type = AST_ID_STRUCT;
-    }
-};
-
-class ParamIf : public Block {
-   public:
-    ParamIf() {}
-};
-
-class StructsParamIf : public ParamIf {
-   public:
-    StructsParamIf(std::shared_ptr<Structs> structs, std::shared_ptr<Else> else_) {
-        type = AST_STRUCTS_PARAM_IF;
-        this->structs = structs;
+    IfParam(std::shared_ptr<Code> code, std::shared_ptr<Else> else_) {
+        type = AST_IF_PARAM;
+        this->code = code;
         this->else_ = else_;
     }
-};
 
-class UnderlineParamIf : public ParamIf {
-   public:
-    UnderlineParamIf(std::shared_ptr<Else> else_) {
-        type = AST_UNDERLINE_PARAM_IF;
+    IfParam(std::shared_ptr<Else> else_) {
+        type = AST_IF_UNDERLINE;
         this->else_ = else_;
+    }
+
+    void codegen() override {
     }
 };
 
 class Else : public Block {
    public:
-    Else() {}
-};
-
-class StructsElse : public Else {
-   public:
-    StructsElse(std::shared_ptr<Structs> structs) {
-        type = AST_STRUCTS_ELSE;
-        this->structs = structs;
+    Else(std::shared_ptr<Code> code) {
+        type = AST_ELSE_CODE;
+        this->code = code;
     }
-};
 
-class UnderlineElse : public Else {
-   public:
-    UnderlineElse() {
-        type = AST_UNDERLINE_ELSE;
+    Else() {
+        type = AST_ELSE_UNDERLINE;
+    }
+
+    void codegen() override {
     }
 };
 
