@@ -5,7 +5,7 @@
 #include "../generator/generator.h"
 #include "../shared/ast.h"
 #include "../shared/enums.h"
-#include "../shared/typedefs.h"
+#include "../shared/globalStructs.h"
 
 #define PRODUCTION_TOK TOK_ID
 

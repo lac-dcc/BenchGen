@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "../shared/enums.h"
-#include "../shared/typedefs.h"
+#include "../shared/globalStructs.h"
 
 using std::ifstream;
 

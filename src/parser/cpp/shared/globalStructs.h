@@ -6,19 +6,19 @@
 
 #include "globalIncludes.h"
 
-typedef struct LexerRule {
+struct LexerRule {
 	int type;
 	std::string regex;
-} LexerRule;
+};
 
-typedef struct Token {
+struct Token {
 	int type;
 	std::string text;
-} Token;
+};
 
-typedef struct ProductionRule {
+struct ProductionRule {
 	std::string rule;
 	std::vector<Token> production;
-} ProductionRule;
+};
 
 #endif

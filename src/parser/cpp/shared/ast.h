@@ -2,7 +2,7 @@
 #define AST_H
 
 #include "enums.h"
-#include "typedefs.h"
+#include "globalStructs.h"
 
 class Block;
 class S;
