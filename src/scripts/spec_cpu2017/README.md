@@ -20,7 +20,7 @@ To run the script, you need to provide four essential inputs:
 In the current directory you can find examples of a _perf_events_ and _file_list_ inputs. 
 
 Usage example:
-`python3 runPerf.py myConfig myOutput.csv events.txt benchs.txt`
+`python3 spec_perf.py benchs.txt myConfig events.txt myOutput.csv`
 
 
 ## Details
