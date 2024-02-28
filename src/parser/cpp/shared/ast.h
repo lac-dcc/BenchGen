@@ -4,127 +4,322 @@
 #include "enums.h"
 #include "typedefs.h"
 
-class Block;
-class Code;
-class Instruction;
-class IfParam;
-class Else;
+class Node;
+class StatementCode;
+class LambdaCode;
+class Id;
+class Insert;
+class Remove;
+class New;
+class Del;
+class Contains;
+class Loop;
+class Call;
+class Seq;
+class If;
+class ParamIf;
+class NoParamIf;
+class CodeElse;
+class NoCodeElse;
 
-class Block {
+class Node {
    public:
-    int type;
-
-    std::shared_ptr<Instruction> instruction;
-    std::shared_ptr<Code> code;
-    std::string id;
-    std::shared_ptr<IfParam> ifParam;
-    std::shared_ptr<Else> else_;
-
     virtual void codegen() = 0;
+    virtual void print(int indent = 0) = 0;
 };
 
-class Code : public Block {
-   public:
-    Code(std::shared_ptr<Instruction> instruction, std::shared_ptr<Code> code) {
-        type = AST_CODE;
-        this->instruction = instruction;
-        this->code = code;
-    }
+class StatementCode : public Node {
+   private:
+    std::shared_ptr<Node> stmt;
+    std::shared_ptr<Node> code;
 
-    Code() {
-        type = AST_LAMBDA;
+   public:
+    StatementCode(std::shared_ptr<Node> stmt, std::shared_ptr<Node> code) : stmt(stmt), code(code) {
     }
 
     void codegen() override {
     }
-};
 
-class Instruction : public Block {
-   public:
-    Instruction(std::string id) {
-        type = AST_ID;
-        this->id = id;
-    }
-
-    Instruction(int tokenType) {
-        switch (tokenType) {
-            case TOK_INSERT:
-                type = AST_INSERT;
-                break;
-            case TOK_REMOVE:
-                type = AST_REMOVE;
-                break;
-            case TOK_NEW:
-                type = AST_NEW;
-                break;
-            case TOK_DEL:
-                type = AST_DEL;
-                break;
-            case TOK_CONTAINS:
-                type = AST_CONTAINS;
-                break;
-            default:
-                // TODO: Error handling
-                break;
+    void print(int ident) override {
+        for (int i = 0; i < ident; i++) {
+            std::cout << " ";
         }
+        std::cout << "StatementCode" << std::endl;
+        stmt->print(ident + 2);
+        code->print(ident + 2);
+    }
+};
+
+class LambdaCode : public Node {
+   public:
+    LambdaCode() {
     }
 
-    Instruction(int tokenType, std::shared_ptr<Code> code) {
-        switch (tokenType) {
-            case TOK_LOOP:
-                type = AST_LOOP;
-                break;
-            case TOK_CALL:
-                type = AST_CALL;
-                break;
-            case TOK_SEQ:
-                type = AST_SEQ;
-                break;
-            default:
-                // TODO: Error handling
-                break;
+    void codegen() override {
+    }
+
+    void print(int ident) override {
+        for (int i = 0; i < ident; i++) {
+            std::cout << " ";
         }
-        this->code = code;
-    }
-
-    Instruction(std::shared_ptr<IfParam> ifParam) {
-        type = AST_IF;
-        this->ifParam = ifParam;
-    }
-
-    void codegen() override {
+        std::cout << "LambdaCode" << std::endl;
     }
 };
 
-class IfParam : public Block {
-   public:
-    IfParam(std::shared_ptr<Code> code, std::shared_ptr<Else> else_) {
-        type = AST_IF_PARAM;
-        this->code = code;
-        this->else_ = else_;
-    }
+class Id : public Node {
+   private:
+    std::string id;
 
-    IfParam(std::shared_ptr<Else> else_) {
-        type = AST_IF_UNDERLINE;
-        this->else_ = else_;
+   public:
+    Id(std::string id) : id(id) {
     }
 
     void codegen() override {
+    }
+
+    void print(int ident) override {
+        for (int i = 0; i < ident; i++) {
+            std::cout << " ";
+        }
+        std::cout << "Id: " << id << std::endl;
     }
 };
 
-class Else : public Block {
+class Insert : public Node {
    public:
-    Else(std::shared_ptr<Code> code) {
-        type = AST_ELSE_CODE;
-        this->code = code;
-    }
-
-    Else() {
-        type = AST_ELSE_UNDERLINE;
+    Insert() {
     }
 
     void codegen() override {
+    }
+
+    void print(int ident) override {
+        for (int i = 0; i < ident; i++) {
+            std::cout << " ";
+        }
+        std::cout << "Insert" << std::endl;
+    }
+};
+
+class Remove : public Node {
+   public:
+    Remove() {
+    }
+
+    void codegen() override {
+    }
+
+    void print(int ident) override {
+        for (int i = 0; i < ident; i++) {
+            std::cout << " ";
+        }
+        std::cout << "Remove" << std::endl;
+    }
+};
+
+class New : public Node {
+   public:
+    New() {
+    }
+
+    void codegen() override {
+    }
+
+    void print(int ident) override {
+        for (int i = 0; i < ident; i++) {
+            std::cout << " ";
+        }
+        std::cout << "New" << std::endl;
+    }
+};
+
+class Del : public Node {
+   public:
+    Del() {
+    }
+
+    void codegen() override {
+    }
+
+    void print(int ident) override {
+        for (int i = 0; i < ident; i++) {
+            std::cout << " ";
+        }
+        std::cout << "Del" << std::endl;
+    }
+};
+
+class Contains : public Node {
+   public:
+    Contains() {
+    }
+
+    void codegen() override {
+    }
+
+    void print(int ident) override {
+        for (int i = 0; i < ident; i++) {
+            std::cout << " ";
+        }
+        std::cout << "Contains" << std::endl;
+    }
+};
+
+class Loop : public Node {
+   private:
+    std::shared_ptr<Node> code;
+
+   public:
+    Loop(std::shared_ptr<Node> code) : code(code) {
+    }
+
+    void codegen() override {
+    }
+
+    void print(int ident) override {
+        for (int i = 0; i < ident; i++) {
+            std::cout << " ";
+        }
+        std::cout << "Loop" << std::endl;
+        code->print(ident + 2);
+    }
+};
+
+class Call : public Node {
+   private:
+    std::shared_ptr<Node> code;
+
+   public:
+    Call(std::shared_ptr<Node> code) : code(code) {
+    }
+
+    void codegen() override {
+    }
+
+    void print(int ident) override {
+        for (int i = 0; i < ident; i++) {
+            std::cout << " ";
+        }
+        std::cout << "Call" << std::endl;
+        code->print(ident + 2);
+    }
+};
+
+class Seq : public Node {
+   private:
+    std::shared_ptr<Node> code;
+
+   public:
+    Seq(std::shared_ptr<Node> code) : code(code) {
+    }
+
+    void codegen() override {
+    }
+
+    void print(int ident) override {
+        for (int i = 0; i < ident; i++) {
+            std::cout << " ";
+        }
+        std::cout << "Seq" << std::endl;
+        code->print(ident + 2);
+    }
+};
+
+class If : public Node {
+   private:
+    std::shared_ptr<Node> ifParam;
+
+   public:
+    If(std::shared_ptr<Node> ifParam) : ifParam(ifParam) {
+    }
+
+    void codegen() override {
+    }
+
+    void print(int ident) override {
+        for (int i = 0; i < ident; i++) {
+            std::cout << " ";
+        }
+        std::cout << "If" << std::endl;
+        ifParam->print(ident + 2);
+    }
+};
+
+class IfParam : public Node {
+   private:
+    std::shared_ptr<Node> code;
+    std::shared_ptr<Node> else_;
+
+   public:
+    IfParam(std::shared_ptr<Node> code, std::shared_ptr<Node> else_) : code(code), else_(else_) {
+    }
+
+    void codegen() override {
+    }
+
+    void print(int ident) override {
+        for (int i = 0; i < ident; i++) {
+            std::cout << " ";
+        }
+        std::cout << "IfParam" << std::endl;
+        code->print(ident + 2);
+        else_->print(ident + 2);
+    }
+};
+
+class NoParamIf : public Node {
+   private:
+    std::shared_ptr<Node> else_;
+
+   public:
+    NoParamIf(std::shared_ptr<Node> else_) : else_(else_) {
+    }
+
+    void codegen() override {
+    }
+
+    void print(int ident) override {
+        for (int i = 0; i < ident; i++) {
+            std::cout << " ";
+        }
+        std::cout << "NoParamIf" << std::endl;
+        else_->print(ident + 2);
+    }
+};
+
+class CodeElse : public Node {
+   private:
+    std::shared_ptr<Node> code;
+
+   public:
+    CodeElse(std::shared_ptr<Node> code) : code(code) {
+    }
+
+    void codegen() override {
+    }
+
+    void print(int ident) override {
+        for (int i = 0; i < ident; i++) {
+            std::cout << " ";
+        }
+        std::cout << "CodeElse" << std::endl;
+        code->print(ident + 2);
+    }
+};
+
+class NoCodeElse : public Node {
+   public:
+    NoCodeElse() {
+    }
+
+    void codegen() override {
+    }
+
+    void print(int ident) override {
+        for (int i = 0; i < ident; i++) {
+            std::cout << " ";
+        }
+        std::cout << "NoCodeElse" << std::endl;
     }
 };
 

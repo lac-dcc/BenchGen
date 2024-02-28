@@ -4,80 +4,6 @@
 #include "lexer/lexer.h"
 #include "parser/parser.h"
 
-// TODO: Erase this later
-void printAST(std::shared_ptr<Block> node, int ident = 0) {
-    if (node == nullptr) {
-        return;
-    }
-    for (int i = 0; i < ident; i++) {
-        std::cout << "    ";
-    }
-    std::cout << "  |--";
-    switch (node->type) {
-        case AST_CODE:
-            std::cout << "CODE" << std::endl;
-            printAST(node->instruction, ident + 1);
-            printAST(node->code, ident + 1);
-            break;
-        case AST_LAMBDA:
-            std::cout << "LAMBDA" << std::endl;
-            break;
-        case AST_ID:
-            std::cout << "ID: " << node->id << std::endl;
-            break;
-        case AST_INSERT:
-            std::cout << "INSERT" << std::endl;
-            break;
-        case AST_REMOVE:
-            std::cout << "REMOVE" << std::endl;
-            break;
-        case AST_NEW:
-            std::cout << "NEW" << std::endl;
-            break;
-        case AST_DEL:
-            std::cout << "DEL" << std::endl;
-            break;
-        case AST_CONTAINS:
-            std::cout << "CONTAINS" << std::endl;
-            break;
-        case AST_LOOP:
-            std::cout << "LOOP" << std::endl;
-            printAST(node->code, ident + 1);
-            break;
-        case AST_CALL:
-            std::cout << "CALL" << std::endl;
-            printAST(node->code, ident + 1);
-            break;
-        case AST_SEQ:
-            std::cout << "SEQ" << std::endl;
-            printAST(node->code, ident + 1);
-            break;
-        case AST_IF:
-            std::cout << "IF" << std::endl;
-            printAST(node->ifParam, ident + 1);
-            break;
-        case AST_IF_PARAM:
-            std::cout << "IF_PARAM" << std::endl;
-            printAST(node->code, ident + 1);
-            printAST(node->else_, ident + 1);
-            break;
-        case AST_IF_UNDERLINE:
-            std::cout << "IF_UNDERLINE" << std::endl;
-            printAST(node->else_, ident + 1);
-            break;
-        case AST_ELSE_CODE:
-            std::cout << "ELSE_CODE" << std::endl;
-            printAST(node->code, ident + 1);
-            break;
-        case AST_ELSE_UNDERLINE:
-            std::cout << "ELSE_UNDERLINE" << std::endl;
-            break;
-        default:
-            std::cout << "UNKNOWN: " << node->type << std::endl;
-            break;
-    }
-}
-
 int main(int argc, char const *argv[]) {
     if (argc < 5) {
         std::cout << "ERROR! Missing arguments!" << std::endl;
@@ -127,7 +53,7 @@ int main(int argc, char const *argv[]) {
     parser.setTokens(tokenSequence);
     // Parse the token sequence into a control-flow graph
     parser.parse();
-    std::shared_ptr<Code> AST = parser.getAST();
+    std::shared_ptr<Node> AST = parser.getAST();
     std::cout << "Machine 1 ended successfully!" << std::endl;
 
     std::cout << "Starting machine 2..." << std::endl;
@@ -142,10 +68,8 @@ int main(int argc, char const *argv[]) {
 
     std::cout << "Done!" << std::endl;
 
-    std::cout << "========================================================" << std::endl;
-    std::cout << "AST:" << std::endl;
-    printAST(AST);
-    std::cout << "========================================================" << std::endl;
+    std::cout << "Printing AST..." << std::endl;
+    AST->print(0);
 
     return 0;
 }
