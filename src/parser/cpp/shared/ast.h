@@ -4,177 +4,322 @@
 #include "enums.h"
 #include "globalStructs.h"
 
-class Block;
-class S;
-class Code;
-class Structs;
-class StructSctructs;
-class LambdaStructs;
-class Struct;
-class AllocationStruct;
-class FunctionalStruct;
-class IfStruct;
-class IdStruct;
+class Node;
+class StatementCode;
+class LambdaCode;
+class Id;
+class Insert;
+class Remove;
+class New;
+class Del;
+class Contains;
+class Loop;
+class Call;
+class Seq;
+class If;
 class ParamIf;
-class StructsParamIf;
-class UnderlineParamIf;
-class Else;
-class StructsElse;
-class UnderlineElse;
+class NoParamIf;
+class CodeElse;
+class NoCodeElse;
 
-class Block {
+class Node {
    public:
-    int type;
-
-	std::shared_ptr<Code> code;
-	std::shared_ptr<Struct> struct_;
-	std::shared_ptr<Structs> structs;
-	std::string id;
-	std::shared_ptr<ParamIf> paramIf;
-	std::shared_ptr<Else> else_;
-
-    Block() {}
+    virtual void codegen() = 0;
+    virtual void print(int indent = 0) = 0;
 };
 
-class S : public Block {
+class StatementCode : public Node {
+   private:
+    std::shared_ptr<Node> stmt;
+    std::shared_ptr<Node> code;
+
    public:
-    S(std::shared_ptr<Code> code) {
-        type = AST_S;
-        this->code = code;
+    StatementCode(std::shared_ptr<Node> stmt, std::shared_ptr<Node> code) : stmt(stmt), code(code) {
     }
-};
 
-class Code : public Block {
-   public:
-    Code(std::shared_ptr<Struct> struct_, std::shared_ptr<Structs> structs) {
-        type = AST_CODE;
-        this->struct_ = struct_;
-        this->structs = structs;
+    void codegen() override {
     }
-};
 
-class Structs : public Block {
-   public:
-    Structs() {}
-};
-
-class StructStructs : public Structs {
-   public:
-    StructStructs(std::shared_ptr<Struct> struct_, std::shared_ptr<Structs> structs) {
-        type = AST_STRUCT_STRUCTS;
-        this->struct_ = struct_;
-        this->structs = structs;
-    }
-};
-
-class LambdaStructs : public Structs {
-   public:
-    LambdaStructs() {
-        type = AST_LAMBDA_STRUCTS;
-    }
-};
-
-class Struct : public Block {
-   public:
-    Struct() {}
-};
-
-class AllocationStruct : public Struct {
-   public:
-    AllocationStruct(int tok) {
-        switch (tok) {
-            case TOK_INSERT:
-                type = AST_INSERT_STRUCT;
-                break;
-            case TOK_REMOVE:
-                type = AST_REMOVE_STRUCT;
-                break;
-            case TOK_NEW:
-                type = AST_NEW_STRUCT;
-                break;
-            case TOK_DEL:
-                type = AST_DEL_STRUCT;
-                break;
-            case TOK_CONTAINS:
-                type = AST_CONTAINS_STRUCT;
-                break;
+    void print(int ident) override {
+        for (int i = 0; i < ident; i++) {
+            std::cout << " ";
         }
+        std::cout << "StatementCode" << std::endl;
+        stmt->print(ident + 2);
+        code->print(ident + 2);
     }
 };
 
-class FunctionalStruct : public Struct {
+class LambdaCode : public Node {
    public:
-    FunctionalStruct(int tok, std::shared_ptr<Structs> structs) {
-        switch (tok) {
-            case TOK_LOOP:
-                type = AST_LOOP_STRUCT;
-                break;
-            case TOK_CALL:
-                type = AST_CALL_STRUCT;
-                break;
-            case TOK_SEQ:
-                type = AST_SEQ_STRUCT;
-                break;
+    LambdaCode() {
+    }
+
+    void codegen() override {
+    }
+
+    void print(int ident) override {
+        for (int i = 0; i < ident; i++) {
+            std::cout << " ";
         }
-        this->structs = structs;
+        std::cout << "LambdaCode" << std::endl;
     }
 };
 
-class IfStruct : public Struct {
+class Id : public Node {
+   private:
+    std::string id;
+
    public:
-    IfStruct(std::shared_ptr<ParamIf> paramIf) {
-        type = AST_IF_STRUCT;
-        this->paramIf = paramIf;
+    Id(std::string id) : id(id) {
+    }
+
+    void codegen() override {
+    }
+
+    void print(int ident) override {
+        for (int i = 0; i < ident; i++) {
+            std::cout << " ";
+        }
+        std::cout << "Id: " << id << std::endl;
     }
 };
 
-class IdStruct : public Struct {
+class Insert : public Node {
    public:
-    IdStruct(std::string id) {
-        this->id = id;
-        type = AST_ID_STRUCT;
+    Insert() {
+    }
+
+    void codegen() override {
+    }
+
+    void print(int ident) override {
+        for (int i = 0; i < ident; i++) {
+            std::cout << " ";
+        }
+        std::cout << "Insert" << std::endl;
     }
 };
 
-class ParamIf : public Block {
+class Remove : public Node {
    public:
-    ParamIf() {}
-};
+    Remove() {
+    }
 
-class StructsParamIf : public ParamIf {
-   public:
-    StructsParamIf(std::shared_ptr<Structs> structs, std::shared_ptr<Else> else_) {
-        type = AST_STRUCTS_PARAM_IF;
-        this->structs = structs;
-        this->else_ = else_;
+    void codegen() override {
+    }
+
+    void print(int ident) override {
+        for (int i = 0; i < ident; i++) {
+            std::cout << " ";
+        }
+        std::cout << "Remove" << std::endl;
     }
 };
 
-class UnderlineParamIf : public ParamIf {
+class New : public Node {
    public:
-    UnderlineParamIf(std::shared_ptr<Else> else_) {
-        type = AST_UNDERLINE_PARAM_IF;
-        this->else_ = else_;
+    New() {
+    }
+
+    void codegen() override {
+    }
+
+    void print(int ident) override {
+        for (int i = 0; i < ident; i++) {
+            std::cout << " ";
+        }
+        std::cout << "New" << std::endl;
     }
 };
 
-class Else : public Block {
+class Del : public Node {
    public:
-    Else() {}
-};
+    Del() {
+    }
 
-class StructsElse : public Else {
-   public:
-    StructsElse(std::shared_ptr<Structs> structs) {
-        type = AST_STRUCTS_ELSE;
-        this->structs = structs;
+    void codegen() override {
+    }
+
+    void print(int ident) override {
+        for (int i = 0; i < ident; i++) {
+            std::cout << " ";
+        }
+        std::cout << "Del" << std::endl;
     }
 };
 
-class UnderlineElse : public Else {
+class Contains : public Node {
    public:
-    UnderlineElse() {
-        type = AST_UNDERLINE_ELSE;
+    Contains() {
+    }
+
+    void codegen() override {
+    }
+
+    void print(int ident) override {
+        for (int i = 0; i < ident; i++) {
+            std::cout << " ";
+        }
+        std::cout << "Contains" << std::endl;
+    }
+};
+
+class Loop : public Node {
+   private:
+    std::shared_ptr<Node> code;
+
+   public:
+    Loop(std::shared_ptr<Node> code) : code(code) {
+    }
+
+    void codegen() override {
+    }
+
+    void print(int ident) override {
+        for (int i = 0; i < ident; i++) {
+            std::cout << " ";
+        }
+        std::cout << "Loop" << std::endl;
+        code->print(ident + 2);
+    }
+};
+
+class Call : public Node {
+   private:
+    std::shared_ptr<Node> code;
+
+   public:
+    Call(std::shared_ptr<Node> code) : code(code) {
+    }
+
+    void codegen() override {
+    }
+
+    void print(int ident) override {
+        for (int i = 0; i < ident; i++) {
+            std::cout << " ";
+        }
+        std::cout << "Call" << std::endl;
+        code->print(ident + 2);
+    }
+};
+
+class Seq : public Node {
+   private:
+    std::shared_ptr<Node> code;
+
+   public:
+    Seq(std::shared_ptr<Node> code) : code(code) {
+    }
+
+    void codegen() override {
+    }
+
+    void print(int ident) override {
+        for (int i = 0; i < ident; i++) {
+            std::cout << " ";
+        }
+        std::cout << "Seq" << std::endl;
+        code->print(ident + 2);
+    }
+};
+
+class If : public Node {
+   private:
+    std::shared_ptr<Node> ifParam;
+
+   public:
+    If(std::shared_ptr<Node> ifParam) : ifParam(ifParam) {
+    }
+
+    void codegen() override {
+    }
+
+    void print(int ident) override {
+        for (int i = 0; i < ident; i++) {
+            std::cout << " ";
+        }
+        std::cout << "If" << std::endl;
+        ifParam->print(ident + 2);
+    }
+};
+
+class IfParam : public Node {
+   private:
+    std::shared_ptr<Node> code;
+    std::shared_ptr<Node> else_;
+
+   public:
+    IfParam(std::shared_ptr<Node> code, std::shared_ptr<Node> else_) : code(code), else_(else_) {
+    }
+
+    void codegen() override {
+    }
+
+    void print(int ident) override {
+        for (int i = 0; i < ident; i++) {
+            std::cout << " ";
+        }
+        std::cout << "IfParam" << std::endl;
+        code->print(ident + 2);
+        else_->print(ident + 2);
+    }
+};
+
+class NoParamIf : public Node {
+   private:
+    std::shared_ptr<Node> else_;
+
+   public:
+    NoParamIf(std::shared_ptr<Node> else_) : else_(else_) {
+    }
+
+    void codegen() override {
+    }
+
+    void print(int ident) override {
+        for (int i = 0; i < ident; i++) {
+            std::cout << " ";
+        }
+        std::cout << "NoParamIf" << std::endl;
+        else_->print(ident + 2);
+    }
+};
+
+class CodeElse : public Node {
+   private:
+    std::shared_ptr<Node> code;
+
+   public:
+    CodeElse(std::shared_ptr<Node> code) : code(code) {
+    }
+
+    void codegen() override {
+    }
+
+    void print(int ident) override {
+        for (int i = 0; i < ident; i++) {
+            std::cout << " ";
+        }
+        std::cout << "CodeElse" << std::endl;
+        code->print(ident + 2);
+    }
+};
+
+class NoCodeElse : public Node {
+   public:
+    NoCodeElse() {
+    }
+
+    void codegen() override {
+    }
+
+    void print(int ident) override {
+        for (int i = 0; i < ident; i++) {
+            std::cout << " ";
+        }
+        std::cout << "NoCodeElse" << std::endl;
     }
 };
 

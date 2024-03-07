@@ -28,24 +28,22 @@ enum TokenType {
 };
 
 enum ASTType {
-    AST_S = 0,
-    AST_CODE = 1,
-    AST_STRUCT_STRUCTS = 2,
-    AST_LAMBDA_STRUCTS = 3,
-    AST_INSERT_STRUCT = 4,
-    AST_REMOVE_STRUCT = 5,
-    AST_NEW_STRUCT = 6,
-    AST_DEL_STRUCT = 7,
-    AST_CONTAINS_STRUCT = 8,
-    AST_LOOP_STRUCT = 9,
-    AST_CALL_STRUCT = 10,
-    AST_SEQ_STRUCT = 11,
-    AST_IF_STRUCT = 12,
-    AST_ID_STRUCT = 13,
-    AST_STRUCTS_PARAM_IF = 14,
-    AST_UNDERLINE_PARAM_IF = 15,
-    AST_STRUCTS_ELSE = 16,
-    AST_UNDERLINE_ELSE = 17
+    AST_CODE = 0,
+    AST_LAMBDA = 1,
+    AST_ID = 2,
+    AST_INSERT = 3,
+    AST_REMOVE = 4,
+    AST_NEW = 5,
+    AST_DEL = 6,
+    AST_CONTAINS = 7,
+    AST_LOOP = 8,
+    AST_CALL = 9,
+    AST_SEQ = 10,
+    AST_IF = 11,
+    AST_IF_PARAM = 12,
+    AST_IF_UNDERLINE = 13,
+    AST_ELSE_CODE = 14,
+    AST_ELSE_UNDERLINE = 15,
 };
 
 #endif
