@@ -1,6 +1,7 @@
 #ifndef L_SYSTEM
 #define L_SYSTEM
 #include <iostream>
+#include <list>
 
 #include "../generator/generator.h"
 #include "../shared/ast.h"

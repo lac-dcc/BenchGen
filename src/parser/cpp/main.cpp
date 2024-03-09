@@ -44,6 +44,11 @@ int main(int argc, char const *argv[]) {
     std::vector<Token> tokenSequence = lSystem::lSystem(iterations, productionRules, inputTokens);
     std::cout << "Machine 0 ended successfully!" << std::endl;
 
+	for(Token x : tokenSequence){
+		std::cout << x.text << " ";
+	}
+	std::cout << std::endl;
+
     std::cout << "Starting machine 1..." << std::endl;
     /**
      * MACHINE 1
