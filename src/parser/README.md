@@ -23,9 +23,45 @@ clang++ cpp/main.cpp -o cpp/main
 
 Run the binary output with a input and output file as parameter. The paths in the program requires it to be run inside the cpp folder.
 
-Execution example. This example uses a file named "test.l" as input and creates a file "output.c" as the output C file:
+Calls to the Program Generator must be done in the following format:
 
 ```
-cd cpp
-./main test.l output.c
+cd ./cpp
+./main <N of iterations> <Production Rules File> <Seed String File> <Output File> 
+```
+
+## Examples
+
+We provide examples for inputs in the `examples folder`. An example of execution would be:
+
+```
+cd ./cpp
+./main 3 ./examples/example_production_rule_4.l ./examples/example_input_file_4.l test.c 
+```
+
+### Production Rules File
+
+The production rules file should have production rules of the format:
+
+```
+<LHS> = <Production>;
+```
+
+You may repeat these as many times as you wish for each production rule.
+The `<LHS>` **must** be a single element.
+
+Example:
+```
+A = insert A remove;
+B = A B;
+```
+
+### Seed String File
+
+The Seed String File should contain only **Valid Tokens** (see lexer.cfg). 
+Other than that, these tokens can be written as the user wishes.
+
+Example:
+```
+IF(LOOP(CALL(B)),A)
 ```
