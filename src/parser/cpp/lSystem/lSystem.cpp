@@ -1,18 +1,19 @@
 #include "lSystem.h"
 
+#include <unistd.h>
+
 std::vector<Token> lSystem::lSystem(int iterations, const std::vector<ProductionRule>& productionRules, const std::vector<Token>& inputTokens){
+
 	//Return Variable
-	std::vector<Token> outputTokens = inputTokens;
-	
+	std::list<Token> outputTokens(inputTokens.begin(), inputTokens.end());
+
 	//L-System main loop
 	for(int t = 0; t < iterations; t++){
 		//In each loop, seek for production tokens and substitute with production rules.
-		//To not repeat elements, we walk backwards and add at or to the right of the pointer.
-		
-		// TODO: outputTokens should be a linked list for improved performance
-		for(int i = outputTokens.size() - 1; i >= 0; i--){
-			if(outputTokens[i].type != PRODUCTION_TOK) continue; 
-			std::string toSubstitute = outputTokens[i].text;
+		for(auto i = outputTokens.begin(); i != outputTokens.end(); i++){
+			if((*i).type != PRODUCTION_TOK) continue; 
+
+			std::string toSubstitute = (*i).text;
 
 			// Find equivalent rule index
 			int ruleIndex = match(toSubstitute, productionRules);
@@ -20,17 +21,20 @@ std::vector<Token> lSystem::lSystem(int iterations, const std::vector<Production
 				std::cerr << "Error: No match of " << toSubstitute << " in production rules.";
 				exit(1);
 			}
-
+			
 			// Pop the token to be substituted.
-			auto pos = outputTokens.begin() + i;
-			outputTokens.erase(pos);
+			i = outputTokens.erase(i);
 
 			// Insert rule into the vector
-			outputTokens.insert(pos, std::begin(productionRules[ruleIndex].production), std::end(productionRules[ruleIndex].production));
+			outputTokens.insert(i, std::begin(productionRules[ruleIndex].production), std::end(productionRules[ruleIndex].production));
+			// Move iterator back for it to iterate ahead again next loop.
+			i--;
 		}
 	}
 
-	return outputTokens;
+	std::vector<Token> returnTokens{std::begin(outputTokens), std::end(outputTokens)};
+
+	return returnTokens;
 }
 
 int lSystem::match(std::string match, const std::vector<ProductionRule>& rules){
