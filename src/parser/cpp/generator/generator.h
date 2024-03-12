@@ -1,15 +1,14 @@
 #ifndef GENERATOR_H
 #define GENERATOR_H
+#include <fstream>
 #include <iostream>
 
 #include "../shared/enums.h"
 #include "../shared/globalStructs.h"
 
-using std::ofstream;
-
 class Generator {
    private:
-	std::vector<std::string> includes;
+    std::vector<std::string> includes;
     std::vector<std::string> mainFunction;
     std::list<std::vector<std::string>> functions;
     std::vector<std::vector<std::string>*> currentScope;
@@ -26,9 +25,14 @@ class Generator {
     }
 
     void generateIdCall(std::string);
-    void generateDeclaration(std::string);
-    void generateAlloc(int);
-    void generateFunc(int);
+    void generateInsert();
+    void generateRemove();
+    void generateDel();
+    void generateNew();
+    void generateContains();
+    void generateIf();
+    void generateLoop();
+    void generateCall();
     void generateElse();
     void scopeEnd();
     void writeToFile(std::string);

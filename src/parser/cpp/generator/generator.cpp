@@ -1,7 +1,5 @@
 #include "generator.h"
 
-#include <fstream>
-
 void Generator::generateIncludes() {
     includes.push_back("#include <stdio.h>");
     includes.push_back("#include <stdlib.h>");
@@ -14,77 +12,60 @@ void Generator::generateMainFunction() {
 }
 
 void Generator::returnMainFunction() {
+    scopeEnd();
     mainFunction.insert(mainFunction.end() - 1, "   return 0;");
 }
 
 void Generator::generateIdCall(std::string id) {
-    currentScope.back()->push_back(id + "();");
+    // TODO: What to do with ids?
 }
 
-void Generator::generateDeclaration(std::string id) {
+void Generator::generateInsert() {
+    currentScope.back()->push_back("printf(\"INSERTED!\\n\");");
+}
+
+void Generator::generateRemove() {
+    currentScope.back()->push_back("printf(\"REMOVED!\\n\");");
+}
+
+void Generator::generateDel() {
+    currentScope.back()->push_back("printf(\"DELETED!\\n\");");
+}
+
+void Generator::generateNew() {
+    currentScope.back()->push_back("printf(\"NEW!\\n\");");
+}
+
+void Generator::generateContains() {
+    currentScope.back()->push_back("printf(\"CONTAINS!\\n\");");
+}
+
+void Generator::generateIf() {
+    currentScope.back()->push_back("if(1 < 2) {");
+    currentScope.push_back(currentScope.back());
+}
+
+void Generator::generateLoop() {
+    static int forLevel = 0;
+    std::string var = "i" + std::to_string(forLevel);
+    std::string line = "for(int " + var + " = 0; " + var + " < 10; " + var + "++) {";
+    forLevel++;
+    currentScope.back()->push_back(line);
+    currentScope.push_back(currentScope.back());
+}
+
+void Generator::generateCall() {
+    static int funcCount = 0;
+    std::string funcName = "func" + std::to_string(funcCount);
+    std::string line = funcName + "();";
+    currentScope.back()->push_back(line);
+
     std::vector<std::string> func;
-    func.push_back("void " + id + "() {");
+    func.push_back("void " + funcName + "() {");
     functions.push_back(func);
     currentScope.push_back(&(functions.back()));
-}
 
-void Generator::generateAlloc(int symbol) {
-    std::string line = "";
-    switch (symbol) {
-        case TOK_INSERT:
-            line = "printf(\"INSERTED!\\n\");";
-            break;
-        case TOK_REMOVE:
-            line = "printf(\"REMOVED!\\n\");";
-            break;
-        case TOK_DEL:
-            line = "printf(\"DELETED!\\n\");";
-            break;
-        case TOK_NEW:
-            line = "printf(\"NEW!\\n\");";
-            break;
-        case TOK_CONTAINS:
-            line = "printf(\"CONTAINS!\\n\");";
-            break;
-    }
-    currentScope.back()->push_back(line);
-}
-
-void Generator::generateFunc(int symbol) {
-    std::string line = "";
-    switch (symbol) {
-        case TOK_IF:
-            line = "if(1 < 2) {";
-            currentScope.back()->push_back(line);
-            currentScope.push_back(currentScope.back());
-            break;
-        case TOK_LOOP: {
-            static int forLevel = 0;
-            std::string var = "i" + std::to_string(forLevel);
-            line = "for(int " + var + " = 0; " + var + " < 10; " + var + "++) {";
-            forLevel++;
-            currentScope.back()->push_back(line);
-            currentScope.push_back(currentScope.back());
-            break;
-        }
-        case TOK_CALL: {
-            static int funcCount = 0;
-            std::string funcName = "func" + std::to_string(funcCount);
-            line = funcName + "();";
-            currentScope.back()->push_back(line);
-
-            std::vector<std::string> func;
-            func.push_back("void " + funcName + "() {");
-            functions.push_back(func);
-            currentScope.push_back(&(functions.back()));
-
-            funcCount++;
-            break;
-        }
-        case TOK_SEQ:
-            line = "";
-            break;
-    }
+    funcCount++;
 }
 
 void Generator::generateElse() {
@@ -99,7 +80,7 @@ void Generator::scopeEnd() {
 
 void Generator::writeToFile(std::string filename) {
     returnMainFunction();
-    ofstream file;
+    std::ofstream file;
     file.open(filename);
     // Includes
     for (auto include : includes) {

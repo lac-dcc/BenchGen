@@ -44,11 +44,11 @@ int main(int argc, char const *argv[]) {
     std::vector<Token> tokenSequence = lSystem::lSystem(iterations, productionRules, inputTokens);
     std::cout << "Machine 0 ended successfully!" << std::endl;
 
-	std::cout << std::endl << "Token Sequence:" << std::endl;
-	for(Token x : tokenSequence){
-		std::cout << x.text << " ";
-	}
-	std::cout << std::endl << std::endl;
+    std::cout << std::endl << "Token Sequence:" << std::endl;
+    for(Token x : tokenSequence){
+        std::cout << x.text << " ";
+    }
+    std::cout << std::endl << std::endl;
 
     std::cout << "Starting machine 1..." << std::endl;
     /**
@@ -68,10 +68,11 @@ int main(int argc, char const *argv[]) {
      * Code generation
      */
     // Apply "behavior" to control-flow graph
-    // Generate code
-    // Write code to file
+    std::shared_ptr<Generator> generator = std::make_shared<Generator>();
+    AST->gen(generator);
     std::cout << "Machine 2 ended successfully!" << std::endl;
 
+    generator->writeToFile(outputFile);
     std::cout << "Done!" << std::endl;
 
     std::cout << "Printing AST..." << std::endl;
