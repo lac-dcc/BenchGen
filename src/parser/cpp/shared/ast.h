@@ -24,7 +24,7 @@ class NoCodeElse;
 
 class Node {
    public:
-    virtual void gen(std::shared_ptr<Generator> generator) = 0;
+    virtual void gen(Generator& generator) = 0;
     virtual void print(int indent = 0) = 0;
 };
 
@@ -37,7 +37,7 @@ class StatementCode : public Node {
     StatementCode(std::shared_ptr<Node> stmt, std::shared_ptr<Node> code) : stmt(stmt), code(code) {
     }
 
-    void gen(std::shared_ptr<Generator> generator) override {
+    void gen(Generator& generator) override {
         stmt->gen(generator);
         code->gen(generator);
     }
@@ -57,7 +57,7 @@ class LambdaCode : public Node {
     LambdaCode() {
     }
 
-    void gen(std::shared_ptr<Generator> generator) override {
+    void gen(Generator& generator) override {
     }
 
     void print(int ident) override {
@@ -76,8 +76,8 @@ class Id : public Node {
     Id(std::string id) : id(id) {
     }
 
-    void gen(std::shared_ptr<Generator> generator) override {
-        generator->generateIdCall(id);
+    void gen(Generator& generator) override {
+        generator.generateIdCall(id);
     }
 
     void print(int ident) override {
@@ -93,8 +93,8 @@ class Insert : public Node {
     Insert() {
     }
 
-    void gen(std::shared_ptr<Generator> generator) override {
-        generator->generateInsert();
+    void gen(Generator& generator) override {
+        generator.generateInsert();
     }
 
     void print(int ident) override {
@@ -110,8 +110,8 @@ class Remove : public Node {
     Remove() {
     }
 
-    void gen(std::shared_ptr<Generator> generator) override {
-        generator->generateRemove();
+    void gen(Generator& generator) override {
+        generator.generateRemove();
     }
 
     void print(int ident) override {
@@ -127,8 +127,8 @@ class New : public Node {
     New() {
     }
 
-    void gen(std::shared_ptr<Generator> generator) override {
-        generator->generateNew();
+    void gen(Generator& generator) override {
+        generator.generateNew();
     }
 
     void print(int ident) override {
@@ -144,8 +144,8 @@ class Del : public Node {
     Del() {
     }
 
-    void gen(std::shared_ptr<Generator> generator) override {
-        generator->generateDel();
+    void gen(Generator& generator) override {
+        generator.generateDel();
     }
 
     void print(int ident) override {
@@ -161,8 +161,8 @@ class Contains : public Node {
     Contains() {
     }
 
-    void gen(std::shared_ptr<Generator> generator) override {
-        generator->generateContains();
+    void gen(Generator& generator) override {
+        generator.generateContains();
     }
 
     void print(int ident) override {
@@ -181,10 +181,10 @@ class Loop : public Node {
     Loop(std::shared_ptr<Node> code) : code(code) {
     }
 
-    void gen(std::shared_ptr<Generator> generator) override {
-        generator->generateLoop();
+    void gen(Generator& generator) override {
+        generator.generateLoop();
         code->gen(generator);
-        generator->scopeEnd();
+        generator.scopeEnd();
     }
 
     void print(int ident) override {
@@ -204,10 +204,10 @@ class Call : public Node {
     Call(std::shared_ptr<Node> code) : code(code) {
     }
 
-    void gen(std::shared_ptr<Generator> generator) override {
-        generator->generateCall();
+    void gen(Generator& generator) override {
+        generator.generateCall();
         code->gen(generator);
-        generator->scopeEnd();
+        generator.scopeEnd();
     }
 
     void print(int ident) override {
@@ -227,7 +227,7 @@ class Seq : public Node {
     Seq(std::shared_ptr<Node> code) : code(code) {
     }
 
-    void gen(std::shared_ptr<Generator> generator) override {
+    void gen(Generator& generator) override {
         // TODO: What to do with sequences?
     }
 
@@ -248,7 +248,7 @@ class If : public Node {
     If(std::shared_ptr<Node> ifParam) : ifParam(ifParam) {
     }
 
-    void gen(std::shared_ptr<Generator> generator) override {
+    void gen(Generator& generator) override {
         ifParam->gen(generator);
     }
 
@@ -270,10 +270,10 @@ class IfParam : public Node {
     IfParam(std::shared_ptr<Node> code, std::shared_ptr<Node> else_) : code(code), else_(else_) {
     }
 
-    void gen(std::shared_ptr<Generator> generator) override {
-        generator->generateIf();
+    void gen(Generator& generator) override {
+        generator.generateIf();
         code->gen(generator);
-        generator->scopeEnd();
+        generator.scopeEnd();
         else_->gen(generator);
     }
 
@@ -295,10 +295,10 @@ class NoParamIf : public Node {
     NoParamIf(std::shared_ptr<Node> else_) : else_(else_) {
     }
 
-    void gen(std::shared_ptr<Generator> generator) override {
-        generator->generateIf();
+    void gen(Generator& generator) override {
+        generator.generateIf();
         else_->gen(generator);
-        generator->scopeEnd();
+        generator.scopeEnd();
     }
 
     void print(int ident) override {
@@ -318,10 +318,10 @@ class CodeElse : public Node {
     CodeElse(std::shared_ptr<Node> code) : code(code) {
     }
 
-    void gen(std::shared_ptr<Generator> generator) override {
-        generator->generateElse();
+    void gen(Generator& generator) override {
+        generator.generateElse();
         code->gen(generator);
-        generator->scopeEnd();
+        generator.scopeEnd();
     }
 
     void print(int ident) override {
@@ -338,7 +338,7 @@ class NoCodeElse : public Node {
     NoCodeElse() {
     }
 
-    void gen(std::shared_ptr<Generator> generator) override {
+    void gen(Generator& generator) override {
     }
 
     void print(int ident) override {
