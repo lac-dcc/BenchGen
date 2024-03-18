@@ -27,23 +27,12 @@ enum TokenType {
     TOK_ERROR = -1
 };
 
-enum ASTType {
-    AST_CODE = 0,
-    AST_LAMBDA = 1,
-    AST_ID = 2,
-    AST_INSERT = 3,
-    AST_REMOVE = 4,
-    AST_NEW = 5,
-    AST_DEL = 6,
-    AST_CONTAINS = 7,
-    AST_LOOP = 8,
-    AST_CALL = 9,
-    AST_SEQ = 10,
-    AST_IF = 11,
-    AST_IF_PARAM = 12,
-    AST_IF_UNDERLINE = 13,
-    AST_ELSE_CODE = 14,
-    AST_ELSE_UNDERLINE = 15,
+enum ScopeType {
+    SCOPE_MAIN_FUNC = 0,
+    SCOPE_FOR = 1,
+    SCOPE_IF = 2,
+    SCOPE_ELSE = 3,
+    SCOPE_FUNC = 4
 };
 
 #endif

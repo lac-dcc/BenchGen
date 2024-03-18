@@ -8,12 +8,12 @@ void Generator::generateIncludes() {
 }
 
 void Generator::generateMainFunction() {
-    currentScope.back()->push_back("int main() {");
+    currentScope.back()->addLine("int main() {");
 }
 
 void Generator::returnMainFunction() {
     scopeEnd();
-    mainFunction.insert(mainFunction.end() - 1, "   return 0;");
+    mainFunction.insertReturn(0);
 }
 
 void Generator::generateIdCall(std::string id) {
@@ -21,47 +21,51 @@ void Generator::generateIdCall(std::string id) {
 }
 
 void Generator::generateInsert() {
-    currentScope.back()->push_back("printf(\"INSERTED!\\n\");");
+    currentScope.back()->addLine("printf(\"INSERTED!\\n\");");
 }
 
 void Generator::generateRemove() {
-    currentScope.back()->push_back("printf(\"REMOVED!\\n\");");
+    currentScope.back()->addLine("printf(\"REMOVED!\\n\");");
 }
 
 void Generator::generateDel() {
-    currentScope.back()->push_back("printf(\"DELETED!\\n\");");
+    currentScope.back()->addLine("printf(\"DELETED!\\n\");");
 }
 
 void Generator::generateNew() {
-    currentScope.back()->push_back("printf(\"NEW!\\n\");");
+    currentScope.back()->addLine("printf(\"NEW!\\n\");");
 }
 
 void Generator::generateContains() {
-    currentScope.back()->push_back("printf(\"CONTAINS!\\n\");");
+    currentScope.back()->addLine("printf(\"CONTAINS!\\n\");");
 }
 
 void Generator::generateIf() {
-    currentScope.back()->push_back("if(1 < 2) {");
+    currentScope.back()->addLine("if(1 < 2) {");
     currentScope.push_back(currentScope.back());
 }
 
 void Generator::generateLoop() {
     static int forLevel = 0;
-    std::string var = "i" + std::to_string(forLevel);
+    GeneratorVar gVar;
+    gVar.letter = "i";
+    gVar.number = forLevel;
+    std::string var = gVar.letter + std::to_string(gVar.number);
     std::string line = "for(int " + var + " = 0; " + var + " < 10; " + var + "++) {";
     forLevel++;
-    currentScope.back()->push_back(line);
-    currentScope.push_back(currentScope.back());
+    GeneratorScope newScope = *currentScope.back();
+    newScope.addVar(gVar);
+    newScope.addLine(line);
+    currentScope.push_back(std::move(&newScope));
 }
 
 void Generator::generateCall() {
     static int funcCount = 0;
     std::string funcName = "func" + std::to_string(funcCount);
     std::string line = funcName + "();";
-    currentScope.back()->push_back(line);
-
-    std::vector<std::string> func;
-    func.push_back("void " + funcName + "() {");
+    currentScope.back()->addLine(line);
+    GeneratorScope func(currentScope.back()->getVars());
+    func.addLine("void " + funcName + "() {");
     functions.push_back(func);
     currentScope.push_back(&(functions.back()));
 
@@ -69,12 +73,12 @@ void Generator::generateCall() {
 }
 
 void Generator::generateElse() {
-    currentScope.back()->push_back("else {");
+    currentScope.back()->addLine("else {");
     currentScope.push_back(currentScope.back());
 }
 
 void Generator::scopeEnd() {
-    currentScope.back()->push_back("}");
+    currentScope.back()->addLine("}");
     currentScope.pop_back();
 }
 
@@ -89,7 +93,7 @@ void Generator::writeToFile(std::string filename) {
     file << std::endl;
     // Headers
     for (auto func : functions) {
-        std::string header = func[0];
+        std::string header = func.getLines()[0];
         header.pop_back();
         header.pop_back();
         header += ";";
@@ -97,13 +101,15 @@ void Generator::writeToFile(std::string filename) {
     }
     file << std::endl;
     // Main function
-    for (auto func : mainFunction) {
-        file << func << std::endl;
+    auto lines = mainFunction.getLines();
+    for (auto line : lines) {
+        file << line << std::endl;
     }
     file << std::endl;
     // Functions
     for (auto func : functions) {
-        for (auto line : func) {
+        lines = func.getLines();
+        for (auto line : lines) {
             file << line << std::endl;
         }
         file << std::endl;
