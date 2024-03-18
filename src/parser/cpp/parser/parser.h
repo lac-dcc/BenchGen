@@ -30,6 +30,4 @@ class Parser {
     std::shared_ptr<Node> getAST();
 };
 
-#include "parser.cpp"
-
 #endif

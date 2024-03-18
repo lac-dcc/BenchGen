@@ -15,6 +15,4 @@ namespace lSystem{
 	int match(std::string, const std::vector<ProductionRule>&);
 }
 
-#include "lSystem.cpp"
-
 #endif

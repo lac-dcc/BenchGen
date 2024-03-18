@@ -38,6 +38,4 @@ class Generator {
     void writeToFile(std::string);
 };
 
-#include "generator.cpp"
-
 #endif

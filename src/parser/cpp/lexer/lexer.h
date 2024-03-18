@@ -27,6 +27,4 @@ class Lexer {
     std::vector<ProductionRule> getProductionRules(std::string);
 };
 
-#include "lexer.cpp"
-
 #endif

@@ -11,12 +11,15 @@ The only dependency is a C++ compiler. Here are some suggestions:
 | clang    | [llvm.org](https://clang.llvm.org/) |
 | gcc      | [gnu.org](https://gcc.gnu.org/)     |
 
+If you wish to use something other than clang++, please alter the `CC` variable of the Makefile in `/cpp/Makefile`.
+
 ## Compiling
 
 Compilation example:
 
 ```
-clang++ cpp/main.cpp -o cpp/main
+cd cpp
+make
 ```
 
 ## Running
