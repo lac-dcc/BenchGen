@@ -25,6 +25,7 @@ class Lexer {
     void loadConfiguration(std::string);
     std::vector<Token> getTokens(std::string);
     std::vector<ProductionRule> getProductionRules(std::string);
+	std::vector<Token> getSeedTokens(std::string, bool);
 };
 
 #endif

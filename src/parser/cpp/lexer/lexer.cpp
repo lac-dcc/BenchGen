@@ -5,11 +5,13 @@ using std::regex;
 
 std::vector<std::string> Lexer::readFile(std::string fileName) {
     std::vector<std::string> code = {};
+	std::cout << "Reading " << fileName << std::endl;
     ifstream file("./" + fileName);
     if (file.is_open()) {
         std::string line;
         while (getline(file, line)) {
             code.push_back(line);
+			std::cout << "Read " << line << std::endl;
         }
         file.close();
     } else {
@@ -116,6 +118,8 @@ int Lexer::getTokenFromId(std::string tokStr) {
         return TOK_COMMENT;
     } else if (tokStr == "id") {
         return TOK_ID;
+	} else if (tokStr == "separator") {
+		return TOK_SEPARATOR;
     } else {
         return TOK_ERROR;
     }
@@ -153,6 +157,7 @@ std::vector<Token> Lexer::getTokens(std::string fileName) {
     std::vector<std::string> fileLines = readFile(fileName);
     std::vector<Token> tokens = {};
     for (auto line : fileLines) {
+		std::cout << "Parsing " << line << std::endl;
         std::vector<Token> line_tokens = tokenize(line);
         tokens.insert(tokens.begin() + tokens.size(),
                       line_tokens.begin(),
@@ -180,9 +185,30 @@ std::vector<ProductionRule> Lexer::getProductionRules(std::string fileName) {
             } else {
                 // TODO: Error handling: unexpected token. expected '='
             }
-        } else {
+        } else if (tokens[i].type == TOK_SEPARATOR){
+			break;
+		} else {
             // TODO: Error handling: unexpected token. expected id
         }
     }
     return productionRules;
+}
+
+std::vector<Token> Lexer::getSeedTokens(std::string fileName, bool seedStringStarted) {
+	std::cout << "Got to seedTokens." << std::endl;
+    std::vector<Token> seedString = {};
+    std::vector<Token> tokens = getTokens(fileName);
+	std::cout << "Got tokens of size " << tokens.size() << std::endl;
+	for(int i = 0; i < tokens.size(); i++){
+		std::cout << "Read " << tokens[i].text << " as " << tokens[i].type << std::endl;
+		if(tokens[i].type == TOK_SEPARATOR) {
+			seedStringStarted = true;
+			continue;
+		}
+		if(!seedStringStarted) continue;
+		seedString.insert(seedString.begin(), tokens.begin() + i, tokens.end());
+		break;
+	}
+
+	return seedString;
 }

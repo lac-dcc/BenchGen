@@ -5,17 +5,29 @@
 #include "parser/parser.h"
 
 int main(int argc, char const *argv[]) {
-    if (argc < 5) {
+    if (argc < 4) {
         std::cout << "ERROR! Missing arguments!" << std::endl;
-        std::cout << "Please provide Number of Iterations, Production Rules, Input File and Output File." << std::endl;
+        std::cout << "Please provide Number of Iterations, [Production Rules, Input File] and Output File." << std::endl;
         std::cout << "Usage: ./main <number_of_iterations> <production_rules_file> <input_file> <output_file>" << std::endl;
+        std::cout << "Usage: ./main <number_of_iterations> <input_&_production_rules_file> <output_file>" << std::endl;
         return 1;
     }
 
     int iterations = std::stoi(argv[1]);
-    std::string productionRulesFile = argv[2];
-    std::string inputFile = argv[3];
-    std::string outputFile = argv[4];
+    std::string productionRulesFile;
+    std::string inputFile;
+    std::string outputFile;
+	bool sameFileProdInput = false;
+	if(argc >= 5){
+		productionRulesFile = argv[2];
+		inputFile = argv[3];
+		outputFile = argv[4];
+	} else {
+		sameFileProdInput = true;
+		productionRulesFile = argv[2];
+		inputFile = argv[2];
+		outputFile = argv[3];
+	}
 
     std::cout << "Starting machine 0..." << std::endl;
     /**
@@ -29,7 +41,7 @@ int main(int argc, char const *argv[]) {
     // Read production rules
     std::vector<ProductionRule> productionRules = lexer.getProductionRules(productionRulesFile);
     // Read input string
-    std::vector<Token> inputTokens = lexer.getTokens(inputFile);
+    std::vector<Token> inputTokens = lexer.getSeedTokens(inputFile, sameFileProdInput);
 
     // Apply production rules n times to input string and write token sequence (L-System)
     /*

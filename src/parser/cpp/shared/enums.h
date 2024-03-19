@@ -24,7 +24,9 @@ enum TokenType {
 
     TOK_ID = -18,
 
-    TOK_ERROR = -1
+    TOK_ERROR = -1,
+
+	TOK_SEPARATOR = -19 
 };
 
 enum ASTType {
