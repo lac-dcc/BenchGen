@@ -20,9 +20,10 @@ void GeneratorScope::addVar(GeneratorVar var) {
     vars.push_back(var);
 }
 
-void GeneratorScope::addNewVar() {
+std::string GeneratorScope::addNewVar() {
     GeneratorVar newVar;
     newVar.letter = "x";
     newVar.number = vars.back().number + 1;
     vars.push_back(newVar);
+    return newVar.letter + std::to_string(newVar.number);
 }

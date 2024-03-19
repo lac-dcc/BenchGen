@@ -25,7 +25,7 @@ class GeneratorScope {
     int getIndentation();
     std::string getIndentationTabs(int = 0);
     void addVar(GeneratorVar);
-    void addNewVar();
+    std::string addNewVar();
 };
 
 #endif

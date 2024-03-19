@@ -21,7 +21,7 @@ void Generator::generateIdCall(std::string id) {
 }
 
 void Generator::generateInsert() {
-    std::string line = currentScope.back().getIndentationTabs() + "printf(\"INSERTED!\\n\");";
+    std::string line = currentScope.back().getIndentationTabs() + "printf(\"INSERT!\\n\");";
     currentFunction.back()->addLine(line);
 }
 
@@ -36,7 +36,8 @@ void Generator::generateDel() {
 }
 
 void Generator::generateNew() {
-    std::string line = currentScope.back().getIndentationTabs() + "printf(\"NEW!\\n\");";
+    std::string var = currentScope.back().addNewVar();
+    std::string line = currentScope.back().getIndentationTabs() + "int " + var + " = 0;";
     currentFunction.back()->addLine(line);
 }
 
@@ -84,7 +85,7 @@ void Generator::generateCall() {
 }
 
 void Generator::generateElse() {
-    std::string line = currentScope.back().getIndentationTabs(-1) + "else {";
+    std::string line = currentScope.back().getIndentationTabs() + "else {";
     currentFunction.back()->addLine(line);
     GeneratorScope scope(currentScope.back().getVars(), currentScope.back().getIndentation() + 1);
     currentScope.push_back(scope);
