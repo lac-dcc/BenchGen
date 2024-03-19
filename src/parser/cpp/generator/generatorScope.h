@@ -9,21 +9,19 @@ struct GeneratorVar {
 };
 
 class GeneratorScope {
-private:
-    std::vector<std::string> lines = std::vector<std::string>();
-    std::list<GeneratorVar> vars = std::list<GeneratorVar>();
+    std::list<GeneratorVar> vars;
 
-public:
-    GeneratorScope() {}
-    GeneratorScope(std::list<GeneratorVar> parentVars) : vars(parentVars) {}
+   public:
+    GeneratorScope() {
+        vars = std::list<GeneratorVar>();
+    }
+    GeneratorScope(std::list<GeneratorVar> parentVars) : vars(parentVars) {
+    }
     ~GeneratorScope() = default;
 
-    std::vector<std::string> getLines();
     std::list<GeneratorVar> getVars();
-    void addLine(std::string);
     void addVar(GeneratorVar);
     void addNewVar();
-    void insertReturn(int);
 };
 
 #endif

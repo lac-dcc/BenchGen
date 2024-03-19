@@ -5,14 +5,16 @@
 
 #include "../shared/enums.h"
 #include "../shared/globalStructs.h"
+#include "generatorFunction.h"
 #include "generatorScope.h"
 
 class Generator {
    private:
     std::vector<std::string> includes;
-    GeneratorScope mainFunction;
-    std::list<GeneratorScope> functions;
-    std::vector<GeneratorScope*> currentScope;
+    GeneratorFunction mainFunction;
+    std::list<GeneratorFunction> functions;
+    std::vector<GeneratorFunction*> currentFunction;
+    std::vector<GeneratorScope> currentScope;
 
     void generateIncludes();
     void generateMainFunction();
@@ -20,8 +22,9 @@ class Generator {
 
    public:
     Generator() {
-        mainFunction = GeneratorScope();
-        currentScope.push_back(&mainFunction);
+        mainFunction = GeneratorFunction();
+        currentScope.push_back(GeneratorScope());
+        currentFunction.push_back(&mainFunction);
         generateIncludes();
         generateMainFunction();
     }
@@ -37,6 +40,7 @@ class Generator {
     void generateCall();
     void generateElse();
     void scopeEnd();
+    void functionEnd();
     void writeToFile(std::string);
 };
 

@@ -8,11 +8,11 @@ void Generator::generateIncludes() {
 }
 
 void Generator::generateMainFunction() {
-    currentScope.back()->addLine("int main() {");
+    mainFunction.addLine("int main() {");
 }
 
 void Generator::returnMainFunction() {
-    scopeEnd();
+    functionEnd();
     mainFunction.insertReturn(0);
 }
 
@@ -21,28 +21,29 @@ void Generator::generateIdCall(std::string id) {
 }
 
 void Generator::generateInsert() {
-    currentScope.back()->addLine("printf(\"INSERTED!\\n\");");
+    currentFunction.back()->addLine("printf(\"INSERTED!\\n\");");
 }
 
 void Generator::generateRemove() {
-    currentScope.back()->addLine("printf(\"REMOVED!\\n\");");
+    currentFunction.back()->addLine("printf(\"REMOVED!\\n\");");
 }
 
 void Generator::generateDel() {
-    currentScope.back()->addLine("printf(\"DELETED!\\n\");");
+    currentFunction.back()->addLine("printf(\"DELETED!\\n\");");
 }
 
 void Generator::generateNew() {
-    currentScope.back()->addLine("printf(\"NEW!\\n\");");
+    currentFunction.back()->addLine("printf(\"NEW!\\n\");");
 }
 
 void Generator::generateContains() {
-    currentScope.back()->addLine("printf(\"CONTAINS!\\n\");");
+    currentFunction.back()->addLine("printf(\"CONTAINS!\\n\");");
 }
 
 void Generator::generateIf() {
-    currentScope.back()->addLine("if(1 < 2) {");
-    currentScope.push_back(currentScope.back());
+    currentFunction.back()->addLine("if(1 < 2) {");
+    GeneratorScope scope(currentScope.back().getVars());
+    currentScope.push_back(scope);
 }
 
 void Generator::generateLoop() {
@@ -53,33 +54,42 @@ void Generator::generateLoop() {
     std::string var = gVar.letter + std::to_string(gVar.number);
     std::string line = "for(int " + var + " = 0; " + var + " < 10; " + var + "++) {";
     forLevel++;
-    GeneratorScope newScope = *currentScope.back();
-    newScope.addVar(gVar);
-    newScope.addLine(line);
-    currentScope.push_back(std::move(&newScope));
+    currentFunction.back()->addLine(line);
+    GeneratorScope scope(currentScope.back().getVars());
+    scope.addVar(gVar);
+    currentScope.push_back(scope);
 }
 
 void Generator::generateCall() {
     static int funcCount = 0;
     std::string funcName = "func" + std::to_string(funcCount);
     std::string line = funcName + "();";
-    currentScope.back()->addLine(line);
-    GeneratorScope func(currentScope.back()->getVars());
+    currentFunction.back()->addLine(line);
+    GeneratorFunction func = GeneratorFunction();
     func.addLine("void " + funcName + "() {");
     functions.push_back(func);
-    currentScope.push_back(&(functions.back()));
+    currentFunction.push_back(&(functions.back()));
+
+    GeneratorScope scope = GeneratorScope();
+    currentScope.push_back(scope);
 
     funcCount++;
 }
 
 void Generator::generateElse() {
-    currentScope.back()->addLine("else {");
-    currentScope.push_back(currentScope.back());
+    currentFunction.back()->addLine("else {");
+    GeneratorScope scope(currentScope.back().getVars());
+    currentScope.push_back(scope);
 }
 
 void Generator::scopeEnd() {
-    currentScope.back()->addLine("}");
+    currentFunction.back()->addLine("}");
     currentScope.pop_back();
+}
+
+void Generator::functionEnd() {
+    scopeEnd();
+    currentFunction.pop_back();
 }
 
 void Generator::writeToFile(std::string filename) {

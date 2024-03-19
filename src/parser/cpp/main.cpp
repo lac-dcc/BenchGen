@@ -74,6 +74,7 @@ int main(int argc, char const *argv[]) {
     AST->gen(generator);
     std::cout << "Machine 2 ended successfully!" << std::endl;
 
+    std::cout << "Writing to file..." << std::endl;
     generator.writeToFile(outputFile);
     std::cout << "Done!" << std::endl;
 

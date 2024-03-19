@@ -238,7 +238,7 @@ class Call : public Node {
     void gen(Generator& generator) override {
         generator.generateCall();
         code->gen(generator);
-        generator.scopeEnd();
+        generator.functionEnd();
     }
 
     void print(int ident) override {
