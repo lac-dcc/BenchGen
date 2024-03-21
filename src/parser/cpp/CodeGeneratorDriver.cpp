@@ -4,9 +4,10 @@
 #include "lexer/lexer.h"
 #include "parser/parser.h"
 
-std::vector<Token> machine0(int, std::string, std::string);
-std::shared_ptr<Node> machine1(std::vector<Token>);
-Generator machine2(std::shared_ptr<Node>);
+std::vector<Token> getInputTokens(Lexer&, std::string&);
+std::vector<Token> applyLSystem(Lexer&, int, std::string&, std::vector<Token>&);
+std::shared_ptr<Node> parseTokensToAST(Parser&, std::vector<Token>&);
+void generateCode(Generator&, std::shared_ptr<Node>&);
 void writeToFile(Generator&, std::string);
 
 int main(int argc, char const* argv[]) {
@@ -22,49 +23,50 @@ int main(int argc, char const* argv[]) {
     std::string inputFile = argv[3];
     std::string outputFile = argv[4];
 
-    std::vector<Token> tokenSequence = machine0(iterations, productionRulesFile, inputFile);
+    Lexer lexer = Lexer();
+    Parser parser = Parser();
+    Generator generator = Generator();
 
-    std::shared_ptr<Node> AST = machine1(tokenSequence);
+    std::vector<Token> inputTokens = getInputTokens(lexer, inputFile);
+
+    std::vector<Token> tokenSequence = applyLSystem(lexer, iterations, productionRulesFile, inputTokens);
+
+    std::shared_ptr<Node> AST = parseTokensToAST(parser, tokenSequence);
+
+    generateCode(generator, AST);
 
     // Apply "behavior" later
-    Generator generator = machine2(AST);
 
     writeToFile(generator, outputFile);
 
-    std::cout << "Printing AST..." << std::endl;
-    AST->print(2);
+    // std::cout << "Printing AST..." << std::endl;
+    // AST->print(2);
 
     return 0;
 }
 
-std::vector<Token> machine0(int iterations, std::string productionRulesFile, std::string inputFile) {
-    std::cout << "Starting machine 0..." << std::endl;
-    Lexer lexer = Lexer();
+std::vector<Token> getInputTokens(Lexer& lexer, std::string& inputFile) {
     const std::string LEXER_CONFIG_FILE = "../lexer.cfg";
     lexer.loadConfiguration(LEXER_CONFIG_FILE);
-    std::vector<ProductionRule> productionRules = lexer.getProductionRules(productionRulesFile);
     std::vector<Token> inputTokens = lexer.getTokens(inputFile);
+    return inputTokens;
+}
+
+std::vector<Token> applyLSystem(Lexer& lexer, int iterations, std::string& productionRulesFile, std::vector<Token>& inputTokens) {
+    std::vector<ProductionRule> productionRules = lexer.getProductionRules(productionRulesFile);
     std::vector<Token> tokenSequence = lSystem::lSystem(iterations, productionRules, inputTokens);
-    std::cout << "Machine 0 ended successfully!" << std::endl;
     return tokenSequence;
 }
 
-std::shared_ptr<Node> machine1(std::vector<Token> tokenSequence) {
-    std::cout << "Starting machine 1..." << std::endl;
-    Parser parser = Parser();
+std::shared_ptr<Node> parseTokensToAST(Parser& parser, std::vector<Token>& tokenSequence) {
     parser.setTokens(tokenSequence);
     parser.parse();
     std::shared_ptr<Node> AST = parser.getAST();
-    std::cout << "Machine 1 ended successfully!" << std::endl;
     return AST;
 }
 
-Generator machine2(std::shared_ptr<Node> AST) {
-    std::cout << "Starting machine 2..." << std::endl;
-    Generator generator = Generator();
+void generateCode(Generator& generator, std::shared_ptr<Node>& AST) {
     AST->gen(generator);
-    std::cout << "Machine 2 ended successfully!" << std::endl;
-    return generator;
 }
 
 void writeToFile(Generator& generator, std::string outputFile) {

@@ -5,7 +5,7 @@ SRC = ./src/
 OBJ = ./obj/
 TARGET = main
 #Dependencies in objects. Add more here when creating new files!
-DEPS = $(OBJ)ast.o $(OBJ)generatorFunction.o $(OBJ)generatorScope.o $(OBJ)generator.o $(OBJ)lexer.o $(OBJ)lSystem.o $(OBJ)parser.o $(OBJ)main.o
+DEPS = $(OBJ)ast.o $(OBJ)generatorFunction.o $(OBJ)generatorScope.o $(OBJ)generator.o $(OBJ)lexer.o $(OBJ)lSystem.o $(OBJ)parser.o $(OBJ)CodeGeneratorDriver.o
 #SHARED = $(IMP)ast.h $(IMP)enums.h $(IMP)globalIncludes.h $(IMP)globalStructs.h
 
 $(TARGET): $(DEPS) 
@@ -29,7 +29,7 @@ $(OBJ)lSystem.o: lSystem/lSystem.cpp | $(OBJ)
 	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@
 $(OBJ)parser.o: parser/parser.cpp | $(OBJ)
 	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@
-$(OBJ)main.o: main.cpp | $(OBJ)
+$(OBJ)CodeGeneratorDriver.o: CodeGeneratorDriver.cpp | $(OBJ)
 	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@
 
 clean: 
