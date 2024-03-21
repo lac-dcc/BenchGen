@@ -18,27 +18,17 @@ class Generator {
 
     void generateIncludes();
     void generateMainFunction();
-    void returnMainFunction();
 
    public:
-    Generator() {
-        mainFunction = GeneratorFunction();
-        currentScope.push_back(GeneratorScope());
-        currentFunction.push_back(&mainFunction);
-        generateIncludes();
-        generateMainFunction();
-    }
+    Generator();
 
-    void generateIdCall(std::string);
-    void generateInsert();
-    void generateRemove();
-    void generateDel();
-    void generateNew();
-    void generateContains();
-    void generateIf();
-    void generateLoop();
-    void generateCall();
-    void generateElse();
+    int loopCounter = 0;
+
+    void addLine(std::string);
+    void startNewScope();
+    void startNewFunction();
+    std::string addNewVariableToScope();
+    void addVariableToScope(GeneratorVar);
     void scopeEnd();
     void functionEnd();
     void writeToFile(std::string);

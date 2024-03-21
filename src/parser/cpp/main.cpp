@@ -4,7 +4,12 @@
 #include "lexer/lexer.h"
 #include "parser/parser.h"
 
-int main(int argc, char const *argv[]) {
+std::vector<Token> machine0(int, std::string, std::string);
+std::shared_ptr<Node> machine1(std::vector<Token>);
+Generator machine2(std::shared_ptr<Node>);
+void writeToFile(Generator&, std::string);
+
+int main(int argc, char const* argv[]) {
     if (argc < 5) {
         std::cout << "ERROR! Missing arguments!" << std::endl;
         std::cout << "Please provide Number of Iterations, Production Rules, Input File and Output File." << std::endl;
@@ -17,69 +22,53 @@ int main(int argc, char const *argv[]) {
     std::string inputFile = argv[3];
     std::string outputFile = argv[4];
 
+    std::vector<Token> tokenSequence = machine0(iterations, productionRulesFile, inputFile);
+
+    std::shared_ptr<Node> AST = machine1(tokenSequence);
+
+    // Apply "behavior" later
+    Generator generator = machine2(AST);
+
+    writeToFile(generator, outputFile);
+
+    std::cout << "Printing AST..." << std::endl;
+    AST->print(2);
+
+    return 0;
+}
+
+std::vector<Token> machine0(int iterations, std::string productionRulesFile, std::string inputFile) {
     std::cout << "Starting machine 0..." << std::endl;
-    /**
-     * MACHINE 0
-     * L-System implementation
-     */
+    Lexer lexer = Lexer();
     const std::string LEXER_CONFIG_FILE = "../lexer.cfg";
-    Lexer lexer;
     lexer.loadConfiguration(LEXER_CONFIG_FILE);
-
-    // Read production rules
     std::vector<ProductionRule> productionRules = lexer.getProductionRules(productionRulesFile);
-    // Read input string
     std::vector<Token> inputTokens = lexer.getTokens(inputFile);
-
-    // Apply production rules n times to input string and write token sequence (L-System)
-    /*
-     *	Takes in the number of iterations (n), the production rules and a vector
-     *	of tokens representing the seed string and outputs the sequence of tokens
-     *	with the rules applied n times.
-     *
-     *	Input: 2; A -> Print(HI) A; Start A End;
-     *	Output: Start Print(HI) Print(HI) End
-     */
-
     std::vector<Token> tokenSequence = lSystem::lSystem(iterations, productionRules, inputTokens);
     std::cout << "Machine 0 ended successfully!" << std::endl;
+    return tokenSequence;
+}
 
-    std::cout << std::endl
-              << "Token Sequence:" << std::endl;
-    for (Token x : tokenSequence) {
-        std::cout << x.text << " ";
-    }
-    std::cout << std::endl
-              << std::endl;
-
+std::shared_ptr<Node> machine1(std::vector<Token> tokenSequence) {
     std::cout << "Starting machine 1..." << std::endl;
-    /**
-     * MACHINE 1
-     * Control-flow creation
-     */
-    Parser parser;
+    Parser parser = Parser();
     parser.setTokens(tokenSequence);
-    // Parse the token sequence into a control-flow graph
     parser.parse();
     std::shared_ptr<Node> AST = parser.getAST();
     std::cout << "Machine 1 ended successfully!" << std::endl;
+    return AST;
+}
 
+Generator machine2(std::shared_ptr<Node> AST) {
     std::cout << "Starting machine 2..." << std::endl;
-    /**
-     * MACHINE 2
-     * Code generation
-     */
-    // Apply "behavior" to control-flow graph
     Generator generator = Generator();
     AST->gen(generator);
     std::cout << "Machine 2 ended successfully!" << std::endl;
+    return generator;
+}
 
+void writeToFile(Generator& generator, std::string outputFile) {
     std::cout << "Writing to file..." << std::endl;
     generator.writeToFile(outputFile);
     std::cout << "Done!" << std::endl;
-
-    std::cout << "Printing AST..." << std::endl;
-    AST->print(0);
-
-    return 0;
 }

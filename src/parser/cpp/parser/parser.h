@@ -2,8 +2,8 @@
 #define PARSER_H
 #include <iostream>
 
+#include "../ast/ast.h"
 #include "../generator/generator.h"
-#include "../shared/ast.h"
 #include "../shared/enums.h"
 #include "../shared/globalStructs.h"
 

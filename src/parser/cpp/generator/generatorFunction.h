@@ -5,15 +5,15 @@
 
 class GeneratorFunction {
    private:
+    bool isMainFunction;
     std::vector<std::string> lines;
 
    public:
-    GeneratorFunction() {}
+    GeneratorFunction(bool isMainFunction = false) : isMainFunction(isMainFunction) {}
     ~GeneratorFunction() = default;
 
     std::vector<std::string> getLines();
     void addLine(std::string);
-    void insertReturn(int);
 };
 
 #endif

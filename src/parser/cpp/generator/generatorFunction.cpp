@@ -5,9 +5,9 @@ std::vector<std::string> GeneratorFunction::getLines() {
 }
 
 void GeneratorFunction::addLine(std::string line) {
-    lines.push_back(line);
-}
-
-void GeneratorFunction::insertReturn(int n) {
-    lines.insert(lines.end() - 1, "   return " + std::to_string(n) + ";");
+    if (isMainFunction && lines.size() > 2) {
+        lines.insert(lines.end() - 2, line);
+    } else {
+        lines.push_back(line);
+    }
 }
