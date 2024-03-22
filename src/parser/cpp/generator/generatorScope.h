@@ -9,8 +9,12 @@ struct GeneratorVar {
 };
 
 class GeneratorScope {
+   private:
     std::list<GeneratorVar> vars;
     int indentation;
+
+    GeneratorVar getLastVar();
+    GeneratorVar getLastLoopVar();
 
    public:
     GeneratorScope() {
@@ -24,8 +28,8 @@ class GeneratorScope {
     std::list<GeneratorVar> getVars();
     int getIndentation();
     std::string getIndentationTabs(int = 0);
-    void addVar(GeneratorVar);
     std::string addNewVar();
+    std::string addNewLoopVar();
 };
 
 #endif

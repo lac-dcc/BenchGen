@@ -48,8 +48,8 @@ std::string Generator::addNewVariableToScope() {
     return currentScope.back().addNewVar();
 }
 
-void Generator::addVariableToScope(GeneratorVar var) {
-    currentScope.back().addVar(var);
+std::string Generator::addNewLoopVariableToScope() {
+    return currentScope.back().addNewLoopVar();
 }
 
 void Generator::scopeEnd() {

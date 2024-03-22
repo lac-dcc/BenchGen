@@ -47,16 +47,10 @@ void Contains::gen(Generator& generator) {
 }
 
 void Loop::gen(Generator& generator) {
-    generator.loopCounter++;
-    int forNumber = generator.loopCounter;
-    GeneratorVar gVar;
-    gVar.letter = "i";
-    gVar.number = forNumber;
-    std::string var = gVar.letter + std::to_string(gVar.number);
-    std::string forLine = "for(int " + var + " = 0; " + var + " < 10; " + var + "++) {";
-    generator.addLine(forLine);
     generator.startNewScope();
-    generator.addVariableToScope(gVar);
+    std::string gVar = generator.addNewLoopVariableToScope();
+    std::string forLine = "for(int " + gVar + " = 0; " + gVar + " < 10; " + gVar + "++) {";
+    generator.addLine(forLine);
     code->gen(generator);
     generator.scopeEnd();
 }
