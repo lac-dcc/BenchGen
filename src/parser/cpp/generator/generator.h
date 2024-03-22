@@ -22,7 +22,7 @@ class Generator {
    public:
     Generator();
 
-    void addLine(std::string);
+    void addLine(std::string, int = 0);
     void startNewScope();
     void startNewFunction();
     std::string addNewVariableToScope();

@@ -1,2 +1,2 @@
 A = insert A remove;
-B = A B;
+B = LOOP(A) LOOP(B);

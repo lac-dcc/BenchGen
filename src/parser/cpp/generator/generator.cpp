@@ -21,8 +21,8 @@ void Generator::generateMainFunction() {
     mainFunction.addLine("}");
 }
 
-void Generator::addLine(std::string line) {
-    std::string indentedLine = currentScope.back().getIndentationTabs() + line;
+void Generator::addLine(std::string line, int d) {
+    std::string indentedLine = currentScope.back().getIndentationTabs(d) + line;
     currentFunction.back()->addLine(indentedLine);
 }
 

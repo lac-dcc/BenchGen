@@ -50,7 +50,7 @@ void Loop::gen(Generator& generator) {
     generator.startNewScope();
     std::string gVar = generator.addNewLoopVariableToScope();
     std::string forLine = "for(int " + gVar + " = 0; " + gVar + " < 10; " + gVar + "++) {";
-    generator.addLine(forLine);
+    generator.addLine(forLine, -1);
     code->gen(generator);
     generator.scopeEnd();
 }
