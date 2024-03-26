@@ -21,18 +21,22 @@ void Id::gen(Generator& generator) {
 }
 
 void Insert::gen(Generator& generator) {
-    std::string line = "printf(\"INSERT!\\n\");";
+    int vars = generator.getVars();
+    int var = rand() % vars;
+    std::string line = "v" + std::to_string(var) + "++;";
     generator.addLine(line);
 }
 
 void Remove::gen(Generator& generator) {
-    std::string line = "printf(\"REMOVE!\\n\");";
+    int vars = generator.getVars();
+    int var = rand() % vars;
+    std::string line = "v" + std::to_string(var) + "--;";
     generator.addLine(line);
 }
 
 void New::gen(Generator& generator) {
     int var = generator.addVar();
-    std::string line = "int x" + std::to_string(var) + " = 0;";
+    std::string line = "int v" + std::to_string(var) + " = 0;";
     generator.addLine(line);
 }
 
@@ -42,14 +46,20 @@ void Del::gen(Generator& generator) {
 }
 
 void Contains::gen(Generator& generator) {
-    std::string line = "printf(\"CONTAINS!\\n\");";
+    int vars = generator.getVars();
+    int var = rand() % vars;
+    std::string line = "if(v" + std::to_string(var) + " == 0) {";
     generator.addLine(line);
+    generator.startScope();
+    std::string line2 = "printf(\"v" + std::to_string(var) + " is 0!\\n\");";
+    generator.addLine(line2);
+    generator.endScope();
 }
 
 void Loop::gen(Generator& generator) {
     generator.startScope();
     int var = generator.addVar();
-    std::string gVar = "i" + std::to_string(var);
+    std::string gVar = "v" + std::to_string(var);
     std::string forLine = "for(int " + gVar + " = 0; " + gVar + " < 10; " + gVar + "++) {";
     generator.addLine(forLine, -1);
     code->gen(generator);

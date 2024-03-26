@@ -48,6 +48,10 @@ int Generator::addVar() {
     return currentScope.back().addVar();
 }
 
+int Generator::getVars() {
+    return currentScope.back().getVarCounter();
+}
+
 void Generator::endScope() {
     std::string line = currentScope.back().getIndentationTabs(-1) + "}";
     currentFunction.back()->addLine(line);
