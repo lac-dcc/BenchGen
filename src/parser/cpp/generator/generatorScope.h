@@ -3,33 +3,24 @@
 #include "../shared/enums.h"
 #include "../shared/globalStructs.h"
 
-struct GeneratorVar {
-    std::string letter;
-    int number;
-};
-
 class GeneratorScope {
    private:
-    std::list<GeneratorVar> vars;
+    int varCounter;
     int indentation;
-
-    GeneratorVar getLastVar();
-    GeneratorVar getLastLoopVar();
 
    public:
     GeneratorScope() {
-        vars = std::list<GeneratorVar>();
+        varCounter = 0;
         indentation = 1;
     }
-    GeneratorScope(std::list<GeneratorVar> parentVars, int indentation) : vars(parentVars), indentation(indentation) {
+    GeneratorScope(int parentVarCounter, int indentation) : varCounter(parentVarCounter), indentation(indentation) {
     }
     ~GeneratorScope() = default;
 
-    std::list<GeneratorVar> getVars();
+    int getVarCounter();
     int getIndentation();
     std::string getIndentationTabs(int = 0);
-    std::string addNewVar();
-    std::string addNewLoopVar();
+    int addVar();
 };
 
 #endif

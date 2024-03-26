@@ -26,12 +26,12 @@ void Generator::addLine(std::string line, int d) {
     currentFunction.back()->addLine(indentedLine);
 }
 
-void Generator::startNewScope() {
-    GeneratorScope scope = GeneratorScope(currentScope.back().getVars(), currentScope.back().getIndentation() + 1);
+void Generator::startScope() {
+    GeneratorScope scope = GeneratorScope(currentScope.back().getVarCounter(), currentScope.back().getIndentation() + 1);
     currentScope.push_back(scope);
 }
 
-void Generator::startNewFunction() {
+void Generator::startFunc() {
     int funcNumber = functions.size();
     std::string funcName = "func" + std::to_string(funcNumber);
     std::string line = funcName + "();";
@@ -44,22 +44,18 @@ void Generator::startNewFunction() {
     currentScope.push_back(scope);
 }
 
-std::string Generator::addNewVariableToScope() {
-    return currentScope.back().addNewVar();
+int Generator::addVar() {
+    return currentScope.back().addVar();
 }
 
-std::string Generator::addNewLoopVariableToScope() {
-    return currentScope.back().addNewLoopVar();
-}
-
-void Generator::scopeEnd() {
+void Generator::endScope() {
     std::string line = currentScope.back().getIndentationTabs(-1) + "}";
     currentFunction.back()->addLine(line);
     currentScope.pop_back();
 }
 
-void Generator::functionEnd() {
-    scopeEnd();
+void Generator::endFunc() {
+    endScope();
     currentFunction.pop_back();
 }
 

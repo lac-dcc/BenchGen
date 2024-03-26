@@ -4,9 +4,9 @@
 #include "lexer/lexer.h"
 #include "parser/parser.h"
 
-std::vector<Token> getInputTokens(Lexer&, std::string&);
-std::vector<Token> applyLSystem(Lexer&, int, std::string&, std::vector<Token>&);
-std::shared_ptr<Node> parseTokensToAST(Parser&, std::vector<Token>&);
+void getInputTokens(std::vector<Token>&, Lexer&, const std::string&);
+void applyLSystem(std::vector<Token>&, Lexer&, int, const std::string&);
+std::shared_ptr<Node> parseTokensToAST(Parser&, const std::vector<Token>&);
 void generateCode(Generator&, std::shared_ptr<Node>&);
 void writeToFile(Generator&, std::string);
 
@@ -27,11 +27,13 @@ int main(int argc, char const* argv[]) {
     Parser parser = Parser();
     Generator generator = Generator();
 
-    std::vector<Token> inputTokens = getInputTokens(lexer, inputFile);
+    std::vector<Token> inputTokens;
 
-    std::vector<Token> tokenSequence = applyLSystem(lexer, iterations, productionRulesFile, inputTokens);
+    getInputTokens(inputTokens, lexer, inputFile);
 
-    std::shared_ptr<Node> AST = parseTokensToAST(parser, tokenSequence);
+    applyLSystem(inputTokens, lexer, iterations, productionRulesFile);
+
+    std::shared_ptr<Node> AST = parseTokensToAST(parser, inputTokens);
 
     generateCode(generator, AST);
 
@@ -45,20 +47,18 @@ int main(int argc, char const* argv[]) {
     return 0;
 }
 
-std::vector<Token> getInputTokens(Lexer& lexer, std::string& inputFile) {
+void getInputTokens(std::vector<Token>& inputTokens, Lexer& lexer, const std::string& inputFile) {
     const std::string LEXER_CONFIG_FILE = "../lexer.cfg";
     lexer.loadConfiguration(LEXER_CONFIG_FILE);
-    std::vector<Token> inputTokens = lexer.getTokens(inputFile);
-    return inputTokens;
+    inputTokens = lexer.getTokens(inputFile);
 }
 
-std::vector<Token> applyLSystem(Lexer& lexer, int iterations, std::string& productionRulesFile, std::vector<Token>& inputTokens) {
+void applyLSystem(std::vector<Token>& inputTokens, Lexer& lexer, int iterations, const std::string& productionRulesFile) {
     std::vector<ProductionRule> productionRules = lexer.getProductionRules(productionRulesFile);
-    std::vector<Token> tokenSequence = lSystem::lSystem(iterations, productionRules, inputTokens);
-    return tokenSequence;
+    inputTokens = lSystem::lSystem(iterations, productionRules, inputTokens);
 }
 
-std::shared_ptr<Node> parseTokensToAST(Parser& parser, std::vector<Token>& tokenSequence) {
+std::shared_ptr<Node> parseTokensToAST(Parser& parser, const std::vector<Token>& tokenSequence) {
     parser.setTokens(tokenSequence);
     parser.parse();
     std::shared_ptr<Node> AST = parser.getAST();

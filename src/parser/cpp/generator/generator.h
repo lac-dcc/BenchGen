@@ -23,12 +23,11 @@ class Generator {
     Generator();
 
     void addLine(std::string, int = 0);
-    void startNewScope();
-    void startNewFunction();
-    std::string addNewVariableToScope();
-    std::string addNewLoopVariableToScope();
-    void scopeEnd();
-    void functionEnd();
+    void startScope();
+    void startFunc();
+    int addVar();
+    void endScope();
+    void endFunc();
     void writeToFile(std::string);
 };
 

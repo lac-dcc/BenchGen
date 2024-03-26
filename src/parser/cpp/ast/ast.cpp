@@ -31,8 +31,8 @@ void Remove::gen(Generator& generator) {
 }
 
 void New::gen(Generator& generator) {
-    std::string var = generator.addNewVariableToScope();
-    std::string line = "int " + var + " = 0;";
+    int var = generator.addVar();
+    std::string line = "int x" + std::to_string(var) + " = 0;";
     generator.addLine(line);
 }
 
@@ -47,18 +47,19 @@ void Contains::gen(Generator& generator) {
 }
 
 void Loop::gen(Generator& generator) {
-    generator.startNewScope();
-    std::string gVar = generator.addNewLoopVariableToScope();
+    generator.startScope();
+    int var = generator.addVar();
+    std::string gVar = "i" + std::to_string(var);
     std::string forLine = "for(int " + gVar + " = 0; " + gVar + " < 10; " + gVar + "++) {";
     generator.addLine(forLine, -1);
     code->gen(generator);
-    generator.scopeEnd();
+    generator.endScope();
 }
 
 void Call::gen(Generator& generator) {
-    generator.startNewFunction();
+    generator.startFunc();
     code->gen(generator);
-    generator.functionEnd();
+    generator.endFunc();
 }
 
 void Seq::gen(Generator& generator) {
@@ -72,9 +73,9 @@ void If::gen(Generator& generator) {
 void IfParam::gen(Generator& generator) {
     std::string line = "if(1 < 2) {";
     generator.addLine(line);
-    generator.startNewScope();
+    generator.startScope();
     code->gen(generator);
-    generator.scopeEnd();
+    generator.endScope();
     else_->gen(generator);
 }
 
@@ -87,9 +88,9 @@ void NoParamIf::gen(Generator& generator) {
 void CodeElse::gen(Generator& generator) {
     std::string line = "else {";
     generator.addLine(line);
-    generator.startNewScope();
+    generator.startScope();
     code->gen(generator);
-    generator.scopeEnd();
+    generator.endScope();
 }
 
 void NoCodeElse::gen(Generator& generator) {
