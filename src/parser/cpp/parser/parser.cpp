@@ -10,7 +10,7 @@ void Parser::match(int symbol) {
 }
 
 std::shared_ptr<Node> Parser::parse_CODE() {
-    if (tokens.size() <= tokenIndex) {
+    if ((int)tokens.size() <= tokenIndex) {
         return std::make_shared<LambdaCode>(LambdaCode());
     }
     switch (tokens[tokenIndex].type) {

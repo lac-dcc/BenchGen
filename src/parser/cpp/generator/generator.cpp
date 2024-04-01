@@ -1,6 +1,8 @@
 #include "generator.h"
 
-Generator::Generator() {
+Generator::Generator(std::string variableType) {
+    this->varCounter = 0;
+    this->varType = variableType;
     mainFunction = GeneratorFunction(true);
     currentFunction.push_back(&mainFunction);
     currentScope.push_back(GeneratorScope());
@@ -19,6 +21,7 @@ void Generator::generateMainFunction() {
     mainFunction.addLine("int main() {");
     mainFunction.addLine("   return 0;");
     mainFunction.addLine("}");
+    startScope();
 }
 
 void Generator::addLine(std::string line, int d) {
@@ -44,8 +47,10 @@ void Generator::startFunc() {
     currentScope.push_back(scope);
 }
 
-int Generator::addVar() {
-    return currentScope.back().addVar();
+int Generator::addVar(std::string type) {
+    this->variables[varCounter] = VariableFactory::createVariable(type, varCounter);
+    this->currentScope.back().addVar();
+    return varCounter++;
 }
 
 int Generator::getVars() {
@@ -55,7 +60,19 @@ int Generator::getVars() {
 void Generator::endScope() {
     std::string line = currentScope.back().getIndentationTabs(-1) + "}";
     currentFunction.back()->addLine(line);
+
+    int addedVars = currentScope.back().addedVars;
+    for (int i = 0; i < addedVars; ++i) {
+        auto it = variables.end();
+        if (it != variables.begin()) {
+            --it; 
+            if(it->second != nullptr)
+                delete it->second;
+            variables.erase(it); 
+        }
+    }
     currentScope.pop_back();
+    varCounter -= addedVars;
 }
 
 void Generator::endFunc() {

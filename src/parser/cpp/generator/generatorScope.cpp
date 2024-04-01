@@ -17,6 +17,6 @@ std::string GeneratorScope::getIndentationTabs(int d) {
 }
 
 int GeneratorScope::addVar() {
-    varCounter++;
-    return varCounter - 1;
+    addedVars++;
+    return varCounter++;
 }

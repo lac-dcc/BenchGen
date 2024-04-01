@@ -7,29 +7,39 @@
 #include "../shared/globalStructs.h"
 #include "generatorFunction.h"
 #include "generatorScope.h"
+#include "variableGenerator.h"
 
 class Generator {
    private:
     std::vector<std::string> includes;
+    
     GeneratorFunction mainFunction;
     std::list<GeneratorFunction> functions;
     std::vector<GeneratorFunction*> currentFunction;
-    std::vector<GeneratorScope> currentScope;
 
     void generateIncludes();
     void generateMainFunction();
 
+    int varCounter;
    public:
-    Generator();
-
+    std::map<int, Variable*> variables;
+    std::vector<GeneratorScope> currentScope;
+    Generator(std::string variableType);
+    ~Generator() {
+        for(auto& vpair : variables) {
+            delete vpair.second;
+        }
+    }
+    std::string varType;
     void addLine(std::string, int = 0);
     void startScope();
     void startFunc();
-    int addVar();
+    int addVar(std::string type);
     int getVars();
     void endScope();
     void endFunc();
     void writeToFile(std::string);
+
 };
 
 #endif

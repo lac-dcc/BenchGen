@@ -11,10 +11,11 @@ void generateCode(Generator&, std::shared_ptr<Node>&);
 void writeToFile(Generator&, std::string);
 
 int main(int argc, char const* argv[]) {
-    if (argc < 5) {
+
+    if (argc < 6) {
         std::cout << "ERROR! Missing arguments!" << std::endl;
         std::cout << "Please provide Number of Iterations, Production Rules, Input File and Output File." << std::endl;
-        std::cout << "Usage: ./main <number_of_iterations> <production_rules_file> <input_file> <output_file>" << std::endl;
+        std::cout << "Usage: ./main <number_of_iterations> <production_rules_file> <input_file> <output_file> <var_type>" << std::endl;
         return 1;
     }
 
@@ -22,10 +23,11 @@ int main(int argc, char const* argv[]) {
     std::string productionRulesFile = argv[2];
     std::string inputFile = argv[3];
     std::string outputFile = argv[4];
+    std::string varType = argv[5];
 
     Lexer lexer = Lexer();
     Parser parser = Parser();
-    Generator generator = Generator();
+    Generator generator = Generator(varType);
 
     std::vector<Token> inputTokens;
 
@@ -40,7 +42,6 @@ int main(int argc, char const* argv[]) {
     // Apply "behavior" later
 
     writeToFile(generator, outputFile);
-
     // std::cout << "Printing AST..." << std::endl;
     // AST->print(2);
 
@@ -72,5 +73,6 @@ void generateCode(Generator& generator, std::shared_ptr<Node>& AST) {
 void writeToFile(Generator& generator, std::string outputFile) {
     std::cout << "Writing to file..." << std::endl;
     generator.writeToFile(outputFile);
+    generator.endScope();
     std::cout << "Done!" << std::endl;
 }
