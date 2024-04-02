@@ -21,57 +21,60 @@ void Id::gen(Generator& generator) {
 }
 
 void Insert::gen(Generator& generator) {
+    int varCount = generator.currentScope.back().avaiableVarsID.size();
+    if (varCount == 0) {
+        return;
+    }
+    
     std::string line;
+    
+    int varPos = rand() % varCount;
 
-    int vars = generator.getVars();
-    int varId = rand() % vars;
-    Variable* var = generator.variables[varId];
+    Variable* var = generator.variables[generator.currentScope.back().avaiableVarsID[varPos]];
+    if(Scalar* sca = dynamic_cast<Scalar*> (var)) {
+        sca->value++;
+        generator.addLine(sca->name + "++;");
+    }
 
-    if(generator.varType == "scalar") {
-        if(Scalar* sca = dynamic_cast<Scalar*> (var)) {
-            sca->value++;
-            generator.addLine(sca->name + "++;");
-        }
+    if(Array* arr = dynamic_cast<Array*> (var)) {
+        for(int i = 0; i < arr->size; i++)
+            arr->array[i]++;
+        
+        line = "for (int i = 0; i < " + std::to_string(arr->size) + "; i++) {";
+        generator.addLine(line);
+        line = arr->name+"[i]++;";
+        generator.addLine(line, 1);
+        generator.addLine("}");
     }
-    if(generator.varType == "array") {
-        if(Array* arr = dynamic_cast<Array*> (var)) {
-            for(int i = 0; i < arr->size; i++)
-                arr->array[i]++;
-            
-            line = "for (int i = 0; i < " + std::to_string(arr->size) + "; i++) {";
-            generator.addLine(line);
-            line = arr->name+"++;";
-            generator.addLine(line, 1);
-            generator.addLine("}");
-        }
-    }
+    
 }
 
 void Remove::gen(Generator& generator) {
+    int varCount = generator.currentScope.back().avaiableVarsID.size();
+    if (varCount == 0) 
+        return;
     std::string line;
+    
+    int varPos = rand() % varCount;
+    Variable* var = generator.variables[generator.currentScope.back().avaiableVarsID[varPos]];
 
-    int vars = generator.getVars();
-    int varId = rand() % vars;
-    Variable* var = generator.variables[varId];
 
-    if(generator.varType == "scalar") {
-        if(Scalar* sca = dynamic_cast<Scalar*> (var)) {
-            sca->value--;
-            generator.addLine(sca->name + "--;");
-        }
+    if(Scalar* sca = dynamic_cast<Scalar*> (var)) {
+        sca->value--;
+        generator.addLine(sca->name + "--;");
     }
-    if(generator.varType == "array") {
-        if(Array* arr = dynamic_cast<Array*> (var)) {
-            for(int i = 0; i < arr->size; i++)
-                arr->array[i]--;
-            
-            line = "for (int i = 0; i < " + std::to_string(arr->size) + "; i++) {";
-            generator.addLine(line);
-            line = arr->name+"--;";
-            generator.addLine(line, 1);
-            generator.addLine("}");
-        }
+
+    if(Array* arr = dynamic_cast<Array*> (var)) {
+        for(int i = 0; i < arr->size; i++)
+            arr->array[i]--;
+        
+        line = "for (int i = 0; i < " + std::to_string(arr->size) + "; i++) {";
+        generator.addLine(line);
+        line = arr->name+"[i]--;";
+        generator.addLine(line, 1);
+        generator.addLine("}");
     }
+
 }
 
 void New::gen(Generator& generator) {
@@ -85,9 +88,12 @@ void Del::gen(Generator& generator) {
 }
 
 void Contains::gen(Generator& generator) {
-    int vars = generator.getVars();
-    int varId = rand() % vars;
-    Variable* var = generator.variables[varId];
+    int varCount = generator.currentScope.back().avaiableVarsID.size();
+    if (varCount == 0) 
+        return;
+    int varPos = rand() % varCount;
+    Variable* var = generator.variables[generator.currentScope.back().avaiableVarsID[varPos]];
+   
     std::string varName = "";
     std::string line;
  

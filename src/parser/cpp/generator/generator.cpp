@@ -30,7 +30,7 @@ void Generator::addLine(std::string line, int d) {
 }
 
 void Generator::startScope() {
-    GeneratorScope scope = GeneratorScope(currentScope.back().getVarCounter(), currentScope.back().getIndentation() + 1);
+    GeneratorScope scope = GeneratorScope(currentScope.back().avaiableVarsID, currentScope.back().getIndentation() + 1);
     currentScope.push_back(scope);
 }
 
@@ -49,13 +49,13 @@ void Generator::startFunc() {
 
 int Generator::addVar(std::string type) {
     this->variables[varCounter] = VariableFactory::createVariable(type, varCounter);
-    this->currentScope.back().addVar();
+    this->currentScope.back().addVar(varCounter);
     return varCounter++;
 }
 
-int Generator::getVars() {
-    return currentScope.back().getVarCounter();
-}
+// int Generator::getVars() {
+//     return currentScope.back().getVarCounter();
+// }
 
 void Generator::endScope() {
     std::string line = currentScope.back().getIndentationTabs(-1) + "}";

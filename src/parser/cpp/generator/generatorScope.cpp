@@ -1,7 +1,7 @@
 #include "generatorScope.h"
 
 int GeneratorScope::getVarCounter() {
-    return varCounter;
+    return avaiableVarsID.size();
 }
 
 int GeneratorScope::getIndentation() {
@@ -16,7 +16,7 @@ std::string GeneratorScope::getIndentationTabs(int d) {
     return tabs;
 }
 
-int GeneratorScope::addVar() {
+void GeneratorScope::addVar(int id) {
     addedVars++;
-    return varCounter++;
+    avaiableVarsID.push_back(id);
 }

@@ -35,7 +35,7 @@ class Generator {
     void startScope();
     void startFunc();
     int addVar(std::string type);
-    int getVars();
+    // int getVars();
     void endScope();
     void endFunc();
     void writeToFile(std::string);
