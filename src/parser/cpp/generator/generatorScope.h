@@ -12,9 +12,9 @@ class GeneratorScope {
  
    public:
     std::vector<int> avaiableVarsID;
-    GeneratorScope() {
+    GeneratorScope(int identation = 1) {
         addedVars = 0;
-        indentation = 1;
+        this->indentation = identation;
     }
     GeneratorScope(std::vector<int> parentVars, int parentIndentation) {
         this->avaiableVarsID = parentVars;

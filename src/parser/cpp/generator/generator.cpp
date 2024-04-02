@@ -5,7 +5,7 @@ Generator::Generator(std::string variableType) {
     this->varType = variableType;
     mainFunction = GeneratorFunction(true);
     currentFunction.push_back(&mainFunction);
-    currentScope.push_back(GeneratorScope());
+    currentScope.push_back(GeneratorScope(0));
     generateIncludes();
     generateMainFunction();
 }
