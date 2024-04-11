@@ -12,6 +12,7 @@
 namespace lSystem {
 std::vector<Token> lSystem(int, const std::vector<ProductionRule>&, const std::vector<Token>&);
 int match(std::string, const std::vector<ProductionRule>&);
+int findEqualCall(const std::map<int, std::vector<Token>>&, const std::vector<Token>&);
 }  // namespace lSystem
 
 #endif

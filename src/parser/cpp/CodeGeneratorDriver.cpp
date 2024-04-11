@@ -33,7 +33,22 @@ int main(int argc, char const* argv[]) {
 
     getInputTokens(inputTokens, lexer, inputFile);
 
+    // Print input tokens
+    std::cout << "ANTES DO LSYSTEM:\n";
+    for (auto tok : inputTokens) {
+        std::cout << tok.text << "  ";
+    }
+    std::cout << std::endl;
+    
+
     applyLSystem(inputTokens, lexer, iterations, productionRulesFile);
+
+    // Print input tokens
+    std::cout << "DEPOIS DO LSYSTEM:\n";
+    for (auto tok : inputTokens) {
+        std::cout << tok.text << "  ";
+    }
+    std::cout << std::endl;
 
     std::shared_ptr<Node> AST = parseTokensToAST(parser, inputTokens);
 
