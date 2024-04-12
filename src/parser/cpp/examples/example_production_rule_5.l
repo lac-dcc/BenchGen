@@ -1,2 +1,2 @@
-A = new insert remove;
+A = new insert remove B;
 B = A;

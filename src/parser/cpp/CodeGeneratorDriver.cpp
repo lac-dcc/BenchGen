@@ -11,7 +11,6 @@ void generateCode(Generator&, std::shared_ptr<Node>&);
 void writeToFile(Generator&, std::string);
 
 int main(int argc, char const* argv[]) {
-
     if (argc < 6) {
         std::cout << "ERROR! Missing arguments!" << std::endl;
         std::cout << "Please provide Number of Iterations, Production Rules, Input File and Output File." << std::endl;
@@ -34,19 +33,18 @@ int main(int argc, char const* argv[]) {
     getInputTokens(inputTokens, lexer, inputFile);
 
     // Print input tokens
-    std::cout << "ANTES DO LSYSTEM:\n";
+    std::cout << "BEFORE LSYSTEM:\n";
     for (auto tok : inputTokens) {
-        std::cout << tok.text << "  ";
+        std::cout << tok.text << " ";
     }
     std::cout << std::endl;
-    
 
     applyLSystem(inputTokens, lexer, iterations, productionRulesFile);
 
     // Print input tokens
-    std::cout << "DEPOIS DO LSYSTEM:\n";
+    std::cout << "AFTER LSYSTEM:\n";
     for (auto tok : inputTokens) {
-        std::cout << tok.text << "  ";
+        std::cout << tok.text << " ";
     }
     std::cout << std::endl;
 

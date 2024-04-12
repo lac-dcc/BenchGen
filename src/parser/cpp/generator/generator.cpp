@@ -3,7 +3,7 @@
 Generator::Generator(std::string variableType) {
     this->varCounter = 0;
     this->varType = variableType;
-    mainFunction = GeneratorFunction(true);
+    mainFunction = GeneratorFunction(-1, true);
     currentFunction.push_back(&mainFunction);
     currentScope.push_back(GeneratorScope(0));
     generateIncludes();
@@ -34,17 +34,29 @@ void Generator::startScope() {
     currentScope.push_back(scope);
 }
 
-void Generator::startFunc() {
-    int funcNumber = functions.size();
-    std::string funcName = "func" + std::to_string(funcNumber);
-    std::string line = funcName + "();";
-    addLine(line);
-    GeneratorFunction func = GeneratorFunction();
+void Generator::startFunc(int funcId) {
+    std::string funcName = "func" + std::to_string(funcId);
+    GeneratorFunction func = GeneratorFunction(funcId);
     func.addLine("void " + funcName + "() {");
     functions.push_back(func);
     currentFunction.push_back(&(functions.back()));
     GeneratorScope scope = GeneratorScope();
     currentScope.push_back(scope);
+}
+
+bool Generator::functionExists(int funcId) {
+    for (auto func : functions) {
+        if (func.getId() == funcId) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void Generator::callFunc(int funcId) {
+    std::string funcName = "func" + std::to_string(funcId);
+    std::string line = funcName + "();";
+    addLine(line);
 }
 
 int Generator::addVar(std::string type) {
@@ -65,10 +77,10 @@ void Generator::endScope() {
     for (int i = 0; i < addedVars; ++i) {
         auto it = variables.end();
         if (it != variables.begin()) {
-            --it; 
-            if(it->second != nullptr)
+            --it;
+            if (it->second != nullptr)
                 delete it->second;
-            variables.erase(it); 
+            variables.erase(it);
         }
     }
     currentScope.pop_back();
