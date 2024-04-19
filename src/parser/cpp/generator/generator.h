@@ -23,9 +23,9 @@ class Generator {
     int varCounter;
 
    public:
+    std::string varType;
     std::map<int, GeneratorVariable*> variables;
     std::stack<GeneratorScope> currentScope;
-    std::string varType;
     Generator(std::string variableType);
     ~Generator() {
         for (auto& vpair : variables) {

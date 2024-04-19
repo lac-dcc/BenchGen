@@ -79,6 +79,7 @@ void Generator::endScope() {
             variables.erase(it);
         }
     }
+
     currentScope.pop();
     varCounter -= addedVars;
 }

@@ -10,6 +10,16 @@ std::string Scalar::eval() {
     return "int " + this->name + " = " + std::to_string(value) + ";";
 }
 
+std::string Scalar::add() {
+    this->value++;
+    return this->name + "++;";
+}
+
+std::string Scalar::remove() {
+    this->value--;
+    return this->name + "--;";
+}
+
 Array::Array(int size, int* values, int id) {
     this->array = values;
     this->totalSize = size;
@@ -20,6 +30,26 @@ Array::Array(int size, int* values, int id) {
 std::string Array::eval() {
     std::string temp = "int* " + this->name;
     temp = temp + " = new int[" + std::to_string(this->totalSize) + "];";
+    return temp;
+}
+
+std::string Array::add() {
+    for (int i = 0; i < this->totalSize; i++) {
+        this->array[i]++;
+    }
+    std::string temp = "for (int i = 0; i < " + std::to_string(this->totalSize) + "; i++) { ";
+    temp = temp + this->name + "[i]++; ";
+    temp = temp + "}";
+    return temp;
+}
+
+std::string Array::remove() {
+    for (int i = 0; i < this->totalSize; i++) {
+        this->array[i]--;
+    }
+    std::string temp = "for (int i = 0; i < " + std::to_string(this->totalSize) + "; i++) { ";
+    temp = temp + this->name + "[i]--; ";
+    temp = temp + "}";
     return temp;
 }
 
@@ -38,6 +68,14 @@ Matrix::Matrix(int rows, int columns, int* values, int id) {
 }
 
 std::string Matrix::eval() {
+    return "";
+}
+
+std::string Matrix::add() {
+    return "";
+}
+
+std::string Matrix::remove() {
     return "";
 }
 

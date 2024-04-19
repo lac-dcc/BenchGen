@@ -8,12 +8,13 @@
 
 class GeneratorScope {
    private:
-    int addedVars;
     int indentation;
 
    public:
+    int addedVars;
     std::vector<int> avaiableVarsID;
     GeneratorScope(int identation = 1) {
+        avaiableVarsID = {};
         addedVars = 0;
         this->indentation = identation;
     }
@@ -28,8 +29,6 @@ class GeneratorScope {
     int getIndentation();
     std::string getIndentationTabs(int = 0);
     void addVar(int id);
-
-    friend class Generator;
 };
 
 #endif

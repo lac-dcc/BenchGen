@@ -10,6 +10,8 @@ class GeneratorVariable {
     std::string name;
     virtual ~GeneratorVariable() {}
     virtual std::string eval() = 0;
+    virtual std::string add() = 0;
+    virtual std::string remove() = 0;
 };
 
 class Scalar : public GeneratorVariable {
@@ -18,6 +20,8 @@ class Scalar : public GeneratorVariable {
     Scalar() {}
     Scalar(int initialValue, int id);
     std::string eval() override;
+    std::string add() override;
+    std::string remove() override;
 };
 
 class Array : public GeneratorVariable {
@@ -28,6 +32,8 @@ class Array : public GeneratorVariable {
     Array(int totalSize, int* values, int id);
     ~Array();
     std::string eval() override;
+    std::string add() override;
+    std::string remove() override;
 };
 
 class Matrix : public GeneratorVariable {
@@ -38,6 +44,8 @@ class Matrix : public GeneratorVariable {
     Matrix(){};
     Matrix(int rows, int columns, int* values, int id);
     std::string eval() override;
+    std::string add() override;
+    std::string remove() override;
 };
 
 class VariableFactory {
