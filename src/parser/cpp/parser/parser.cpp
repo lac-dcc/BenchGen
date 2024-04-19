@@ -159,5 +159,5 @@ void Parser::parse() {
 }
 
 std::shared_ptr<Node> Parser::getAST() {
-    return std::move(AST);
+    return AST;
 }
