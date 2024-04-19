@@ -41,7 +41,7 @@ std::string Matrix::eval() {
     return "";
 }
 
-Variable* VariableFactory::createVariable(std::string type, int identifier) {
+GeneratorVariable* VariableFactory::createVariable(std::string type, int identifier) {
     if (type == "scalar") {
         return new Scalar(1, identifier);
     }

@@ -23,7 +23,7 @@ class Generator {
     int varCounter;
 
    public:
-    std::map<int, Variable*> variables;
+    std::map<int, GeneratorVariable*> variables;
     std::vector<GeneratorScope> currentScope;
     Generator(std::string variableType);
     ~Generator() {

@@ -4,15 +4,15 @@
 #include <memory>
 #include <string>
 
-class Variable {
+class GeneratorVariable {
    public:
     int id;
     std::string name;
-    virtual ~Variable() {}
+    virtual ~GeneratorVariable() {}
     virtual std::string eval() = 0;
 };
 
-class Scalar : public Variable {
+class Scalar : public GeneratorVariable {
    public:
     int value;
     Scalar() {}
@@ -20,7 +20,7 @@ class Scalar : public Variable {
     std::string eval() override;
 };
 
-class Array : public Variable {
+class Array : public GeneratorVariable {
    public:
     int size;
     int* array;
@@ -30,7 +30,7 @@ class Array : public Variable {
     std::string eval() override;
 };
 
-class Matrix : public Variable {
+class Matrix : public GeneratorVariable {
    public:
     int** matrix;
     int rows;
@@ -42,7 +42,7 @@ class Matrix : public Variable {
 
 class VariableFactory {
    public:
-    static Variable* createVariable(std::string type, int identifier);
+    static GeneratorVariable* createVariable(std::string type, int identifier);
 };
 
 #endif

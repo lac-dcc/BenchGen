@@ -30,7 +30,7 @@ void Insert::gen(Generator& generator) {
 
     int varPos = rand() % varCount;
 
-    Variable* var = generator.variables[generator.currentScope.back().avaiableVarsID[varPos]];
+    GeneratorVariable* var = generator.variables[generator.currentScope.back().avaiableVarsID[varPos]];
     if (Scalar* sca = dynamic_cast<Scalar*>(var)) {
         sca->value++;
         generator.addLine(sca->name + "++;");
@@ -55,7 +55,7 @@ void Remove::gen(Generator& generator) {
     std::string line;
 
     int varPos = rand() % varCount;
-    Variable* var = generator.variables[generator.currentScope.back().avaiableVarsID[varPos]];
+    GeneratorVariable* var = generator.variables[generator.currentScope.back().avaiableVarsID[varPos]];
 
     if (Scalar* sca = dynamic_cast<Scalar*>(var)) {
         sca->value--;
@@ -89,7 +89,7 @@ void Contains::gen(Generator& generator) {
     if (varCount == 0)
         return;
     int varPos = rand() % varCount;
-    Variable* var = generator.variables[generator.currentScope.back().avaiableVarsID[varPos]];
+    GeneratorVariable* var = generator.variables[generator.currentScope.back().avaiableVarsID[varPos]];
 
     std::string varName = "";
     std::string line;
