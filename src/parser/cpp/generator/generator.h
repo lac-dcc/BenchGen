@@ -7,7 +7,7 @@
 #include "../shared/globalStructs.h"
 #include "generatorFunction.h"
 #include "generatorScope.h"
-#include "variableGenerator.h"
+#include "generatorVariable.h"
 
 class Generator {
    private:
