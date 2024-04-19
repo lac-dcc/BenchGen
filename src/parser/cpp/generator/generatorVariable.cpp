@@ -10,8 +10,6 @@ GeneratorVariable* VariableFactory::createVariable(std::string type, int identif
             temp_array[i] = 0;
         }
         return new Array(size, temp_array, identifier);
-    } else if (type == "vector") {
-        return new Vector(identifier);
     } else if (type == "matrix") {
         int rows = rand() % 1000;
         int cols = rand() % 1000;
@@ -20,6 +18,10 @@ GeneratorVariable* VariableFactory::createVariable(std::string type, int identif
             temp_array[i] = 0;
         }
         return new Matrix(rows, cols, temp_array, identifier);
+    } else if (type == "vector") {
+        return new Vector(identifier);
+    } else if (type == "list") {
+        return new List(identifier);
     }
 
     // TODO: Error Handling
@@ -31,7 +33,7 @@ GeneratorVariable* VariableFactory::createVariable(std::string type, int identif
 Scalar::Scalar(int initialValue, int id) {
     this->value = initialValue;
     this->id = id;
-    this->name = "var" + std::to_string(id);
+    this->name = "scalar" + std::to_string(id);
 }
 
 std::string Scalar::eval() {
@@ -62,7 +64,7 @@ Array::Array(int size, int* values, int id) {
     this->array = values;
     this->totalSize = size;
     this->id = id;
-    this->name = "var" + std::to_string(id);
+    this->name = "array" + std::to_string(id);
 }
 
 std::string Array::eval() {
@@ -114,7 +116,7 @@ Matrix::Matrix(int rows, int columns, int* values, int id) {
     for (int i = 0; i < this->rows; i++) {
         this->matrix[i] = new int[columns];
     }
-    this->name = "var" + std::to_string(id);
+    this->name = "matrix" + std::to_string(id);
 }
 
 std::string Matrix::eval() {
@@ -138,7 +140,7 @@ std::vector<std::string> Matrix::contains() {
 Vector::Vector(int id) {
     this->vector = std::vector<int>();
     this->id = id;
-    this->name = "var" + std::to_string(id);
+    this->name = "vector" + std::to_string(id);
 }
 
 std::string Vector::eval() {
@@ -175,6 +177,57 @@ std::vector<std::string> Vector::remove() {
 }
 
 std::vector<std::string> Vector::contains() {
+    std::vector<std::string> temp = {};
+    temp.push_back("for (auto&& i : " + this->name + ") {");
+    temp.push_back("   if (i == 0) {");
+    temp.push_back("      printf(\"IS 0!\");");
+    temp.push_back("   }");
+    temp.push_back("}");
+    return temp;
+}
+
+// LIST
+
+List::List(int id) {
+    this->list = std::list<int>();
+    this->id = id;
+    this->name = "list" + std::to_string(id);
+}
+
+std::string List::eval() {
+    std::string temp = "std::list<int> " + this->name;
+    temp += " = std::list<int>();";
+    return temp;
+}
+
+std::vector<std::string> List::insert() {
+    this->list.push_back(0);
+    for (auto&& i : this->list) {
+        i++;
+    }
+    std::vector<std::string> temp = {this->name + ".push_back(0);"};
+    temp.push_back("for (auto&& i : " + this->name + ") { ");
+    temp.push_back("   i++; ");
+    temp.push_back("}");
+    return temp;
+}
+
+std::vector<std::string> List::remove() {
+    std::vector<std::string> temp = {};
+    if (this->list.size() >= 0) {
+        this->list.pop_back();
+        temp.push_back(this->name + ".pop_back();");
+    }
+    for (auto&& i : this->list) {
+        i--;
+    }
+    temp.push_back("for (auto&& i : " + this->name + ") {");
+    temp.push_back("   i--; ");
+    temp.push_back("}");
+    return temp;
+}
+
+std::vector<std::string> List::contains() {
     std::vector<std::string> temp = {};
     temp.push_back("for (auto&& i : " + this->name + ") {");
     temp.push_back("   if (i == 0) {");

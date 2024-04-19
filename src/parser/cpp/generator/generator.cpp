@@ -19,6 +19,8 @@ void Generator::generateIncludes() {
         includes.push_back("#include <string.h>");
     else if (varType == "vector")
         includes.push_back("#include <vector>");
+    else if (varType == "list")
+        includes.push_back("#include <list>");
 }
 
 void Generator::generateMainFunction() {

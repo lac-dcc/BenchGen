@@ -67,6 +67,17 @@ class Vector : public GeneratorVariable {
     std::vector<std::string> contains() override;
 };
 
+class List : public GeneratorVariable {
+   public:
+    std::list<int> list;
+    List(){};
+    List(int id);
+    std::string eval() override;
+    std::vector<std::string> insert() override;
+    std::vector<std::string> remove() override;
+    std::vector<std::string> contains() override;
+};
+
 class VariableFactory {
    public:
     static GeneratorVariable* createVariable(std::string type, int identifier);
