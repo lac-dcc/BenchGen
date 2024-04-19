@@ -4,14 +4,18 @@
 #include <memory>
 #include <string>
 
+#include "../shared/enums.h"
+#include "../shared/globalStructs.h"
+
 class GeneratorVariable {
    public:
     int id;
     std::string name;
     virtual ~GeneratorVariable() {}
     virtual std::string eval() = 0;
-    virtual std::string add() = 0;
-    virtual std::string remove() = 0;
+    virtual std::vector<std::string> insert() = 0;
+    virtual std::vector<std::string> remove() = 0;
+    virtual std::vector<std::string> contains() = 0;
 };
 
 class Scalar : public GeneratorVariable {
@@ -20,8 +24,9 @@ class Scalar : public GeneratorVariable {
     Scalar() {}
     Scalar(int initialValue, int id);
     std::string eval() override;
-    std::string add() override;
-    std::string remove() override;
+    std::vector<std::string> insert() override;
+    std::vector<std::string> remove() override;
+    std::vector<std::string> contains() override;
 };
 
 class Array : public GeneratorVariable {
@@ -32,8 +37,9 @@ class Array : public GeneratorVariable {
     Array(int totalSize, int* values, int id);
     ~Array();
     std::string eval() override;
-    std::string add() override;
-    std::string remove() override;
+    std::vector<std::string> insert() override;
+    std::vector<std::string> remove() override;
+    std::vector<std::string> contains() override;
 };
 
 class Matrix : public GeneratorVariable {
@@ -44,8 +50,21 @@ class Matrix : public GeneratorVariable {
     Matrix(){};
     Matrix(int rows, int columns, int* values, int id);
     std::string eval() override;
-    std::string add() override;
-    std::string remove() override;
+    std::vector<std::string> insert() override;
+    std::vector<std::string> remove() override;
+    std::vector<std::string> contains() override;
+};
+
+class Vector : public GeneratorVariable {
+   public:
+    std::vector<int> vector;
+    int currentSize;
+    Vector(){};
+    Vector(int id);
+    std::string eval() override;
+    std::vector<std::string> insert() override;
+    std::vector<std::string> remove() override;
+    std::vector<std::string> contains() override;
 };
 
 class VariableFactory {

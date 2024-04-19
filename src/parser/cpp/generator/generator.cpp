@@ -13,8 +13,12 @@ Generator::Generator(std::string variableType) {
 void Generator::generateIncludes() {
     includes.push_back("#include <stdio.h>");
     includes.push_back("#include <stdlib.h>");
-    includes.push_back("#include <stdbool.h>");
-    includes.push_back("#include <string.h>");
+    if (varType == "bool")
+        includes.push_back("#include <stdbool.h>");
+    else if (varType == "string")
+        includes.push_back("#include <string.h>");
+    else if (varType == "vector")
+        includes.push_back("#include <vector>");
 }
 
 void Generator::generateMainFunction() {

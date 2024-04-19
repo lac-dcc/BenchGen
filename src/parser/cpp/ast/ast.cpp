@@ -27,7 +27,10 @@ void Insert::gen(Generator& generator) {
 
     int varPos = rand() % varCount;
     GeneratorVariable* var = generator.variables[generator.currentScope.top().avaiableVarsID[varPos]];
-    generator.addLine(var->add());
+    std::vector<std::string> lines = var->insert();
+    for (std::string line : lines) {
+        generator.addLine(line);
+    }
 }
 
 void Remove::gen(Generator& generator) {
@@ -37,7 +40,10 @@ void Remove::gen(Generator& generator) {
 
     int varPos = rand() % varCount;
     GeneratorVariable* var = generator.variables[generator.currentScope.top().avaiableVarsID[varPos]];
-    generator.addLine(var->remove());
+    std::vector<std::string> lines = var->remove();
+    for (std::string line : lines) {
+        generator.addLine(line);
+    }
 }
 
 void New::gen(Generator& generator) {
@@ -51,30 +57,16 @@ void Del::gen(Generator& generator) {
 }
 
 void Contains::gen(Generator& generator) {
-    int varCount = generator.currentScope.top().avaiableVarsID.size();
+    int varCount = generator.currentScope.top().getVarCounter();
     if (varCount == 0)
         return;
     int varPos = rand() % varCount;
+
     GeneratorVariable* var = generator.variables[generator.currentScope.top().avaiableVarsID[varPos]];
-
-    std::string varName = "";
-    std::string line;
-
-    if (Scalar* sca = dynamic_cast<Scalar*>(var)) {
-        varName = sca->name;
+    std::vector<std::string> lines = var->contains();
+    for (std::string line : lines) {
+        generator.addLine(line);
     }
-    if (Array* arr = dynamic_cast<Array*>(var)) {
-        varName = arr->name + "[0]";
-    }
-    if (Matrix* matrix = dynamic_cast<Matrix*>(var)) {
-        varName = matrix->name + "[0][0]";
-    }
-
-    generator.addLine("if(" + varName + " == 0) {");
-    generator.startScope();
-    std::string line2 = "printf(\"" + varName + " is 0!\\n\");";
-    generator.addLine(line2);
-    generator.endScope();
 }
 
 void Loop::gen(Generator& generator) {
