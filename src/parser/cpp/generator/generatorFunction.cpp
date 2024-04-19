@@ -1,5 +1,9 @@
 #include "generatorFunction.h"
 
+int GeneratorFunction::getId() {
+    return id;
+}
+
 std::vector<std::string> GeneratorFunction::getLines() {
     return lines;
 }

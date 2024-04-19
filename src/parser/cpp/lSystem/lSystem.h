@@ -2,6 +2,7 @@
 #define L_SYSTEM
 #include <iostream>
 #include <list>
+#include <unordered_map>
 
 #include "../generator/generator.h"
 #include "../shared/enums.h"
@@ -12,6 +13,7 @@
 namespace lSystem {
 std::vector<Token> lSystem(int, const std::vector<ProductionRule>&, const std::vector<Token>&);
 int match(std::string, const std::vector<ProductionRule>&);
+int findEqualCall(const std::unordered_map<std::vector<Token>, int, TokenVectorHash, TokenVectorEqual>&, const std::vector<Token>&);
 }  // namespace lSystem
 
 #endif

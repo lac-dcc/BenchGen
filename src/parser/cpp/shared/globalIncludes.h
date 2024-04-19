@@ -5,6 +5,7 @@
 #include <map>
 #include <memory>
 #include <set>
+#include <stack>
 #include <string>
 #include <tuple>
 #include <vector>

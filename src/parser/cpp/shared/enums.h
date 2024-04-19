@@ -24,6 +24,8 @@ enum TokenType {
 
     TOK_ID = -18,
 
+    TOK_CALL_ID = -19,
+
     TOK_ERROR = -1
 };
 

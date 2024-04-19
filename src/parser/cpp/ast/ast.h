@@ -98,10 +98,11 @@ class Loop : public Node {
 
 class Call : public Node {
    private:
+    int id;
     std::shared_ptr<Node> code;
 
    public:
-    Call(std::shared_ptr<Node> code) : code(code) {
+    Call(int id, std::shared_ptr<Node> code) : id(id), code(code) {
     }
 
     void gen(Generator&) override;
