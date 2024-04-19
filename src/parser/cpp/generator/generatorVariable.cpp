@@ -12,14 +12,14 @@ std::string Scalar::eval() {
 
 Array::Array(int size, int* values, int id) {
     this->array = values;
-    this->size = size;
+    this->totalSize = size;
     this->id = id;
     this->name = "var" + std::to_string(id);
 }
 
 std::string Array::eval() {
     std::string temp = "int* " + this->name;
-    temp = temp + " = new int[" + std::to_string(this->size) + "];";
+    temp = temp + " = new int[" + std::to_string(this->totalSize) + "];";
     return temp;
 }
 
@@ -56,5 +56,6 @@ GeneratorVariable* VariableFactory::createVariable(std::string type, int identif
     // if(type == "matrix") {
 
     // }
+    // TODO: Error Handling
     return nullptr;
 }

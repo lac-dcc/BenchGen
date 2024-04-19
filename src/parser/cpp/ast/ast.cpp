@@ -21,7 +21,7 @@ void Id::gen(Generator& generator) {
 }
 
 void Insert::gen(Generator& generator) {
-    int varCount = generator.currentScope.back().avaiableVarsID.size();
+    int varCount = generator.currentScope.top().avaiableVarsID.size();
     if (varCount == 0) {
         return;
     }
@@ -30,17 +30,17 @@ void Insert::gen(Generator& generator) {
 
     int varPos = rand() % varCount;
 
-    GeneratorVariable* var = generator.variables[generator.currentScope.back().avaiableVarsID[varPos]];
+    GeneratorVariable* var = generator.variables[generator.currentScope.top().avaiableVarsID[varPos]];
     if (Scalar* sca = dynamic_cast<Scalar*>(var)) {
         sca->value++;
         generator.addLine(sca->name + "++;");
     }
 
     if (Array* arr = dynamic_cast<Array*>(var)) {
-        for (int i = 0; i < arr->size; i++)
+        for (int i = 0; i < arr->totalSize; i++)
             arr->array[i]++;
 
-        line = "for (int i = 0; i < " + std::to_string(arr->size) + "; i++) {";
+        line = "for (int i = 0; i < " + std::to_string(arr->totalSize) + "; i++) {";
         generator.addLine(line);
         line = arr->name + "[i]++;";
         generator.addLine(line, 1);
@@ -49,13 +49,13 @@ void Insert::gen(Generator& generator) {
 }
 
 void Remove::gen(Generator& generator) {
-    int varCount = generator.currentScope.back().avaiableVarsID.size();
+    int varCount = generator.currentScope.top().avaiableVarsID.size();
     if (varCount == 0)
         return;
     std::string line;
 
     int varPos = rand() % varCount;
-    GeneratorVariable* var = generator.variables[generator.currentScope.back().avaiableVarsID[varPos]];
+    GeneratorVariable* var = generator.variables[generator.currentScope.top().avaiableVarsID[varPos]];
 
     if (Scalar* sca = dynamic_cast<Scalar*>(var)) {
         sca->value--;
@@ -63,10 +63,10 @@ void Remove::gen(Generator& generator) {
     }
 
     if (Array* arr = dynamic_cast<Array*>(var)) {
-        for (int i = 0; i < arr->size; i++)
+        for (int i = 0; i < arr->totalSize; i++)
             arr->array[i]--;
 
-        line = "for (int i = 0; i < " + std::to_string(arr->size) + "; i++) {";
+        line = "for (int i = 0; i < " + std::to_string(arr->totalSize) + "; i++) {";
         generator.addLine(line);
         line = arr->name + "[i]--;";
         generator.addLine(line, 1);
@@ -85,11 +85,11 @@ void Del::gen(Generator& generator) {
 }
 
 void Contains::gen(Generator& generator) {
-    int varCount = generator.currentScope.back().avaiableVarsID.size();
+    int varCount = generator.currentScope.top().avaiableVarsID.size();
     if (varCount == 0)
         return;
     int varPos = rand() % varCount;
-    GeneratorVariable* var = generator.variables[generator.currentScope.back().avaiableVarsID[varPos]];
+    GeneratorVariable* var = generator.variables[generator.currentScope.top().avaiableVarsID[varPos]];
 
     std::string varName = "";
     std::string line;

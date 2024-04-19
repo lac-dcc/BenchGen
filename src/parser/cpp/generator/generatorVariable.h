@@ -22,10 +22,10 @@ class Scalar : public GeneratorVariable {
 
 class Array : public GeneratorVariable {
    public:
-    int size;
+    int totalSize;
     int* array;
     Array(){};
-    Array(int size, int* values, int id);
+    Array(int totalSize, int* values, int id);
     ~Array();
     std::string eval() override;
 };

@@ -4,8 +4,8 @@ Generator::Generator(std::string variableType) {
     this->varCounter = 0;
     this->varType = variableType;
     mainFunction = GeneratorFunction(-1, true);
-    currentFunction.push_back(&mainFunction);
-    currentScope.push_back(GeneratorScope(0));
+    currentFunction.push(&mainFunction);
+    currentScope.push(GeneratorScope(0));
     generateIncludes();
     generateMainFunction();
 }
@@ -25,13 +25,13 @@ void Generator::generateMainFunction() {
 }
 
 void Generator::addLine(std::string line, int d) {
-    std::string indentedLine = currentScope.back().getIndentationTabs(d) + line;
-    currentFunction.back()->addLine(indentedLine);
+    std::string indentedLine = currentScope.top().getIndentationTabs(d) + line;
+    currentFunction.top()->addLine(indentedLine);
 }
 
 void Generator::startScope() {
-    GeneratorScope scope = GeneratorScope(currentScope.back().avaiableVarsID, currentScope.back().getIndentation() + 1);
-    currentScope.push_back(scope);
+    GeneratorScope scope = GeneratorScope(currentScope.top().avaiableVarsID, currentScope.top().getIndentation());
+    currentScope.push(scope);
 }
 
 void Generator::startFunc(int funcId) {
@@ -39,9 +39,9 @@ void Generator::startFunc(int funcId) {
     GeneratorFunction func = GeneratorFunction(funcId);
     func.addLine("void " + funcName + "() {");
     functions.push_back(func);
-    currentFunction.push_back(&(functions.back()));
+    currentFunction.push(&(functions.back()));
     GeneratorScope scope = GeneratorScope();
-    currentScope.push_back(scope);
+    currentScope.push(scope);
 }
 
 bool Generator::functionExists(int funcId) {
@@ -61,19 +61,15 @@ void Generator::callFunc(int funcId) {
 
 int Generator::addVar(std::string type) {
     this->variables[varCounter] = VariableFactory::createVariable(type, varCounter);
-    this->currentScope.back().addVar(varCounter);
+    this->currentScope.top().addVar(varCounter);
     return varCounter++;
 }
 
-// int Generator::getVars() {
-//     return currentScope.back().getVarCounter();
-// }
-
 void Generator::endScope() {
-    std::string line = currentScope.back().getIndentationTabs(-1) + "}";
-    currentFunction.back()->addLine(line);
+    std::string line = currentScope.top().getIndentationTabs(-1) + "}";
+    currentFunction.top()->addLine(line);
 
-    int addedVars = currentScope.back().addedVars;
+    int addedVars = currentScope.top().addedVars;
     for (int i = 0; i < addedVars; ++i) {
         auto it = variables.end();
         if (it != variables.begin()) {
@@ -83,13 +79,13 @@ void Generator::endScope() {
             variables.erase(it);
         }
     }
-    currentScope.pop_back();
+    currentScope.pop();
     varCounter -= addedVars;
 }
 
 void Generator::endFunc() {
     endScope();
-    currentFunction.pop_back();
+    currentFunction.pop();
 }
 
 void Generator::writeToFile(std::string filename) {

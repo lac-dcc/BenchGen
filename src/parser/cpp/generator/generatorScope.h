@@ -20,7 +20,7 @@ class GeneratorScope {
     GeneratorScope(std::vector<int> parentVars, int parentIndentation) {
         this->avaiableVarsID = parentVars;
         this->addedVars = 0;
-        this->indentation = parentIndentation;
+        this->indentation = parentIndentation + 1;
     }
     ~GeneratorScope() {}
 
