@@ -81,72 +81,84 @@ int Lexer::matchToken(std::string lexeme) {
     return -1;
 }
 
-int Lexer::getTokenFromId(std::string tokStr) {
-    if (tokStr == "if") {
-        return TOK_IF;
-    } else if (tokStr == "loop") {
-        return TOK_LOOP;
-    } else if (tokStr == "call") {
-        return TOK_CALL;
-    } else if (tokStr == "seq") {
-        return TOK_SEQ;
-    } else if (tokStr == "insert") {
-        return TOK_INSERT;
-    } else if (tokStr == "remove") {
-        return TOK_REMOVE;
-    } else if (tokStr == "del") {
-        return TOK_DEL;
-    } else if (tokStr == "new") {
-        return TOK_NEW;
-    } else if (tokStr == "contains") {
-        return TOK_CONTAINS;
-    } else if (tokStr == "end") {
-        return TOK_END;
-    } else if (tokStr == "oparen") {
-        return TOK_OPAREN;
-    } else if (tokStr == "cparen") {
-        return TOK_CPAREN;
-    } else if (tokStr == "comma") {
-        return TOK_COMMA;
-    } else if (tokStr == "equal") {
-        return TOK_EQUAL;
-    } else if (tokStr == "underline") {
-        return TOK_UNDERLINE;
-    } else if (tokStr == "comment") {
-        return TOK_COMMENT;
-    } else if (tokStr == "id") {
-        return TOK_ID;
-    } else {
-        return TOK_ERROR;
-    }
-}
+void Lexer::loadConfiguration() {
+    LexerRule lrIf;
+    LexerRule lrLoop;
+    LexerRule lrCall;
+    LexerRule lrSeq;
+    LexerRule lrInsert;
+    LexerRule lrRemove;
+    LexerRule lrDel;
+    LexerRule lrNew;
+    LexerRule lrContains;
+    LexerRule lrEnd;
+    LexerRule lrOParen;
+    LexerRule lrCParen;
+    LexerRule lrComma;
+    LexerRule lrEqual;
+    LexerRule lrUnderline;
+    LexerRule lrComment;
+    LexerRule lrId;
+    LexerRule lrError;
 
-void Lexer::loadConfiguration(std::string LEXER_CONFIG_FILE) {
-    ifstream file(LEXER_CONFIG_FILE);
-    if (file.is_open()) {
-        std::string line;
-        while (getline(file, line)) {
-            if (line.length() < 1 || line[0] == '#') {
-                continue;
-            }
-            int regexLimit = line.find(' ');
-            if (regexLimit == std::string::npos) {
-                // TODO: Error handling: error in config file
-            }
-            std::string lineRegex = line.substr(0, regexLimit);
+    lrIf.type = TOK_IF;
+    lrLoop.type = TOK_LOOP;
+    lrCall.type = TOK_CALL;
+    lrSeq.type = TOK_SEQ;
+    lrInsert.type = TOK_INSERT;
+    lrRemove.type = TOK_REMOVE;
+    lrDel.type = TOK_DEL;
+    lrNew.type = TOK_NEW;
+    lrContains.type = TOK_CONTAINS;
+    lrEnd.type = TOK_END;
+    lrOParen.type = TOK_OPAREN;
+    lrCParen.type = TOK_CPAREN;
+    lrComma.type = TOK_COMMA;
+    lrEqual.type = TOK_EQUAL;
+    lrUnderline.type = TOK_UNDERLINE;
+    lrComment.type = TOK_COMMENT;
+    lrId.type = TOK_ID;
+    lrError.type = TOK_ERROR;
 
-            int tokIdStart = line.find_last_of(' ') + 1;
-            int lineLength = line.length();
-            std::string lineTokenStr = line.substr(tokIdStart, lineLength);
-            int lineToken = getTokenFromId(lineTokenStr);
+    lrIf.regex = "IF";
+    lrLoop.regex = "LOOP";
+    lrCall.regex = "CALL";
+    lrSeq.regex = "SEQ";
+    lrInsert.regex = "insert";
+    lrRemove.regex = "remove";
+    lrDel.regex = "del";
+    lrNew.regex = "new";
+    lrContains.regex = "contains";
+    lrEnd.regex = "[;]";
+    lrOParen.regex = "[(]";
+    lrCParen.regex = "[)]";
+    lrComma.regex = "[,]";
+    lrEqual.regex = "[=]";
+    lrUnderline.regex = "[_]";
+    lrComment.regex = "[#]";
+    lrId.regex = "[a-zA-Z]+[a-zA-Z0-9]*";
+    lrError.regex = ".";
 
-            LexerRule token = {lineToken, lineRegex};
-            rules.push_back(token);
-        }
-        file.close();
-    } else {
-        // TODO: Error handling: lexer config file not found
-    }
+    rules = {
+        lrIf,
+        lrLoop,
+        lrCall,
+        lrSeq,
+        lrInsert,
+        lrRemove,
+        lrDel,
+        lrNew,
+        lrContains,
+        lrEnd,
+        lrOParen,
+        lrCParen,
+        lrComma,
+        lrEqual,
+        lrUnderline,
+        lrComment,
+        lrId,
+        lrError
+    };
 }
 
 std::vector<Token> Lexer::getTokens(std::string fileName) {

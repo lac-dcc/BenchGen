@@ -17,12 +17,11 @@ class Lexer {
     std::vector<Token> tokenize(std::string);
     bool matchAnyRule(std::string);
     int matchToken(std::string);
-    int getTokenFromId(std::string);
 
    public:
     Lexer() {}
 
-    void loadConfiguration(std::string);
+    void loadConfiguration();
     std::vector<Token> getTokens(std::string);
     std::vector<ProductionRule> getProductionRules(std::string);
 };

@@ -62,8 +62,7 @@ int main(int argc, char const* argv[]) {
 }
 
 void getInputTokens(std::vector<Token>& inputTokens, Lexer& lexer, const std::string& inputFile) {
-    const std::string LEXER_CONFIG_FILE = "../lexer.cfg";
-    lexer.loadConfiguration(LEXER_CONFIG_FILE);
+    lexer.loadConfiguration();
     inputTokens = lexer.getTokens(inputFile);
 }
 
