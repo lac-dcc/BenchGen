@@ -102,7 +102,22 @@ class Call : public Node {
     std::shared_ptr<Node> code;
 
    public:
+    int conditionalCounts;
+    
     Call(int id, std::shared_ptr<Node> code) : id(id), code(code) {
+        conditionalCounts = 0;
+    }
+
+    Call() {
+        conditionalCounts = 0;
+    }
+
+    void setId(int id) {
+        this->id = id;
+    }
+
+    void setCode(std::shared_ptr<Node> code) {
+        this->code = code;
     }
 
     void gen(Generator&) override;

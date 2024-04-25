@@ -80,6 +80,7 @@ void Loop::gen(Generator& generator) {
 }
 
 void Call::gen(Generator& generator) {
+    std::cout << "CALL " << id << " HAS " << conditionalCounts << " CONDITIONALS" << std::endl;
     generator.callFunc(id);
     if (!generator.functionExists(id)) {
         generator.startFunc(id);
