@@ -18,6 +18,7 @@ class Generator {
     std::stack<GeneratorFunction*> currentFunction;
 
     void generateIncludes();
+    void generateGlobalVars();
     void generateMainFunction();
 
     int varCounter;
@@ -34,9 +35,9 @@ class Generator {
     }
     void addLine(std::string, int = 0);
     void startScope();
-    void startFunc(int);
+    void startFunc(int, int);
     bool functionExists(int);
-    void callFunc(int);
+    void callFunc(int, int);
     int addVar(std::string type);
     void endScope();
     void endFunc();

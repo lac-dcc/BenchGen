@@ -1,6 +1,8 @@
 #ifndef AST_H
 #define AST_H
 
+#include <cmath>
+
 #include "../generator/generator.h"
 #include "../shared/enums.h"
 #include "../shared/globalStructs.h"

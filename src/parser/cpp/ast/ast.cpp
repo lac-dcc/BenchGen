@@ -80,10 +80,11 @@ void Loop::gen(Generator& generator) {
 }
 
 void Call::gen(Generator& generator) {
-    std::cout << "CALL " << id << " HAS " << conditionalCounts << " CONDITIONALS" << std::endl;
-    generator.callFunc(id);
+    int nParameters = std::ceil(conditionalCounts / 64.0);
+    std::cout << "CALL " << id << " HAS " << conditionalCounts << " CONDITIONALS AND " << nParameters << " PARAMETERS" << std::endl;
+    generator.callFunc(id, nParameters);
     if (!generator.functionExists(id)) {
-        generator.startFunc(id);
+        generator.startFunc(id, nParameters);
         code->gen(generator);
         generator.endFunc();
     }
