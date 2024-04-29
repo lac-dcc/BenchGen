@@ -9,6 +9,8 @@
 
 void printIndentationSpaces(int);
 
+std::string generateIfCondition(Generator& generator);
+
 class Node {
    public:
     virtual ~Node() = default;
@@ -105,7 +107,7 @@ class Call : public Node {
 
    public:
     int conditionalCounts;
-    
+
     Call(int id, std::shared_ptr<Node> code) : id(id), code(code) {
         conditionalCounts = 0;
     }

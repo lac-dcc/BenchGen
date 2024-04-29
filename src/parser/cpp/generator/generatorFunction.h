@@ -6,10 +6,10 @@
 class GeneratorFunction {
    private:
     int id;
-    bool isMainFunction;
     std::vector<std::string> lines;
 
    public:
+    bool isMainFunction;
     GeneratorFunction() {}
     GeneratorFunction(int id, bool isMainFunction = false) : id(id), isMainFunction(isMainFunction) {}
     ~GeneratorFunction() = default;

@@ -6,6 +6,18 @@ void printIndentationSpaces(int indent) {
     }
 }
 
+std::string generateIfCondition(Generator& generator) {
+    bool isMain = generator.currentFunction.top()->isMainFunction;
+    if (isMain) {
+        return "rng() & 1";
+    }
+    int ifCounter = generator.ifCounter.top();
+    int pathNumber = std::ceil((ifCounter + 1) / 64.0) - 1;
+    int bit = std::pow(2, ifCounter % 64);
+    std::string condition = "PATH" + std::to_string(pathNumber) + " & " + std::to_string(bit);
+    return condition;
+}
+
 // Gens
 
 void StatementCode::gen(Generator& generator) {
@@ -81,7 +93,6 @@ void Loop::gen(Generator& generator) {
 
 void Call::gen(Generator& generator) {
     int nParameters = std::ceil(conditionalCounts / 64.0);
-    std::cout << "CALL " << id << " HAS " << conditionalCounts << " CONDITIONALS AND " << nParameters << " PARAMETERS" << std::endl;
     generator.callFunc(id, nParameters);
     if (!generator.functionExists(id)) {
         generator.startFunc(id, nParameters);
@@ -99,7 +110,9 @@ void If::gen(Generator& generator) {
 }
 
 void IfParam::gen(Generator& generator) {
-    std::string line = "if(1 < 2) {";
+    std::string condition = generateIfCondition(generator);
+    generator.ifCounter.top()++;
+    std::string line = "if(" + condition + ") {";
     generator.addLine(line);
     generator.startScope();
     code->gen(generator);
@@ -108,7 +121,9 @@ void IfParam::gen(Generator& generator) {
 }
 
 void NoParamIf::gen(Generator& generator) {
-    std::string line = "if(1 < 2) {}";
+    std::string condition = generateIfCondition(generator);
+    generator.ifCounter.top()++;
+    std::string line = "if(" + condition + ") {}";
     generator.addLine(line);
     else_->gen(generator);
 }

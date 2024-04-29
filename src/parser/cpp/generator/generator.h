@@ -12,18 +12,18 @@
 class Generator {
    private:
     std::vector<std::string> includes;
-
-    GeneratorFunction mainFunction;
-    std::list<GeneratorFunction> functions;
-    std::stack<GeneratorFunction*> currentFunction;
+    std::vector<std::string> globalVars;
 
     void generateIncludes();
     void generateGlobalVars();
     void generateMainFunction();
 
-    int varCounter;
-
    public:
+    GeneratorFunction mainFunction;
+    std::list<GeneratorFunction> functions;
+    std::stack<GeneratorFunction*> currentFunction;
+    std::stack<int> ifCounter;
+    int varCounter;
     std::string varType;
     std::map<int, GeneratorVariable*> variables;
     std::stack<GeneratorScope> currentScope;

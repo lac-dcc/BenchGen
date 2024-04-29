@@ -1,6 +1,7 @@
 #include "generator.h"
 
 Generator::Generator(std::string variableType) {
+    this->ifCounter.push(0);
     this->varCounter = 0;
     this->varType = variableType;
     mainFunction = GeneratorFunction(-1, true);
@@ -26,7 +27,7 @@ void Generator::generateIncludes() {
 }
 
 void Generator::generateGlobalVars() {
-    includes.push_back("std::mt19937_64 rng{};");
+    globalVars.push_back("std::mt19937_64 rng{};");
 }
 
 void Generator::generateMainFunction() {
@@ -50,7 +51,7 @@ void Generator::startFunc(int funcId, int nParameters) {
     GeneratorFunction func = GeneratorFunction(funcId);
     std::string funcHeader = "void func" + std::to_string(funcId) + "(";
     for (int i = 0; i < nParameters; i++) {
-        funcHeader += "const unsigned long path" + std::to_string(i) + ", ";
+        funcHeader += "const unsigned long PATH" + std::to_string(i) + ", ";
     }
     if (nParameters > 0) {
         funcHeader.pop_back();
@@ -62,6 +63,7 @@ void Generator::startFunc(int funcId, int nParameters) {
     currentFunction.push(&(functions.back()));
     GeneratorScope scope = GeneratorScope();
     currentScope.push(scope);
+    this->ifCounter.push(0);
 }
 
 bool Generator::functionExists(int funcId) {
@@ -114,6 +116,7 @@ void Generator::endScope() {
 void Generator::endFunc() {
     endScope();
     currentFunction.pop();
+    ifCounter.pop();
 }
 
 void Generator::writeToFile(std::string filename) {
@@ -122,6 +125,11 @@ void Generator::writeToFile(std::string filename) {
     // Includes
     for (auto include : includes) {
         file << include << std::endl;
+    }
+    file << std::endl;
+    // Global variables
+    for (auto var : globalVars) {
+        file << var << std::endl;
     }
     file << std::endl;
     // Headers
