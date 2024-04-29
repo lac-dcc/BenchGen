@@ -3,7 +3,6 @@
 #include <unistd.h>
 
 std::vector<Token> lSystem::lSystem(int iterations, const std::vector<ProductionRule>& productionRules, const std::vector<Token>& inputTokens) {
-    std::unordered_map<std::vector<Token>, int, TokenVectorHash, TokenVectorEqual> callMap = std::unordered_map<std::vector<Token>, int, TokenVectorHash, TokenVectorEqual>();
     int callCounter = 0;
 
     // Return Variable
@@ -11,12 +10,12 @@ std::vector<Token> lSystem::lSystem(int iterations, const std::vector<Production
 
     // L-System main loop
     for (int t = 0; t < iterations; t++) {
-        applyCallIds(outputTokens, callMap, callCounter);
+        applyCallIds(outputTokens, callCounter);
 
         applyProductionRules(outputTokens, productionRules);
     }
 
-    applyCallIds(outputTokens, callMap, callCounter);
+    applyCallIds(outputTokens, callCounter);
 
     std::vector<Token> returnTokens{std::begin(outputTokens), std::end(outputTokens)};
 
@@ -39,7 +38,8 @@ int lSystem::findEqualCall(const std::unordered_map<std::vector<Token>, int, Tok
     return -1;
 }
 
-void lSystem::applyCallIds(std::list<Token>& outputTokens, std::unordered_map<std::vector<Token>, int, TokenVectorHash, TokenVectorEqual>& callMap, int& callCounter) {
+void lSystem::applyCallIds(std::list<Token>& outputTokens, int& callCounter) {
+    std::unordered_map<std::vector<Token>, int, TokenVectorHash, TokenVectorEqual> callMap = std::unordered_map<std::vector<Token>, int, TokenVectorHash, TokenVectorEqual>();
     for (auto i = outputTokens.begin(); i != outputTokens.end(); i++) {
         int type = i->type;
         int next2Type = std::next(i, 2)->type;

@@ -1,11 +1,15 @@
 #ifndef AST_H
 #define AST_H
 
+#include <cmath>
+
 #include "../generator/generator.h"
 #include "../shared/enums.h"
 #include "../shared/globalStructs.h"
 
 void printIndentationSpaces(int);
+
+std::string generateIfCondition(Generator& generator);
 
 class Node {
    public:
@@ -102,7 +106,22 @@ class Call : public Node {
     std::shared_ptr<Node> code;
 
    public:
+    int conditionalCounts;
+
     Call(int id, std::shared_ptr<Node> code) : id(id), code(code) {
+        conditionalCounts = 0;
+    }
+
+    Call() {
+        conditionalCounts = 0;
+    }
+
+    void setId(int id) {
+        this->id = id;
+    }
+
+    void setCode(std::shared_ptr<Node> code) {
+        this->code = code;
     }
 
     void gen(Generator&) override;

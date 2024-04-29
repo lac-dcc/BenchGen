@@ -12,17 +12,18 @@
 class Generator {
    private:
     std::vector<std::string> includes;
+    std::vector<std::string> globalVars;
 
+    void generateIncludes();
+    void generateGlobalVars();
+    void generateMainFunction();
+
+   public:
     GeneratorFunction mainFunction;
     std::list<GeneratorFunction> functions;
     std::stack<GeneratorFunction*> currentFunction;
-
-    void generateIncludes();
-    void generateMainFunction();
-
+    std::stack<int> ifCounter;
     int varCounter;
-
-   public:
     std::string varType;
     std::map<int, GeneratorVariable*> variables;
     std::stack<GeneratorScope> currentScope;
@@ -34,9 +35,9 @@ class Generator {
     }
     void addLine(std::string, int = 0);
     void startScope();
-    void startFunc(int);
+    void startFunc(int, int);
     bool functionExists(int);
-    void callFunc(int);
+    void callFunc(int, int);
     int addVar(std::string type);
     void endScope();
     void endFunc();

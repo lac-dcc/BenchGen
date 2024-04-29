@@ -12,6 +12,7 @@ class Parser {
     int tokenIndex;
     std::vector<Token> tokens;
     std::shared_ptr<Node> AST;
+    std::stack<Call*> currentCall;
 
     void match(int);
     std::shared_ptr<Node> parse_CODE();
@@ -23,6 +24,7 @@ class Parser {
     Parser() {
         tokenIndex = 0;
         AST = nullptr;
+        currentCall = std::stack<Call*>();
     }
 
     void setTokens(std::vector<Token>);

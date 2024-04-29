@@ -1,18 +1,21 @@
 #include "generator.h"
 
 Generator::Generator(std::string variableType) {
+    this->ifCounter.push(0);
     this->varCounter = 0;
     this->varType = variableType;
     mainFunction = GeneratorFunction(-1, true);
     currentFunction.push(&mainFunction);
     currentScope.push(GeneratorScope(0));
     generateIncludes();
+    generateGlobalVars();
     generateMainFunction();
 }
 
 void Generator::generateIncludes() {
     includes.push_back("#include <stdio.h>");
     includes.push_back("#include <stdlib.h>");
+    includes.push_back("#include <random>");
     if (varType == "bool")
         includes.push_back("#include <stdbool.h>");
     else if (varType == "string")
@@ -21,6 +24,10 @@ void Generator::generateIncludes() {
         includes.push_back("#include <vector>");
     else if (varType == "list")
         includes.push_back("#include <list>");
+}
+
+void Generator::generateGlobalVars() {
+    globalVars.push_back("std::mt19937_64 rng{};");
 }
 
 void Generator::generateMainFunction() {
@@ -40,14 +47,23 @@ void Generator::startScope() {
     currentScope.push(scope);
 }
 
-void Generator::startFunc(int funcId) {
-    std::string funcName = "func" + std::to_string(funcId);
+void Generator::startFunc(int funcId, int nParameters) {
     GeneratorFunction func = GeneratorFunction(funcId);
-    func.addLine("void " + funcName + "() {");
+    std::string funcHeader = "void func" + std::to_string(funcId) + "(";
+    for (int i = 0; i < nParameters; i++) {
+        funcHeader += "const unsigned long PATH" + std::to_string(i) + ", ";
+    }
+    if (nParameters > 0) {
+        funcHeader.pop_back();
+        funcHeader.pop_back();
+    }
+    funcHeader += ") {";
+    func.addLine(funcHeader);
     functions.push_back(func);
     currentFunction.push(&(functions.back()));
     GeneratorScope scope = GeneratorScope();
     currentScope.push(scope);
+    this->ifCounter.push(0);
 }
 
 bool Generator::functionExists(int funcId) {
@@ -59,9 +75,16 @@ bool Generator::functionExists(int funcId) {
     return false;
 }
 
-void Generator::callFunc(int funcId) {
-    std::string funcName = "func" + std::to_string(funcId);
-    std::string line = funcName + "();";
+void Generator::callFunc(int funcId, int nParameters) {
+    std::string line = "func" + std::to_string(funcId) + "(";
+    for (int i = 0; i < nParameters; i++) {
+        line += "rng(), ";
+    }
+    if (nParameters > 0) {
+        line.pop_back();
+        line.pop_back();
+    }
+    line += ");";
     addLine(line);
 }
 
@@ -93,6 +116,7 @@ void Generator::endScope() {
 void Generator::endFunc() {
     endScope();
     currentFunction.pop();
+    ifCounter.pop();
 }
 
 void Generator::writeToFile(std::string filename) {
@@ -101,6 +125,11 @@ void Generator::writeToFile(std::string filename) {
     // Includes
     for (auto include : includes) {
         file << include << std::endl;
+    }
+    file << std::endl;
+    // Global variables
+    for (auto var : globalVars) {
+        file << var << std::endl;
     }
     file << std::endl;
     // Headers

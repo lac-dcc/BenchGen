@@ -66,9 +66,14 @@ std::shared_ptr<Node> Parser::parse_STATEMENT() {
             match(TOK_CALL_ID);
             int callId = std::stoi(tokens[tokenIndex - 1].text);
             match(TOK_COMMA);
-            std::shared_ptr<Call> call = std::make_shared<Call>(Call(callId, parse_CODE()));
+            Call call = Call();
+            currentCall.push(&call);
+            call.setId(callId);
+            call.setCode(parse_CODE());
+            std::shared_ptr<Call> callPtr = std::make_shared<Call>(call);
             match(TOK_CPAREN);
-            return call;
+            currentCall.pop();
+            return callPtr;
         }
         case TOK_SEQ: {
             match(tokens[tokenIndex].type);
@@ -80,6 +85,9 @@ std::shared_ptr<Node> Parser::parse_STATEMENT() {
         case TOK_IF:
             match(TOK_IF);
             match(TOK_OPAREN);
+            if (!currentCall.empty()) {
+                currentCall.top()->conditionalCounts++;
+            }
             return std::make_shared<If>(If(parse_IFPARAM()));
         case TOK_ID:
             match(TOK_ID);
