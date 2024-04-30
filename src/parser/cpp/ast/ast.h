@@ -108,12 +108,10 @@ class Call : public Node {
    public:
     int conditionalCounts;
 
-    Call(int id, std::shared_ptr<Node> code) : id(id), code(code) {
-        conditionalCounts = 0;
+    Call(int id, std::shared_ptr<Node> code) : id(id), code(code), conditionalCounts(0) {
     }
 
-    Call() {
-        conditionalCounts = 0;
+    Call() : conditionalCounts(0) {
     }
 
     void setId(int id) {
