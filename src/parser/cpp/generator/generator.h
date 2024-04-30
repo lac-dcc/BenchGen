@@ -17,6 +17,7 @@ class Generator {
     void generateIncludes();
     void generateGlobalVars();
     void generateMainFunction();
+    void generateRandomNumberGenerator();
 
    public:
     GeneratorFunction mainFunction;

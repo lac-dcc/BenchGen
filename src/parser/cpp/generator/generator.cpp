@@ -4,18 +4,16 @@ Generator::Generator(std::string variableType) {
     this->ifCounter.push(0);
     this->varCounter = 0;
     this->varType = variableType;
-    mainFunction = GeneratorFunction(-1, true);
-    currentFunction.push(&mainFunction);
     currentScope.push(GeneratorScope(0));
     generateIncludes();
     generateGlobalVars();
+    generateRandomNumberGenerator();
     generateMainFunction();
 }
 
 void Generator::generateIncludes() {
     includes.push_back("#include <stdio.h>");
     includes.push_back("#include <stdlib.h>");
-    includes.push_back("#include <random>");
     if (varType == "bool")
         includes.push_back("#include <stdbool.h>");
     else if (varType == "string")
@@ -27,13 +25,25 @@ void Generator::generateIncludes() {
 }
 
 void Generator::generateGlobalVars() {
-    globalVars.push_back("std::mt19937_64 rng{};");
+}
+
+void Generator::generateRandomNumberGenerator() {
+    GeneratorFunction rngFunction = GeneratorFunction(-1);
+    rngFunction.addLine("unsigned long rng() {");
+    rngFunction.addLine("   srand(time(NULL));");
+    rngFunction.addLine("   unsigned long n = rand();");
+    rngFunction.addLine("   srand(time(NULL));");
+    rngFunction.addLine("   return (n << 32) | rand();");
+    rngFunction.addLine("}");
+    functions.push_back(rngFunction);
 }
 
 void Generator::generateMainFunction() {
+    mainFunction = GeneratorFunction(-1, true);
     mainFunction.addLine("int main() {");
     mainFunction.addLine("   return 0;");
     mainFunction.addLine("}");
+    currentFunction.push(&mainFunction);
     startScope();
 }
 
