@@ -1,1 +1,0 @@
-new IF(LOOP(CALL(B) new),A) contains

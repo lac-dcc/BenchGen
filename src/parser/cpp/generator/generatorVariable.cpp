@@ -163,7 +163,7 @@ std::vector<std::string> Vector::insert() {
 
 std::vector<std::string> Vector::remove() {
     std::vector<std::string> temp = {};
-    if (this->vector.size() >= 0) {
+    if (this->vector.size() > 0) {
         this->vector.pop_back();
         temp.push_back(this->name + ".pop_back();");
     }
@@ -214,7 +214,7 @@ std::vector<std::string> List::insert() {
 
 std::vector<std::string> List::remove() {
     std::vector<std::string> temp = {};
-    if (this->list.size() >= 0) {
+    if (this->list.size() > 0) {
         this->list.pop_back();
         temp.push_back(this->name + ".pop_back();");
     }

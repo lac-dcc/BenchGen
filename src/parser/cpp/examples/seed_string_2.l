@@ -1,0 +1,1 @@
+IF(IF(new A contains, LOOP(D C)), CALL(LOOP(B)))
