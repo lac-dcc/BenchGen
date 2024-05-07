@@ -3,6 +3,7 @@
 Generator::Generator(std::string variableType) {
     this->ifCounter.push(0);
     this->varCounter = 0;
+    this->loopCounter = 0;
     this->varType = variableType;
     currentScope.push(GeneratorScope(0));
     generateIncludes();

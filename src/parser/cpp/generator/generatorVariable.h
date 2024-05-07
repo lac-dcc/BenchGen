@@ -20,7 +20,7 @@ class GeneratorVariable {
 
 class Scalar : public GeneratorVariable {
    public:
-    int value;
+    int initialValue;
     Scalar() {}
     Scalar(int initialValue, int id);
     std::string eval() override;
@@ -32,7 +32,6 @@ class Scalar : public GeneratorVariable {
 class Array : public GeneratorVariable {
    public:
     int totalSize;
-    int* array;
     Array(){};
     Array(int totalSize, int* values, int id);
     ~Array();
@@ -44,7 +43,6 @@ class Array : public GeneratorVariable {
 
 class Matrix : public GeneratorVariable {
    public:
-    int** matrix;
     int rows;
     int cols;
     Matrix(){};
@@ -57,7 +55,6 @@ class Matrix : public GeneratorVariable {
 
 class Vector : public GeneratorVariable {
    public:
-    std::vector<int> vector;
     int currentSize;
     Vector(){};
     Vector(int id);
@@ -69,7 +66,6 @@ class Vector : public GeneratorVariable {
 
 class List : public GeneratorVariable {
    public:
-    std::list<int> list;
     List(){};
     List(int id);
     std::string eval() override;

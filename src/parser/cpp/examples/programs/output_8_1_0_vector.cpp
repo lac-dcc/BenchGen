@@ -21,7 +21,7 @@ int main() {
    std::vector<int> vector3 = std::vector<int>();
    std::vector<int> vector4 = std::vector<int>();
    std::vector<int> vector5 = std::vector<int>();
-   for(int scalar6 = 0; scalar6 < 10; scalar6++) {
+   for(int loop0 = 0; loop0 < 3; loop0++) {
       if(rng() & 1) {
          for (auto&& i : vector1) {
             if (i == 0) {
@@ -30,70 +30,98 @@ int main() {
          }
       }
       else {
+         if (vector4.size() > 0) {
+            vector4.pop_back();
+         }
          for (auto&& i : vector4) {
             i--; 
          }
-         for (auto&& i : vector2) {
+         for (auto&& i : vector3) {
             if (i == 0) {
                printf("IS 0!");
             }
          }
       }
-      for(int scalar7 = 0; scalar7 < 10; scalar7++) {
-         std::vector<int> vector8 = std::vector<int>();
-         scalar7++;
-         for(int scalar9 = 0; scalar9 < 10; scalar9++) {
-            std::vector<int> vector10 = std::vector<int>();
+      for(int loop1 = 0; loop1 < 3; loop1++) {
+         std::vector<int> vector6 = std::vector<int>();
+         vector5.push_back(0);
+         for (auto&& i : vector5) { 
+            i++; 
+         }
+         for(int loop2 = 0; loop2 < 3; loop2++) {
+            std::vector<int> vector7 = std::vector<int>();
             vector1.push_back(0);
             for (auto&& i : vector1) { 
                i++; 
             }
-            for(int scalar11 = 0; scalar11 < 10; scalar11++) {
-               std::vector<int> vector12 = std::vector<int>();
-               vector1.push_back(0);
-               for (auto&& i : vector1) { 
+            for(int loop3 = 0; loop3 < 3; loop3++) {
+               std::vector<int> vector8 = std::vector<int>();
+               vector7.push_back(0);
+               for (auto&& i : vector7) { 
                   i++; 
                }
-               for(int scalar13 = 0; scalar13 < 10; scalar13++) {
-                  std::vector<int> vector14 = std::vector<int>();
-                  vector1.push_back(0);
-                  for (auto&& i : vector1) { 
+               for(int loop4 = 0; loop4 < 3; loop4++) {
+                  std::vector<int> vector9 = std::vector<int>();
+                  vector6.push_back(0);
+                  for (auto&& i : vector6) { 
                      i++; 
                   }
-                  for(int scalar15 = 0; scalar15 < 10; scalar15++) {
-                     std::vector<int> vector16 = std::vector<int>();
-                     vector14.push_back(0);
-                     for (auto&& i : vector14) { 
+                  for(int loop5 = 0; loop5 < 3; loop5++) {
+                     std::vector<int> vector10 = std::vector<int>();
+                     vector6.push_back(0);
+                     for (auto&& i : vector6) { 
                         i++; 
                      }
-                     for(int scalar17 = 0; scalar17 < 10; scalar17++) {
-                        std::vector<int> vector18 = std::vector<int>();
-                        vector2.push_back(0);
-                        for (auto&& i : vector2) { 
+                     for(int loop6 = 0; loop6 < 3; loop6++) {
+                        std::vector<int> vector11 = std::vector<int>();
+                        vector9.push_back(0);
+                        for (auto&& i : vector9) { 
                            i++; 
                         }
-                        scalar7--;
+                        if (vector1.size() > 0) {
+                           vector1.pop_back();
+                        }
+                        for (auto&& i : vector1) {
+                           i--; 
+                        }
                      }
                      printf("DELETE!\n");
-                     for (auto&& i : vector5) {
+                     if (vector8.size() > 0) {
+                        vector8.pop_back();
+                     }
+                     for (auto&& i : vector8) {
                         i--; 
                      }
                   }
                   printf("DELETE!\n");
-                  scalar7--;
+                  if (vector7.size() > 0) {
+                     vector7.pop_back();
+                  }
+                  for (auto&& i : vector7) {
+                     i--; 
+                  }
                }
                printf("DELETE!\n");
-               for (auto&& i : vector0) {
+               if (vector5.size() > 0) {
+                  vector5.pop_back();
+               }
+               for (auto&& i : vector5) {
                   i--; 
                }
             }
             printf("DELETE!\n");
+            if (vector3.size() > 0) {
+               vector3.pop_back();
+            }
             for (auto&& i : vector3) {
                i--; 
             }
          }
          printf("DELETE!\n");
-         for (auto&& i : vector5) {
+         if (vector6.size() > 0) {
+            vector6.pop_back();
+         }
+         for (auto&& i : vector6) {
             i--; 
          }
       }
@@ -105,157 +133,214 @@ int main() {
          printf("IS 0!");
       }
    }
-   for(int scalar6 = 0; scalar6 < 10; scalar6++) {
-      std::vector<int> vector7 = std::vector<int>();
-      vector5.push_back(0);
-      for (auto&& i : vector5) { 
+   for(int loop22 = 0; loop22 < 3; loop22++) {
+      std::vector<int> vector6 = std::vector<int>();
+      vector6.push_back(0);
+      for (auto&& i : vector6) { 
          i++; 
       }
-      for(int scalar8 = 0; scalar8 < 10; scalar8++) {
-         std::vector<int> vector9 = std::vector<int>();
+      for(int loop23 = 0; loop23 < 3; loop23++) {
+         std::vector<int> vector7 = std::vector<int>();
          vector4.push_back(0);
          for (auto&& i : vector4) { 
             i++; 
          }
-         for(int scalar10 = 0; scalar10 < 10; scalar10++) {
-            std::vector<int> vector11 = std::vector<int>();
-            vector3.push_back(0);
-            for (auto&& i : vector3) { 
+         for(int loop24 = 0; loop24 < 3; loop24++) {
+            std::vector<int> vector8 = std::vector<int>();
+            vector6.push_back(0);
+            for (auto&& i : vector6) { 
                i++; 
             }
-            for(int scalar12 = 0; scalar12 < 10; scalar12++) {
-               std::vector<int> vector13 = std::vector<int>();
-               scalar10++;
-               for(int scalar14 = 0; scalar14 < 10; scalar14++) {
-                  std::vector<int> vector15 = std::vector<int>();
+            for(int loop25 = 0; loop25 < 3; loop25++) {
+               std::vector<int> vector9 = std::vector<int>();
+               vector6.push_back(0);
+               for (auto&& i : vector6) { 
+                  i++; 
+               }
+               for(int loop26 = 0; loop26 < 3; loop26++) {
+                  std::vector<int> vector10 = std::vector<int>();
                   vector9.push_back(0);
                   for (auto&& i : vector9) { 
                      i++; 
                   }
-                  for(int scalar16 = 0; scalar16 < 10; scalar16++) {
-                     std::vector<int> vector17 = std::vector<int>();
-                     scalar16++;
-                     for(int scalar18 = 0; scalar18 < 10; scalar18++) {
-                        std::vector<int> vector19 = std::vector<int>();
-                        vector9.push_back(0);
-                        for (auto&& i : vector9) { 
+                  for(int loop27 = 0; loop27 < 3; loop27++) {
+                     std::vector<int> vector11 = std::vector<int>();
+                     vector10.push_back(0);
+                     for (auto&& i : vector10) { 
+                        i++; 
+                     }
+                     for(int loop28 = 0; loop28 < 3; loop28++) {
+                        std::vector<int> vector12 = std::vector<int>();
+                        vector11.push_back(0);
+                        for (auto&& i : vector11) { 
                            i++; 
                         }
-                        for (auto&& i : vector13) {
+                        if (vector11.size() > 0) {
+                           vector11.pop_back();
+                        }
+                        for (auto&& i : vector11) {
                            i--; 
                         }
                      }
                      printf("DELETE!\n");
-                     for (auto&& i : vector11) {
+                     if (vector5.size() > 0) {
+                        vector5.pop_back();
+                     }
+                     for (auto&& i : vector5) {
                         i--; 
                      }
                   }
                   printf("DELETE!\n");
-                  scalar12--;
-               }
-               printf("DELETE!\n");
-               vector3.pop_back();
-               for (auto&& i : vector3) {
-                  i--; 
-               }
-            }
-            printf("DELETE!\n");
-            scalar6--;
-         }
-         printf("DELETE!\n");
-         vector5.pop_back();
-         for (auto&& i : vector5) {
-            i--; 
-         }
-      }
-      printf("DELETE!\n");
-      scalar6--;
-   }
-   printf("DELETE!\n");
-   func1(rng());
-   func0(rng());
-   for(int scalar6 = 0; scalar6 < 10; scalar6++) {
-      std::vector<int> vector7 = std::vector<int>();
-      vector2.push_back(0);
-      for (auto&& i : vector2) { 
-         i++; 
-      }
-      for(int scalar8 = 0; scalar8 < 10; scalar8++) {
-         std::vector<int> vector9 = std::vector<int>();
-         vector4.push_back(0);
-         for (auto&& i : vector4) { 
-            i++; 
-         }
-         for(int scalar10 = 0; scalar10 < 10; scalar10++) {
-            std::vector<int> vector11 = std::vector<int>();
-            vector0.push_back(0);
-            for (auto&& i : vector0) { 
-               i++; 
-            }
-            for(int scalar12 = 0; scalar12 < 10; scalar12++) {
-               std::vector<int> vector13 = std::vector<int>();
-               scalar10++;
-               for(int scalar14 = 0; scalar14 < 10; scalar14++) {
-                  std::vector<int> vector15 = std::vector<int>();
-                  vector11.push_back(0);
-                  for (auto&& i : vector11) { 
-                     i++; 
+                  if (vector0.size() > 0) {
+                     vector0.pop_back();
                   }
-                  for(int scalar16 = 0; scalar16 < 10; scalar16++) {
-                     std::vector<int> vector17 = std::vector<int>();
-                     scalar8++;
-                     for(int scalar18 = 0; scalar18 < 10; scalar18++) {
-                        std::vector<int> vector19 = std::vector<int>();
-                        vector3.push_back(0);
-                        for (auto&& i : vector3) { 
-                           i++; 
-                        }
-                        for(int scalar20 = 0; scalar20 < 10; scalar20++) {
-                           std::vector<int> vector21 = std::vector<int>();
-                           vector15.push_back(0);
-                           for (auto&& i : vector15) { 
-                              i++; 
-                           }
-                           for (auto&& i : vector13) {
-                              i--; 
-                           }
-                        }
-                        printf("DELETE!\n");
-                        for (auto&& i : vector5) {
-                           i--; 
-                        }
-                     }
-                     printf("DELETE!\n");
-                     for (auto&& i : vector9) {
-                        i--; 
-                     }
-                  }
-                  printf("DELETE!\n");
-                  vector0.pop_back();
                   for (auto&& i : vector0) {
                      i--; 
                   }
                }
                printf("DELETE!\n");
-               vector2.pop_back();
+               if (vector5.size() > 0) {
+                  vector5.pop_back();
+               }
+               for (auto&& i : vector5) {
+                  i--; 
+               }
+            }
+            printf("DELETE!\n");
+            if (vector0.size() > 0) {
+               vector0.pop_back();
+            }
+            for (auto&& i : vector0) {
+               i--; 
+            }
+         }
+         printf("DELETE!\n");
+         if (vector1.size() > 0) {
+            vector1.pop_back();
+         }
+         for (auto&& i : vector1) {
+            i--; 
+         }
+      }
+      printf("DELETE!\n");
+      if (vector3.size() > 0) {
+         vector3.pop_back();
+      }
+      for (auto&& i : vector3) {
+         i--; 
+      }
+   }
+   printf("DELETE!\n");
+   func1(rng());
+   func0(rng());
+   for(int loop63 = 0; loop63 < 3; loop63++) {
+      std::vector<int> vector6 = std::vector<int>();
+      vector5.push_back(0);
+      for (auto&& i : vector5) { 
+         i++; 
+      }
+      for(int loop64 = 0; loop64 < 3; loop64++) {
+         std::vector<int> vector7 = std::vector<int>();
+         vector4.push_back(0);
+         for (auto&& i : vector4) { 
+            i++; 
+         }
+         for(int loop65 = 0; loop65 < 3; loop65++) {
+            std::vector<int> vector8 = std::vector<int>();
+            vector6.push_back(0);
+            for (auto&& i : vector6) { 
+               i++; 
+            }
+            for(int loop66 = 0; loop66 < 3; loop66++) {
+               std::vector<int> vector9 = std::vector<int>();
+               vector4.push_back(0);
+               for (auto&& i : vector4) { 
+                  i++; 
+               }
+               for(int loop67 = 0; loop67 < 3; loop67++) {
+                  std::vector<int> vector10 = std::vector<int>();
+                  vector4.push_back(0);
+                  for (auto&& i : vector4) { 
+                     i++; 
+                  }
+                  for(int loop68 = 0; loop68 < 3; loop68++) {
+                     std::vector<int> vector11 = std::vector<int>();
+                     vector8.push_back(0);
+                     for (auto&& i : vector8) { 
+                        i++; 
+                     }
+                     for(int loop69 = 0; loop69 < 3; loop69++) {
+                        std::vector<int> vector12 = std::vector<int>();
+                        vector7.push_back(0);
+                        for (auto&& i : vector7) { 
+                           i++; 
+                        }
+                        for(int loop70 = 0; loop70 < 3; loop70++) {
+                           std::vector<int> vector13 = std::vector<int>();
+                           vector7.push_back(0);
+                           for (auto&& i : vector7) { 
+                              i++; 
+                           }
+                           if (vector3.size() > 0) {
+                              vector3.pop_back();
+                           }
+                           for (auto&& i : vector3) {
+                              i--; 
+                           }
+                        }
+                        printf("DELETE!\n");
+                        if (vector5.size() > 0) {
+                           vector5.pop_back();
+                        }
+                        for (auto&& i : vector5) {
+                           i--; 
+                        }
+                     }
+                     printf("DELETE!\n");
+                     if (vector3.size() > 0) {
+                        vector3.pop_back();
+                     }
+                     for (auto&& i : vector3) {
+                        i--; 
+                     }
+                  }
+                  printf("DELETE!\n");
+                  if (vector6.size() > 0) {
+                     vector6.pop_back();
+                  }
+                  for (auto&& i : vector6) {
+                     i--; 
+                  }
+               }
+               printf("DELETE!\n");
+               if (vector2.size() > 0) {
+                  vector2.pop_back();
+               }
                for (auto&& i : vector2) {
                   i--; 
                }
             }
             printf("DELETE!\n");
-            vector11.pop_back();
-            for (auto&& i : vector11) {
+            if (vector2.size() > 0) {
+               vector2.pop_back();
+            }
+            for (auto&& i : vector2) {
                i--; 
             }
          }
          printf("DELETE!\n");
-         for (auto&& i : vector7) {
+         if (vector5.size() > 0) {
+            vector5.pop_back();
+         }
+         for (auto&& i : vector5) {
             i--; 
          }
       }
       printf("DELETE!\n");
-      vector4.pop_back();
-      for (auto&& i : vector4) {
+      if (vector6.size() > 0) {
+         vector6.pop_back();
+      }
+      for (auto&& i : vector6) {
          i--; 
       }
    }
@@ -272,30 +357,58 @@ unsigned long rng() {
 
 void func2(const unsigned long PATH0) {
    if(PATH0 & 1) {
-      for(int scalar7 = 0; scalar7 < 10; scalar7++) {
-         std::vector<int> vector8 = std::vector<int>();
-         scalar7++;
-         for(int scalar9 = 0; scalar9 < 10; scalar9++) {
-            std::vector<int> vector10 = std::vector<int>();
-            scalar7++;
-            for(int scalar11 = 0; scalar11 < 10; scalar11++) {
-               std::vector<int> vector12 = std::vector<int>();
-               scalar7++;
-               for(int scalar13 = 0; scalar13 < 10; scalar13++) {
-                  std::vector<int> vector14 = std::vector<int>();
-                  scalar11++;
-                  scalar7--;
+      for(int loop7 = 0; loop7 < 3; loop7++) {
+         std::vector<int> vector6 = std::vector<int>();
+         vector6.push_back(0);
+         for (auto&& i : vector6) { 
+            i++; 
+         }
+         for(int loop8 = 0; loop8 < 3; loop8++) {
+            std::vector<int> vector7 = std::vector<int>();
+            vector6.push_back(0);
+            for (auto&& i : vector6) { 
+               i++; 
+            }
+            for(int loop9 = 0; loop9 < 3; loop9++) {
+               std::vector<int> vector8 = std::vector<int>();
+               vector6.push_back(0);
+               for (auto&& i : vector6) { 
+                  i++; 
+               }
+               for(int loop10 = 0; loop10 < 3; loop10++) {
+                  std::vector<int> vector9 = std::vector<int>();
+                  vector6.push_back(0);
+                  for (auto&& i : vector6) { 
+                     i++; 
+                  }
+                  if (vector6.size() > 0) {
+                     vector6.pop_back();
+                  }
+                  for (auto&& i : vector6) {
+                     i--; 
+                  }
                }
                printf("DELETE!\n");
-               for (auto&& i : vector12) {
+               if (vector8.size() > 0) {
+                  vector8.pop_back();
+               }
+               for (auto&& i : vector8) {
                   i--; 
                }
             }
             printf("DELETE!\n");
-            scalar7--;
+            if (vector6.size() > 0) {
+               vector6.pop_back();
+            }
+            for (auto&& i : vector6) {
+               i--; 
+            }
          }
          printf("DELETE!\n");
-         for (auto&& i : vector8) {
+         if (vector6.size() > 0) {
+            vector6.pop_back();
+         }
+         for (auto&& i : vector6) {
             i--; 
          }
       }
@@ -303,69 +416,101 @@ void func2(const unsigned long PATH0) {
       func4(rng());
    }
    else {
-      std::vector<int> vector7 = std::vector<int>();
-      vector7.push_back(0);
-      for (auto&& i : vector7) { 
+      std::vector<int> vector6 = std::vector<int>();
+      vector6.push_back(0);
+      for (auto&& i : vector6) { 
          i++; 
       }
-      for (auto&& i : vector7) {
+      for (auto&& i : vector6) {
          if (i == 0) {
             printf("IS 0!");
          }
       }
-      vector7.pop_back();
-      for (auto&& i : vector7) {
+      if (vector6.size() > 0) {
+         vector6.pop_back();
+      }
+      for (auto&& i : vector6) {
          i--; 
       }
-      for (auto&& i : vector7) {
+      if (vector6.size() > 0) {
+         vector6.pop_back();
+      }
+      for (auto&& i : vector6) {
          i--; 
       }
-      for (auto&& i : vector7) {
+      for (auto&& i : vector6) {
          if (i == 0) {
             printf("IS 0!");
          }
       }
-      for(int scalar8 = 0; scalar8 < 10; scalar8++) {
-         std::vector<int> vector9 = std::vector<int>();
-         vector9.push_back(0);
-         for (auto&& i : vector9) { 
+      for(int loop17 = 0; loop17 < 3; loop17++) {
+         std::vector<int> vector7 = std::vector<int>();
+         vector7.push_back(0);
+         for (auto&& i : vector7) { 
             i++; 
          }
-         for(int scalar10 = 0; scalar10 < 10; scalar10++) {
-            std::vector<int> vector11 = std::vector<int>();
-            scalar8++;
-            for(int scalar12 = 0; scalar12 < 10; scalar12++) {
-               std::vector<int> vector13 = std::vector<int>();
-               vector7.push_back(0);
-               for (auto&& i : vector7) { 
+         for(int loop18 = 0; loop18 < 3; loop18++) {
+            std::vector<int> vector8 = std::vector<int>();
+            vector7.push_back(0);
+            for (auto&& i : vector7) { 
+               i++; 
+            }
+            for(int loop19 = 0; loop19 < 3; loop19++) {
+               std::vector<int> vector9 = std::vector<int>();
+               vector9.push_back(0);
+               for (auto&& i : vector9) { 
                   i++; 
                }
-               for(int scalar14 = 0; scalar14 < 10; scalar14++) {
-                  std::vector<int> vector15 = std::vector<int>();
-                  vector15.push_back(0);
-                  for (auto&& i : vector15) { 
+               for(int loop20 = 0; loop20 < 3; loop20++) {
+                  std::vector<int> vector10 = std::vector<int>();
+                  vector6.push_back(0);
+                  for (auto&& i : vector6) { 
                      i++; 
                   }
-                  for(int scalar16 = 0; scalar16 < 10; scalar16++) {
-                     std::vector<int> vector17 = std::vector<int>();
-                     scalar14++;
-                     for (auto&& i : vector13) {
+                  for(int loop21 = 0; loop21 < 3; loop21++) {
+                     std::vector<int> vector11 = std::vector<int>();
+                     vector8.push_back(0);
+                     for (auto&& i : vector8) { 
+                        i++; 
+                     }
+                     if (vector9.size() > 0) {
+                        vector9.pop_back();
+                     }
+                     for (auto&& i : vector9) {
                         i--; 
                      }
                   }
                   printf("DELETE!\n");
-                  scalar12--;
+                  if (vector8.size() > 0) {
+                     vector8.pop_back();
+                  }
+                  for (auto&& i : vector8) {
+                     i--; 
+                  }
                }
                printf("DELETE!\n");
-               for (auto&& i : vector11) {
+               if (vector8.size() > 0) {
+                  vector8.pop_back();
+               }
+               for (auto&& i : vector8) {
                   i--; 
                }
             }
             printf("DELETE!\n");
-            scalar8--;
+            if (vector7.size() > 0) {
+               vector7.pop_back();
+            }
+            for (auto&& i : vector7) {
+               i--; 
+            }
          }
          printf("DELETE!\n");
-         scalar8--;
+         if (vector7.size() > 0) {
+            vector7.pop_back();
+         }
+         for (auto&& i : vector7) {
+            i--; 
+         }
       }
       printf("DELETE!\n");
       printf("DELETE!\n");
@@ -374,71 +519,102 @@ void func2(const unsigned long PATH0) {
 
 void func4(const unsigned long PATH0) {
    if(PATH0 & 1) {
-      for(int scalar7 = 0; scalar7 < 10; scalar7++) {
-         std::vector<int> vector8 = std::vector<int>();
-         vector8.push_back(0);
-         for (auto&& i : vector8) { 
+      for(int loop11 = 0; loop11 < 3; loop11++) {
+         std::vector<int> vector6 = std::vector<int>();
+         vector6.push_back(0);
+         for (auto&& i : vector6) { 
             i++; 
          }
-         for(int scalar9 = 0; scalar9 < 10; scalar9++) {
-            std::vector<int> vector10 = std::vector<int>();
-            scalar9++;
-            scalar9--;
+         for(int loop12 = 0; loop12 < 3; loop12++) {
+            std::vector<int> vector7 = std::vector<int>();
+            vector6.push_back(0);
+            for (auto&& i : vector6) { 
+               i++; 
+            }
+            if (vector6.size() > 0) {
+               vector6.pop_back();
+            }
+            for (auto&& i : vector6) {
+               i--; 
+            }
          }
          printf("DELETE!\n");
-         scalar7--;
+         if (vector6.size() > 0) {
+            vector6.pop_back();
+         }
+         for (auto&& i : vector6) {
+            i--; 
+         }
       }
       printf("DELETE!\n");
       func6(rng());
    }
    else {
-      std::vector<int> vector7 = std::vector<int>();
-      vector7.push_back(0);
-      for (auto&& i : vector7) { 
+      std::vector<int> vector6 = std::vector<int>();
+      vector6.push_back(0);
+      for (auto&& i : vector6) { 
          i++; 
       }
-      for (auto&& i : vector7) {
+      for (auto&& i : vector6) {
          if (i == 0) {
             printf("IS 0!");
          }
       }
-      vector7.pop_back();
-      for (auto&& i : vector7) {
+      if (vector6.size() > 0) {
+         vector6.pop_back();
+      }
+      for (auto&& i : vector6) {
          i--; 
       }
-      for (auto&& i : vector7) {
+      if (vector6.size() > 0) {
+         vector6.pop_back();
+      }
+      for (auto&& i : vector6) {
          i--; 
       }
-      for (auto&& i : vector7) {
+      for (auto&& i : vector6) {
          if (i == 0) {
             printf("IS 0!");
          }
       }
-      for(int scalar8 = 0; scalar8 < 10; scalar8++) {
-         std::vector<int> vector9 = std::vector<int>();
-         scalar8++;
-         for(int scalar10 = 0; scalar10 < 10; scalar10++) {
-            std::vector<int> vector11 = std::vector<int>();
-            vector11.push_back(0);
-            for (auto&& i : vector11) { 
+      for(int loop14 = 0; loop14 < 3; loop14++) {
+         std::vector<int> vector7 = std::vector<int>();
+         vector6.push_back(0);
+         for (auto&& i : vector6) { 
+            i++; 
+         }
+         for(int loop15 = 0; loop15 < 3; loop15++) {
+            std::vector<int> vector8 = std::vector<int>();
+            vector6.push_back(0);
+            for (auto&& i : vector6) { 
                i++; 
             }
-            for(int scalar12 = 0; scalar12 < 10; scalar12++) {
-               std::vector<int> vector13 = std::vector<int>();
-               vector11.push_back(0);
-               for (auto&& i : vector11) { 
+            for(int loop16 = 0; loop16 < 3; loop16++) {
+               std::vector<int> vector9 = std::vector<int>();
+               vector7.push_back(0);
+               for (auto&& i : vector7) { 
                   i++; 
                }
-               scalar12--;
+               if (vector7.size() > 0) {
+                  vector7.pop_back();
+               }
+               for (auto&& i : vector7) {
+                  i--; 
+               }
             }
             printf("DELETE!\n");
-            vector11.pop_back();
-            for (auto&& i : vector11) {
+            if (vector8.size() > 0) {
+               vector8.pop_back();
+            }
+            for (auto&& i : vector8) {
                i--; 
             }
          }
          printf("DELETE!\n");
-         for (auto&& i : vector9) {
+         if (vector6.size() > 0) {
+            vector6.pop_back();
+         }
+         for (auto&& i : vector6) {
             i--; 
          }
       }
@@ -451,36 +627,43 @@ void func6(const unsigned long PATH0) {
    if(PATH0 & 1) {
    }
    else {
-      std::vector<int> vector7 = std::vector<int>();
-      vector7.push_back(0);
-      for (auto&& i : vector7) { 
+      std::vector<int> vector6 = std::vector<int>();
+      vector6.push_back(0);
+      for (auto&& i : vector6) { 
          i++; 
       }
-      for (auto&& i : vector7) {
+      for (auto&& i : vector6) {
          if (i == 0) {
             printf("IS 0!");
          }
       }
-      vector7.pop_back();
-      for (auto&& i : vector7) {
+      if (vector6.size() > 0) {
+         vector6.pop_back();
+      }
+      for (auto&& i : vector6) {
          i--; 
       }
-      for (auto&& i : vector7) {
+      if (vector6.size() > 0) {
+         vector6.pop_back();
+      }
+      for (auto&& i : vector6) {
          i--; 
       }
-      for (auto&& i : vector7) {
+      for (auto&& i : vector6) {
          if (i == 0) {
             printf("IS 0!");
          }
       }
-      for(int scalar8 = 0; scalar8 < 10; scalar8++) {
-         std::vector<int> vector9 = std::vector<int>();
-         vector7.push_back(0);
-         for (auto&& i : vector7) { 
+      for(int loop13 = 0; loop13 < 3; loop13++) {
+         std::vector<int> vector7 = std::vector<int>();
+         vector6.push_back(0);
+         for (auto&& i : vector6) { 
             i++; 
          }
-         vector7.pop_back();
-         for (auto&& i : vector7) {
+         if (vector6.size() > 0) {
+            vector6.pop_back();
+         }
+         for (auto&& i : vector6) {
             i--; 
          }
       }
@@ -491,42 +674,74 @@ void func6(const unsigned long PATH0) {
 
 void func1(const unsigned long PATH0) {
    if(PATH0 & 1) {
-      for(int scalar6 = 0; scalar6 < 10; scalar6++) {
-         std::vector<int> vector7 = std::vector<int>();
-         vector7.push_back(0);
-         for (auto&& i : vector7) { 
+      for(int loop29 = 0; loop29 < 3; loop29++) {
+         std::vector<int> vector6 = std::vector<int>();
+         vector6.push_back(0);
+         for (auto&& i : vector6) { 
             i++; 
          }
-         for(int scalar8 = 0; scalar8 < 10; scalar8++) {
-            std::vector<int> vector9 = std::vector<int>();
-            scalar8++;
-            for(int scalar10 = 0; scalar10 < 10; scalar10++) {
-               std::vector<int> vector11 = std::vector<int>();
-               scalar8++;
-               for(int scalar12 = 0; scalar12 < 10; scalar12++) {
-                  std::vector<int> vector13 = std::vector<int>();
+         for(int loop30 = 0; loop30 < 3; loop30++) {
+            std::vector<int> vector7 = std::vector<int>();
+            vector6.push_back(0);
+            for (auto&& i : vector6) { 
+               i++; 
+            }
+            for(int loop31 = 0; loop31 < 3; loop31++) {
+               std::vector<int> vector8 = std::vector<int>();
+               vector8.push_back(0);
+               for (auto&& i : vector8) { 
+                  i++; 
+               }
+               for(int loop32 = 0; loop32 < 3; loop32++) {
+                  std::vector<int> vector9 = std::vector<int>();
                   vector9.push_back(0);
                   for (auto&& i : vector9) { 
                      i++; 
                   }
-                  for(int scalar14 = 0; scalar14 < 10; scalar14++) {
-                     std::vector<int> vector15 = std::vector<int>();
-                     scalar6++;
-                     for (auto&& i : vector13) {
+                  for(int loop33 = 0; loop33 < 3; loop33++) {
+                     std::vector<int> vector10 = std::vector<int>();
+                     vector6.push_back(0);
+                     for (auto&& i : vector6) { 
+                        i++; 
+                     }
+                     if (vector8.size() > 0) {
+                        vector8.pop_back();
+                     }
+                     for (auto&& i : vector8) {
                         i--; 
                      }
                   }
                   printf("DELETE!\n");
-                  scalar6--;
+                  if (vector6.size() > 0) {
+                     vector6.pop_back();
+                  }
+                  for (auto&& i : vector6) {
+                     i--; 
+                  }
                }
                printf("DELETE!\n");
-               scalar6--;
+               if (vector6.size() > 0) {
+                  vector6.pop_back();
+               }
+               for (auto&& i : vector6) {
+                  i--; 
+               }
             }
             printf("DELETE!\n");
-            scalar8--;
+            if (vector6.size() > 0) {
+               vector6.pop_back();
+            }
+            for (auto&& i : vector6) {
+               i--; 
+            }
          }
          printf("DELETE!\n");
-         scalar6--;
+         if (vector6.size() > 0) {
+            vector6.pop_back();
+         }
+         for (auto&& i : vector6) {
+            i--; 
+         }
       }
       printf("DELETE!\n");
       func3(rng());
@@ -542,9 +757,14 @@ void func1(const unsigned long PATH0) {
             printf("IS 0!");
          }
       }
-      vector6.pop_back();
+      if (vector6.size() > 0) {
+         vector6.pop_back();
+      }
       for (auto&& i : vector6) {
          i--; 
+      }
+      if (vector6.size() > 0) {
+         vector6.pop_back();
       }
       for (auto&& i : vector6) {
          i--; 
@@ -554,58 +774,88 @@ void func1(const unsigned long PATH0) {
             printf("IS 0!");
          }
       }
-      for(int scalar7 = 0; scalar7 < 10; scalar7++) {
-         std::vector<int> vector8 = std::vector<int>();
-         vector8.push_back(0);
-         for (auto&& i : vector8) { 
+      for(int loop44 = 0; loop44 < 3; loop44++) {
+         std::vector<int> vector7 = std::vector<int>();
+         vector7.push_back(0);
+         for (auto&& i : vector7) { 
             i++; 
          }
-         for(int scalar9 = 0; scalar9 < 10; scalar9++) {
-            std::vector<int> vector10 = std::vector<int>();
-            scalar7++;
-            for(int scalar11 = 0; scalar11 < 10; scalar11++) {
-               std::vector<int> vector12 = std::vector<int>();
-               scalar11++;
-               for(int scalar13 = 0; scalar13 < 10; scalar13++) {
-                  std::vector<int> vector14 = std::vector<int>();
-                  vector6.push_back(0);
-                  for (auto&& i : vector6) { 
+         for(int loop45 = 0; loop45 < 3; loop45++) {
+            std::vector<int> vector8 = std::vector<int>();
+            vector6.push_back(0);
+            for (auto&& i : vector6) { 
+               i++; 
+            }
+            for(int loop46 = 0; loop46 < 3; loop46++) {
+               std::vector<int> vector9 = std::vector<int>();
+               vector9.push_back(0);
+               for (auto&& i : vector9) { 
+                  i++; 
+               }
+               for(int loop47 = 0; loop47 < 3; loop47++) {
+                  std::vector<int> vector10 = std::vector<int>();
+                  vector10.push_back(0);
+                  for (auto&& i : vector10) { 
                      i++; 
                   }
-                  for(int scalar15 = 0; scalar15 < 10; scalar15++) {
-                     std::vector<int> vector16 = std::vector<int>();
-                     vector14.push_back(0);
-                     for (auto&& i : vector14) { 
+                  for(int loop48 = 0; loop48 < 3; loop48++) {
+                     std::vector<int> vector11 = std::vector<int>();
+                     vector7.push_back(0);
+                     for (auto&& i : vector7) { 
                         i++; 
                      }
-                     for(int scalar17 = 0; scalar17 < 10; scalar17++) {
-                        std::vector<int> vector18 = std::vector<int>();
-                        vector6.push_back(0);
-                        for (auto&& i : vector6) { 
+                     for(int loop49 = 0; loop49 < 3; loop49++) {
+                        std::vector<int> vector12 = std::vector<int>();
+                        vector10.push_back(0);
+                        for (auto&& i : vector10) { 
                            i++; 
                         }
-                        scalar11--;
+                        if (vector9.size() > 0) {
+                           vector9.pop_back();
+                        }
+                        for (auto&& i : vector9) {
+                           i--; 
+                        }
                      }
                      printf("DELETE!\n");
-                     vector6.pop_back();
-                     for (auto&& i : vector6) {
+                     if (vector11.size() > 0) {
+                        vector11.pop_back();
+                     }
+                     for (auto&& i : vector11) {
                         i--; 
                      }
                   }
                   printf("DELETE!\n");
-                  scalar9--;
+                  if (vector9.size() > 0) {
+                     vector9.pop_back();
+                  }
+                  for (auto&& i : vector9) {
+                     i--; 
+                  }
                }
                printf("DELETE!\n");
-               scalar7--;
+               if (vector8.size() > 0) {
+                  vector8.pop_back();
+               }
+               for (auto&& i : vector8) {
+                  i--; 
+               }
             }
             printf("DELETE!\n");
-            vector6.pop_back();
-            for (auto&& i : vector6) {
+            if (vector8.size() > 0) {
+               vector8.pop_back();
+            }
+            for (auto&& i : vector8) {
                i--; 
             }
          }
          printf("DELETE!\n");
-         scalar7--;
+         if (vector6.size() > 0) {
+            vector6.pop_back();
+         }
+         for (auto&& i : vector6) {
+            i--; 
+         }
       }
       printf("DELETE!\n");
       printf("DELETE!\n");
@@ -614,31 +864,46 @@ void func1(const unsigned long PATH0) {
 
 void func3(const unsigned long PATH0) {
    if(PATH0 & 1) {
-      for(int scalar6 = 0; scalar6 < 10; scalar6++) {
-         std::vector<int> vector7 = std::vector<int>();
-         scalar6++;
-         for(int scalar8 = 0; scalar8 < 10; scalar8++) {
-            std::vector<int> vector9 = std::vector<int>();
-            vector9.push_back(0);
-            for (auto&& i : vector9) { 
+      for(int loop34 = 0; loop34 < 3; loop34++) {
+         std::vector<int> vector6 = std::vector<int>();
+         vector6.push_back(0);
+         for (auto&& i : vector6) { 
+            i++; 
+         }
+         for(int loop35 = 0; loop35 < 3; loop35++) {
+            std::vector<int> vector7 = std::vector<int>();
+            vector7.push_back(0);
+            for (auto&& i : vector7) { 
                i++; 
             }
-            for(int scalar10 = 0; scalar10 < 10; scalar10++) {
-               std::vector<int> vector11 = std::vector<int>();
-               vector11.push_back(0);
-               for (auto&& i : vector11) { 
+            for(int loop36 = 0; loop36 < 3; loop36++) {
+               std::vector<int> vector8 = std::vector<int>();
+               vector8.push_back(0);
+               for (auto&& i : vector8) { 
                   i++; 
                }
-               scalar8--;
+               if (vector8.size() > 0) {
+                  vector8.pop_back();
+               }
+               for (auto&& i : vector8) {
+                  i--; 
+               }
             }
             printf("DELETE!\n");
-            vector9.pop_back();
-            for (auto&& i : vector9) {
+            if (vector7.size() > 0) {
+               vector7.pop_back();
+            }
+            for (auto&& i : vector7) {
                i--; 
             }
          }
          printf("DELETE!\n");
-         scalar6--;
+         if (vector6.size() > 0) {
+            vector6.pop_back();
+         }
+         for (auto&& i : vector6) {
+            i--; 
+         }
       }
       printf("DELETE!\n");
       func5(rng());
@@ -654,9 +919,14 @@ void func3(const unsigned long PATH0) {
             printf("IS 0!");
          }
       }
-      vector6.pop_back();
+      if (vector6.size() > 0) {
+         vector6.pop_back();
+      }
       for (auto&& i : vector6) {
          i--; 
+      }
+      if (vector6.size() > 0) {
+         vector6.pop_back();
       }
       for (auto&& i : vector6) {
          i--; 
@@ -666,41 +936,58 @@ void func3(const unsigned long PATH0) {
             printf("IS 0!");
          }
       }
-      for(int scalar7 = 0; scalar7 < 10; scalar7++) {
-         std::vector<int> vector8 = std::vector<int>();
-         scalar7++;
-         for(int scalar9 = 0; scalar9 < 10; scalar9++) {
-            std::vector<int> vector10 = std::vector<int>();
-            vector6.push_back(0);
-            for (auto&& i : vector6) { 
+      for(int loop40 = 0; loop40 < 3; loop40++) {
+         std::vector<int> vector7 = std::vector<int>();
+         vector7.push_back(0);
+         for (auto&& i : vector7) { 
+            i++; 
+         }
+         for(int loop41 = 0; loop41 < 3; loop41++) {
+            std::vector<int> vector8 = std::vector<int>();
+            vector8.push_back(0);
+            for (auto&& i : vector8) { 
                i++; 
             }
-            for(int scalar11 = 0; scalar11 < 10; scalar11++) {
-               std::vector<int> vector12 = std::vector<int>();
-               vector12.push_back(0);
-               for (auto&& i : vector12) { 
+            for(int loop42 = 0; loop42 < 3; loop42++) {
+               std::vector<int> vector9 = std::vector<int>();
+               vector8.push_back(0);
+               for (auto&& i : vector8) { 
                   i++; 
                }
-               for(int scalar13 = 0; scalar13 < 10; scalar13++) {
-                  std::vector<int> vector14 = std::vector<int>();
-                  scalar7++;
-                  vector12.pop_back();
-                  for (auto&& i : vector12) {
+               for(int loop43 = 0; loop43 < 3; loop43++) {
+                  std::vector<int> vector10 = std::vector<int>();
+                  vector7.push_back(0);
+                  for (auto&& i : vector7) { 
+                     i++; 
+                  }
+                  if (vector6.size() > 0) {
+                     vector6.pop_back();
+                  }
+                  for (auto&& i : vector6) {
                      i--; 
                   }
                }
                printf("DELETE!\n");
-               for (auto&& i : vector12) {
+               if (vector7.size() > 0) {
+                  vector7.pop_back();
+               }
+               for (auto&& i : vector7) {
                   i--; 
                }
             }
             printf("DELETE!\n");
-            for (auto&& i : vector10) {
+            if (vector7.size() > 0) {
+               vector7.pop_back();
+            }
+            for (auto&& i : vector7) {
                i--; 
             }
          }
          printf("DELETE!\n");
-         for (auto&& i : vector8) {
+         if (vector7.size() > 0) {
+            vector7.pop_back();
+         }
+         for (auto&& i : vector7) {
             i--; 
          }
       }
@@ -711,10 +998,18 @@ void func3(const unsigned long PATH0) {
 
 void func5(const unsigned long PATH0) {
    if(PATH0 & 1) {
-      for(int scalar6 = 0; scalar6 < 10; scalar6++) {
-         std::vector<int> vector7 = std::vector<int>();
-         scalar6++;
-         scalar6--;
+      for(int loop37 = 0; loop37 < 3; loop37++) {
+         std::vector<int> vector6 = std::vector<int>();
+         vector6.push_back(0);
+         for (auto&& i : vector6) { 
+            i++; 
+         }
+         if (vector6.size() > 0) {
+            vector6.pop_back();
+         }
+         for (auto&& i : vector6) {
+            i--; 
+         }
       }
       printf("DELETE!\n");
       func7(rng());
@@ -730,9 +1025,14 @@ void func5(const unsigned long PATH0) {
             printf("IS 0!");
          }
       }
-      vector6.pop_back();
+      if (vector6.size() > 0) {
+         vector6.pop_back();
+      }
       for (auto&& i : vector6) {
          i--; 
+      }
+      if (vector6.size() > 0) {
+         vector6.pop_back();
       }
       for (auto&& i : vector6) {
          i--; 
@@ -742,20 +1042,30 @@ void func5(const unsigned long PATH0) {
             printf("IS 0!");
          }
       }
-      for(int scalar7 = 0; scalar7 < 10; scalar7++) {
-         std::vector<int> vector8 = std::vector<int>();
-         scalar7++;
-         for(int scalar9 = 0; scalar9 < 10; scalar9++) {
-            std::vector<int> vector10 = std::vector<int>();
+      for(int loop38 = 0; loop38 < 3; loop38++) {
+         std::vector<int> vector7 = std::vector<int>();
+         vector6.push_back(0);
+         for (auto&& i : vector6) { 
+            i++; 
+         }
+         for(int loop39 = 0; loop39 < 3; loop39++) {
+            std::vector<int> vector8 = std::vector<int>();
             vector8.push_back(0);
             for (auto&& i : vector8) { 
                i++; 
             }
-            scalar7--;
+            if (vector6.size() > 0) {
+               vector6.pop_back();
+            }
+            for (auto&& i : vector6) {
+               i--; 
+            }
          }
          printf("DELETE!\n");
-         vector8.pop_back();
-         for (auto&& i : vector8) {
+         if (vector7.size() > 0) {
+            vector7.pop_back();
+         }
+         for (auto&& i : vector7) {
             i--; 
          }
       }
@@ -778,9 +1088,14 @@ void func7(const unsigned long PATH0) {
             printf("IS 0!");
          }
       }
-      vector6.pop_back();
+      if (vector6.size() > 0) {
+         vector6.pop_back();
+      }
       for (auto&& i : vector6) {
          i--; 
+      }
+      if (vector6.size() > 0) {
+         vector6.pop_back();
       }
       for (auto&& i : vector6) {
          i--; 
@@ -796,56 +1111,88 @@ void func7(const unsigned long PATH0) {
 
 void func0(const unsigned long PATH0) {
    if(PATH0 & 1) {
-      for(int scalar6 = 0; scalar6 < 10; scalar6++) {
-         std::vector<int> vector7 = std::vector<int>();
-         vector7.push_back(0);
-         for (auto&& i : vector7) { 
+      for(int loop50 = 0; loop50 < 3; loop50++) {
+         std::vector<int> vector6 = std::vector<int>();
+         vector6.push_back(0);
+         for (auto&& i : vector6) { 
             i++; 
          }
-         for(int scalar8 = 0; scalar8 < 10; scalar8++) {
-            std::vector<int> vector9 = std::vector<int>();
-            vector9.push_back(0);
-            for (auto&& i : vector9) { 
+         for(int loop51 = 0; loop51 < 3; loop51++) {
+            std::vector<int> vector7 = std::vector<int>();
+            vector7.push_back(0);
+            for (auto&& i : vector7) { 
                i++; 
             }
-            for(int scalar10 = 0; scalar10 < 10; scalar10++) {
-               std::vector<int> vector11 = std::vector<int>();
-               scalar8++;
-               for(int scalar12 = 0; scalar12 < 10; scalar12++) {
-                  std::vector<int> vector13 = std::vector<int>();
-                  scalar6++;
-                  for(int scalar14 = 0; scalar14 < 10; scalar14++) {
-                     std::vector<int> vector15 = std::vector<int>();
+            for(int loop52 = 0; loop52 < 3; loop52++) {
+               std::vector<int> vector8 = std::vector<int>();
+               vector8.push_back(0);
+               for (auto&& i : vector8) { 
+                  i++; 
+               }
+               for(int loop53 = 0; loop53 < 3; loop53++) {
+                  std::vector<int> vector9 = std::vector<int>();
+                  vector6.push_back(0);
+                  for (auto&& i : vector6) { 
+                     i++; 
+                  }
+                  for(int loop54 = 0; loop54 < 3; loop54++) {
+                     std::vector<int> vector10 = std::vector<int>();
                      vector7.push_back(0);
                      for (auto&& i : vector7) { 
                         i++; 
                      }
-                     for(int scalar16 = 0; scalar16 < 10; scalar16++) {
-                        std::vector<int> vector17 = std::vector<int>();
-                        scalar14++;
+                     for(int loop55 = 0; loop55 < 3; loop55++) {
+                        std::vector<int> vector11 = std::vector<int>();
+                        vector8.push_back(0);
+                        for (auto&& i : vector8) { 
+                           i++; 
+                        }
+                        if (vector11.size() > 0) {
+                           vector11.pop_back();
+                        }
                         for (auto&& i : vector11) {
                            i--; 
                         }
                      }
                      printf("DELETE!\n");
-                     vector9.pop_back();
+                     if (vector9.size() > 0) {
+                        vector9.pop_back();
+                     }
                      for (auto&& i : vector9) {
                         i--; 
                      }
                   }
                   printf("DELETE!\n");
+                  if (vector9.size() > 0) {
+                     vector9.pop_back();
+                  }
                   for (auto&& i : vector9) {
                      i--; 
                   }
                }
                printf("DELETE!\n");
-               scalar6--;
+               if (vector6.size() > 0) {
+                  vector6.pop_back();
+               }
+               for (auto&& i : vector6) {
+                  i--; 
+               }
             }
             printf("DELETE!\n");
-            scalar6--;
+            if (vector6.size() > 0) {
+               vector6.pop_back();
+            }
+            for (auto&& i : vector6) {
+               i--; 
+            }
          }
          printf("DELETE!\n");
-         scalar6--;
+         if (vector6.size() > 0) {
+            vector6.pop_back();
+         }
+         for (auto&& i : vector6) {
+            i--; 
+         }
       }
       printf("DELETE!\n");
       func2(rng());
@@ -861,9 +1208,14 @@ void func0(const unsigned long PATH0) {
             printf("IS 0!");
          }
       }
-      vector6.pop_back();
+      if (vector6.size() > 0) {
+         vector6.pop_back();
+      }
       for (auto&& i : vector6) {
          i--; 
+      }
+      if (vector6.size() > 0) {
+         vector6.pop_back();
       }
       for (auto&& i : vector6) {
          i--; 
@@ -873,66 +1225,102 @@ void func0(const unsigned long PATH0) {
             printf("IS 0!");
          }
       }
-      for(int scalar7 = 0; scalar7 < 10; scalar7++) {
-         std::vector<int> vector8 = std::vector<int>();
-         vector8.push_back(0);
-         for (auto&& i : vector8) { 
+      for(int loop56 = 0; loop56 < 3; loop56++) {
+         std::vector<int> vector7 = std::vector<int>();
+         vector6.push_back(0);
+         for (auto&& i : vector6) { 
             i++; 
          }
-         for(int scalar9 = 0; scalar9 < 10; scalar9++) {
-            std::vector<int> vector10 = std::vector<int>();
-            vector6.push_back(0);
-            for (auto&& i : vector6) { 
+         for(int loop57 = 0; loop57 < 3; loop57++) {
+            std::vector<int> vector8 = std::vector<int>();
+            vector7.push_back(0);
+            for (auto&& i : vector7) { 
                i++; 
             }
-            for(int scalar11 = 0; scalar11 < 10; scalar11++) {
-               std::vector<int> vector12 = std::vector<int>();
-               vector12.push_back(0);
-               for (auto&& i : vector12) { 
+            for(int loop58 = 0; loop58 < 3; loop58++) {
+               std::vector<int> vector9 = std::vector<int>();
+               vector8.push_back(0);
+               for (auto&& i : vector8) { 
                   i++; 
                }
-               for(int scalar13 = 0; scalar13 < 10; scalar13++) {
-                  std::vector<int> vector14 = std::vector<int>();
-                  vector12.push_back(0);
-                  for (auto&& i : vector12) { 
+               for(int loop59 = 0; loop59 < 3; loop59++) {
+                  std::vector<int> vector10 = std::vector<int>();
+                  vector7.push_back(0);
+                  for (auto&& i : vector7) { 
                      i++; 
                   }
-                  for(int scalar15 = 0; scalar15 < 10; scalar15++) {
-                     std::vector<int> vector16 = std::vector<int>();
-                     scalar13++;
-                     for(int scalar17 = 0; scalar17 < 10; scalar17++) {
-                        std::vector<int> vector18 = std::vector<int>();
-                        scalar11++;
-                        for(int scalar19 = 0; scalar19 < 10; scalar19++) {
-                           std::vector<int> vector20 = std::vector<int>();
-                           vector20.push_back(0);
-                           for (auto&& i : vector20) { 
+                  for(int loop60 = 0; loop60 < 3; loop60++) {
+                     std::vector<int> vector11 = std::vector<int>();
+                     vector7.push_back(0);
+                     for (auto&& i : vector7) { 
+                        i++; 
+                     }
+                     for(int loop61 = 0; loop61 < 3; loop61++) {
+                        std::vector<int> vector12 = std::vector<int>();
+                        vector6.push_back(0);
+                        for (auto&& i : vector6) { 
+                           i++; 
+                        }
+                        for(int loop62 = 0; loop62 < 3; loop62++) {
+                           std::vector<int> vector13 = std::vector<int>();
+                           vector9.push_back(0);
+                           for (auto&& i : vector9) { 
                               i++; 
                            }
-                           scalar19--;
+                           if (vector6.size() > 0) {
+                              vector6.pop_back();
+                           }
+                           for (auto&& i : vector6) {
+                              i--; 
+                           }
                         }
                         printf("DELETE!\n");
-                        vector6.pop_back();
-                        for (auto&& i : vector6) {
+                        if (vector8.size() > 0) {
+                           vector8.pop_back();
+                        }
+                        for (auto&& i : vector8) {
                            i--; 
                         }
                      }
                      printf("DELETE!\n");
-                     for (auto&& i : vector14) {
+                     if (vector8.size() > 0) {
+                        vector8.pop_back();
+                     }
+                     for (auto&& i : vector8) {
                         i--; 
                      }
                   }
                   printf("DELETE!\n");
-                  scalar7--;
+                  if (vector7.size() > 0) {
+                     vector7.pop_back();
+                  }
+                  for (auto&& i : vector7) {
+                     i--; 
+                  }
                }
                printf("DELETE!\n");
-               scalar9--;
+               if (vector8.size() > 0) {
+                  vector8.pop_back();
+               }
+               for (auto&& i : vector8) {
+                  i--; 
+               }
             }
             printf("DELETE!\n");
-            scalar9--;
+            if (vector7.size() > 0) {
+               vector7.pop_back();
+            }
+            for (auto&& i : vector7) {
+               i--; 
+            }
          }
          printf("DELETE!\n");
-         scalar7--;
+         if (vector6.size() > 0) {
+            vector6.pop_back();
+         }
+         for (auto&& i : vector6) {
+            i--; 
+         }
       }
       printf("DELETE!\n");
       printf("DELETE!\n");

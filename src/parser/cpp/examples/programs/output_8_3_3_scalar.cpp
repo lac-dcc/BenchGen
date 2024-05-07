@@ -24,50 +24,50 @@ int main() {
       printf("DELETE!\n");
    }
    printf("DELETE!\n");
-   for(int scalar2 = 0; scalar2 < 10; scalar2++) {
-      int scalar3 = 1;
-      scalar1++;
+   for(int loop0 = 0; loop0 < 3; loop0++) {
+      int scalar2 = 1;
+      scalar0++;
       func0(rng());
-      int scalar4 = 1;
-      for(int scalar5 = 0; scalar5 < 10; scalar5++) {
-         int scalar6 = 1;
-         int scalar7 = 1;
+      int scalar3 = 1;
+      for(int loop9 = 0; loop9 < 3; loop9++) {
+         int scalar4 = 1;
+         int scalar5 = 1;
          if(rng() & 1) {
-            scalar3++;
+            scalar5++;
             printf("DELETE!\n");
          }
          else {
-            scalar0--;
+            scalar2--;
             printf("DELETE!\n");
          }
          printf("DELETE!\n");
-         int scalar8 = 1;
+         int scalar6 = 1;
          printf("DELETE!\n");
-         int scalar9 = 1;
+         int scalar7 = 1;
          scalar7++;
-         int scalar10 = 1;
+         int scalar8 = 1;
          func5(rng());
-         for(int scalar11 = 0; scalar11 < 10; scalar11++) {
-            if (scalar9 == 0) {
+         for(int loop10 = 0; loop10 < 3; loop10++) {
+            if (scalar6 == 0) {
                printf("IS 0!");
             }
             if(rng() & 1) {
-               scalar2++;
+               scalar8++;
             }
             else {
-               scalar2--;
+               scalar8--;
             }
          }
          printf("DELETE!\n");
-         int scalar11 = 1;
+         int scalar9 = 1;
          scalar2++;
-         int scalar12 = 1;
+         int scalar10 = 1;
          func5(rng());
       }
       if (scalar3 == 0) {
          printf("IS 0!");
       }
-      scalar2--;
+      scalar3--;
       printf("DELETE!\n");
    }
    return 0;
@@ -81,49 +81,49 @@ unsigned long rng() {
 }
 
 void func0(const unsigned long PATH0) {
-   int scalar4 = 1;
+   int scalar3 = 1;
    printf("DELETE!\n");
+   int scalar4 = 1;
+   scalar4++;
    int scalar5 = 1;
-   scalar5++;
-   int scalar6 = 1;
    func5(rng());
-   for(int scalar7 = 0; scalar7 < 10; scalar7++) {
-      if (scalar4 == 0) {
+   for(int loop3 = 0; loop3 < 3; loop3++) {
+      if (scalar3 == 0) {
          printf("IS 0!");
       }
       if(PATH0 & 1) {
-         scalar5++;
+         scalar3++;
       }
       else {
-         scalar5--;
+         scalar4--;
       }
    }
    printf("DELETE!\n");
+   int scalar6 = 1;
+   scalar5++;
    int scalar7 = 1;
-   scalar6++;
-   int scalar8 = 1;
    func5(rng());
    if(PATH0 & 2) {
-      int scalar9 = 1;
+      int scalar8 = 1;
       func1(rng());
    }
    else {
-      for(int scalar9 = 0; scalar9 < 10; scalar9++) {
-         int scalar10 = 1;
-         int scalar11 = 1;
+      for(int loop6 = 0; loop6 < 3; loop6++) {
+         int scalar8 = 1;
+         int scalar9 = 1;
          if(PATH0 & 4) {
-            scalar7++;
+            scalar9++;
             printf("DELETE!\n");
          }
          else {
-            scalar10--;
+            scalar3--;
             printf("DELETE!\n");
          }
          printf("DELETE!\n");
          printf("DELETE!\n");
-         int scalar12 = 1;
-         scalar10++;
-         int scalar13 = 1;
+         int scalar10 = 1;
+         scalar7++;
+         int scalar11 = 1;
          func3(rng());
       }
    }
@@ -131,9 +131,9 @@ void func0(const unsigned long PATH0) {
 
 void func5(const unsigned long PATH0) {
    if(PATH0 & 1) {
-      for(int scalar7 = 0; scalar7 < 10; scalar7++) {
-         int scalar8 = 1;
-         if (scalar8 == 0) {
+      for(int loop1 = 0; loop1 < 3; loop1++) {
+         int scalar6 = 1;
+         if (scalar6 == 0) {
             printf("IS 0!");
          }
          printf("DELETE!\n");
@@ -145,15 +145,15 @@ void func5(const unsigned long PATH0) {
 }
 
 void func6(const unsigned long PATH0) {
-   for(int scalar7 = 0; scalar7 < 10; scalar7++) {
-      int scalar8 = 1;
-      int scalar9 = 1;
+   for(int loop2 = 0; loop2 < 3; loop2++) {
+      int scalar6 = 1;
+      int scalar7 = 1;
       if(PATH0 & 1) {
-         scalar8++;
+         scalar7++;
          printf("DELETE!\n");
       }
       else {
-         scalar8--;
+         scalar6--;
          printf("DELETE!\n");
       }
       printf("DELETE!\n");
@@ -162,9 +162,9 @@ void func6(const unsigned long PATH0) {
 
 void func1(const unsigned long PATH0) {
    if(PATH0 & 1) {
-      for(int scalar10 = 0; scalar10 < 10; scalar10++) {
-         int scalar11 = 1;
-         if (scalar11 == 0) {
+      for(int loop4 = 0; loop4 < 3; loop4++) {
+         int scalar9 = 1;
+         if (scalar9 == 0) {
             printf("IS 0!");
          }
          printf("DELETE!\n");
@@ -176,15 +176,15 @@ void func1(const unsigned long PATH0) {
 }
 
 void func2(const unsigned long PATH0) {
-   for(int scalar10 = 0; scalar10 < 10; scalar10++) {
-      int scalar11 = 1;
-      int scalar12 = 1;
+   for(int loop5 = 0; loop5 < 3; loop5++) {
+      int scalar9 = 1;
+      int scalar10 = 1;
       if(PATH0 & 1) {
-         scalar12++;
+         scalar9++;
          printf("DELETE!\n");
       }
       else {
-         scalar11--;
+         scalar10--;
          printf("DELETE!\n");
       }
       printf("DELETE!\n");
@@ -193,9 +193,9 @@ void func2(const unsigned long PATH0) {
 
 void func3(const unsigned long PATH0) {
    if(PATH0 & 1) {
-      for(int scalar14 = 0; scalar14 < 10; scalar14++) {
-         int scalar15 = 1;
-         if (scalar14 == 0) {
+      for(int loop7 = 0; loop7 < 3; loop7++) {
+         int scalar12 = 1;
+         if (scalar12 == 0) {
             printf("IS 0!");
          }
          printf("DELETE!\n");
@@ -207,15 +207,15 @@ void func3(const unsigned long PATH0) {
 }
 
 void func4(const unsigned long PATH0) {
-   for(int scalar14 = 0; scalar14 < 10; scalar14++) {
-      int scalar15 = 1;
-      int scalar16 = 1;
+   for(int loop8 = 0; loop8 < 3; loop8++) {
+      int scalar12 = 1;
+      int scalar13 = 1;
       if(PATH0 & 1) {
-         scalar15++;
+         scalar12++;
          printf("DELETE!\n");
       }
       else {
-         scalar15--;
+         scalar12--;
          printf("DELETE!\n");
       }
       printf("DELETE!\n");

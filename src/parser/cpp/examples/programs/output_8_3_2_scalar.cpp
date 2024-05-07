@@ -32,13 +32,13 @@ int main() {
          }
       }
       else {
-         for(int scalar0 = 0; scalar0 < 10; scalar0++) {
-            int scalar1 = 1;
+         for(int loop0 = 0; loop0 < 3; loop0++) {
+            int scalar0 = 1;
             func1(rng());
             printf("DELETE!\n");
+            int scalar1 = 1;
+            scalar0++;
             int scalar2 = 1;
-            scalar1++;
-            int scalar3 = 1;
             func3(rng());
          }
       }
@@ -58,9 +58,9 @@ unsigned long rng() {
 
 void func1(const unsigned long PATH0) {
    if(PATH0 & 1) {
-      for(int scalar2 = 0; scalar2 < 10; scalar2++) {
-         int scalar3 = 1;
-         if (scalar3 == 0) {
+      for(int loop1 = 0; loop1 < 3; loop1++) {
+         int scalar1 = 1;
+         if (scalar1 == 0) {
             printf("IS 0!");
          }
          printf("DELETE!\n");
@@ -72,15 +72,15 @@ void func1(const unsigned long PATH0) {
 }
 
 void func2(const unsigned long PATH0) {
-   for(int scalar2 = 0; scalar2 < 10; scalar2++) {
-      int scalar3 = 1;
-      int scalar4 = 1;
+   for(int loop2 = 0; loop2 < 3; loop2++) {
+      int scalar1 = 1;
+      int scalar2 = 1;
       if(PATH0 & 1) {
-         scalar4++;
+         scalar2++;
          printf("DELETE!\n");
       }
       else {
-         scalar3--;
+         scalar2--;
          printf("DELETE!\n");
       }
       printf("DELETE!\n");
@@ -89,9 +89,9 @@ void func2(const unsigned long PATH0) {
 
 void func3(const unsigned long PATH0) {
    if(PATH0 & 1) {
-      for(int scalar4 = 0; scalar4 < 10; scalar4++) {
-         int scalar5 = 1;
-         if (scalar4 == 0) {
+      for(int loop3 = 0; loop3 < 3; loop3++) {
+         int scalar3 = 1;
+         if (scalar3 == 0) {
             printf("IS 0!");
          }
          printf("DELETE!\n");
@@ -103,15 +103,15 @@ void func3(const unsigned long PATH0) {
 }
 
 void func4(const unsigned long PATH0) {
-   for(int scalar4 = 0; scalar4 < 10; scalar4++) {
-      int scalar5 = 1;
-      int scalar6 = 1;
+   for(int loop4 = 0; loop4 < 3; loop4++) {
+      int scalar3 = 1;
+      int scalar4 = 1;
       if(PATH0 & 1) {
          scalar4++;
          printf("DELETE!\n");
       }
       else {
-         scalar5--;
+         scalar4--;
          printf("DELETE!\n");
       }
       printf("DELETE!\n");
@@ -119,15 +119,15 @@ void func4(const unsigned long PATH0) {
 }
 
 void func0(const unsigned long PATH0) {
-   for(int scalar0 = 0; scalar0 < 10; scalar0++) {
-      int scalar1 = 1;
+   for(int loop5 = 0; loop5 < 3; loop5++) {
+      int scalar0 = 1;
       printf("DELETE!\n");
+      int scalar1 = 1;
+      scalar0++;
       int scalar2 = 1;
-      scalar2++;
-      int scalar3 = 1;
       func5(rng());
-      for(int scalar4 = 0; scalar4 < 10; scalar4++) {
-         if (scalar3 == 0) {
+      for(int loop8 = 0; loop8 < 3; loop8++) {
+         if (scalar2 == 0) {
             printf("IS 0!");
          }
          if(PATH0 & 1) {
@@ -138,18 +138,18 @@ void func0(const unsigned long PATH0) {
          }
       }
       printf("DELETE!\n");
+      int scalar3 = 1;
+      scalar2++;
       int scalar4 = 1;
-      scalar1++;
-      int scalar5 = 1;
       func5(rng());
    }
 }
 
 void func5(const unsigned long PATH0) {
    if(PATH0 & 1) {
-      for(int scalar4 = 0; scalar4 < 10; scalar4++) {
-         int scalar5 = 1;
-         if (scalar5 == 0) {
+      for(int loop6 = 0; loop6 < 3; loop6++) {
+         int scalar3 = 1;
+         if (scalar3 == 0) {
             printf("IS 0!");
          }
          printf("DELETE!\n");
@@ -161,15 +161,15 @@ void func5(const unsigned long PATH0) {
 }
 
 void func6(const unsigned long PATH0) {
-   for(int scalar4 = 0; scalar4 < 10; scalar4++) {
-      int scalar5 = 1;
-      int scalar6 = 1;
+   for(int loop7 = 0; loop7 < 3; loop7++) {
+      int scalar3 = 1;
+      int scalar4 = 1;
       if(PATH0 & 1) {
-         scalar6++;
+         scalar3++;
          printf("DELETE!\n");
       }
       else {
-         scalar5--;
+         scalar4--;
          printf("DELETE!\n");
       }
       printf("DELETE!\n");

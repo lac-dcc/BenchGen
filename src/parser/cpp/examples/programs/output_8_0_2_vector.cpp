@@ -27,9 +27,9 @@ int main() {
          }
       }
       else {
-         for(int scalar0 = 0; scalar0 < 10; scalar0++) {
+         for(int loop10 = 0; loop10 < 3; loop10++) {
             if(rng() & 1) {
-               for(int scalar1 = 0; scalar1 < 10; scalar1++) {
+               for(int loop11 = 0; loop11 < 3; loop11++) {
                   if(rng() & 1) {
                      func3(rng());
                   }
@@ -38,19 +38,26 @@ int main() {
                         func4(rng());
                      }
                      else {
-                        std::vector<int> vector2 = std::vector<int>();
-                        if (scalar0 == 0) {
-                           printf("IS 0!");
+                        std::vector<int> vector0 = std::vector<int>();
+                        for (auto&& i : vector0) {
+                           if (i == 0) {
+                              printf("IS 0!");
+                           }
                         }
-                        scalar0--;
+                        if (vector0.size() > 0) {
+                           vector0.pop_back();
+                        }
+                        for (auto&& i : vector0) {
+                           i--; 
+                        }
                         printf("DELETE!\n");
                      }
                   }
                }
             }
             else {
-               for(int scalar1 = 0; scalar1 < 10; scalar1++) {
-                  for(int scalar2 = 0; scalar2 < 10; scalar2++) {
+               for(int loop18 = 0; loop18 < 3; loop18++) {
+                  for(int loop19 = 0; loop19 < 3; loop19++) {
                      if(rng() & 1) {
                         func3(rng());
                      }
@@ -59,18 +66,25 @@ int main() {
                            func4(rng());
                         }
                         else {
-                           std::vector<int> vector3 = std::vector<int>();
-                           if (scalar2 == 0) {
-                              printf("IS 0!");
+                           std::vector<int> vector0 = std::vector<int>();
+                           for (auto&& i : vector0) {
+                              if (i == 0) {
+                                 printf("IS 0!");
+                              }
                            }
-                           scalar1--;
+                           if (vector0.size() > 0) {
+                              vector0.pop_back();
+                           }
+                           for (auto&& i : vector0) {
+                              i--; 
+                           }
                            printf("DELETE!\n");
                         }
                      }
                   }
                }
             }
-            for(int scalar1 = 0; scalar1 < 10; scalar1++) {
+            for(int loop20 = 0; loop20 < 3; loop20++) {
                if(rng() & 1) {
                   func2(rng());
                }
@@ -79,11 +93,18 @@ int main() {
                      func3(rng());
                   }
                   else {
-                     std::vector<int> vector2 = std::vector<int>();
-                     if (scalar0 == 0) {
-                        printf("IS 0!");
+                     std::vector<int> vector0 = std::vector<int>();
+                     for (auto&& i : vector0) {
+                        if (i == 0) {
+                           printf("IS 0!");
+                        }
                      }
-                     scalar0--;
+                     if (vector0.size() > 0) {
+                        vector0.pop_back();
+                     }
+                     for (auto&& i : vector0) {
+                        i--; 
+                     }
                      printf("DELETE!\n");
                   }
                }
@@ -115,7 +136,7 @@ void func1(const unsigned long PATH0) {
       i++; 
    }
    if(PATH0 & 1) {
-      for(int scalar2 = 0; scalar2 < 10; scalar2++) {
+      for(int loop0 = 0; loop0 < 3; loop0++) {
          if(PATH0 & 2) {
             func4(rng());
          }
@@ -124,19 +145,26 @@ void func1(const unsigned long PATH0) {
                func5(rng());
             }
             else {
-               std::vector<int> vector3 = std::vector<int>();
-               if (scalar2 == 0) {
-                  printf("IS 0!");
+               std::vector<int> vector2 = std::vector<int>();
+               for (auto&& i : vector1) {
+                  if (i == 0) {
+                     printf("IS 0!");
+                  }
                }
-               scalar2--;
+               if (vector1.size() > 0) {
+                  vector1.pop_back();
+               }
+               for (auto&& i : vector1) {
+                  i--; 
+               }
                printf("DELETE!\n");
             }
          }
       }
    }
    else {
-      for(int scalar2 = 0; scalar2 < 10; scalar2++) {
-         for(int scalar3 = 0; scalar3 < 10; scalar3++) {
+      for(int loop8 = 0; loop8 < 3; loop8++) {
+         for(int loop9 = 0; loop9 < 3; loop9++) {
             if(PATH0 & 8) {
                func4(rng());
             }
@@ -145,13 +173,15 @@ void func1(const unsigned long PATH0) {
                   func5(rng());
                }
                else {
-                  std::vector<int> vector4 = std::vector<int>();
-                  for (auto&& i : vector4) {
+                  std::vector<int> vector2 = std::vector<int>();
+                  for (auto&& i : vector2) {
                      if (i == 0) {
                         printf("IS 0!");
                      }
                   }
-                  vector1.pop_back();
+                  if (vector1.size() > 0) {
+                     vector1.pop_back();
+                  }
                   for (auto&& i : vector1) {
                      i--; 
                   }
@@ -165,17 +195,17 @@ void func1(const unsigned long PATH0) {
 }
 
 void func4(const unsigned long PATH0) {
-   std::vector<int> vector3 = std::vector<int>();
-   vector3.push_back(0);
-   for (auto&& i : vector3) { 
+   std::vector<int> vector2 = std::vector<int>();
+   vector2.push_back(0);
+   for (auto&& i : vector2) { 
       i++; 
    }
-   vector3.push_back(0);
-   for (auto&& i : vector3) { 
+   vector2.push_back(0);
+   for (auto&& i : vector2) { 
       i++; 
    }
    if(PATH0 & 1) {
-      for(int scalar4 = 0; scalar4 < 10; scalar4++) {
+      for(int loop1 = 0; loop1 < 3; loop1++) {
          if(PATH0 & 2) {
             func7(rng());
          }
@@ -184,21 +214,26 @@ void func4(const unsigned long PATH0) {
                func8();
             }
             else {
-               std::vector<int> vector5 = std::vector<int>();
+               std::vector<int> vector3 = std::vector<int>();
                for (auto&& i : vector3) {
                   if (i == 0) {
                      printf("IS 0!");
                   }
                }
-               scalar4--;
+               if (vector3.size() > 0) {
+                  vector3.pop_back();
+               }
+               for (auto&& i : vector3) {
+                  i--; 
+               }
                printf("DELETE!\n");
             }
          }
       }
    }
    else {
-      for(int scalar4 = 0; scalar4 < 10; scalar4++) {
-         for(int scalar5 = 0; scalar5 < 10; scalar5++) {
+      for(int loop3 = 0; loop3 < 3; loop3++) {
+         for(int loop4 = 0; loop4 < 3; loop4++) {
             if(PATH0 & 8) {
                func7(rng());
             }
@@ -207,11 +242,16 @@ void func4(const unsigned long PATH0) {
                   func8();
                }
                else {
-                  std::vector<int> vector6 = std::vector<int>();
-                  if (scalar5 == 0) {
-                     printf("IS 0!");
+                  std::vector<int> vector3 = std::vector<int>();
+                  for (auto&& i : vector2) {
+                     if (i == 0) {
+                        printf("IS 0!");
+                     }
                   }
-                  for (auto&& i : vector6) {
+                  if (vector3.size() > 0) {
+                     vector3.pop_back();
+                  }
+                  for (auto&& i : vector3) {
                      i--; 
                   }
                   printf("DELETE!\n");
@@ -224,38 +264,6 @@ void func4(const unsigned long PATH0) {
 }
 
 void func7(const unsigned long PATH0) {
-   std::vector<int> vector5 = std::vector<int>();
-   vector5.push_back(0);
-   for (auto&& i : vector5) { 
-      i++; 
-   }
-   vector5.push_back(0);
-   for (auto&& i : vector5) { 
-      i++; 
-   }
-   if(PATH0 & 1) {
-   }
-   else {
-      for(int scalar6 = 0; scalar6 < 10; scalar6++) {
-      }
-   }
-   printf("DELETE!\n");
-}
-
-void func8() {
-   std::vector<int> vector5 = std::vector<int>();
-   vector5.push_back(0);
-   for (auto&& i : vector5) { 
-      i++; 
-   }
-   vector5.push_back(0);
-   for (auto&& i : vector5) { 
-      i++; 
-   }
-   printf("DELETE!\n");
-}
-
-void func5(const unsigned long PATH0) {
    std::vector<int> vector3 = std::vector<int>();
    vector3.push_back(0);
    for (auto&& i : vector3) { 
@@ -266,53 +274,28 @@ void func5(const unsigned long PATH0) {
       i++; 
    }
    if(PATH0 & 1) {
-      for(int scalar4 = 0; scalar4 < 10; scalar4++) {
-         if(PATH0 & 2) {
-            func8();
-         }
-         else {
-            if(PATH0 & 4) {
-            }
-            else {
-               std::vector<int> vector5 = std::vector<int>();
-               for (auto&& i : vector5) {
-                  if (i == 0) {
-                     printf("IS 0!");
-                  }
-               }
-               scalar4--;
-               printf("DELETE!\n");
-            }
-         }
-      }
    }
    else {
-      for(int scalar4 = 0; scalar4 < 10; scalar4++) {
-         for(int scalar5 = 0; scalar5 < 10; scalar5++) {
-            if(PATH0 & 8) {
-               func8();
-            }
-            else {
-               if(PATH0 & 16) {
-               }
-               else {
-                  std::vector<int> vector6 = std::vector<int>();
-                  for (auto&& i : vector3) {
-                     if (i == 0) {
-                        printf("IS 0!");
-                     }
-                  }
-                  scalar5--;
-                  printf("DELETE!\n");
-               }
-            }
-         }
+      for(int loop2 = 0; loop2 < 3; loop2++) {
       }
    }
    printf("DELETE!\n");
 }
 
-void func3(const unsigned long PATH0) {
+void func8() {
+   std::vector<int> vector3 = std::vector<int>();
+   vector3.push_back(0);
+   for (auto&& i : vector3) { 
+      i++; 
+   }
+   vector3.push_back(0);
+   for (auto&& i : vector3) { 
+      i++; 
+   }
+   printf("DELETE!\n");
+}
+
+void func5(const unsigned long PATH0) {
    std::vector<int> vector2 = std::vector<int>();
    vector2.push_back(0);
    for (auto&& i : vector2) { 
@@ -323,7 +306,74 @@ void func3(const unsigned long PATH0) {
       i++; 
    }
    if(PATH0 & 1) {
-      for(int scalar3 = 0; scalar3 < 10; scalar3++) {
+      for(int loop5 = 0; loop5 < 3; loop5++) {
+         if(PATH0 & 2) {
+            func8();
+         }
+         else {
+            if(PATH0 & 4) {
+            }
+            else {
+               std::vector<int> vector3 = std::vector<int>();
+               for (auto&& i : vector3) {
+                  if (i == 0) {
+                     printf("IS 0!");
+                  }
+               }
+               if (vector2.size() > 0) {
+                  vector2.pop_back();
+               }
+               for (auto&& i : vector2) {
+                  i--; 
+               }
+               printf("DELETE!\n");
+            }
+         }
+      }
+   }
+   else {
+      for(int loop6 = 0; loop6 < 3; loop6++) {
+         for(int loop7 = 0; loop7 < 3; loop7++) {
+            if(PATH0 & 8) {
+               func8();
+            }
+            else {
+               if(PATH0 & 16) {
+               }
+               else {
+                  std::vector<int> vector3 = std::vector<int>();
+                  for (auto&& i : vector2) {
+                     if (i == 0) {
+                        printf("IS 0!");
+                     }
+                  }
+                  if (vector2.size() > 0) {
+                     vector2.pop_back();
+                  }
+                  for (auto&& i : vector2) {
+                     i--; 
+                  }
+                  printf("DELETE!\n");
+               }
+            }
+         }
+      }
+   }
+   printf("DELETE!\n");
+}
+
+void func3(const unsigned long PATH0) {
+   std::vector<int> vector0 = std::vector<int>();
+   vector0.push_back(0);
+   for (auto&& i : vector0) { 
+      i++; 
+   }
+   vector0.push_back(0);
+   for (auto&& i : vector0) { 
+      i++; 
+   }
+   if(PATH0 & 1) {
+      for(int loop12 = 0; loop12 < 3; loop12++) {
          if(PATH0 & 2) {
             func6(rng());
          }
@@ -332,19 +382,26 @@ void func3(const unsigned long PATH0) {
                func7(rng());
             }
             else {
-               std::vector<int> vector4 = std::vector<int>();
-               if (scalar3 == 0) {
-                  printf("IS 0!");
+               std::vector<int> vector1 = std::vector<int>();
+               for (auto&& i : vector1) {
+                  if (i == 0) {
+                     printf("IS 0!");
+                  }
                }
-               scalar3--;
+               if (vector1.size() > 0) {
+                  vector1.pop_back();
+               }
+               for (auto&& i : vector1) {
+                  i--; 
+               }
                printf("DELETE!\n");
             }
          }
       }
    }
    else {
-      for(int scalar3 = 0; scalar3 < 10; scalar3++) {
-         for(int scalar4 = 0; scalar4 < 10; scalar4++) {
+      for(int loop16 = 0; loop16 < 3; loop16++) {
+         for(int loop17 = 0; loop17 < 3; loop17++) {
             if(PATH0 & 8) {
                func6(rng());
             }
@@ -353,13 +410,18 @@ void func3(const unsigned long PATH0) {
                   func7(rng());
                }
                else {
-                  std::vector<int> vector5 = std::vector<int>();
-                  for (auto&& i : vector5) {
+                  std::vector<int> vector1 = std::vector<int>();
+                  for (auto&& i : vector1) {
                      if (i == 0) {
                         printf("IS 0!");
                      }
                   }
-                  scalar3--;
+                  if (vector1.size() > 0) {
+                     vector1.pop_back();
+                  }
+                  for (auto&& i : vector1) {
+                     i--; 
+                  }
                   printf("DELETE!\n");
                }
             }
@@ -370,17 +432,17 @@ void func3(const unsigned long PATH0) {
 }
 
 void func6(const unsigned long PATH0) {
-   std::vector<int> vector4 = std::vector<int>();
-   vector4.push_back(0);
-   for (auto&& i : vector4) { 
+   std::vector<int> vector1 = std::vector<int>();
+   vector1.push_back(0);
+   for (auto&& i : vector1) { 
       i++; 
    }
-   vector4.push_back(0);
-   for (auto&& i : vector4) { 
+   vector1.push_back(0);
+   for (auto&& i : vector1) { 
       i++; 
    }
    if(PATH0 & 1) {
-      for(int scalar5 = 0; scalar5 < 10; scalar5++) {
+      for(int loop13 = 0; loop13 < 3; loop13++) {
          if(PATH0 & 2) {
          }
          else {
@@ -388,8 +450,8 @@ void func6(const unsigned long PATH0) {
       }
    }
    else {
-      for(int scalar5 = 0; scalar5 < 10; scalar5++) {
-         for(int scalar6 = 0; scalar6 < 10; scalar6++) {
+      for(int loop14 = 0; loop14 < 3; loop14++) {
+         for(int loop15 = 0; loop15 < 3; loop15++) {
             if(PATH0 & 4) {
             }
             else {
@@ -401,17 +463,17 @@ void func6(const unsigned long PATH0) {
 }
 
 void func2(const unsigned long PATH0) {
-   std::vector<int> vector2 = std::vector<int>();
-   vector2.push_back(0);
-   for (auto&& i : vector2) { 
+   std::vector<int> vector0 = std::vector<int>();
+   vector0.push_back(0);
+   for (auto&& i : vector0) { 
       i++; 
    }
-   vector2.push_back(0);
-   for (auto&& i : vector2) { 
+   vector0.push_back(0);
+   for (auto&& i : vector0) { 
       i++; 
    }
    if(PATH0 & 1) {
-      for(int scalar3 = 0; scalar3 < 10; scalar3++) {
+      for(int loop21 = 0; loop21 < 3; loop21++) {
          if(PATH0 & 2) {
             func5(rng());
          }
@@ -420,19 +482,26 @@ void func2(const unsigned long PATH0) {
                func6(rng());
             }
             else {
-               std::vector<int> vector4 = std::vector<int>();
-               if (scalar3 == 0) {
-                  printf("IS 0!");
+               std::vector<int> vector1 = std::vector<int>();
+               for (auto&& i : vector0) {
+                  if (i == 0) {
+                     printf("IS 0!");
+                  }
                }
-               scalar3--;
+               if (vector1.size() > 0) {
+                  vector1.pop_back();
+               }
+               for (auto&& i : vector1) {
+                  i--; 
+               }
                printf("DELETE!\n");
             }
          }
       }
    }
    else {
-      for(int scalar3 = 0; scalar3 < 10; scalar3++) {
-         for(int scalar4 = 0; scalar4 < 10; scalar4++) {
+      for(int loop22 = 0; loop22 < 3; loop22++) {
+         for(int loop23 = 0; loop23 < 3; loop23++) {
             if(PATH0 & 8) {
                func5(rng());
             }
@@ -441,11 +510,18 @@ void func2(const unsigned long PATH0) {
                   func6(rng());
                }
                else {
-                  std::vector<int> vector5 = std::vector<int>();
-                  if (scalar4 == 0) {
-                     printf("IS 0!");
+                  std::vector<int> vector1 = std::vector<int>();
+                  for (auto&& i : vector0) {
+                     if (i == 0) {
+                        printf("IS 0!");
+                     }
                   }
-                  scalar3--;
+                  if (vector1.size() > 0) {
+                     vector1.pop_back();
+                  }
+                  for (auto&& i : vector1) {
+                     i--; 
+                  }
                   printf("DELETE!\n");
                }
             }
@@ -456,18 +532,23 @@ void func2(const unsigned long PATH0) {
 }
 
 void func0(const unsigned long PATH0) {
-   for(int scalar0 = 0; scalar0 < 10; scalar0++) {
+   for(int loop24 = 0; loop24 < 3; loop24++) {
       if(PATH0 & 1) {
          func2(rng());
       }
       else {
-         std::vector<int> vector1 = std::vector<int>();
-         for (auto&& i : vector1) {
+         std::vector<int> vector0 = std::vector<int>();
+         for (auto&& i : vector0) {
             if (i == 0) {
                printf("IS 0!");
             }
          }
-         scalar0--;
+         if (vector0.size() > 0) {
+            vector0.pop_back();
+         }
+         for (auto&& i : vector0) {
+            i--; 
+         }
          printf("DELETE!\n");
       }
    }

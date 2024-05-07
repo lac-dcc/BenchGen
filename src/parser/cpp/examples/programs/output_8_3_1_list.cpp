@@ -13,7 +13,7 @@ void func4(const unsigned long PATH0);
 void func5(const unsigned long PATH0);
 
 int main() {
-   for(int scalar0 = 0; scalar0 < 10; scalar0++) {
+   for(int loop0 = 0; loop0 < 3; loop0++) {
       if(rng() & 1) {
          func0();
       }
@@ -32,15 +32,15 @@ unsigned long rng() {
 }
 
 void func0() {
-   std::list<int> list1 = std::list<int>();
+   std::list<int> list0 = std::list<int>();
    func2(rng());
 }
 
 void func2(const unsigned long PATH0) {
    if(PATH0 & 1) {
-      for(int scalar2 = 0; scalar2 < 10; scalar2++) {
-         std::list<int> list3 = std::list<int>();
-         for (auto&& i : list3) {
+      for(int loop1 = 0; loop1 < 3; loop1++) {
+         std::list<int> list1 = std::list<int>();
+         for (auto&& i : list1) {
             if (i == 0) {
                printf("IS 0!");
             }
@@ -54,18 +54,23 @@ void func2(const unsigned long PATH0) {
 }
 
 void func3(const unsigned long PATH0) {
-   for(int scalar2 = 0; scalar2 < 10; scalar2++) {
-      std::list<int> list3 = std::list<int>();
-      std::list<int> list4 = std::list<int>();
+   for(int loop2 = 0; loop2 < 3; loop2++) {
+      std::list<int> list1 = std::list<int>();
+      std::list<int> list2 = std::list<int>();
       if(PATH0 & 1) {
-         list3.push_back(0);
-         for (auto&& i : list3) { 
+         list1.push_back(0);
+         for (auto&& i : list1) { 
             i++; 
          }
          printf("DELETE!\n");
       }
       else {
-         scalar2--;
+         if (list2.size() > 0) {
+            list2.pop_back();
+         }
+         for (auto&& i : list2) {
+            i--; 
+         }
          printf("DELETE!\n");
       }
       printf("DELETE!\n");
@@ -74,20 +79,20 @@ void func3(const unsigned long PATH0) {
 
 void func1() {
    printf("DELETE!\n");
-   std::list<int> list1 = std::list<int>();
-   list1.push_back(0);
-   for (auto&& i : list1) { 
+   std::list<int> list0 = std::list<int>();
+   list0.push_back(0);
+   for (auto&& i : list0) { 
       i++; 
    }
-   std::list<int> list2 = std::list<int>();
+   std::list<int> list1 = std::list<int>();
    func4(rng());
 }
 
 void func4(const unsigned long PATH0) {
    if(PATH0 & 1) {
-      for(int scalar3 = 0; scalar3 < 10; scalar3++) {
-         std::list<int> list4 = std::list<int>();
-         for (auto&& i : list4) {
+      for(int loop3 = 0; loop3 < 3; loop3++) {
+         std::list<int> list2 = std::list<int>();
+         for (auto&& i : list2) {
             if (i == 0) {
                printf("IS 0!");
             }
@@ -101,19 +106,21 @@ void func4(const unsigned long PATH0) {
 }
 
 void func5(const unsigned long PATH0) {
-   for(int scalar3 = 0; scalar3 < 10; scalar3++) {
-      std::list<int> list4 = std::list<int>();
-      std::list<int> list5 = std::list<int>();
+   for(int loop4 = 0; loop4 < 3; loop4++) {
+      std::list<int> list2 = std::list<int>();
+      std::list<int> list3 = std::list<int>();
       if(PATH0 & 1) {
-         list4.push_back(0);
-         for (auto&& i : list4) { 
+         list3.push_back(0);
+         for (auto&& i : list3) { 
             i++; 
          }
          printf("DELETE!\n");
       }
       else {
-         list4.pop_back();
-         for (auto&& i : list4) {
+         if (list2.size() > 0) {
+            list2.pop_back();
+         }
+         for (auto&& i : list2) {
             i--; 
          }
          printf("DELETE!\n");

@@ -32,18 +32,20 @@ int main() {
    }
    int* array8 = new int[567];
    func4(rng());
-   for(int scalar9 = 0; scalar9 < 10; scalar9++) {
-      for (int i = 0; i < 690; i++) {
-         if (array5[i] == 0) { 
+   for(int loop6 = 0; loop6 < 3; loop6++) {
+      for (int i = 0; i < 886; i++) {
+         if (array1[i] == 0) { 
             printf("IS 0!");
          }
       }
       if(rng() & 1) {
-         scalar9++;
+         for (int i = 0; i < 690; i++) {
+            array5[i]++; 
+         }
       }
       else {
-         for (int i = 0; i < 777; i++) {
-            array2[i]--; 
+         for (int i = 0; i < 383; i++) {
+            array0[i]--; 
          }
       }
    }
@@ -81,10 +83,10 @@ unsigned long rng() {
 
 void func0(const unsigned long PATH0) {
    if(PATH0 & 1) {
-      for(int scalar4 = 0; scalar4 < 10; scalar4++) {
-         int* array5 = new int[793];
+      for(int loop0 = 0; loop0 < 3; loop0++) {
+         int* array4 = new int[793];
          for (int i = 0; i < 793; i++) {
-            if (array5[i] == 0) { 
+            if (array4[i] == 0) { 
                printf("IS 0!");
             }
          }
@@ -97,15 +99,17 @@ void func0(const unsigned long PATH0) {
 }
 
 void func1(const unsigned long PATH0) {
-   for(int scalar4 = 0; scalar4 < 10; scalar4++) {
-      int* array5 = new int[386];
-      int* array6 = new int[492];
+   for(int loop1 = 0; loop1 < 3; loop1++) {
+      int* array4 = new int[386];
+      int* array5 = new int[492];
       if(PATH0 & 1) {
-         scalar4++;
+         for (int i = 0; i < 492; i++) {
+            array5[i]++; 
+         }
          printf("DELETE!\n");
       }
       else {
-         for (int i = 0; i < 386; i++) {
+         for (int i = 0; i < 492; i++) {
             array5[i]--; 
          }
          printf("DELETE!\n");
@@ -116,10 +120,10 @@ void func1(const unsigned long PATH0) {
 
 void func2(const unsigned long PATH0) {
    if(PATH0 & 1) {
-      for(int scalar6 = 0; scalar6 < 10; scalar6++) {
-         int* array7 = new int[59];
+      for(int loop2 = 0; loop2 < 3; loop2++) {
+         int* array6 = new int[59];
          for (int i = 0; i < 59; i++) {
-            if (array7[i] == 0) { 
+            if (array6[i] == 0) { 
                printf("IS 0!");
             }
          }
@@ -132,16 +136,18 @@ void func2(const unsigned long PATH0) {
 }
 
 void func3(const unsigned long PATH0) {
-   for(int scalar6 = 0; scalar6 < 10; scalar6++) {
-      int* array7 = new int[926];
-      int* array8 = new int[540];
+   for(int loop3 = 0; loop3 < 3; loop3++) {
+      int* array6 = new int[926];
+      int* array7 = new int[540];
       if(PATH0 & 1) {
-         scalar6++;
+         for (int i = 0; i < 926; i++) {
+            array6[i]++; 
+         }
          printf("DELETE!\n");
       }
       else {
          for (int i = 0; i < 926; i++) {
-            array7[i]--; 
+            array6[i]--; 
          }
          printf("DELETE!\n");
       }
@@ -151,10 +157,12 @@ void func3(const unsigned long PATH0) {
 
 void func4(const unsigned long PATH0) {
    if(PATH0 & 1) {
-      for(int scalar9 = 0; scalar9 < 10; scalar9++) {
-         int* array10 = new int[429];
-         if (scalar9 == 0) {
-            printf("IS 0!");
+      for(int loop4 = 0; loop4 < 3; loop4++) {
+         int* array9 = new int[429];
+         for (int i = 0; i < 429; i++) {
+            if (array9[i] == 0) { 
+               printf("IS 0!");
+            }
          }
          printf("DELETE!\n");
       }
@@ -165,17 +173,17 @@ void func4(const unsigned long PATH0) {
 }
 
 void func5(const unsigned long PATH0) {
-   for(int scalar9 = 0; scalar9 < 10; scalar9++) {
-      int* array10 = new int[530];
-      int* array11 = new int[862];
+   for(int loop5 = 0; loop5 < 3; loop5++) {
+      int* array9 = new int[530];
+      int* array10 = new int[862];
       if(PATH0 & 1) {
-         for (int i = 0; i < 530; i++) {
+         for (int i = 0; i < 862; i++) {
             array10[i]++; 
          }
          printf("DELETE!\n");
       }
       else {
-         for (int i = 0; i < 530; i++) {
+         for (int i = 0; i < 862; i++) {
             array10[i]--; 
          }
          printf("DELETE!\n");

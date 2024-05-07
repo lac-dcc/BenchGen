@@ -15,7 +15,7 @@ void func2(const unsigned long PATH0);
 void func5(const unsigned long PATH0);
 
 int main() {
-   for(int scalar0 = 0; scalar0 < 10; scalar0++) {
+   for(int loop0 = 0; loop0 < 3; loop0++) {
       if(rng() & 1) {
          func0(rng());
       }
@@ -35,7 +35,7 @@ unsigned long rng() {
 
 void func0(const unsigned long PATH0) {
    if(PATH0 & 1) {
-      for(int scalar1 = 0; scalar1 < 10; scalar1++) {
+      for(int loop1 = 0; loop1 < 3; loop1++) {
          if(PATH0 & 2) {
             func3(rng());
          }
@@ -44,14 +44,14 @@ void func0(const unsigned long PATH0) {
                func4(rng());
             }
             else {
-               int* array2 = new int[123];
+               int* array0 = new int[123];
                for (int i = 0; i < 123; i++) {
-                  if (array2[i] == 0) { 
+                  if (array0[i] == 0) { 
                      printf("IS 0!");
                   }
                }
                for (int i = 0; i < 123; i++) {
-                  array2[i]--; 
+                  array0[i]--; 
                }
                printf("DELETE!\n");
             }
@@ -59,8 +59,8 @@ void func0(const unsigned long PATH0) {
       }
    }
    else {
-      for(int scalar1 = 0; scalar1 < 10; scalar1++) {
-         for(int scalar2 = 0; scalar2 < 10; scalar2++) {
+      for(int loop12 = 0; loop12 < 3; loop12++) {
+         for(int loop13 = 0; loop13 < 3; loop13++) {
             if(PATH0 & 8) {
                func3(rng());
             }
@@ -69,11 +69,15 @@ void func0(const unsigned long PATH0) {
                   func4(rng());
                }
                else {
-                  int* array3 = new int[929];
-                  if (scalar1 == 0) {
-                     printf("IS 0!");
+                  int* array0 = new int[929];
+                  for (int i = 0; i < 929; i++) {
+                     if (array0[i] == 0) { 
+                        printf("IS 0!");
+                     }
                   }
-                  scalar1--;
+                  for (int i = 0; i < 929; i++) {
+                     array0[i]--; 
+                  }
                   printf("DELETE!\n");
                }
             }
@@ -83,15 +87,15 @@ void func0(const unsigned long PATH0) {
 }
 
 void func3(const unsigned long PATH0) {
-   int* array2 = new int[383];
+   int* array0 = new int[383];
    for (int i = 0; i < 383; i++) {
-      array2[i]++; 
+      array0[i]++; 
    }
    for (int i = 0; i < 383; i++) {
-      array2[i]++; 
+      array0[i]++; 
    }
    if(PATH0 & 1) {
-      for(int scalar3 = 0; scalar3 < 10; scalar3++) {
+      for(int loop2 = 0; loop2 < 3; loop2++) {
          if(PATH0 & 2) {
             func6(rng());
          }
@@ -100,21 +104,23 @@ void func3(const unsigned long PATH0) {
                func7(rng());
             }
             else {
-               int* array4 = new int[421];
-               for (int i = 0; i < 421; i++) {
-                  if (array4[i] == 0) { 
+               int* array1 = new int[421];
+               for (int i = 0; i < 383; i++) {
+                  if (array0[i] == 0) { 
                      printf("IS 0!");
                   }
                }
-               scalar3--;
+               for (int i = 0; i < 421; i++) {
+                  array1[i]--; 
+               }
                printf("DELETE!\n");
             }
          }
       }
    }
    else {
-      for(int scalar3 = 0; scalar3 < 10; scalar3++) {
-         for(int scalar4 = 0; scalar4 < 10; scalar4++) {
+      for(int loop7 = 0; loop7 < 3; loop7++) {
+         for(int loop8 = 0; loop8 < 3; loop8++) {
             if(PATH0 & 8) {
                func6(rng());
             }
@@ -123,14 +129,14 @@ void func3(const unsigned long PATH0) {
                   func7(rng());
                }
                else {
-                  int* array5 = new int[690];
+                  int* array1 = new int[690];
                   for (int i = 0; i < 690; i++) {
-                     if (array5[i] == 0) { 
+                     if (array1[i] == 0) { 
                         printf("IS 0!");
                      }
                   }
                   for (int i = 0; i < 690; i++) {
-                     array5[i]--; 
+                     array1[i]--; 
                   }
                   printf("DELETE!\n");
                }
@@ -142,15 +148,15 @@ void func3(const unsigned long PATH0) {
 }
 
 void func6(const unsigned long PATH0) {
-   int* array4 = new int[915];
+   int* array1 = new int[915];
    for (int i = 0; i < 915; i++) {
-      array4[i]++; 
+      array1[i]++; 
    }
    for (int i = 0; i < 915; i++) {
-      array4[i]++; 
+      array1[i]++; 
    }
    if(PATH0 & 1) {
-      for(int scalar5 = 0; scalar5 < 10; scalar5++) {
+      for(int loop3 = 0; loop3 < 3; loop3++) {
          if(PATH0 & 2) {
          }
          else {
@@ -158,8 +164,8 @@ void func6(const unsigned long PATH0) {
       }
    }
    else {
-      for(int scalar5 = 0; scalar5 < 10; scalar5++) {
-         for(int scalar6 = 0; scalar6 < 10; scalar6++) {
+      for(int loop4 = 0; loop4 < 3; loop4++) {
+         for(int loop5 = 0; loop5 < 3; loop5++) {
             if(PATH0 & 4) {
             }
             else {
@@ -171,32 +177,32 @@ void func6(const unsigned long PATH0) {
 }
 
 void func7(const unsigned long PATH0) {
-   int* array4 = new int[386];
+   int* array1 = new int[386];
    for (int i = 0; i < 386; i++) {
-      array4[i]++; 
+      array1[i]++; 
    }
    for (int i = 0; i < 386; i++) {
-      array4[i]++; 
+      array1[i]++; 
    }
    if(PATH0 & 1) {
    }
    else {
-      for(int scalar5 = 0; scalar5 < 10; scalar5++) {
+      for(int loop6 = 0; loop6 < 3; loop6++) {
       }
    }
    printf("DELETE!\n");
 }
 
 void func4(const unsigned long PATH0) {
-   int* array2 = new int[926];
+   int* array0 = new int[926];
    for (int i = 0; i < 926; i++) {
-      array2[i]++; 
+      array0[i]++; 
    }
    for (int i = 0; i < 926; i++) {
-      array2[i]++; 
+      array0[i]++; 
    }
    if(PATH0 & 1) {
-      for(int scalar3 = 0; scalar3 < 10; scalar3++) {
+      for(int loop9 = 0; loop9 < 3; loop9++) {
          if(PATH0 & 2) {
             func7(rng());
          }
@@ -205,14 +211,14 @@ void func4(const unsigned long PATH0) {
                func8();
             }
             else {
-               int* array4 = new int[368];
-               for (int i = 0; i < 926; i++) {
-                  if (array2[i] == 0) { 
+               int* array1 = new int[368];
+               for (int i = 0; i < 368; i++) {
+                  if (array1[i] == 0) { 
                      printf("IS 0!");
                   }
                }
-               for (int i = 0; i < 926; i++) {
-                  array2[i]--; 
+               for (int i = 0; i < 368; i++) {
+                  array1[i]--; 
                }
                printf("DELETE!\n");
             }
@@ -220,8 +226,8 @@ void func4(const unsigned long PATH0) {
       }
    }
    else {
-      for(int scalar3 = 0; scalar3 < 10; scalar3++) {
-         for(int scalar4 = 0; scalar4 < 10; scalar4++) {
+      for(int loop10 = 0; loop10 < 3; loop10++) {
+         for(int loop11 = 0; loop11 < 3; loop11++) {
             if(PATH0 & 8) {
                func7(rng());
             }
@@ -230,11 +236,15 @@ void func4(const unsigned long PATH0) {
                   func8();
                }
                else {
-                  int* array5 = new int[782];
-                  if (scalar4 == 0) {
-                     printf("IS 0!");
+                  int* array1 = new int[782];
+                  for (int i = 0; i < 926; i++) {
+                     if (array0[i] == 0) { 
+                        printf("IS 0!");
+                     }
                   }
-                  scalar4--;
+                  for (int i = 0; i < 926; i++) {
+                     array0[i]--; 
+                  }
                   printf("DELETE!\n");
                }
             }
@@ -245,18 +255,18 @@ void func4(const unsigned long PATH0) {
 }
 
 void func8() {
-   int* array4 = new int[172];
+   int* array1 = new int[172];
    for (int i = 0; i < 172; i++) {
-      array4[i]++; 
+      array1[i]++; 
    }
    for (int i = 0; i < 172; i++) {
-      array4[i]++; 
+      array1[i]++; 
    }
    printf("DELETE!\n");
 }
 
 void func1(const unsigned long PATH0) {
-   for(int scalar1 = 0; scalar1 < 10; scalar1++) {
+   for(int loop14 = 0; loop14 < 3; loop14++) {
       if(PATH0 & 1) {
          func2(rng());
       }
@@ -265,13 +275,15 @@ void func1(const unsigned long PATH0) {
             func3(rng());
          }
          else {
-            int* array2 = new int[526];
+            int* array0 = new int[526];
             for (int i = 0; i < 526; i++) {
-               if (array2[i] == 0) { 
+               if (array0[i] == 0) { 
                   printf("IS 0!");
                }
             }
-            scalar1--;
+            for (int i = 0; i < 526; i++) {
+               array0[i]--; 
+            }
             printf("DELETE!\n");
          }
       }
@@ -279,15 +291,15 @@ void func1(const unsigned long PATH0) {
 }
 
 void func2(const unsigned long PATH0) {
-   int* array2 = new int[58];
+   int* array0 = new int[58];
    for (int i = 0; i < 58; i++) {
-      array2[i]++; 
+      array0[i]++; 
    }
    for (int i = 0; i < 58; i++) {
-      array2[i]++; 
+      array0[i]++; 
    }
    if(PATH0 & 1) {
-      for(int scalar3 = 0; scalar3 < 10; scalar3++) {
+      for(int loop15 = 0; loop15 < 3; loop15++) {
          if(PATH0 & 2) {
             func5(rng());
          }
@@ -296,14 +308,14 @@ void func2(const unsigned long PATH0) {
                func6(rng());
             }
             else {
-               int* array4 = new int[537];
-               for (int i = 0; i < 537; i++) {
-                  if (array4[i] == 0) { 
+               int* array1 = new int[537];
+               for (int i = 0; i < 58; i++) {
+                  if (array0[i] == 0) { 
                      printf("IS 0!");
                   }
                }
-               for (int i = 0; i < 537; i++) {
-                  array4[i]--; 
+               for (int i = 0; i < 58; i++) {
+                  array0[i]--; 
                }
                printf("DELETE!\n");
             }
@@ -311,8 +323,8 @@ void func2(const unsigned long PATH0) {
       }
    }
    else {
-      for(int scalar3 = 0; scalar3 < 10; scalar3++) {
-         for(int scalar4 = 0; scalar4 < 10; scalar4++) {
+      for(int loop19 = 0; loop19 < 3; loop19++) {
+         for(int loop20 = 0; loop20 < 3; loop20++) {
             if(PATH0 & 8) {
                func5(rng());
             }
@@ -321,11 +333,15 @@ void func2(const unsigned long PATH0) {
                   func6(rng());
                }
                else {
-                  int* array5 = new int[315];
-                  if (scalar4 == 0) {
-                     printf("IS 0!");
+                  int* array1 = new int[315];
+                  for (int i = 0; i < 58; i++) {
+                     if (array0[i] == 0) { 
+                        printf("IS 0!");
+                     }
                   }
-                  scalar3--;
+                  for (int i = 0; i < 315; i++) {
+                     array1[i]--; 
+                  }
                   printf("DELETE!\n");
                }
             }
@@ -336,15 +352,15 @@ void func2(const unsigned long PATH0) {
 }
 
 void func5(const unsigned long PATH0) {
-   int* array4 = new int[393];
+   int* array1 = new int[393];
    for (int i = 0; i < 393; i++) {
-      array4[i]++; 
+      array1[i]++; 
    }
    for (int i = 0; i < 393; i++) {
-      array4[i]++; 
+      array1[i]++; 
    }
    if(PATH0 & 1) {
-      for(int scalar5 = 0; scalar5 < 10; scalar5++) {
+      for(int loop16 = 0; loop16 < 3; loop16++) {
          if(PATH0 & 2) {
             func8();
          }
@@ -352,14 +368,14 @@ void func5(const unsigned long PATH0) {
             if(PATH0 & 4) {
             }
             else {
-               int* array6 = new int[42];
-               for (int i = 0; i < 393; i++) {
-                  if (array4[i] == 0) { 
+               int* array2 = new int[42];
+               for (int i = 0; i < 42; i++) {
+                  if (array2[i] == 0) { 
                      printf("IS 0!");
                   }
                }
-               for (int i = 0; i < 393; i++) {
-                  array4[i]--; 
+               for (int i = 0; i < 42; i++) {
+                  array2[i]--; 
                }
                printf("DELETE!\n");
             }
@@ -367,8 +383,8 @@ void func5(const unsigned long PATH0) {
       }
    }
    else {
-      for(int scalar5 = 0; scalar5 < 10; scalar5++) {
-         for(int scalar6 = 0; scalar6 < 10; scalar6++) {
+      for(int loop17 = 0; loop17 < 3; loop17++) {
+         for(int loop18 = 0; loop18 < 3; loop18++) {
             if(PATH0 & 8) {
                func8();
             }
@@ -376,14 +392,14 @@ void func5(const unsigned long PATH0) {
                if(PATH0 & 16) {
                }
                else {
-                  int* array7 = new int[421];
+                  int* array2 = new int[421];
                   for (int i = 0; i < 421; i++) {
-                     if (array7[i] == 0) { 
+                     if (array2[i] == 0) { 
                         printf("IS 0!");
                      }
                   }
                   for (int i = 0; i < 393; i++) {
-                     array4[i]--; 
+                     array1[i]--; 
                   }
                   printf("DELETE!\n");
                }

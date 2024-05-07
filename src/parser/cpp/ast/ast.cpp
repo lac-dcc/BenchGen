@@ -83,9 +83,10 @@ void Contains::gen(Generator& generator) {
 
 void Loop::gen(Generator& generator) {
     generator.startScope();
-    int varID = generator.addVar("scalar");
-    std::string gVar = generator.variables[varID]->name;
-    std::string forLine = "for(int " + gVar + " = 0; " + gVar + " < 10; " + gVar + "++) {";
+    int varID = generator.loopCounter;
+    generator.loopCounter++;
+    std::string gVar = "loop" + std::to_string(varID);
+    std::string forLine = "for(int " + gVar + " = 0; " + gVar + " < 3; " + gVar + "++) {";
     generator.addLine(forLine, -1);
     code->gen(generator);
     generator.endScope();
