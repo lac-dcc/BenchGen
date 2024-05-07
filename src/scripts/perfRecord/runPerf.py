@@ -38,14 +38,14 @@ iTLB-loads
 iTLB-load-misses"""
 
 def run_perf_stat(programs_dir, compiler, flags):
-    os.makedirs('result', exist_ok=True)
-    os.makedirs('bin', exist_ok=True)
-    events_list = perf_events.strip().split('\n')
-    if os.path.isdir(programs_dir):
-        for program in os.listdir(programs_dir):
-            with open (f'result/results.csv', 'w', newline='') as csvfile:
-                csv_writer = csv.writer(csvfile, delimiter=',')
-                csv_writer.writerow(["Program"] + events_list)    
+    with open (f'result/results.csv', 'w', newline='') as csvfile:
+        csv_writer = csv.writer(csvfile, delimiter=',')
+        os.makedirs('result', exist_ok=True)
+        os.makedirs('bin', exist_ok=True)
+        events_list = perf_events.strip().split('\n')
+        csv_writer.writerow(["Program"] + events_list) 
+        if os.path.isdir(programs_dir):
+            for program in os.listdir(programs_dir):   
                 executable_path = f"bin/{program}.out"
                 print(f'Compiling {program}')
                 subprocess.run([compiler] + flags + ["-o", executable_path, os.path.join(programs_dir, program)])
