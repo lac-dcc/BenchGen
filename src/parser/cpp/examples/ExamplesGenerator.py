@@ -8,7 +8,7 @@ VARIABLES_ARRAY = [
     "vector",
     "list",
 ]
-ITERATIONS_ARRAY = [8]
+ITERATIONS_ARRAY = [15]
 
 def generate_examples():
     for nss in range(0,NUMBER_OF_SEED_STRINGS):
@@ -21,7 +21,7 @@ def generate_examples():
                     program = "./../main"
                     print(f"""
 ############################################################
-COMPILING {pr} {seed} {va}""")
+COMPILING {i} {pr} {seed} {va}""")
                     try:
                         subprocess.run([program, f"{i}", pr, seed, output, va], check=True)
                         print("############################################################")

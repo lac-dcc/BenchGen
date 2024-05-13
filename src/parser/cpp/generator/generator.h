@@ -25,6 +25,7 @@ class Generator {
     std::stack<GeneratorFunction*> currentFunction;
     std::stack<int> ifCounter;
     int varCounter;
+    int loopLevel;
     int loopCounter;
     std::string varType;
     std::map<int, GeneratorVariable*> variables;

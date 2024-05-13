@@ -3,6 +3,7 @@
 Generator::Generator(std::string variableType) {
     this->ifCounter.push(0);
     this->varCounter = 0;
+    this->loopLevel = 0;
     this->loopCounter = 0;
     this->varType = variableType;
     currentScope.push(GeneratorScope(0));
@@ -15,6 +16,7 @@ Generator::Generator(std::string variableType) {
 void Generator::generateIncludes() {
     includes.push_back("#include <stdio.h>");
     includes.push_back("#include <stdlib.h>");
+    includes.push_back("#include <math.h>");
     includes.push_back("#include <time.h>");
     if (varType == "bool")
         includes.push_back("#include <stdbool.h>");

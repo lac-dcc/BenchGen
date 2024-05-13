@@ -82,14 +82,24 @@ void Contains::gen(Generator& generator) {
 }
 
 void Loop::gen(Generator& generator) {
+    std::string loopVar = "loop" + std::to_string(generator.loopCounter);
+    std::string loopVarLine = "int " + loopVar + " = 0;";
+    generator.addLine(loopVarLine);
+
+    std::string loopLimitVar = "loopLimit" + std::to_string(generator.loopCounter);
+    std::string loopLimitValue = "ceil((rand()%10)/" + std::to_string(generator.loopLevel + 1) + ")";
+    std::string loopLimitLine = "int " + loopLimitVar + " = " + loopLimitValue + ";";
+    generator.addLine(loopLimitLine);
+
+    std::string forLine = "for(; " + loopVar + " < " + loopLimitVar + "; " + loopVar + "++) {";
+    generator.addLine(forLine);
+
     generator.startScope();
-    int varID = generator.loopCounter;
+    generator.loopLevel++;
     generator.loopCounter++;
-    std::string gVar = "loop" + std::to_string(varID);
-    std::string forLine = "for(int " + gVar + " = 0; " + gVar + " < 3; " + gVar + "++) {";
-    generator.addLine(forLine, -1);
     code->gen(generator);
     generator.endScope();
+    generator.loopLevel--;
 }
 
 void Call::gen(Generator& generator) {
