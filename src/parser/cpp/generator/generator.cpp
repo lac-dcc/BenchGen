@@ -16,8 +16,6 @@ Generator::Generator(std::string variableType) {
 void Generator::generateIncludes() {
     includes.push_back("#include <stdio.h>");
     includes.push_back("#include <stdlib.h>");
-    includes.push_back("#include <math.h>");
-    includes.push_back("#include <time.h>");
     if (varType == "bool")
         includes.push_back("#include <stdbool.h>");
     else if (varType == "string")
@@ -34,9 +32,9 @@ void Generator::generateGlobalVars() {
 void Generator::generateRandomNumberGenerator() {
     GeneratorFunction rngFunction = GeneratorFunction(-1);
     rngFunction.addLine("unsigned long rng() {");
-    rngFunction.addLine("   srand(time(NULL));");
+    rngFunction.addLine("   srand(0);");
     rngFunction.addLine("   unsigned long n = rand();");
-    rngFunction.addLine("   srand(time(NULL));");
+    rngFunction.addLine("   srand(0);");
     rngFunction.addLine("   return (n << 32) | rand();");
     rngFunction.addLine("}");
     functions.push_back(rngFunction);
