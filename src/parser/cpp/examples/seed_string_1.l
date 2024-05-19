@@ -1,1 +1,0 @@
-LOOP(A IF(CALL(D),CALL(C)))
