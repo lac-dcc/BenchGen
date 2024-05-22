@@ -1,0 +1,1 @@
+new CALL( LOOP( A B C D ) ) del

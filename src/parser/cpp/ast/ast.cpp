@@ -87,7 +87,7 @@ void Loop::gen(Generator& generator) {
     generator.addLine(loopVarLine);
 
     std::string loopLimitVar = "loopLimit" + std::to_string(generator.loopCounter);
-    std::string loopLimitValue = "ceil((rand()%10)/" + std::to_string(generator.loopLevel + 1) + ")";
+    std::string loopLimitValue = "(rand()%10)/" + std::to_string(generator.loopLevel + 1) + " + 1";
     std::string loopLimitLine = "int " + loopLimitVar + " = " + loopLimitValue + ";";
     generator.addLine(loopLimitLine);
 
