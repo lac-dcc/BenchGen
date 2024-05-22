@@ -38,7 +38,7 @@ iTLB-loads
 iTLB-load-misses"""
 
 def run_perf_stat(programs_dir, compiler, flags):
-    with open (f'result/results.csv', 'w', newline='') as csvfile:
+    with open (f'results/results.csv', 'w', newline='') as csvfile:
         csv_writer = csv.writer(csvfile, delimiter=',')
         os.makedirs('result', exist_ok=True)
         os.makedirs('bin', exist_ok=True)
