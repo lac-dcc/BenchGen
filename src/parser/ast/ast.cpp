@@ -64,7 +64,7 @@ void New::gen(Generator& generator) {
 }
 
 void Del::gen(Generator& generator) {
-    std::string line = "printf(\"DELETE!\\n\");";
+    std::string line = "printf(\"d\");";
     generator.addLine(line);
 }
 

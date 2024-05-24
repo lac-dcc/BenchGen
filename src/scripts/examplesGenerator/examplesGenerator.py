@@ -11,13 +11,14 @@ VARIABLES_ARRAY = [
 ITERATIONS_ARRAY = [0,1,2,3,4,5,6,7,8]
 
 def compile(number_of_iterations, pr_number, variable_type, ext="cpp"):
-    pr_string = f"production_rule_{pr_number}.l"
-    output = f"./programs/output_{number_of_iterations}_{pr_number}_{variable_type}.{ext}"
-    program = "./../main"
+    pr_string = f"production_rules/production_rule_{pr_number}.l"
+    ss_string = "seed_strings/seed_string.l"
+    output = f"./results/output_{number_of_iterations}_{pr_number}_{variable_type}.{ext}"
+    program = "./../../parser/main"
     print(f"""
 ############################################################
 COMPILING {number_of_iterations} {pr_string} {variable_type}""")
-    subprocess.run([program, f"{number_of_iterations}", pr_string, "seed_string.l", output, variable_type], check=True)
+    subprocess.run([program, f"{number_of_iterations}", pr_string, ss_string, output, variable_type], check=True)
     print("############################################################")
 
 def generate_examples_1(its=ITERATIONS_ARRAY[-1]):
@@ -41,6 +42,7 @@ def generate_examples_2():
                 print(f"Error with {number_of_iterations} {pr_number} {variable_type}")
                 sys.exit(1)
 
+subprocess.run(["mkdir results"], shell=True, stderr=subprocess.DEVNULL)
 example = sys.argv[1]
 if example == "1":
     its = sys.argv[2]
