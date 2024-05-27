@@ -9,6 +9,16 @@ To run _spec_perf.py_, you will need an installation of SPEC CPU 2017 available 
 Hence, ensure that the `runcpu` command is available in your system's PATH. 
 Additionally, make sure that the SPEC paths are **properly** configured by running the `shrc` script provided by SPEC, and you must have a configuration file for SPEC to use as input.
 
+### Dependencies
+
+To run __spec_perf.py_, you will need:
+
+| Dependency | Version   | Installation Link                                    |
+|------------|-----------|------------------------------------------------------|
+| Linux Perf    | >= 5.4.2  | [Linux Perf website](https://perf.wiki.kernel.org/index.php/Main_Page)             |
+| Python3    | >= 3.8.10  | [Python website](https://www.python.org)             |
+
+
 ## Usage
 
 To run the script, you need to provide four essential inputs:
