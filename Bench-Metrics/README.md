@@ -16,7 +16,7 @@ We collect two types of metrics: dynamic and static.
 
 - The directory [LLVM-TestSuite-Perf](https://github.com/lac-dcc/BenchGen/tree/main/Bench-Metrics/LLVM-TestSuite-Perf) contains detailed information on extracting `perf` metrics for LLVM Test Suite benchmarks.
 - The directory [Spec-Perf](https://github.com/lac-dcc/BenchGen/tree/main/Bench-Metrics/SPEC-Perf) contains detailed information on extracting `perf` metrics for SPEC CPU 2017 benchmarks.
-- Also, the directory [Perf-Generic](https://github.com/lac-dcc/BenchGen/tree/main/Bench-Metrics/Perf-Generic) contains detailed information on extracting `perf` metrics for generic programs.
+- Also, the directory [Perf-Generic](https://github.com/lac-dcc/BenchGen/tree/main/Bench-Metrics/Perf-Generic) contains detailed information on extracting `perf` metrics for a generic set of programs.
 
 
 ### MilePost GCC Features
