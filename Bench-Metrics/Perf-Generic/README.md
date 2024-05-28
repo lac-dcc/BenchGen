@@ -16,6 +16,6 @@ To run __runPerf.py_, you will need:
 ## Usage
 
 To run the script, you need to provide four essential inputs:
-- **program_dir**: A path containing the programs you want to run.
+- **programs_dir**: A path containing the programs you want to run.
 - **_compiler_path_**: The compiler path you want to use to compile the programs.
 - **_compiler_flags_ (Optional)**: Compiler flags.
