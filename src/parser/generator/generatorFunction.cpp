@@ -9,7 +9,7 @@ std::vector<std::string> GeneratorFunction::getLines() {
 }
 
 void GeneratorFunction::addLine(std::string line) {
-    if (isMainFunction && lines.size() > 2) {
+    if (insertBack) {
         lines.insert(lines.end() - 2, line);
     } else {
         lines.push_back(line);

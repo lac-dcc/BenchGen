@@ -32,19 +32,23 @@ void Generator::generateGlobalVars() {
 void Generator::generateRandomNumberGenerator() {
     GeneratorFunction rngFunction = GeneratorFunction(-1);
     rngFunction.addLine("unsigned long rng() {");
-    rngFunction.addLine("   srand(0);");
     rngFunction.addLine("   unsigned long n = rand();");
-    rngFunction.addLine("   srand(0);");
     rngFunction.addLine("   return (n << 32) | rand();");
     rngFunction.addLine("}");
     functions.push_back(rngFunction);
 }
 
 void Generator::generateMainFunction() {
-    mainFunction = GeneratorFunction(-1, true);
-    mainFunction.addLine("int main() {");
+    mainFunction = GeneratorFunction(-1);
+    mainFunction.addLine("int main(int argc, char** argv) {");
+    mainFunction.addLine("   if (argc != 2) {");
+    mainFunction.addLine("      printf(\"Usage: %s <number of paths>\\n\", argv[0]);");
+    mainFunction.addLine("      return 1;");
+    mainFunction.addLine("   }");
+    mainFunction.addLine("   srand(atol(argv[1]));");
     mainFunction.addLine("   return 0;");
     mainFunction.addLine("}");
+    mainFunction.insertBack = true;
     currentFunction.push(&mainFunction);
     startScope();
 }

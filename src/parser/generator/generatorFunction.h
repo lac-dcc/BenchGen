@@ -9,9 +9,9 @@ class GeneratorFunction {
     std::vector<std::string> lines;
 
    public:
-    bool isMainFunction;
+    bool insertBack = false;
     GeneratorFunction() {}
-    GeneratorFunction(int id, bool isMainFunction = false) : id(id), isMainFunction(isMainFunction) {}
+    GeneratorFunction(int id) : id(id) {}
     ~GeneratorFunction() = default;
 
     int getId();
