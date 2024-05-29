@@ -17,8 +17,8 @@ The `examplesGenerator.py` script is designed to automate the process of generat
 
 The script accepts the following command-line arguments:
 
-1. `example`: Specifies which example generation method to use. Accepts values `1` or `2`.
-2. `iterations` (optional): Specifies the number of iterations for example generation method `1`.
+1. `example`: Specifies which example generation method to use. Accepts values `1`, `2` or `3`.
+2. `iterations` (optional): Specifies the number of iterations for example generation.
 
 ### Running the Script
 
@@ -31,9 +31,18 @@ The script accepts the following command-line arguments:
     - If `iterations` is provided, it overrides the default value.
 
 2. **Generate Examples using Method 2**:
+
     ```bash
     python examplesGenerator.py 2
     ```
+
+3. **Generate Examples using Method 2**:
+
+    ```bash
+    python examplesGenerator.py 3 6
+    ```
+
+    - If `iterations` is provided, it overrides the default value.
 
 ### Example Commands
 

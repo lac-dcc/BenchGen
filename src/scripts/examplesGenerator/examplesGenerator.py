@@ -1,7 +1,7 @@
 import subprocess
 import sys
 
-PRODUCTION_RULES_ARRAY = [6,7,8,9,10,11,12,13,14,15,16]
+PRODUCTION_RULES_ARRAY = [6,7,8,9,10,11,12,13,14,15,16,17]
 VARIABLES_ARRAY = [
     "scalar",
     "array",
@@ -42,6 +42,17 @@ def generate_examples_2():
                 print(f"Error with {number_of_iterations} {pr_number} {variable_type}")
                 sys.exit(1)
 
+def generate_examples_3(its=ITERATIONS_ARRAY[-1]):
+    var_len = len(VARIABLES_ARRAY)
+    sub_pr_array = PRODUCTION_RULES_ARRAY[(var_len*-1):]
+    for i, pr_number in enumerate(sub_pr_array):
+            try:
+                compile(its, pr_number, VARIABLES_ARRAY[i], "cpp")
+            except Exception as e:
+                print(e)
+                print(f"Error with {its} {pr_number} {VARIABLES_ARRAY[i]}")
+                sys.exit(1)
+
 subprocess.run(["mkdir results"], shell=True, stderr=subprocess.DEVNULL)
 example = sys.argv[1]
 if example == "1":
@@ -53,6 +64,13 @@ if example == "1":
         generate_examples_1()
 elif example == "2":
     generate_examples_2()
+elif example == "3":
+    its = sys.argv[2]
+    if its:
+        its = int(its)
+        generate_examples_3(its)
+    else:
+        generate_examples_3()
 else:
     print("Invalid example number")
     sys.exit(1)
