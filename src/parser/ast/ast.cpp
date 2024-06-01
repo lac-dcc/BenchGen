@@ -7,7 +7,7 @@ void printIndentationSpaces(int indent) {
 }
 
 std::string generateIfCondition(Generator& generator) {
-    bool isMain = generator.currentFunction.top()->isMainFunction;
+    bool isMain = generator.currentFunction.top()->insertBack;
     if (isMain) {
         return "rng() & 1";
     }
