@@ -27,6 +27,7 @@ void Generator::generateIncludes() {
 }
 
 void Generator::generateGlobalVars() {
+    globalVars.push_back("int loopsFactor = 100;");
 }
 
 void Generator::generateRandomNumberGenerator() {
@@ -41,9 +42,12 @@ void Generator::generateRandomNumberGenerator() {
 void Generator::generateMainFunction() {
     mainFunction = GeneratorFunction(-1);
     mainFunction.addLine("int main(int argc, char** argv) {");
-    mainFunction.addLine("   if (argc != 2) {");
-    mainFunction.addLine("      printf(\"Usage: %s <number of paths>\\n\", argv[0]);");
+    mainFunction.addLine("   if (argc < 2 || argc > 3) {");
+    mainFunction.addLine("      printf(\"Usage: %s <number of paths> <loops factor (optional)>\\n\", argv[0]);");
     mainFunction.addLine("      return 1;");
+    mainFunction.addLine("   }");
+    mainFunction.addLine("   if (argc == 3) {");
+    mainFunction.addLine("      loopsFactor = atoi(argv[2]);");
     mainFunction.addLine("   }");
     mainFunction.addLine("   srand(atol(argv[1]));");
     mainFunction.addLine("   return 0;");
