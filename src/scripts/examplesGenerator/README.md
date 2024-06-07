@@ -36,10 +36,10 @@ The script accepts the following command-line arguments:
     python examplesGenerator.py 2
     ```
 
-3. **Generate Examples using Method 2**:
+3. **Generate Examples using Method 3**:
 
     ```bash
-    python examplesGenerator.py 3 6
+    python examplesGenerator.py 3 [iterations]
     ```
 
     - If `iterations` is provided, it overrides the default value.
