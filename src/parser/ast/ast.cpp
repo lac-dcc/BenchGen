@@ -64,8 +64,21 @@ void New::gen(Generator& generator) {
 }
 
 void Del::gen(Generator& generator) {
-    std::string line = "printf(\"d\");";
-    generator.addLine(line);
+    // std::string line = "printf(\"d\");";
+    // generator.addLine(line);
+
+    // TODO: What to do with del?
+    // Currently doing the same as remove
+    int varCount = generator.currentScope.top().avaiableVarsID.size();
+    if (varCount == 0)
+        return;
+
+    int varPos = rand() % varCount;
+    GeneratorVariable* var = generator.variables[generator.currentScope.top().avaiableVarsID[varPos]];
+    std::vector<std::string> lines = var->remove();
+    for (std::string line : lines) {
+        generator.addLine(line);
+    }
 }
 
 void Contains::gen(Generator& generator) {

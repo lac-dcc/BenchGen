@@ -51,7 +51,8 @@ std::vector<std::string> Scalar::remove() {
 std::vector<std::string> Scalar::contains() {
     std::vector<std::string> temp = {};
     temp.push_back("if (" + this->name + " == 0) {");
-    temp.push_back("   printf(\"IS 0!\");");
+    // temp.push_back("   printf(\"IS 0!\");");
+    temp.push_back("   " + this->name + "++;");
     temp.push_back("}");
     return temp;
 }
@@ -88,7 +89,8 @@ std::vector<std::string> Array::contains() {
     std::vector<std::string> temp = {};
     temp.push_back("for (int i = 0; i < " + std::to_string(this->totalSize) + "; i++) {");
     temp.push_back("   if (" + this->name + "[i] == 0) { ");
-    temp.push_back("      printf(\"IS 0!\");");
+    // temp.push_back("      printf(\"IS 0!\");");
+    temp.push_back("   " + this->name + "[i]++;");
     temp.push_back("   }");
     temp.push_back("}");
     return temp;
@@ -157,7 +159,8 @@ std::vector<std::string> Vector::contains() {
     std::vector<std::string> temp = {};
     temp.push_back("for (auto&& i : " + this->name + ") {");
     temp.push_back("   if (i == 0) {");
-    temp.push_back("      printf(\"IS 0!\");");
+    // temp.push_back("      printf(\"IS 0!\");");
+    temp.push_back("      i++;");
     temp.push_back("   }");
     temp.push_back("}");
     return temp;
@@ -199,7 +202,8 @@ std::vector<std::string> List::contains() {
     std::vector<std::string> temp = {};
     temp.push_back("for (auto&& i : " + this->name + ") {");
     temp.push_back("   if (i == 0) {");
-    temp.push_back("      printf(\"IS 0!\");");
+    // temp.push_back("      printf(\"IS 0!\");");
+    temp.push_back("      i++;");
     temp.push_back("   }");
     temp.push_back("}");
     return temp;

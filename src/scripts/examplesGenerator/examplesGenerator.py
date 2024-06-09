@@ -44,7 +44,8 @@ def generate_examples_2():
 
 def generate_examples_3(its=ITERATIONS_ARRAY[-1]):
     var_len = len(VARIABLES_ARRAY)
-    sub_pr_array = PRODUCTION_RULES_ARRAY[(var_len*-1):]
+    # sub_pr_array = PRODUCTION_RULES_ARRAY[(var_len*-1):]
+    sub_pr_array = PRODUCTION_RULES_ARRAY[:var_len]
     for i, pr_number in enumerate(reversed(sub_pr_array)):
             try:
                 compile(its, pr_number, VARIABLES_ARRAY[i], "cpp")
