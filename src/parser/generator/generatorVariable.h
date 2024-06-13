@@ -12,10 +12,11 @@ class GeneratorVariable {
     int id;
     std::string name;
     virtual ~GeneratorVariable() {}
-    virtual std::string eval() = 0;
+    virtual std::vector<std::string> new_() = 0;
     virtual std::vector<std::string> insert() = 0;
     virtual std::vector<std::string> remove() = 0;
     virtual std::vector<std::string> contains() = 0;
+    virtual std::vector<std::string> del() = 0;
 };
 
 class Scalar : public GeneratorVariable {
@@ -23,10 +24,11 @@ class Scalar : public GeneratorVariable {
     int initialValue;
     Scalar() {}
     Scalar(int initialValue, int id);
-    std::string eval() override;
+    std::vector<std::string> new_() override;
     std::vector<std::string> insert() override;
     std::vector<std::string> remove() override;
     std::vector<std::string> contains() override;
+    std::vector<std::string> del() override;
 };
 
 class Array : public GeneratorVariable {
@@ -35,10 +37,12 @@ class Array : public GeneratorVariable {
     Array(){};
     Array(int totalSize, int* values, int id);
     ~Array();
-    std::string eval() override;
+    std::vector<std::string> new_() override;
+    std::vector<std::string> realloc();
     std::vector<std::string> insert() override;
     std::vector<std::string> remove() override;
     std::vector<std::string> contains() override;
+    std::vector<std::string> del() override;
 };
 
 class Matrix : public GeneratorVariable {
@@ -47,10 +51,11 @@ class Matrix : public GeneratorVariable {
     int cols;
     Matrix(){};
     Matrix(int rows, int columns, int* values, int id);
-    std::string eval() override;
+    std::vector<std::string> new_() override;
     std::vector<std::string> insert() override;
     std::vector<std::string> remove() override;
     std::vector<std::string> contains() override;
+    std::vector<std::string> del() override;
 };
 
 class Vector : public GeneratorVariable {
@@ -58,20 +63,22 @@ class Vector : public GeneratorVariable {
     int currentSize;
     Vector(){};
     Vector(int id);
-    std::string eval() override;
+    std::vector<std::string> new_() override;
     std::vector<std::string> insert() override;
     std::vector<std::string> remove() override;
     std::vector<std::string> contains() override;
+    std::vector<std::string> del() override;
 };
 
 class List : public GeneratorVariable {
    public:
     List(){};
     List(int id);
-    std::string eval() override;
+    std::vector<std::string> new_() override;
     std::vector<std::string> insert() override;
     std::vector<std::string> remove() override;
     std::vector<std::string> contains() override;
+    std::vector<std::string> del() override;
 };
 
 class VariableFactory {

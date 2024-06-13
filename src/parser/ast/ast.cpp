@@ -60,22 +60,20 @@ void Remove::gen(Generator& generator) {
 
 void New::gen(Generator& generator) {
     int id = generator.addVar(generator.varType);
-    generator.addLine(generator.variables[id]->eval());
+    std::vector<std::string> lines = generator.variables[id]->new_();
+    for (std::string line : lines) {
+        generator.addLine(line);
+    }
 }
 
 void Del::gen(Generator& generator) {
-    // std::string line = "printf(\"d\");";
-    // generator.addLine(line);
-
-    // TODO: What to do with del?
-    // Currently doing the same as remove
     int varCount = generator.currentScope.top().avaiableVarsID.size();
     if (varCount == 0)
         return;
 
     int varPos = rand() % varCount;
     GeneratorVariable* var = generator.variables[generator.currentScope.top().avaiableVarsID[varPos]];
-    std::vector<std::string> lines = var->remove();
+    std::vector<std::string> lines = var->del();
     for (std::string line : lines) {
         generator.addLine(line);
     }

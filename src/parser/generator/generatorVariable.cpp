@@ -36,8 +36,8 @@ Scalar::Scalar(int initialValue, int id) {
     this->name = "scalar" + std::to_string(id);
 }
 
-std::string Scalar::eval() {
-    return "int " + this->name + " = " + std::to_string(initialValue) + ";";
+std::vector<std::string> Scalar::new_() {
+    return {"int " + this->name + " = " + std::to_string(initialValue) + ";"};
 }
 
 std::vector<std::string> Scalar::insert() {
@@ -51,10 +51,13 @@ std::vector<std::string> Scalar::remove() {
 std::vector<std::string> Scalar::contains() {
     std::vector<std::string> temp = {};
     temp.push_back("if (" + this->name + " == 0) {");
-    // temp.push_back("   printf(\"IS 0!\");");
-    temp.push_back("   " + this->name + "++;");
+    temp.push_back("      " + this->name + "++;");
     temp.push_back("}");
     return temp;
+}
+
+std::vector<std::string> Scalar::del() {
+    return {this->name + " = 0;"};
 }
 
 // ARRAY
@@ -65,10 +68,15 @@ Array::Array(int size, int* values, int id) {
     this->name = "array" + std::to_string(id);
 }
 
-std::string Array::eval() {
+std::vector<std::string> Array::new_() {
     std::string temp = "int* " + this->name;
-    temp += " = new int[" + std::to_string(this->totalSize) + "];";
-    return temp;
+    temp += " = (int*)malloc(" + std::to_string(this->totalSize) + "*sizeof(int));";
+    return {temp};
+}
+
+std::vector<std::string> Array::realloc() {
+    std::string temp = this->name + " = (int*)malloc(" + std::to_string(this->totalSize) + "*sizeof(int));";
+    return {temp};
 }
 
 std::vector<std::string> Array::insert() {
@@ -89,9 +97,17 @@ std::vector<std::string> Array::contains() {
     std::vector<std::string> temp = {};
     temp.push_back("for (int i = 0; i < " + std::to_string(this->totalSize) + "; i++) {");
     temp.push_back("   if (" + this->name + "[i] == 0) { ");
-    // temp.push_back("      printf(\"IS 0!\");");
-    temp.push_back("   " + this->name + "[i]++;");
+    temp.push_back("      " + this->name + "[i]++;");
     temp.push_back("   }");
+    temp.push_back("}");
+    return temp;
+}
+
+std::vector<std::string> Array::del() {
+    std::vector<std::string> temp = {};
+    temp.push_back("if (" + this->name + " != NULL) {");
+    temp.push_back("   free(" + this->name + ");");
+    temp.push_back("   " + this->name + " = NULL;");
     temp.push_back("}");
     return temp;
 }
@@ -107,8 +123,8 @@ Matrix::Matrix(int rows, int columns, int* values, int id) {
     this->name = "matrix" + std::to_string(id);
 }
 
-std::string Matrix::eval() {
-    return "";
+std::vector<std::string> Matrix::new_() {
+    return {};
 }
 
 std::vector<std::string> Matrix::insert() {
@@ -123,6 +139,10 @@ std::vector<std::string> Matrix::contains() {
     return {};
 }
 
+std::vector<std::string> Matrix::del() {
+    return {};
+}
+
 // VECTOR
 
 Vector::Vector(int id) {
@@ -130,10 +150,10 @@ Vector::Vector(int id) {
     this->name = "vector" + std::to_string(id);
 }
 
-std::string Vector::eval() {
+std::vector<std::string> Vector::new_() {
     std::string temp = "std::vector<int> " + this->name;
     temp += " = std::vector<int>();";
-    return temp;
+    return {temp};
 }
 
 std::vector<std::string> Vector::insert() {
@@ -159,9 +179,16 @@ std::vector<std::string> Vector::contains() {
     std::vector<std::string> temp = {};
     temp.push_back("for (auto&& i : " + this->name + ") {");
     temp.push_back("   if (i == 0) {");
-    // temp.push_back("      printf(\"IS 0!\");");
     temp.push_back("      i++;");
     temp.push_back("   }");
+    temp.push_back("}");
+    return temp;
+}
+
+std::vector<std::string> Vector::del() {
+    std::vector<std::string> temp = {};
+    temp.push_back("if (" + this->name + ".size() > 0) {");
+    temp.push_back("   " + this->name + ".clear();");
     temp.push_back("}");
     return temp;
 }
@@ -173,10 +200,10 @@ List::List(int id) {
     this->name = "list" + std::to_string(id);
 }
 
-std::string List::eval() {
+std::vector<std::string> List::new_() {
     std::string temp = "std::list<int> " + this->name;
     temp += " = std::list<int>();";
-    return temp;
+    return {temp};
 }
 
 std::vector<std::string> List::insert() {
@@ -202,9 +229,16 @@ std::vector<std::string> List::contains() {
     std::vector<std::string> temp = {};
     temp.push_back("for (auto&& i : " + this->name + ") {");
     temp.push_back("   if (i == 0) {");
-    // temp.push_back("      printf(\"IS 0!\");");
     temp.push_back("      i++;");
     temp.push_back("   }");
+    temp.push_back("}");
+    return temp;
+}
+
+std::vector<std::string> List::del() {
+    std::vector<std::string> temp = {};
+    temp.push_back("if (" + this->name + ".size() > 0) {");
+    temp.push_back("   " + this->name + ".clear();");
     temp.push_back("}");
     return temp;
 }
