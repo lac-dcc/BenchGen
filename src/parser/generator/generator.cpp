@@ -28,6 +28,12 @@ void Generator::generateIncludes() {
 
 void Generator::generateGlobalVars() {
     globalVars.push_back("int loopsFactor = 100;");
+    if (varType == "array") {
+        globalVars.push_back("typedef struct {");
+        globalVars.push_back("   unsigned int* data;");
+        globalVars.push_back("   int size;");
+        globalVars.push_back("} Array;");
+    }
 }
 
 void Generator::generateRandomNumberGenerator() {

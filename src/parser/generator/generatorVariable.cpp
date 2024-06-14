@@ -69,26 +69,28 @@ Array::Array(int size, int* values, int id) {
 }
 
 std::vector<std::string> Array::new_() {
-    std::string temp = "int* " + this->name;
-    temp += " = (int*)malloc(" + std::to_string(this->totalSize) + "*sizeof(int));";
-    return {temp};
+    std::vector<std::string> temp = {"Array " + this->name + ";"};
+    temp.push_back(this->name + ".size = " + std::to_string(this->totalSize) + ";");
+    temp.push_back(this->name + ".data = (unsigned int*)malloc(" + std::to_string(this->totalSize) + "*sizeof(unsigned int));");
+    return temp;
 }
 
 std::vector<std::string> Array::realloc() {
-    std::string temp = this->name + " = (int*)malloc(" + std::to_string(this->totalSize) + "*sizeof(int));";
-    return {temp};
+    std::vector<std::string> temp = {this->name + ".size = " + std::to_string(this->totalSize) + ";"};
+    temp.push_back(this->name + ".data = (unsigned int*)malloc(" + std::to_string(this->totalSize) + "*sizeof(unsigned int));");
+    return temp;
 }
 
 std::vector<std::string> Array::insert() {
     std::vector<std::string> temp = {"for (int i = 0; i < " + std::to_string(this->totalSize) + "; i++) {"};
-    temp.push_back("   " + this->name + "[i]++; ");
+    temp.push_back("   " + this->name + ".data[i]++; ");
     temp.push_back("}");
     return temp;
 }
 
 std::vector<std::string> Array::remove() {
     std::vector<std::string> temp = {"for (int i = 0; i < " + std::to_string(this->totalSize) + "; i++) {"};
-    temp.push_back("   " + this->name + "[i]--; ");
+    temp.push_back("   " + this->name + ".data[i]--; ");
     temp.push_back("}");
     return temp;
 }
@@ -96,8 +98,8 @@ std::vector<std::string> Array::remove() {
 std::vector<std::string> Array::contains() {
     std::vector<std::string> temp = {};
     temp.push_back("for (int i = 0; i < " + std::to_string(this->totalSize) + "; i++) {");
-    temp.push_back("   if (" + this->name + "[i] == 0) { ");
-    temp.push_back("      " + this->name + "[i]++;");
+    temp.push_back("   if (" + this->name + ".data[i] == 0) { ");
+    temp.push_back("      " + this->name + ".data[i]++;");
     temp.push_back("   }");
     temp.push_back("}");
     return temp;
@@ -105,9 +107,10 @@ std::vector<std::string> Array::contains() {
 
 std::vector<std::string> Array::del() {
     std::vector<std::string> temp = {};
-    temp.push_back("if (" + this->name + " != NULL) {");
-    temp.push_back("   free(" + this->name + ");");
-    temp.push_back("   " + this->name + " = NULL;");
+    temp.push_back("if (" + this->name + ".size > 0) {");
+    temp.push_back("   free(" + this->name + ".data);");
+    temp.push_back("   " + this->name + ".data = NULL;");
+    temp.push_back("   " + this->name + ".size = 0;");
     temp.push_back("}");
     return temp;
 }
