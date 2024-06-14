@@ -18,6 +18,7 @@ class Generator {
     void generateGlobalVars();
     void generateMainFunction();
     void generateRandomNumberGenerator();
+    std::string getVarTypeDeclaration();
 
    public:
     GeneratorFunction mainFunction;
@@ -42,6 +43,7 @@ class Generator {
     bool functionExists(int);
     void callFunc(int, int);
     int addVar(std::string type);
+    void returnFunc();
     void endScope();
     void endFunc();
     void writeToFile(std::string);

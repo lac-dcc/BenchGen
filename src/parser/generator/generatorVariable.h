@@ -11,11 +11,12 @@ class GeneratorVariable {
    public:
     int id;
     std::string name;
+    std::string typeString;
     virtual ~GeneratorVariable() {}
     virtual std::vector<std::string> new_() = 0;
     virtual std::vector<std::string> insert() = 0;
     virtual std::vector<std::string> remove() = 0;
-    virtual std::vector<std::string> contains() = 0;
+    virtual std::vector<std::string> contains(bool = false) = 0;
     virtual std::vector<std::string> del() = 0;
 };
 
@@ -27,7 +28,7 @@ class Scalar : public GeneratorVariable {
     std::vector<std::string> new_() override;
     std::vector<std::string> insert() override;
     std::vector<std::string> remove() override;
-    std::vector<std::string> contains() override;
+    std::vector<std::string> contains(bool = false) override;
     std::vector<std::string> del() override;
 };
 
@@ -41,7 +42,7 @@ class Array : public GeneratorVariable {
     std::vector<std::string> realloc();
     std::vector<std::string> insert() override;
     std::vector<std::string> remove() override;
-    std::vector<std::string> contains() override;
+    std::vector<std::string> contains(bool = false) override;
     std::vector<std::string> del() override;
 };
 
@@ -54,7 +55,7 @@ class Matrix : public GeneratorVariable {
     std::vector<std::string> new_() override;
     std::vector<std::string> insert() override;
     std::vector<std::string> remove() override;
-    std::vector<std::string> contains() override;
+    std::vector<std::string> contains(bool = false) override;
     std::vector<std::string> del() override;
 };
 
@@ -66,7 +67,7 @@ class Vector : public GeneratorVariable {
     std::vector<std::string> new_() override;
     std::vector<std::string> insert() override;
     std::vector<std::string> remove() override;
-    std::vector<std::string> contains() override;
+    std::vector<std::string> contains(bool = false) override;
     std::vector<std::string> del() override;
 };
 
@@ -77,7 +78,7 @@ class List : public GeneratorVariable {
     std::vector<std::string> new_() override;
     std::vector<std::string> insert() override;
     std::vector<std::string> remove() override;
-    std::vector<std::string> contains() override;
+    std::vector<std::string> contains(bool = false) override;
     std::vector<std::string> del() override;
 };
 

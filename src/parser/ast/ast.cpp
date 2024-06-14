@@ -86,7 +86,7 @@ void Contains::gen(Generator& generator) {
     int varPos = rand() % varCount;
 
     GeneratorVariable* var = generator.variables[generator.currentScope.top().avaiableVarsID[varPos]];
-    std::vector<std::string> lines = var->contains();
+    std::vector<std::string> lines = var->contains(!generator.currentFunction.top()->insertBack);
     for (std::string line : lines) {
         generator.addLine(line);
     }
@@ -119,6 +119,14 @@ void Call::gen(Generator& generator) {
     if (!generator.functionExists(id)) {
         generator.startFunc(id, nParameters);
         code->gen(generator);
+        if (generator.currentScope.top().avaiableVarsID.size() == 0) {
+            int id = generator.addVar(generator.varType);
+            std::vector<std::string> lines = generator.variables[id]->new_();
+            for (std::string line : lines) {
+                generator.addLine(line);
+            }
+        }
+        generator.returnFunc();
         generator.endFunc();
     }
 }

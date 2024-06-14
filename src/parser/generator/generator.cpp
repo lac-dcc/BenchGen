@@ -63,6 +63,21 @@ void Generator::generateMainFunction() {
     startScope();
 }
 
+std::string Generator::getVarTypeDeclaration() {
+    if (varType == "scalar") {
+        return "int";
+    } else if (varType == "array") {
+        return "Array";
+    } else if (varType == "matrix") {
+        return "Matrix";
+    } else if (varType == "vector") {
+        return "std::vector<int>";
+    } else if (varType == "list") {
+        return "std::list<int>";
+    }
+    return "";
+}
+
 void Generator::addLine(std::string line, int d) {
     std::string indentedLine = currentScope.top().getIndentationTabs(d) + line;
     currentFunction.top()->addLine(indentedLine);
@@ -75,7 +90,7 @@ void Generator::startScope() {
 
 void Generator::startFunc(int funcId, int nParameters) {
     GeneratorFunction func = GeneratorFunction(funcId);
-    std::string funcHeader = "void func" + std::to_string(funcId) + "(";
+    std::string funcHeader = getVarTypeDeclaration() + " func" + std::to_string(funcId) + "(";
     for (int i = 0; i < nParameters; i++) {
         funcHeader += "const unsigned long PATH" + std::to_string(i) + ", ";
     }
@@ -102,7 +117,10 @@ bool Generator::functionExists(int funcId) {
 }
 
 void Generator::callFunc(int funcId, int nParameters) {
-    std::string line = "func" + std::to_string(funcId) + "(";
+    int id = addVar(varType);
+    GeneratorVariable* var = variables[id];
+
+    std::string line = var->typeString + " " + var->name + " = func" + std::to_string(funcId) + "(";
     for (int i = 0; i < nParameters; i++) {
         line += "rng(), ";
     }
@@ -118,6 +136,13 @@ int Generator::addVar(std::string type) {
     this->variables[varCounter] = VariableFactory::createVariable(type, varCounter);
     this->currentScope.top().addVar(varCounter);
     return varCounter++;
+}
+
+void Generator::returnFunc() {
+    int varCount = currentScope.top().avaiableVarsID.size();
+    int varPos = rand() % varCount;
+    GeneratorVariable* var = variables[currentScope.top().avaiableVarsID[varPos]];
+    addLine("return " + var->name + ";");
 }
 
 void Generator::endScope() {
