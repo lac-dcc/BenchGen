@@ -78,25 +78,25 @@ Array::Array(int size, int* values, int id) {
 std::vector<std::string> Array::new_() {
     std::vector<std::string> temp = {this->typeString + " " + this->name + ";"};
     temp.push_back(this->name + ".size = " + std::to_string(this->totalSize) + ";");
-    temp.push_back(this->name + ".data = (unsigned int*)malloc(" + std::to_string(this->totalSize) + "*sizeof(unsigned int));");
+    temp.push_back(this->name + ".data = (unsigned int*)malloc(" + this->name + ".size*sizeof(unsigned int));");
     return temp;
 }
 
 std::vector<std::string> Array::realloc() {
     std::vector<std::string> temp = {this->name + ".size = " + std::to_string(this->totalSize) + ";"};
-    temp.push_back(this->name + ".data = (unsigned int*)malloc(" + std::to_string(this->totalSize) + "*sizeof(unsigned int));");
+    temp.push_back(this->name + ".data = (unsigned int*)malloc(" + this->name + ".size*sizeof(unsigned int));");
     return temp;
 }
 
 std::vector<std::string> Array::insert() {
-    std::vector<std::string> temp = {"for (int i = 0; i < " + std::to_string(this->totalSize) + "; i++) {"};
+    std::vector<std::string> temp = {"for (int i = 0; i < " + this->name + ".size; i++) {"};
     temp.push_back("   " + this->name + ".data[i]++; ");
     temp.push_back("}");
     return temp;
 }
 
 std::vector<std::string> Array::remove() {
-    std::vector<std::string> temp = {"for (int i = 0; i < " + std::to_string(this->totalSize) + "; i++) {"};
+    std::vector<std::string> temp = {"for (int i = 0; i < " + this->name + ".size; i++) {"};
     temp.push_back("   " + this->name + ".data[i]--; ");
     temp.push_back("}");
     return temp;
@@ -105,7 +105,7 @@ std::vector<std::string> Array::remove() {
 std::vector<std::string> Array::contains(bool shouldReturn) {
     int compare = rand() % 100;
     std::vector<std::string> temp = {};
-    temp.push_back("for (int i = 0; i < " + std::to_string(this->totalSize) + "; i++) {");
+    temp.push_back("for (int i = 0; i < " + this->name + ".size; i++) {");
     temp.push_back("   if (" + this->name + ".data[i] == " + std::to_string(compare) + ") { ");
     if (shouldReturn) {
         temp.push_back("      return " + this->name + ";");
