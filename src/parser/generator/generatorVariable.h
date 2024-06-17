@@ -12,6 +12,7 @@ class GeneratorVariable {
     int id;
     std::string name;
     std::string typeString;
+    bool canDel;
     virtual ~GeneratorVariable() {}
     virtual std::vector<std::string> new_() = 0;
     virtual std::vector<std::string> insert() = 0;

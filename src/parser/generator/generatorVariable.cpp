@@ -31,6 +31,7 @@ GeneratorVariable* VariableFactory::createVariable(std::string type, int identif
 // SCALAR
 
 Scalar::Scalar(int initialValue, int id) {
+    this->canDel = false;
     this->typeString = "unsigned int";
     this->initialValue = initialValue;
     this->id = id;
@@ -38,14 +39,17 @@ Scalar::Scalar(int initialValue, int id) {
 }
 
 std::vector<std::string> Scalar::new_() {
+    this->canDel = false;
     return {this->typeString + " " + this->name + " = " + std::to_string(initialValue) + ";"};
 }
 
 std::vector<std::string> Scalar::insert() {
+    this->canDel = true;
     return {this->name + "++;"};
 }
 
 std::vector<std::string> Scalar::remove() {
+    this->canDel = true;
     return {this->name + "--;"};
 }
 
@@ -56,6 +60,7 @@ std::vector<std::string> Scalar::contains(bool shouldReturn) {
     if (shouldReturn) {
         temp.push_back("      return " + this->name + ";");
     } else {
+        this->canDel = true;
         temp.push_back("      " + this->name + " += " + std::to_string(compare) + ";");
     }
     temp.push_back("}");
@@ -63,12 +68,14 @@ std::vector<std::string> Scalar::contains(bool shouldReturn) {
 }
 
 std::vector<std::string> Scalar::del() {
+    this->canDel = false;
     return {this->name + " = 0;"};
 }
 
 // ARRAY
 
 Array::Array(int size, int* values, int id) {
+    this->canDel = false;
     this->typeString = "Array";
     this->totalSize = size;
     this->id = id;
@@ -76,6 +83,7 @@ Array::Array(int size, int* values, int id) {
 }
 
 std::vector<std::string> Array::new_() {
+    this->canDel = true;
     std::vector<std::string> temp = {this->typeString + " " + this->name + ";"};
     temp.push_back(this->name + ".size = " + std::to_string(this->totalSize) + ";");
     temp.push_back(this->name + ".data = (unsigned int*)malloc(" + this->name + ".size*sizeof(unsigned int));");
@@ -83,12 +91,14 @@ std::vector<std::string> Array::new_() {
 }
 
 std::vector<std::string> Array::realloc() {
+    this->canDel = true;
     std::vector<std::string> temp = {this->name + ".size = " + std::to_string(this->totalSize) + ";"};
     temp.push_back(this->name + ".data = (unsigned int*)malloc(" + this->name + ".size*sizeof(unsigned int));");
     return temp;
 }
 
 std::vector<std::string> Array::insert() {
+    this->canDel = true;
     std::vector<std::string> temp = {"for (int i = 0; i < " + this->name + ".size; i++) {"};
     temp.push_back("   " + this->name + ".data[i]++; ");
     temp.push_back("}");
@@ -96,6 +106,7 @@ std::vector<std::string> Array::insert() {
 }
 
 std::vector<std::string> Array::remove() {
+    this->canDel = true;
     std::vector<std::string> temp = {"for (int i = 0; i < " + this->name + ".size; i++) {"};
     temp.push_back("   " + this->name + ".data[i]--; ");
     temp.push_back("}");
@@ -110,6 +121,7 @@ std::vector<std::string> Array::contains(bool shouldReturn) {
     if (shouldReturn) {
         temp.push_back("      return " + this->name + ";");
     } else {
+        this->canDel = true;
         temp.push_back("      " + this->name + ".data[i] += " + std::to_string(compare) + ";");
     }
     temp.push_back("   }");
@@ -118,6 +130,7 @@ std::vector<std::string> Array::contains(bool shouldReturn) {
 }
 
 std::vector<std::string> Array::del() {
+    this->canDel = false;
     std::vector<std::string> temp = {};
     temp.push_back("if (" + this->name + ".size > 0) {");
     temp.push_back("   free(" + this->name + ".data);");
@@ -132,6 +145,7 @@ Array::~Array() {
 // MATRIX
 
 Matrix::Matrix(int rows, int columns, int* values, int id) {
+    this->canDel = false;
     this->typeString = "unsigned int**";
     this->rows = rows;
     this->cols = columns;
@@ -161,18 +175,21 @@ std::vector<std::string> Matrix::del() {
 // VECTOR
 
 Vector::Vector(int id) {
+    this->canDel = false;
     this->typeString = "std::vector<int>";
     this->id = id;
     this->name = "vector" + std::to_string(id);
 }
 
 std::vector<std::string> Vector::new_() {
+    this->canDel = false;
     std::string temp = this->typeString + " " + this->name;
     temp += " = std::vector<int>();";
     return {temp};
 }
 
 std::vector<std::string> Vector::insert() {
+    this->canDel = true;
     std::vector<std::string> temp = {this->name + ".push_back(0);"};
     temp.push_back("for (auto&& i : " + this->name + ") { ");
     temp.push_back("   i++; ");
@@ -181,6 +198,7 @@ std::vector<std::string> Vector::insert() {
 }
 
 std::vector<std::string> Vector::remove() {
+    this->canDel = true;
     std::vector<std::string> temp = {};
     temp.push_back("if (" + this->name + ".size() > 0) {");
     temp.push_back("   " + this->name + ".pop_back();");
@@ -199,6 +217,7 @@ std::vector<std::string> Vector::contains(bool shouldReturn) {
     if (shouldReturn) {
         temp.push_back("      return " + this->name + ";");
     } else {
+        this->canDel = true;
         temp.push_back("      i += " + std::to_string(compare) + ";");
     }
     temp.push_back("   }");
@@ -207,6 +226,7 @@ std::vector<std::string> Vector::contains(bool shouldReturn) {
 }
 
 std::vector<std::string> Vector::del() {
+    this->canDel = false;
     std::vector<std::string> temp = {};
     temp.push_back("if (" + this->name + ".size() > 0) {");
     temp.push_back("   " + this->name + ".clear();");
@@ -217,18 +237,21 @@ std::vector<std::string> Vector::del() {
 // LIST
 
 List::List(int id) {
+    this->canDel = false;
     this->typeString = "std::list<int>";
     this->id = id;
     this->name = "list" + std::to_string(id);
 }
 
 std::vector<std::string> List::new_() {
+    this->canDel = false;
     std::string temp = this->typeString + " " + this->name;
     temp += " = std::list<int>();";
     return {temp};
 }
 
 std::vector<std::string> List::insert() {
+    this->canDel = true;
     std::vector<std::string> temp = {this->name + ".push_back(0);"};
     temp.push_back("for (auto&& i : " + this->name + ") { ");
     temp.push_back("   i++; ");
@@ -237,6 +260,7 @@ std::vector<std::string> List::insert() {
 }
 
 std::vector<std::string> List::remove() {
+    this->canDel = true;
     std::vector<std::string> temp = {};
     temp.push_back("if (" + this->name + ".size() > 0) {");
     temp.push_back("   " + this->name + ".pop_back();");
@@ -255,6 +279,7 @@ std::vector<std::string> List::contains(bool shouldReturn) {
     if (shouldReturn) {
         temp.push_back("      return " + this->name + ";");
     } else {
+        this->canDel = true;
         temp.push_back("      i += " + std::to_string(compare) + ";");
     }
     temp.push_back("   }");
@@ -263,6 +288,7 @@ std::vector<std::string> List::contains(bool shouldReturn) {
 }
 
 std::vector<std::string> List::del() {
+    this->canDel = false;
     std::vector<std::string> temp = {};
     temp.push_back("if (" + this->name + ".size() > 0) {");
     temp.push_back("   " + this->name + ".clear();");
