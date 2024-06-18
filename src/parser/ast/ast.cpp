@@ -103,12 +103,12 @@ void Contains::gen(Generator& generator) {
 
 void Loop::gen(Generator& generator) {
     std::string loopVar = "loop" + std::to_string(generator.loopCounter);
-    std::string loopVarLine = "int " + loopVar + " = 0;";
+    std::string loopVarLine = "unsigned int " + loopVar + " = 0;";
     generator.addLine(loopVarLine);
 
     std::string loopLimitVar = "loopLimit" + std::to_string(generator.loopCounter);
     std::string loopLimitValue = "(rand()%loopsFactor)/" + std::to_string(generator.loopLevel + 1) + " + 1";
-    std::string loopLimitLine = "int " + loopLimitVar + " = " + loopLimitValue + ";";
+    std::string loopLimitLine = "unsigned int " + loopLimitVar + " = " + loopLimitValue + ";";
     generator.addLine(loopLimitLine);
 
     std::string forLine = "for(; " + loopVar + " < " + loopLimitVar + "; " + loopVar + "++) {";
