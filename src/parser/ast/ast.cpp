@@ -67,24 +67,16 @@ void New::gen(Generator& generator) {
 }
 
 void Del::gen(Generator& generator) {
-    std::vector<int> deletableVarsIds = std::vector<int>();
-    for (int varId : generator.currentScope.top().avaiableVarsID) {
-        GeneratorVariable* var = generator.variables[varId];
+    std::vector<int> availableVarsId = generator.currentScope.top().avaiableVarsID;
+    for (auto it = availableVarsId.rbegin(); it != availableVarsId.rend(); ++it) {
+        GeneratorVariable* var = generator.variables[*it];
         if (var->canDel) {
-            deletableVarsIds.push_back(varId);
+            std::vector<std::string> lines = var->del();
+            for (std::string line : lines) {
+                generator.addLine(line);
+            }
+            return;
         }
-    }
-
-    int varCount = deletableVarsIds.size();
-    if (varCount == 0)
-        return;
-    int varPos = rand() % varCount;
-    varPos = deletableVarsIds[varPos];
-
-    GeneratorVariable* var = generator.variables[varPos];
-    std::vector<std::string> lines = var->del();
-    for (std::string line : lines) {
-        generator.addLine(line);
     }
 }
 

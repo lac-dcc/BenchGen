@@ -119,6 +119,7 @@ bool Generator::functionExists(int funcId) {
 void Generator::callFunc(int funcId, int nParameters) {
     int id = addVar(varType);
     GeneratorVariable* var = variables[id];
+    var->canDel = true;
 
     std::string line = var->typeString + " " + var->name + " = func" + std::to_string(funcId) + "(";
     for (int i = 0; i < nParameters; i++) {
