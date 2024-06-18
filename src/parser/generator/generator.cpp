@@ -49,7 +49,7 @@ void Generator::generateMainFunction() {
     mainFunction = GeneratorFunction(-1);
     mainFunction.addLine("int main(int argc, char** argv) {");
     mainFunction.addLine("   if (argc < 2 || argc > 3) {");
-    mainFunction.addLine("      printf(\"Usage: %s <number of paths> <loops factor (optional)>\\n\", argv[0]);");
+    mainFunction.addLine("      printf(\"Usage: %s <paths seed> <loops factor (optional)>\\n\", argv[0]);");
     mainFunction.addLine("      return 1;");
     mainFunction.addLine("   }");
     mainFunction.addLine("   if (argc == 3) {");
