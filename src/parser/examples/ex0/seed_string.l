@@ -1,0 +1,1 @@
+CALL(new A) B del

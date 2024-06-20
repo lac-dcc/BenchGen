@@ -3,7 +3,7 @@ CFLAGS = -std=c++20 -Wall
 IMP = ./imports/
 SRC = ./src/
 OBJ = ./obj/
-TARGET = main
+TARGET = benchGen
 #Dependencies in objects. Add more here when creating new files!
 DEPS = $(OBJ)ast.o $(OBJ)generatorFunction.o $(OBJ)generatorVariable.o $(OBJ)generatorScope.o $(OBJ)generator.o $(OBJ)lexer.o $(OBJ)lSystem.o $(OBJ)parser.o $(OBJ)CodeGeneratorDriver.o
 #SHARED = $(IMP)ast.h $(IMP)enums.h $(IMP)globalIncludes.h $(IMP)globalStructs.h
