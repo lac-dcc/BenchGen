@@ -11,8 +11,8 @@ VARIABLES_ARRAY = [
 ITERATIONS_ARRAY = [0,1,2,3,4,5,6,7,8]
 
 def compile(number_of_iterations, pr_number, variable_type, ext="cpp"):
-    pr_string = f"production_rules/production_rule_{pr_number}.l"
-    ss_string = "seed_strings/seed_string.l"
+    pr_string = f"production_rules/production_rule_{pr_number}.txt"
+    ss_string = "seed_strings/seed_string.txt"
     output = f"./results/output_{number_of_iterations}_{pr_number}_{variable_type}.{ext}"
     program = "./../../parser/main"
     print(f"""
