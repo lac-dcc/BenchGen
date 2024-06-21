@@ -1,0 +1,3 @@
+A = new LOOP(B) del;
+B = CALL(A) LOOP(insert) C del;
+C = CALL(B) del new LOOP(B remove) del;
