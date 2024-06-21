@@ -1,4 +1,4 @@
-A = B new new insert remove C remove CALL(A);
-B = new IF(LOOP(B),CALL(A C)) remove remove LOOP(remove) C D D;
-C = D remove remove new B CALL(A C) del;
-D = LOOP(new LOOP(A) new CALL(IF(A new insert,B new remove))) C;
+A = B new new insert del remove C remove del CALL(A) del;
+B = new IF(LOOP(B),CALL(A C) del) remove remove del LOOP(new remove del) C D D;
+C = D remove remove new B del CALL(A C) del;
+D = LOOP(new LOOP(A) new CALL(IF(A new insert del,B new remove del)) del del) C;
