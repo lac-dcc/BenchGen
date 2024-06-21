@@ -14,7 +14,7 @@ def compile(number_of_iterations, pr_number, variable_type, ext="cpp"):
     pr_string = f"production_rules/production_rule_{pr_number}.txt"
     ss_string = "seed_strings/seed_string.txt"
     output = f"./results/output_{number_of_iterations}_{pr_number}_{variable_type}.{ext}"
-    program = "./../../parser/main"
+    program = "./../../gen/main"
     print(f"""
 ############################################################
 COMPILING {number_of_iterations} {pr_string} {variable_type}""")
