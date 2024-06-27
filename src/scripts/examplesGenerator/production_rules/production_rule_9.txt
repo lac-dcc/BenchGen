@@ -1,4 +1,4 @@
 A = CALL(new IF(insert remove remove del, contains B)) CALL(A) del CALL(LOOP(new insert contains del)) del CALL(D) del del;
 B = new C CALL(new remove) remove contains del del;
 C = new D CALL(LOOP(B)) del del;
-D = C new LOOP(B LOOP(A) del);
+D = C new LOOP(B A del);

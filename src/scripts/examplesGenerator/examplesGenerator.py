@@ -8,7 +8,7 @@ VARIABLES_ARRAY = [
     "vector",
     "list",
 ]
-ITERATIONS_ARRAY = [0,1,2,3,4,5,6,7,8]
+ITERATIONS_ARRAY = [1,3,5,7,9,11,12]
 
 def compile(number_of_iterations, pr_number, variable_type, ext="cpp"):
     pr_string = f"production_rules/production_rule_{pr_number}.txt"
@@ -44,7 +44,6 @@ def generate_examples_2():
 
 def generate_examples_3(its=ITERATIONS_ARRAY[-1]):
     var_len = len(VARIABLES_ARRAY)
-    # sub_pr_array = PRODUCTION_RULES_ARRAY[(var_len*-1):]
     sub_pr_array = PRODUCTION_RULES_ARRAY[:var_len]
     for i, pr_number in enumerate(reversed(sub_pr_array)):
             try:
@@ -53,6 +52,19 @@ def generate_examples_3(its=ITERATIONS_ARRAY[-1]):
                 print(e)
                 print(f"Error with {its} {pr_number} {VARIABLES_ARRAY[i]}")
                 sys.exit(1)
+
+def generate_example_4(its=ITERATIONS_ARRAY[-1], variable_type=VARIABLES_ARRAY[0]):
+    for pr_number in PRODUCTION_RULES_ARRAY[:9]:
+        try:
+            if variable_type == "scalar" or variable_type == "array":
+                ext = "c"
+            else:
+                ext = "cpp"
+            compile(its, pr_number, variable_type, ext)
+        except Exception as e:
+            print(e)
+            print(f"Error with {its} {pr_number} {variable_type}")
+            sys.exit(1)
 
 subprocess.run(["mkdir results"], shell=True, stderr=subprocess.DEVNULL)
 example = sys.argv[1]
@@ -72,6 +84,14 @@ elif example == "3":
         generate_examples_3(its)
     else:
         generate_examples_3()
+elif example == "4":
+    its = sys.argv[2]
+    var = sys.argv[3]
+    if its and var:
+        its = int(its)
+        generate_example_4(its, var)
+    else:
+        generate_example_4()
 else:
     print("Invalid example number")
     sys.exit(1)
