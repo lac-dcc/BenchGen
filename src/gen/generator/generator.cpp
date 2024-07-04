@@ -32,6 +32,10 @@ void Generator::generateGlobalVars() {
         globalVars.push_back("   unsigned int* data;");
         globalVars.push_back("   int size;");
         globalVars.push_back("} Array;");
+        globalVars.push_back("typedef struct {");
+        globalVars.push_back("   Array* data;");
+        globalVars.push_back("   int size;");
+        globalVars.push_back("} ArrayParam;");
     }
     globalVars.push_back("int loopsFactor = 100;");
 }
@@ -91,10 +95,13 @@ void Generator::startScope() {
 void Generator::startFunc(int funcId, int nParameters) {
     GeneratorFunction func = GeneratorFunction(funcId);
     std::string funcHeader = getVarTypeDeclaration() + " func" + std::to_string(funcId) + "(";
+    if (varType == "array") {
+        funcHeader += "ArrayParam* vars, ";
+    }
     for (int i = 0; i < nParameters; i++) {
         funcHeader += "const unsigned long PATH" + std::to_string(i) + ", ";
     }
-    if (nParameters > 0) {
+    if (nParameters > 0 || varType == "array") {
         funcHeader.pop_back();
         funcHeader.pop_back();
     }
@@ -116,16 +123,31 @@ bool Generator::functionExists(int funcId) {
     return false;
 }
 
+std::string Generator::createArrayParams() {
+    addLine("ArrayParam vars;");
+    addLine("vars.size = " + std::to_string(currentScope.top().avaiableVarsID.size()) + ";");
+    addLine("vars.data = (Array*)malloc(vars.size * sizeof(Array));");
+    for (int i = 0; i < currentScope.top().avaiableVarsID.size() - 1; i++) {
+        GeneratorVariable* var = variables[currentScope.top().avaiableVarsID[i]];
+        addLine("vars.data[" + std::to_string(i) + "] = " + var->name + ";");
+    }
+    return "vars";
+}
+
 void Generator::callFunc(int funcId, int nParameters) {
     int id = addVar(varType);
     GeneratorVariable* var = variables[id];
     var->canDel = true;
 
     std::string line = var->typeString + " " + var->name + " = func" + std::to_string(funcId) + "(";
+
+    if (varType == "array") {
+        line += "&" + createArrayParams() + ", ";
+    }
     for (int i = 0; i < nParameters; i++) {
         line += "rng(), ";
     }
-    if (nParameters > 0) {
+    if (nParameters > 0 || varType == "array") {
         line.pop_back();
         line.pop_back();
     }
