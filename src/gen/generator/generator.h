@@ -20,6 +20,7 @@ class Generator {
     void generateRandomNumberGenerator();
     std::string getVarTypeDeclaration();
     std::string createArrayParams();
+    void freeArrayParams(std::string);
 
    public:
     GeneratorFunction mainFunction;
@@ -43,7 +44,7 @@ class Generator {
     void startFunc(int, int);
     bool functionExists(int);
     void callFunc(int, int);
-    int addVar(std::string type);
+    int addVar(std::string);
     void returnFunc();
     void endScope();
     void endFunc();

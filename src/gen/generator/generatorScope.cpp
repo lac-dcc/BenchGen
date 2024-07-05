@@ -20,3 +20,8 @@ void GeneratorScope::addVar(int id) {
     addedVars++;
     avaiableVarsID.push_back(id);
 }
+
+int GeneratorScope::addParam() {
+    avaiableParamsID.push_back(avaiableParamsID.size());
+    return avaiableParamsID.size() - 1;
+}

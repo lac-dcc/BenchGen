@@ -88,7 +88,7 @@ void Generator::addLine(std::string line, int d) {
 }
 
 void Generator::startScope() {
-    GeneratorScope scope = GeneratorScope(currentScope.top().avaiableVarsID, currentScope.top().getIndentation());
+    GeneratorScope scope = GeneratorScope(currentScope.top().avaiableVarsID, currentScope.top().avaiableParamsID, currentScope.top().getIndentation());
     currentScope.push(scope);
 }
 
@@ -124,35 +124,48 @@ bool Generator::functionExists(int funcId) {
 }
 
 std::string Generator::createArrayParams() {
-    addLine("ArrayParam vars;");
-    addLine("vars.size = " + std::to_string(currentScope.top().avaiableVarsID.size()) + ";");
-    addLine("vars.data = (Array*)malloc(vars.size * sizeof(Array));");
-    for (int i = 0; i < currentScope.top().avaiableVarsID.size() - 1; i++) {
+    std::string name = "params" + std::to_string(currentScope.top().addParam());
+    addLine("ArrayParam " + name + ";");
+    addLine(name + ".size = " + std::to_string(currentScope.top().avaiableVarsID.size()) + ";");
+    addLine(name + ".data = (Array*)malloc(" + name + ".size*sizeof(Array));");
+    for (int i = 0; i < currentScope.top().avaiableVarsID.size(); i++) {
         GeneratorVariable* var = variables[currentScope.top().avaiableVarsID[i]];
-        addLine("vars.data[" + std::to_string(i) + "] = " + var->name + ";");
+        addLine(name + ".data[" + std::to_string(i) + "] = " + var->name + ";");
     }
-    return "vars";
+    return name;
+}
+
+void Generator::freeArrayParams(std::string name) {
+    addLine("if (" + name + ".size > 0) {");
+    addLine("   free(" + name + ".data);");
+    addLine("   " + name + ".size = 0;");
+    addLine("}");
 }
 
 void Generator::callFunc(int funcId, int nParameters) {
+    std::string param = "";
+    if (varType == "array")
+        param = createArrayParams();
+
     int id = addVar(varType);
     GeneratorVariable* var = variables[id];
     var->canDel = true;
 
     std::string line = var->typeString + " " + var->name + " = func" + std::to_string(funcId) + "(";
 
-    if (varType == "array") {
-        line += "&" + createArrayParams() + ", ";
-    }
-    for (int i = 0; i < nParameters; i++) {
+    if (varType == "array")
+        line += "&" + param + ", ";
+    for (int i = 0; i < nParameters; i++)
         line += "rng(), ";
-    }
     if (nParameters > 0 || varType == "array") {
         line.pop_back();
         line.pop_back();
     }
     line += ");";
     addLine(line);
+
+    if (varType == "array")
+        freeArrayParams(param);
 }
 
 int Generator::addVar(std::string type) {

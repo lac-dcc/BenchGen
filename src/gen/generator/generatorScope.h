@@ -13,13 +13,16 @@ class GeneratorScope {
    public:
     int addedVars;
     std::vector<int> avaiableVarsID;
+    std::vector<int> avaiableParamsID;
     GeneratorScope(int identation = 1) {
         avaiableVarsID = {};
+        avaiableParamsID = {};
         addedVars = 0;
         this->indentation = identation;
     }
-    GeneratorScope(std::vector<int> parentVars, int parentIndentation) {
+    GeneratorScope(std::vector<int> parentVars, std::vector<int> parentParams, int parentIndentation) {
         this->avaiableVarsID = parentVars;
+        this->avaiableParamsID = parentParams;
         this->addedVars = 0;
         this->indentation = parentIndentation + 1;
     }
@@ -29,6 +32,7 @@ class GeneratorScope {
     int getIndentation();
     std::string getIndentationTabs(int = 0);
     void addVar(int id);
+    int addParam();
 };
 
 #endif
