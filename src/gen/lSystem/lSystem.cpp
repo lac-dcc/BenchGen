@@ -72,9 +72,7 @@ void lSystem::applyCallIds(std::list<Token>& outputTokens, int& callCounter) {
             callIdTokens[0].type = TOK_CALL_ID;
             callIdTokens[1].text = ",";
             callIdTokens[1].type = TOK_COMMA;
-            std::advance(i, 2);
-            outputTokens.insert(i, std::begin(callIdTokens), std::end(callIdTokens));
-            std::advance(i, 1);
+            outputTokens.insert(std::next(i, 2), std::begin(callIdTokens), std::end(callIdTokens));
         }
     }
 }

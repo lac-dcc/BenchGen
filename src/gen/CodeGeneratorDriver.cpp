@@ -39,7 +39,6 @@ int main(int argc, char const* argv[]) {
     // }
     // std::cout << std::endl;
 
-
     applyLSystem(inputTokens, lexer, iterations, productionRulesFile);
 
     // Print input tokens
