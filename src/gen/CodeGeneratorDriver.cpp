@@ -8,20 +8,20 @@ void getInputTokens(std::vector<Token>&, Lexer&, const std::string&);
 void applyLSystem(std::vector<Token>&, Lexer&, int, const std::string&);
 std::shared_ptr<Node> parseTokensToAST(Parser&, const std::vector<Token>&);
 void generateCode(Generator&, std::shared_ptr<Node>&);
-void writeToFile(Generator&, std::string);
+void genBenchmark(Generator&, std::string);
 
 int main(int argc, char const* argv[]) {
     if (argc < 6) {
         std::cout << "ERROR! Missing arguments!" << std::endl;
         std::cout << "Please provide Number of Iterations, Production Rules, Input File and Output File." << std::endl;
-        std::cout << "Usage: ./main <number_of_iterations> <production_rules_file> <input_file> <output_file> <var_type>" << std::endl;
+        std::cout << "Usage: ./main <number_of_iterations> <production_rules_file> <input_file> <bench_name> <var_type>" << std::endl;
         return 1;
     }
 
     int iterations = std::stoi(argv[1]);
     std::string productionRulesFile = argv[2];
     std::string inputFile = argv[3];
-    std::string outputFile = argv[4];
+    std::string bench_name = argv[4];
     std::string varType = argv[5];
 
     Lexer lexer = Lexer();
@@ -55,7 +55,7 @@ int main(int argc, char const* argv[]) {
 
     // Apply "behavior" later
 
-    writeToFile(generator, outputFile);
+    genBenchmark(generator, bench_name);
     // std::cout << "Printing AST..." << std::endl;
     // AST->print(2);
 
@@ -83,8 +83,8 @@ void generateCode(Generator& generator, std::shared_ptr<Node>& AST) {
     AST->gen(generator);
 }
 
-void writeToFile(Generator& generator, std::string outputFile) {
-    generator.writeToFile(outputFile);
+void genBenchmark(Generator& generator, std::string bench_name) {
+    generator.genBenchmark(bench_name);
     generator.endScope();
     std::cout << "Done!" << std::endl;
 }

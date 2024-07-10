@@ -1,6 +1,7 @@
 #ifndef GENERATOR_H
 #define GENERATOR_H
 #include <fstream>
+#include <filesystem>
 #include <iostream>
 
 #include "../shared/enums.h"
@@ -19,7 +20,7 @@ class Generator {
     void generateMainFunction();
     void generateRandomNumberGenerator();
     std::string getVarTypeDeclaration();
-
+    void genMakefile(std::string dir, std::string target);
    public:
     GeneratorFunction mainFunction;
     std::list<GeneratorFunction> functions;
@@ -46,7 +47,7 @@ class Generator {
     void returnFunc();
     void endScope();
     void endFunc();
-    void writeToFile(std::string);
+    void genBenchmark(std::string);
 };
 
 #endif
