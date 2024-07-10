@@ -33,7 +33,6 @@ void Generator::generateGlobalVars() {
         globalVars.push_back("   int size;");
         globalVars.push_back("} Array;");
     }
-    globalVars.push_back("int loopsFactor = 100;");
 }
 
 void Generator::generateRandomNumberGenerator() {
@@ -48,6 +47,7 @@ void Generator::generateRandomNumberGenerator() {
 void Generator::generateMainFunction() {
     mainFunction = GeneratorFunction(-1);
     mainFunction.addLine("int main(int argc, char** argv) {");
+    mainFunction.addLine("int loopsFactor = 100;");
     mainFunction.addLine("   if (argc < 2 || argc > 3) {");
     mainFunction.addLine("      printf(\"Usage: %s <paths seed> <loops factor (optional)>\\n\", argv[0]);");
     mainFunction.addLine("      return 1;");
@@ -219,9 +219,9 @@ void Generator::genBenchmark(std::string benchmarkName) {
 
     // Global variables
     for (auto var : globalVars) {
-        file << var << std::endl;
+        includeFile << var << std::endl;
     }
-    file << std::endl;
+    includeFile << std::endl;
 
     // Headers
     for (auto func : functions) {
