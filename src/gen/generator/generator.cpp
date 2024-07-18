@@ -37,7 +37,6 @@ void Generator::generateGlobalVars() {
         globalVars.push_back("   int size;");
         globalVars.push_back("} ArrayParam;");
     }
-    globalVars.push_back("int loopsFactor = 100;");
 }
 
 void Generator::generateRandomNumberGenerator() {
@@ -52,6 +51,7 @@ void Generator::generateRandomNumberGenerator() {
 void Generator::generateMainFunction() {
     mainFunction = GeneratorFunction(-1);
     mainFunction.addLine("int main(int argc, char** argv) {");
+    mainFunction.addLine("int loopsFactor = 100;");
     mainFunction.addLine("   if (argc < 2 || argc > 3) {");
     mainFunction.addLine("      printf(\"Usage: %s <paths seed> <loops factor (optional)>\\n\", argv[0]);");
     mainFunction.addLine("      return 1;");
@@ -105,6 +105,7 @@ void Generator::startFunc(int funcId, int nParameters) {
         funcHeader.pop_back();
         funcHeader.pop_back();
     }
+    funcHeader += "int loopsFactor";
     funcHeader += ") {";
     func.addLine(funcHeader);
     functions.push_back(func);
@@ -157,10 +158,7 @@ void Generator::callFunc(int funcId, int nParameters) {
         line += "&" + param + ", ";
     for (int i = 0; i < nParameters; i++)
         line += "rng(), ";
-    if (nParameters > 0 || varType == "array") {
-        line.pop_back();
-        line.pop_back();
-    }
+    line += "loopsFactor";
     line += ");";
     addLine(line);
 
@@ -206,26 +204,67 @@ void Generator::endFunc() {
     ifCounter.pop();
 }
 
-void Generator::writeToFile(std::string filename) {
+void Generator::genMakefile(std::string dir, std::string target) {
+    std::ofstream makefile;
+    makefile.open(dir + "Makefile");
+    makefile << "CC = gcc\n";
+    makefile << "TARGET = " + target + "\n";
+    makefile << "SRC_DIR = src\n";
+    makefile << "OBJ_DIR = obj\n\n";
+
+    makefile << "SRC = $(wildcard $(SRC_DIR)/*.c)\n";
+    makefile << "OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))\n\n";
+
+    makefile << "$(TARGET): $(OBJ)\n";
+    makefile << "\t$(CC) -o $(TARGET) $(OBJ)\n\n";
+
+    makefile << "$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)\n";
+    makefile << "\t$(CC) -c $< -o $@\n\n";
+
+    makefile << "$(OBJ_DIR):\n";
+    makefile << "\tmkdir -p $(OBJ_DIR)\n\n";
+
+    makefile << "clean:\n";
+    makefile << "\trm -f $(OBJ) $(TARGET)\n\n";
+
+    makefile << "%.o: %.c\n";
+}
+
+void Generator::genBenchmark(std::string benchmarkName) {
+    std::string benchDir = benchmarkName + "/";
+    std::string sourceFile = benchmarkName + ".c";
+    std::string includeName = benchmarkName + ".h";
+    std::string sourceDir = benchDir + "src/";
+
+    std::filesystem::create_directory(benchDir);
+    std::filesystem::create_directory(sourceDir);
+
     std::ofstream file;
-    file.open(filename);
+    file.open(sourceDir + sourceFile);
+
+    std::ofstream includeFile;
+    includeFile.open(sourceDir + includeName);
+
     // Includes
     for (auto include : includes) {
-        file << include << std::endl;
+        includeFile << include << std::endl;
     }
+    file << "#include \"" << includeName << "\"";
     file << std::endl;
+
     // Global variables
     for (auto var : globalVars) {
-        file << var << std::endl;
+        includeFile << var << std::endl;
     }
-    file << std::endl;
+    includeFile << std::endl;
+
     // Headers
     for (auto func : functions) {
         std::string header = func.getLines()[0];
         header.pop_back();
         header.pop_back();
         header += ";";
-        file << header << std::endl;
+        includeFile << header << std::endl;
     }
     file << std::endl;
     // Main function
@@ -234,13 +273,29 @@ void Generator::writeToFile(std::string filename) {
         file << line << std::endl;
     }
     file << std::endl;
+
     // Functions
     for (auto func : functions) {
+        std::string funcSource;
+        if (func.getId() == -1) {
+            // RNG Function
+            funcSource = "rng.c";
+        } else {
+            funcSource = "func" + std::to_string(func.getId()) + ".c";
+        }
+        std::ofstream funcFile;
+        funcFile.open(sourceDir + funcSource);
+        funcFile << "#include \"" << includeName << "\" \n";
+
         lines = func.getLines();
         for (auto line : lines) {
-            file << line << std::endl;
+            funcFile << line << std::endl;
         }
-        file << std::endl;
+        funcFile << std::endl;
+        funcFile.close();
     }
+
+    this->genMakefile(benchDir, benchmarkName);
+    includeFile.close();
     file.close();
 }

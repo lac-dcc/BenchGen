@@ -1,5 +1,6 @@
 #ifndef GENERATOR_H
 #define GENERATOR_H
+#include <filesystem>
 #include <fstream>
 #include <iostream>
 
@@ -21,6 +22,7 @@ class Generator {
     std::string getVarTypeDeclaration();
     std::string createArrayParams();
     void freeArrayParams(std::string);
+    void genMakefile(std::string dir, std::string target);
 
    public:
     GeneratorFunction mainFunction;
@@ -48,7 +50,7 @@ class Generator {
     void returnFunc();
     void endScope();
     void endFunc();
-    void writeToFile(std::string);
+    void genBenchmark(std::string);
 };
 
 #endif
