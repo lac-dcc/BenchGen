@@ -51,7 +51,7 @@ void Generator::generateRandomNumberGenerator() {
 void Generator::generateMainFunction() {
     mainFunction = GeneratorFunction(-1);
     mainFunction.addLine("int main(int argc, char** argv) {");
-    mainFunction.addLine("int loopsFactor = 100;");
+    mainFunction.addLine("   int loopsFactor = 100;");
     mainFunction.addLine("   if (argc < 2 || argc > 3) {");
     mainFunction.addLine("      printf(\"Usage: %s <paths seed> <loops factor (optional)>\\n\", argv[0]);");
     mainFunction.addLine("      return 1;");
@@ -100,10 +100,6 @@ void Generator::startFunc(int funcId, int nParameters) {
     }
     for (int i = 0; i < nParameters; i++) {
         funcHeader += "const unsigned long PATH" + std::to_string(i) + ", ";
-    }
-    if (nParameters > 0 || varType == "array") {
-        funcHeader.pop_back();
-        funcHeader.pop_back();
     }
     funcHeader += "int loopsFactor";
     funcHeader += ") {";
