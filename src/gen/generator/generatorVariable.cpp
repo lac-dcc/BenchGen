@@ -38,7 +38,7 @@ Scalar::Scalar(int initialValue, int id) {
     this->name = "scalar" + std::to_string(id);
 }
 
-std::vector<std::string> Scalar::new_() {
+std::vector<std::string> Scalar::new_(bool inFunction) {
     this->canDel = false;
     return {this->typeString + " " + this->name + " = " + std::to_string(initialValue) + ";"};
 }
@@ -82,11 +82,20 @@ Array::Array(int size, int* values, int id) {
     this->name = "array" + std::to_string(id);
 }
 
-std::vector<std::string> Array::new_() {
+std::vector<std::string> Array::new_(bool inFunction) {
     this->canDel = true;
     std::vector<std::string> temp = {this->typeString + " " + this->name + ";"};
-    temp.push_back(this->name + ".size = " + std::to_string(this->totalSize) + ";");
-    temp.push_back(this->name + ".data = (unsigned int*)malloc(" + this->name + ".size*sizeof(unsigned int));");
+    if (inFunction) {
+        temp.push_back("if (pCounter > 0) {");
+        temp.push_back("   " + this->name + " = vars->data[--pCounter];");
+        temp.push_back("} else {");
+        temp.push_back("   " + this->name + ".size = " + std::to_string(this->totalSize) + ";");
+        temp.push_back("   " + this->name + ".data = (unsigned int*)malloc(" + this->name + ".size*sizeof(unsigned int));");
+        temp.push_back("}");
+    } else {
+        temp.push_back(this->name + ".size = " + std::to_string(this->totalSize) + ";");
+        temp.push_back(this->name + ".data = (unsigned int*)malloc(" + this->name + ".size*sizeof(unsigned int));");
+    }
     return temp;
 }
 
@@ -100,7 +109,7 @@ std::vector<std::string> Array::realloc() {
 std::vector<std::string> Array::insert() {
     this->canDel = true;
     std::vector<std::string> temp = {"for (int i = 0; i < " + this->name + ".size; i++) {"};
-    temp.push_back("   " + this->name + ".data[i]++; ");
+    temp.push_back("   " + this->name + ".data[i]++;");
     temp.push_back("}");
     return temp;
 }
@@ -108,7 +117,7 @@ std::vector<std::string> Array::insert() {
 std::vector<std::string> Array::remove() {
     this->canDel = true;
     std::vector<std::string> temp = {"for (int i = 0; i < " + this->name + ".size; i++) {"};
-    temp.push_back("   " + this->name + ".data[i]--; ");
+    temp.push_back("   " + this->name + ".data[i]--;");
     temp.push_back("}");
     return temp;
 }
@@ -152,7 +161,7 @@ Matrix::Matrix(int rows, int columns, int* values, int id) {
     this->name = "matrix" + std::to_string(id);
 }
 
-std::vector<std::string> Matrix::new_() {
+std::vector<std::string> Matrix::new_(bool inFunction) {
     return {};
 }
 
@@ -181,7 +190,7 @@ Vector::Vector(int id) {
     this->name = "vector" + std::to_string(id);
 }
 
-std::vector<std::string> Vector::new_() {
+std::vector<std::string> Vector::new_(bool inFunction) {
     this->canDel = false;
     std::string temp = this->typeString + " " + this->name;
     temp += " = std::vector<int>();";
@@ -192,7 +201,7 @@ std::vector<std::string> Vector::insert() {
     this->canDel = true;
     std::vector<std::string> temp = {this->name + ".push_back(0);"};
     temp.push_back("for (auto&& i : " + this->name + ") { ");
-    temp.push_back("   i++; ");
+    temp.push_back("   i++;");
     temp.push_back("}");
     return temp;
 }
@@ -204,7 +213,7 @@ std::vector<std::string> Vector::remove() {
     temp.push_back("   " + this->name + ".pop_back();");
     temp.push_back("}");
     temp.push_back("for (auto&& i : " + this->name + ") {");
-    temp.push_back("   i--; ");
+    temp.push_back("   i--;");
     temp.push_back("}");
     return temp;
 }
@@ -243,7 +252,7 @@ List::List(int id) {
     this->name = "list" + std::to_string(id);
 }
 
-std::vector<std::string> List::new_() {
+std::vector<std::string> List::new_(bool inFunction) {
     this->canDel = false;
     std::string temp = this->typeString + " " + this->name;
     temp += " = std::list<int>();";
@@ -254,7 +263,7 @@ std::vector<std::string> List::insert() {
     this->canDel = true;
     std::vector<std::string> temp = {this->name + ".push_back(0);"};
     temp.push_back("for (auto&& i : " + this->name + ") { ");
-    temp.push_back("   i++; ");
+    temp.push_back("   i++;");
     temp.push_back("}");
     return temp;
 }
@@ -266,7 +275,7 @@ std::vector<std::string> List::remove() {
     temp.push_back("   " + this->name + ".pop_back();");
     temp.push_back("}");
     temp.push_back("for (auto&& i : " + this->name + ") {");
-    temp.push_back("   i--; ");
+    temp.push_back("   i--;");
     temp.push_back("}");
     return temp;
 }

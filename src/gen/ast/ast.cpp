@@ -60,7 +60,7 @@ void Remove::gen(Generator& generator) {
 
 void New::gen(Generator& generator) {
     int id = generator.addVar(generator.varType);
-    std::vector<std::string> lines = generator.variables[id]->new_();
+    std::vector<std::string> lines = generator.variables[id]->new_(!generator.currentFunction.top()->insertBack);
     for (std::string line : lines) {
         generator.addLine(line);
     }
@@ -122,7 +122,7 @@ void Call::gen(Generator& generator) {
         code->gen(generator);
         if (generator.currentScope.top().avaiableVarsID.size() == 0) {
             int id = generator.addVar(generator.varType);
-            std::vector<std::string> lines = generator.variables[id]->new_();
+            std::vector<std::string> lines = generator.variables[id]->new_(!generator.currentFunction.top()->insertBack);
             for (std::string line : lines) {
                 generator.addLine(line);
             }

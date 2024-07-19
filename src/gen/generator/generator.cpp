@@ -109,6 +109,7 @@ void Generator::startFunc(int funcId, int nParameters) {
     GeneratorScope scope = GeneratorScope();
     currentScope.push(scope);
     this->ifCounter.push(0);
+    addLine("int pCounter = vars->size;");
 }
 
 bool Generator::functionExists(int funcId) {

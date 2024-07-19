@@ -14,7 +14,7 @@ class GeneratorVariable {
     std::string typeString;
     bool canDel;
     virtual ~GeneratorVariable() {}
-    virtual std::vector<std::string> new_() = 0;
+    virtual std::vector<std::string> new_(bool = false) = 0;
     virtual std::vector<std::string> insert() = 0;
     virtual std::vector<std::string> remove() = 0;
     virtual std::vector<std::string> contains(bool = false) = 0;
@@ -26,7 +26,7 @@ class Scalar : public GeneratorVariable {
     int initialValue;
     Scalar() {}
     Scalar(int initialValue, int id);
-    std::vector<std::string> new_() override;
+    std::vector<std::string> new_(bool = false) override;
     std::vector<std::string> insert() override;
     std::vector<std::string> remove() override;
     std::vector<std::string> contains(bool = false) override;
@@ -36,10 +36,10 @@ class Scalar : public GeneratorVariable {
 class Array : public GeneratorVariable {
    public:
     int totalSize;
-    Array(){};
+    Array() {};
     Array(int totalSize, int* values, int id);
     ~Array();
-    std::vector<std::string> new_() override;
+    std::vector<std::string> new_(bool = false) override;
     std::vector<std::string> realloc();
     std::vector<std::string> insert() override;
     std::vector<std::string> remove() override;
@@ -51,9 +51,9 @@ class Matrix : public GeneratorVariable {
    public:
     int rows;
     int cols;
-    Matrix(){};
+    Matrix() {};
     Matrix(int rows, int columns, int* values, int id);
-    std::vector<std::string> new_() override;
+    std::vector<std::string> new_(bool = false) override;
     std::vector<std::string> insert() override;
     std::vector<std::string> remove() override;
     std::vector<std::string> contains(bool = false) override;
@@ -63,9 +63,9 @@ class Matrix : public GeneratorVariable {
 class Vector : public GeneratorVariable {
    public:
     int currentSize;
-    Vector(){};
+    Vector() {};
     Vector(int id);
-    std::vector<std::string> new_() override;
+    std::vector<std::string> new_(bool = false) override;
     std::vector<std::string> insert() override;
     std::vector<std::string> remove() override;
     std::vector<std::string> contains(bool = false) override;
@@ -74,9 +74,9 @@ class Vector : public GeneratorVariable {
 
 class List : public GeneratorVariable {
    public:
-    List(){};
+    List() {};
     List(int id);
-    std::vector<std::string> new_() override;
+    std::vector<std::string> new_(bool = false) override;
     std::vector<std::string> insert() override;
     std::vector<std::string> remove() override;
     std::vector<std::string> contains(bool = false) override;
