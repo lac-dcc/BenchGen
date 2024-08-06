@@ -243,6 +243,9 @@ void Generator::genBenchmark(std::string benchmarkName) {
     includeFile.open(sourceDir + includeName);
 
     // Includes
+    includeFile << "#ifndef " + benchmarkName + "\n";
+    includeFile << "#define " + benchmarkName + "\n";
+
     for (auto include : includes) {
         includeFile << include << std::endl;
     }
@@ -291,7 +294,7 @@ void Generator::genBenchmark(std::string benchmarkName) {
         funcFile << std::endl;
         funcFile.close();
     }
-
+    includeFile << "#endif";
     this->genMakefile(benchDir, benchmarkName);
     includeFile.close();
     file.close();
