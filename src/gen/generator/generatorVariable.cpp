@@ -91,10 +91,12 @@ std::vector<std::string> Array::new_(bool inFunction) {
         temp.push_back("} else {");
         temp.push_back("   " + this->name + ".size = " + std::to_string(this->totalSize) + ";");
         temp.push_back("   " + this->name + ".data = (unsigned int*)malloc(" + this->name + ".size*sizeof(unsigned int));");
+        temp.push_back("   memset(" + this->name + ".data, 0, " + this->name + ".size*sizeof(unsigned int));");
         temp.push_back("}");
     } else {
         temp.push_back(this->name + ".size = " + std::to_string(this->totalSize) + ";");
         temp.push_back(this->name + ".data = (unsigned int*)malloc(" + this->name + ".size*sizeof(unsigned int));");
+        temp.push_back("memset(" + this->name + ".data, 0, " + this->name + ".size*sizeof(unsigned int));");
     }
     return temp;
 }
@@ -103,6 +105,7 @@ std::vector<std::string> Array::realloc() {
     this->canDel = true;
     std::vector<std::string> temp = {this->name + ".size = " + std::to_string(this->totalSize) + ";"};
     temp.push_back(this->name + ".data = (unsigned int*)malloc(" + this->name + ".size*sizeof(unsigned int));");
+    temp.push_back("memset(" + this->name + ".data, 0, " + this->name + ".size*sizeof(unsigned int));");
     return temp;
 }
 

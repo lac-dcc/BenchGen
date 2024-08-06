@@ -18,7 +18,7 @@ void Generator::generateIncludes() {
     includes.push_back("#include <stdlib.h>");
     if (varType == "bool")
         includes.push_back("#include <stdbool.h>");
-    else if (varType == "string")
+    else if (varType == "string" || varType == "array")
         includes.push_back("#include <string.h>");
     else if (varType == "vector")
         includes.push_back("#include <vector>");
