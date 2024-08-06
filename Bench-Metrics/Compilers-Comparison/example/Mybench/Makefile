@@ -1,4 +1,4 @@
-CC = gcc
+CC ?= gcc
 TARGET = Mybench
 SRC_DIR = src
 OBJ_DIR = obj

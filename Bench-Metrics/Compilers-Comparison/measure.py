@@ -8,7 +8,6 @@ TCC = "tcc"
 GCC = "gcc"
 CLANG = "clang"
 compilers = [TCC, GCC, CLANG]
-# compilers = [TCC]
 
 header = ["Program", "Compiler", 
           "Compilation_User(s)", "Compilation_Sys(s)", 
