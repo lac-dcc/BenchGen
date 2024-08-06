@@ -48,7 +48,7 @@ def run_perf_stat(programs_dir, compiler, flags):
             for program in os.listdir(programs_dir):   
                 executable_path = f"bin/{program}.out"
                 print(f'Compiling {program}')
-                subprocess.run([compiler] + flags + ["-o", executable_path, os.path.join(programs_dir, program)])
+                comp_time = subprocess.run([compiler] + flags + ["-o", executable_path, os.path.join(programs_dir, program)])
 
                 print(f'Running {program}')
                 if os.path.exists(executable_path):
