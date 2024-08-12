@@ -31,7 +31,7 @@ def get_comp_time(program_path, compiler, flag):
     return (user_time_comp, system_time_comp)
 
 def get_exec_time(program):
-    run_time = subprocess.run(["time", program, "100"], stdout=subprocess.PIPE,  stderr=subprocess.PIPE)
+    run_time = subprocess.run(["time", program, "0"], stdout=subprocess.PIPE,  stderr=subprocess.PIPE)
     run_time = run_time.stderr.decode()
     user_time_run = re.search(r'(\d+\.\d+)user', run_time)
     system_time_run = re.search(r'(\d+\.\d+)system', run_time)
@@ -47,8 +47,10 @@ def run_comparison(programs_dir):
             for program in os.listdir(programs_dir):
                 
                 program_path = os.path.join(programs_dir, program)
-                tcc_comp_time = get_comp_time(program_path, "CC=tcc", "CFLAGS=")
                 tcc_run = f'./{program_path}/{program}_tcc'
+                print(f'Compiling [tcc] {tcc_run} ...')
+                tcc_comp_time = get_comp_time(program_path, "CC=tcc", "CFLAGS=")
+                print(f'Running [tcc] {tcc_run} ...')
                 tcc_run_time = get_exec_time(tcc_run)
                 
                 tcc_size = get_program_size(tcc_run)
@@ -60,10 +62,11 @@ def run_comparison(programs_dir):
                     compiler_option = f'CC={compiler}'
                     for flag in cflags:
                         flag_option = f'CFLAGS={flag}'
-                        print(f'Compiling [{compiler}] {program}...')
-                        comp_time = get_comp_time(program_path, compiler_option, flag_option)
-                        print(f'Running [{compiler}] {program}...')
                         run_command = f'./{program_path}/{program}_{compiler}'
+                        
+                        print(f'Compiling [{compiler} {flag}] {run_command} ...')
+                        comp_time = get_comp_time(program_path, compiler_option, flag_option)
+                        print(f'Running [{compiler} {flag}] {run_command} ...')
                         run_time = get_exec_time(run_command)
                         size = get_program_size(run_command)           
                         new_row = [program, compiler, flag, size, comp_time[0].group(1), comp_time[1].group(1), run_time[0].group(1), run_time[1].group(1)]
