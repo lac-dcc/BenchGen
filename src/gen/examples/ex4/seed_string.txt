@@ -1,0 +1,2 @@
+# This example is used to generate example 3/4 to data analysis (13/08)
+LOOP(CALL(A) new CALL(B) del contains del del)

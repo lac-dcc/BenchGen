@@ -1,0 +1,4 @@
+A = new insert C IF(B, new remove remove contains del) CALL(D) del del;
+B = new A del LOOP(CALL(C D) del);
+C = IF(new contains del,CALL(A) del new contains del) LOOP(B);
+D = CALL(new insert A LOOP(remove) remove contains del C) del;

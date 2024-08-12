@@ -1,0 +1,2 @@
+# This example is used to generate example 2/4 to data analysis (13/08)
+new CALL(new A contains) del del

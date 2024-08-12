@@ -1,0 +1,2 @@
+# This example is used to generate example 4/4 to data analysis (13/08)
+LOOP(IF(CALL(A) del,CALL(B) del))
