@@ -1,4 +1,4 @@
-A = LOOP(C new LOOP(insert CALL(new B) contains contains del) del)
-B = new LOOP(remove) del
-C = CALL(IF(LOOP(new A del),LOOP(new D del))) del
-D = CALL(C) contains new LOOP(insert new remove del) B contains del
+A = LOOP(C new LOOP(insert CALL(new B) contains contains del) del);
+B = new LOOP(remove) del;
+C = CALL(IF(LOOP(new A del),LOOP(new D del))) del;
+D = CALL(C) contains new LOOP(insert new remove del) B contains del;

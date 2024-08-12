@@ -204,8 +204,8 @@ void Generator::endFunc() {
 void Generator::genMakefile(std::string dir, std::string target) {
     std::ofstream makefile;
     makefile.open(dir + "Makefile");
-    makefile << "CC ?= gcc\n";
-    makefile << "CFLAGS ?= \n";
+    makefile << "CC = gcc\n";
+    makefile << "CFLAGS = \n";
     makefile << "TARGET = " + target + "\n";
     makefile << "SRC_DIR = src\n";
     makefile << "OBJ_DIR = obj\n\n";
