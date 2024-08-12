@@ -205,6 +205,7 @@ void Generator::genMakefile(std::string dir, std::string target) {
     std::ofstream makefile;
     makefile.open(dir + "Makefile");
     makefile << "CC ?= gcc\n";
+    makefile << "CFLAGS ?= \n";
     makefile << "TARGET = " + target + "\n";
     makefile << "SRC_DIR = src\n";
     makefile << "OBJ_DIR = obj\n\n";
@@ -212,8 +213,8 @@ void Generator::genMakefile(std::string dir, std::string target) {
     makefile << "SRC = $(wildcard $(SRC_DIR)/*.c)\n";
     makefile << "OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))\n\n";
 
-    makefile << "$(TARGET): $(OBJ)\n";
-    makefile << "\t$(CC) -o $(TARGET) $(OBJ)\n\n";
+    makefile << "$(TARGET)_$(CC): $(OBJ)\n";
+    makefile << "\t$(CC) -o $(TARGET)_$(CC) $(OBJ)\n\n";
 
     makefile << "$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)\n";
     makefile << "\t$(CC) -c $< -o $@\n\n";
@@ -222,7 +223,7 @@ void Generator::genMakefile(std::string dir, std::string target) {
     makefile << "\tmkdir -p $(OBJ_DIR)\n\n";
 
     makefile << "clean:\n";
-    makefile << "\trm -f $(OBJ) $(TARGET)\n\n";
+    makefile << "\trm -f $(OBJ) $(TARGET)_$(CC)\n\n";
 
     makefile << "%.o: %.c\n";
 }

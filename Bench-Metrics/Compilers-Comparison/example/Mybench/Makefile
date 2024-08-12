@@ -1,4 +1,5 @@
 CC ?= gcc
+CFLAGS ?= 
 TARGET = Mybench
 SRC_DIR = src
 OBJ_DIR = obj
@@ -10,7 +11,7 @@ $(TARGET)_$(CC): $(OBJ)
 	$(CC) -o $(TARGET)_$(CC) $(OBJ)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
-	$(CC) -c $< -o $@
+	$(CC) -c $< -o $@ $(CFLAGS)
 
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
