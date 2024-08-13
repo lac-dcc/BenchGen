@@ -56,7 +56,6 @@ std::vector<std::string> Scalar::contains(bool shouldReturn) {
     if (shouldReturn) {
         temp.push_back("      return " + this->name + ";");
     } else {
-
         temp.push_back("      " + this->name + " += " + std::to_string(compare) + ";");
     }
     temp.push_back("}");
@@ -78,37 +77,34 @@ std::vector<std::string> Array::new_(bool inFunction) {
         temp.push_back("if (pCounter > 0) {");
         temp.push_back("   " + this->name + " = vars->data[--pCounter];");
         temp.push_back("} else {");
-        temp.push_back("   " + this->name + ".size = (int*)malloc(sizeof(int));");
-        temp.push_back("   *" + this->name + ".size = " + std::to_string(this->totalSize) + ";");
-        temp.push_back("   " + this->name + ".data = (unsigned int*)malloc(*" + this->name + ".size*sizeof(unsigned int));");
-        temp.push_back("   memset(" + this->name + ".data, 0, *" + this->name + ".size*sizeof(unsigned int));");
+        temp.push_back("   " + this->name + ".size = " + std::to_string(this->totalSize) + ";");
+        temp.push_back("   " + this->name + ".data = (unsigned int*)malloc(" + this->name + ".size*sizeof(unsigned int));");
+        temp.push_back("   memset(" + this->name + ".data, 0, " + this->name + ".size*sizeof(unsigned int));");
         temp.push_back("}");
     } else {
-        temp.push_back(this->name + ".size = (int*)malloc(sizeof(int));");
-        temp.push_back("*" + this->name + ".size = " + std::to_string(this->totalSize) + ";");
-        temp.push_back(this->name + ".data = (unsigned int*)malloc(*" + this->name + ".size*sizeof(unsigned int));");
-        temp.push_back("memset(" + this->name + ".data, 0, *" + this->name + ".size*sizeof(unsigned int));");
+        temp.push_back(this->name + ".size = " + std::to_string(this->totalSize) + ";");
+        temp.push_back(this->name + ".data = (unsigned int*)malloc(" + this->name + ".size*sizeof(unsigned int));");
+        temp.push_back("memset(" + this->name + ".data, 0, " + this->name + ".size*sizeof(unsigned int));");
     }
     return temp;
 }
 
 std::vector<std::string> Array::realloc() {
-    std::vector<std::string> temp = {this->name + ".size = (int*)malloc(sizeof(int));"};
-    temp.push_back("*" + this->name + ".size = " + std::to_string(this->totalSize) + ";");
-    temp.push_back(this->name + ".data = (unsigned int*)malloc(*" + this->name + ".size*sizeof(unsigned int));");
-    temp.push_back("memset(" + this->name + ".data, 0, *" + this->name + ".size*sizeof(unsigned int));");
+    std::vector<std::string> temp = {this->name + ".size = " + std::to_string(this->totalSize) + ";"};
+    temp.push_back(this->name + ".data = (unsigned int*)malloc(" + this->name + ".size*sizeof(unsigned int));");
+    temp.push_back("memset(" + this->name + ".data, 0, " + this->name + ".size*sizeof(unsigned int));");
     return temp;
 }
 
 std::vector<std::string> Array::insert() {
-    std::vector<std::string> temp = {"for (int i = 0; i < *" + this->name + ".size; i++) {"};
+    std::vector<std::string> temp = {"for (int i = 0; i < " + this->name + ".size; i++) {"};
     temp.push_back("   " + this->name + ".data[i]++;");
     temp.push_back("}");
     return temp;
 }
 
 std::vector<std::string> Array::remove() {
-    std::vector<std::string> temp = {"for (int i = 0; i < *" + this->name + ".size; i++) {"};
+    std::vector<std::string> temp = {"for (int i = 0; i < " + this->name + ".size; i++) {"};
     temp.push_back("   " + this->name + ".data[i]--;");
     temp.push_back("}");
     return temp;
@@ -117,12 +113,11 @@ std::vector<std::string> Array::remove() {
 std::vector<std::string> Array::contains(bool shouldReturn) {
     int compare = rand() % 100;
     std::vector<std::string> temp = {};
-    temp.push_back("for (int i = 0; i < *" + this->name + ".size; i++) {");
+    temp.push_back("for (int i = 0; i < " + this->name + ".size; i++) {");
     temp.push_back("   if (" + this->name + ".data[i] == " + std::to_string(compare) + ") { ");
     if (shouldReturn) {
         temp.push_back("      return " + this->name + ";");
     } else {
-
         temp.push_back("      " + this->name + ".data[i] += " + std::to_string(compare) + ";");
     }
     temp.push_back("   }");
@@ -199,7 +194,6 @@ std::vector<std::string> Vector::contains(bool shouldReturn) {
     if (shouldReturn) {
         temp.push_back("      return " + this->name + ";");
     } else {
-
         temp.push_back("      i += " + std::to_string(compare) + ";");
     }
     temp.push_back("   }");
@@ -248,7 +242,6 @@ std::vector<std::string> List::contains(bool shouldReturn) {
     if (shouldReturn) {
         temp.push_back("      return " + this->name + ";");
     } else {
-
         temp.push_back("      i += " + std::to_string(compare) + ";");
     }
     temp.push_back("   }");
