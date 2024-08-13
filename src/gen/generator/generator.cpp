@@ -30,11 +30,11 @@ void Generator::generateGlobalVars() {
     if (varType == "array") {
         globalVars.push_back("typedef struct {");
         globalVars.push_back("   unsigned int* data;");
-        globalVars.push_back("   int size;");
+        globalVars.push_back("   int* size;");
         globalVars.push_back("} Array;");
         globalVars.push_back("typedef struct {");
         globalVars.push_back("   Array* data;");
-        globalVars.push_back("   int size;");
+        globalVars.push_back("   int* size;");
         globalVars.push_back("} ArrayParam;");
     }
 }
@@ -109,7 +109,7 @@ void Generator::startFunc(int funcId, int nParameters) {
     GeneratorScope scope = GeneratorScope();
     currentScope.push(scope);
     this->ifCounter.push(0);
-    addLine("int pCounter = vars->size;");
+    addLine("int pCounter = *vars->size;");
 }
 
 bool Generator::functionExists(int funcId) {
@@ -124,8 +124,9 @@ bool Generator::functionExists(int funcId) {
 std::string Generator::createArrayParams() {
     std::string name = "params" + std::to_string(currentScope.top().addParam());
     addLine("ArrayParam " + name + ";");
-    addLine(name + ".size = " + std::to_string(currentScope.top().avaiableVarsID.size()) + ";");
-    addLine(name + ".data = (Array*)malloc(" + name + ".size*sizeof(Array));");
+    addLine(name + ".size = (int*)malloc(sizeof(int));");
+    addLine("*" + name + ".size = " + std::to_string(currentScope.top().avaiableVarsID.size()) + ";");
+    addLine(name + ".data = (Array*)malloc(*" + name + ".size*sizeof(Array));");
     for (int i = 0; i < currentScope.top().avaiableVarsID.size(); i++) {
         GeneratorVariable* var = variables[currentScope.top().avaiableVarsID[i]];
         addLine(name + ".data[" + std::to_string(i) + "] = " + var->name + ";");
@@ -134,9 +135,10 @@ std::string Generator::createArrayParams() {
 }
 
 void Generator::freeArrayParams(std::string name) {
-    addLine("if (" + name + ".size > 0) {");
+    addLine("if (" + name + ".data != NULL) {");
     addLine("   free(" + name + ".data);");
-    addLine("   " + name + ".size = 0;");
+    addLine("   " + name + ".data = NULL;");
+    addLine("   *" + name + ".size = 0;");
     addLine("}");
 }
 
