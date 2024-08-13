@@ -31,6 +31,7 @@ void Generator::generateGlobalVars() {
         globalVars.push_back("typedef struct {");
         globalVars.push_back("   unsigned int* data;");
         globalVars.push_back("   size_t size;");
+        globalVars.push_back("   size_t refC;");
         globalVars.push_back("} Array;");
         globalVars.push_back("typedef struct {");
         globalVars.push_back("   Array* data;");

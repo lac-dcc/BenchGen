@@ -76,13 +76,16 @@ std::vector<std::string> Array::new_(bool inFunction) {
     if (inFunction) {
         temp.push_back("if (pCounter > 0) {");
         temp.push_back("   " + this->name + " = vars->data[--pCounter];");
+        temp.push_back("   " + this->name + ".refC++;");
         temp.push_back("} else {");
         temp.push_back("   " + this->name + ".size = " + std::to_string(this->totalSize) + ";");
+        temp.push_back("   " + this->name + ".refC = 1;");
         temp.push_back("   " + this->name + ".data = (unsigned int*)malloc(" + this->name + ".size*sizeof(unsigned int));");
         temp.push_back("   memset(" + this->name + ".data, 0, " + this->name + ".size*sizeof(unsigned int));");
         temp.push_back("}");
     } else {
         temp.push_back(this->name + ".size = " + std::to_string(this->totalSize) + ";");
+        temp.push_back(this->name + ".refC = 1;");
         temp.push_back(this->name + ".data = (unsigned int*)malloc(" + this->name + ".size*sizeof(unsigned int));");
         temp.push_back("memset(" + this->name + ".data, 0, " + this->name + ".size*sizeof(unsigned int));");
     }
@@ -91,6 +94,7 @@ std::vector<std::string> Array::new_(bool inFunction) {
 
 std::vector<std::string> Array::realloc() {
     std::vector<std::string> temp = {this->name + ".size = " + std::to_string(this->totalSize) + ";"};
+    temp.push_back(this->name + ".refC++;");
     temp.push_back(this->name + ".data = (unsigned int*)malloc(" + this->name + ".size*sizeof(unsigned int));");
     temp.push_back("memset(" + this->name + ".data, 0, " + this->name + ".size*sizeof(unsigned int));");
     return temp;
