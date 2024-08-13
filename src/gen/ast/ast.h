@@ -73,13 +73,6 @@ class New : public Node {
     void print(int ident) override;
 };
 
-class Del : public Node {
-   public:
-    void gen(Generator&) override;
-
-    void print(int ident) override;
-};
-
 class Contains : public Node {
    public:
     void gen(Generator&) override;

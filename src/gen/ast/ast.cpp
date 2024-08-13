@@ -66,20 +66,6 @@ void New::gen(Generator& generator) {
     }
 }
 
-void Del::gen(Generator& generator) {
-    std::vector<int> availableVarsId = generator.currentScope.top().avaiableVarsID;
-    for (auto it = availableVarsId.rbegin(); it != availableVarsId.rend(); ++it) {
-        GeneratorVariable* var = generator.variables[*it];
-        if (var->canDel) {
-            std::vector<std::string> lines = var->del();
-            for (std::string line : lines) {
-                generator.addLine(line);
-            }
-            return;
-        }
-    }
-}
-
 void Contains::gen(Generator& generator) {
     int varCount = generator.currentScope.top().getVarCounter();
     if (varCount == 0)
@@ -202,11 +188,6 @@ void Remove::print(int ident) {
 void New::print(int ident) {
     printIndentationSpaces(ident);
     std::cout << "New" << std::endl;
-}
-
-void Del::print(int ident) {
-    printIndentationSpaces(ident);
-    std::cout << "Del" << std::endl;
 }
 
 void Contains::print(int ident) {

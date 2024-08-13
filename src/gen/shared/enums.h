@@ -9,22 +9,21 @@ enum TokenType {
 
     TOK_INSERT = -6,
     TOK_REMOVE = -7,
-    TOK_DEL = -8,
-    TOK_NEW = -9,
-    TOK_CONTAINS = -10,
+    TOK_NEW = -8,
+    TOK_CONTAINS = -9,
 
-    TOK_END = -11,
+    TOK_END = -10,
 
-    TOK_OPAREN = -12,
-    TOK_CPAREN = -13,
-    TOK_COMMA = -14,
-    TOK_EQUAL = -15,
-    TOK_UNDERLINE = -16,
-    TOK_COMMENT = -17,
+    TOK_OPAREN = -11,
+    TOK_CPAREN = -12,
+    TOK_COMMA = -13,
+    TOK_EQUAL = -14,
+    TOK_UNDERLINE = -15,
+    TOK_COMMENT = -16,
 
-    TOK_ID = -18,
+    TOK_ID = -17,
 
-    TOK_CALL_ID = -19,
+    TOK_CALL_ID = -18,
 
     TOK_ERROR = -1
 };

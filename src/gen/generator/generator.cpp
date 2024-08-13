@@ -134,14 +134,6 @@ std::string Generator::createArrayParams() {
     return name;
 }
 
-void Generator::freeArrayParams(std::string name) {
-    addLine("if (" + name + ".data != NULL) {");
-    addLine("   free(" + name + ".data);");
-    addLine("   " + name + ".data = NULL;");
-    addLine("   *" + name + ".size = 0;");
-    addLine("}");
-}
-
 void Generator::callFunc(int funcId, int nParameters) {
     std::string param = "";
     if (varType == "array")
@@ -149,7 +141,6 @@ void Generator::callFunc(int funcId, int nParameters) {
 
     int id = addVar(varType);
     GeneratorVariable* var = variables[id];
-    var->canDel = true;
 
     std::string line = var->typeString + " " + var->name + " = func" + std::to_string(funcId) + "(";
 
@@ -160,9 +151,6 @@ void Generator::callFunc(int funcId, int nParameters) {
     line += "loopsFactor";
     line += ");";
     addLine(line);
-
-    if (varType == "array")
-        freeArrayParams(param);
 }
 
 int Generator::addVar(std::string type) {

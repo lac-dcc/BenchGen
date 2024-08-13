@@ -21,7 +21,6 @@ class Generator {
     void generateRandomNumberGenerator();
     std::string getVarTypeDeclaration();
     std::string createArrayParams();
-    void freeArrayParams(std::string);
     void genMakefile(std::string dir, std::string target);
 
    public:

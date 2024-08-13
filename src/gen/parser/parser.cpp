@@ -17,7 +17,6 @@ std::shared_ptr<Node> Parser::parse_CODE() {
         case TOK_INSERT:
         case TOK_REMOVE:
         case TOK_NEW:
-        case TOK_DEL:
         case TOK_CONTAINS:
         case TOK_LOOP:
         case TOK_CALL:
@@ -44,9 +43,6 @@ std::shared_ptr<Node> Parser::parse_STATEMENT() {
         case TOK_REMOVE:
             match(tokens[tokenIndex].type);
             return std::make_shared<Remove>(Remove());
-        case TOK_DEL:
-            match(tokens[tokenIndex].type);
-            return std::make_shared<Del>(Del());
         case TOK_NEW:
             match(tokens[tokenIndex].type);
             return std::make_shared<New>(New());
@@ -108,7 +104,6 @@ std::shared_ptr<Node> Parser::parse_IFPARAM() {
         case TOK_SEQ:
         case TOK_INSERT:
         case TOK_REMOVE:
-        case TOK_DEL:
         case TOK_NEW:
         case TOK_CONTAINS:
         case TOK_ID: {
@@ -137,7 +132,6 @@ std::shared_ptr<Node> Parser::parse_ELSE() {
         case TOK_SEQ:
         case TOK_INSERT:
         case TOK_REMOVE:
-        case TOK_DEL:
         case TOK_NEW:
         case TOK_CONTAINS:
         case TOK_ID: {

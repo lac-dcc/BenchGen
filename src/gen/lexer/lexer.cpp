@@ -88,7 +88,6 @@ void Lexer::loadConfiguration() {
     LexerRule lrSeq;
     LexerRule lrInsert;
     LexerRule lrRemove;
-    LexerRule lrDel;
     LexerRule lrNew;
     LexerRule lrContains;
     LexerRule lrEnd;
@@ -107,7 +106,6 @@ void Lexer::loadConfiguration() {
     lrSeq.type = TOK_SEQ;
     lrInsert.type = TOK_INSERT;
     lrRemove.type = TOK_REMOVE;
-    lrDel.type = TOK_DEL;
     lrNew.type = TOK_NEW;
     lrContains.type = TOK_CONTAINS;
     lrEnd.type = TOK_END;
@@ -126,7 +124,6 @@ void Lexer::loadConfiguration() {
     lrSeq.regex = "SEQ";
     lrInsert.regex = "insert";
     lrRemove.regex = "remove";
-    lrDel.regex = "del";
     lrNew.regex = "new";
     lrContains.regex = "contains";
     lrEnd.regex = "[;]";
@@ -146,7 +143,6 @@ void Lexer::loadConfiguration() {
         lrSeq,
         lrInsert,
         lrRemove,
-        lrDel,
         lrNew,
         lrContains,
         lrEnd,
@@ -157,8 +153,7 @@ void Lexer::loadConfiguration() {
         lrUnderline,
         lrComment,
         lrId,
-        lrError
-    };
+        lrError};
 }
 
 std::vector<Token> Lexer::getTokens(std::string fileName) {
