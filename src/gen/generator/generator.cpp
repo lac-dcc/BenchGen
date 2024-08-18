@@ -167,22 +167,35 @@ void Generator::returnFunc() {
 }
 
 void Generator::endScope() {
-    std::string line = currentScope.top().getIndentationTabs(-1) + "}";
-    currentFunction.top()->addLine(line);
-
     int addedVars = currentScope.top().addedVars;
+
     for (int i = 0; i < addedVars; ++i) {
+        std::string decreasingRef = currentScope.top().getIndentationTabs(-1);
+        std::string freeMem = currentScope.top().getIndentationTabs(-1);
         auto it = variables.end();
         if (it != variables.begin()) {
             --it;
-            if (it->second != nullptr)
+            if (it->second != nullptr) { 
+                decreasingRef += it->second->name + ".refC--;";
+                freeMem += "if("+ it->second->name + ".refC == 0) {\n";
+                freeMem += currentScope.top().getIndentationTabs(-1);
+                freeMem += "   free("+ it->second->name + ".data);\n";
+                freeMem += currentScope.top().getIndentationTabs(-1);
+                freeMem += "}\n";
+
+                currentFunction.top()->addLine(decreasingRef);
+                currentFunction.top()->addLine(freeMem);
                 delete it->second;
+            }
             variables.erase(it);
         }
     }
-
+    
     currentScope.pop();
     varCounter -= addedVars;
+    std::string line = currentScope.top().getIndentationTabs(-1) + "}";
+    currentFunction.top()->addLine(line);
+
 }
 
 void Generator::endFunc() {
