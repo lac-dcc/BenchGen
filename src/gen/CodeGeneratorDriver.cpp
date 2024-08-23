@@ -13,8 +13,8 @@ void genBenchmark(Generator&, std::string);
 int main(int argc, char const* argv[]) {
     if (argc < 6) {
         std::cout << "ERROR! Missing arguments!" << std::endl;
-        std::cout << "Please provide Number of Iterations, Production Rules, Input File and Output File." << std::endl;
-        std::cout << "Usage: ./main <number_of_iterations> <production_rules_file> <input_file> <bench_name> <var_type>" << std::endl;
+        std::cout << "Please provide Number of Iterations, Production Rules, Seed String File, Output Folder Name and Variable Type." << std::endl;
+        std::cout << "Usage: ./main <number_of_iterations> <production_rules_file> <seed_string_file> <bench_name> <var_type>" << std::endl;
         return 1;
     }
 
