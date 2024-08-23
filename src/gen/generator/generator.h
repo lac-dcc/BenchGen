@@ -20,8 +20,8 @@ class Generator {
     void generateGlobalVars();
     void generateMainFunction();
     void generateRandomNumberGenerator();
-    std::string getVarTypeDeclaration();
-    std::string createArrayParams();
+    GeneratorVariable* varObject();
+    std::string createParams();
     void genMakefile(std::string dir, std::string target);
 
    public:
@@ -42,6 +42,7 @@ class Generator {
         }
     }
     void addLine(std::string, int = 0);
+    void addLine(std::vector<std::string>, int = 0);
     void startScope();
     void startFunc(int, int);
     bool functionExists(int);

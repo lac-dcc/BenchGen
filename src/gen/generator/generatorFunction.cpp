@@ -15,3 +15,9 @@ void GeneratorFunction::addLine(std::string line) {
         lines.push_back(line);
     }
 }
+
+void GeneratorFunction::addLine(std::vector<std::string> lines) {
+    for (auto line : lines) {
+        addLine(line);
+    }
+}

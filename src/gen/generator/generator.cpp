@@ -16,68 +16,60 @@ Generator::Generator(std::string variableType) {
 void Generator::generateIncludes() {
     includes.push_back("#include <stdio.h>");
     includes.push_back("#include <stdlib.h>");
-    if (varType == VarTypes::ARRAY) {
-        includes.push_back("#include <string.h>");
+    std::vector<std::string> varIncludes = varObject()->genIncludes();
+    for (auto var : varIncludes) {
+        globalVars.push_back(var);
     }
 }
 
 void Generator::generateGlobalVars() {
-    std::vector<std::string> globalVarsVector = VariableFactory::createVariable(varType, 0)->globalVars();
-    for (auto var : globalVarsVector) {
-        globalVars.push_back(var);
-    }
-    
-    if (varType == VarTypes::ARRAY) {
-        globalVars.push_back("typedef struct {");
-        globalVars.push_back("   unsigned int* data;");
-        globalVars.push_back("   size_t size;");
-        globalVars.push_back("   size_t refC;");
-        globalVars.push_back("} Array;");
-        globalVars.push_back("typedef struct {");
-        globalVars.push_back("   Array* data;");
-        globalVars.push_back("   size_t size;");
-        globalVars.push_back("} ArrayParam;");
+    std::vector<std::string> varGlobalVars = varObject()->genGlobalVars();
+    for (auto gVar : varGlobalVars) {
+        globalVars.push_back(gVar);
     }
 }
 
 void Generator::generateRandomNumberGenerator() {
     GeneratorFunction rngFunction = GeneratorFunction(-1);
-    rngFunction.addLine("unsigned long rng() {");
-    rngFunction.addLine("   unsigned long n = rand();");
-    rngFunction.addLine("   return (n << 32) | rand();");
-    rngFunction.addLine("}");
+    rngFunction.addLine({"unsigned long rng() {",
+                         "   unsigned long n = rand();",
+                         "   return (n << 32) | rand();",
+                         "}"});
     functions.push_back(rngFunction);
 }
 
 void Generator::generateMainFunction() {
     mainFunction = GeneratorFunction(-1);
-    mainFunction.addLine("int main(int argc, char** argv) {");
-    mainFunction.addLine("   int loopsFactor = 100;");
-    mainFunction.addLine("   if (argc < 2 || argc > 3) {");
-    mainFunction.addLine("      printf(\"Usage: %s <paths seed> <loops factor (optional)>\\n\", argv[0]);");
-    mainFunction.addLine("      return 1;");
-    mainFunction.addLine("   }");
-    mainFunction.addLine("   if (argc == 3) {");
-    mainFunction.addLine("      loopsFactor = atoi(argv[2]);");
-    mainFunction.addLine("   }");
-    mainFunction.addLine("   srand(atol(argv[1]));");
-    mainFunction.addLine("   return 0;");
-    mainFunction.addLine("}");
+    mainFunction.addLine({"int main(int argc, char** argv) {",
+                          "   if (argc < 2 || argc > 3) {",
+                          "      printf(\"Usage: %s <paths seed> <loops factor (optional)>\\n\", argv[0]);",
+                          "      return 1;",
+                          "   }",
+                          "   int loopsFactor = 100;",
+                          "   if (argc == 3) {",
+                          "      loopsFactor = atoi(argv[2]);",
+                          "   }",
+                          "   srand(atol(argv[1]));",
+                          "   return 0;",
+                          "}"});
     mainFunction.insertBack = true;
     currentFunction.push(&mainFunction);
     startScope();
 }
 
-std::string Generator::getVarTypeDeclaration() {
-    if (varType == VarTypes::ARRAY) {
-        return "Array";
-    }
-    return "";
+GeneratorVariable* Generator::varObject() {
+    return VariableFactory::createVariable(varType, 0);
 }
 
 void Generator::addLine(std::string line, int d) {
     std::string indentedLine = currentScope.top().getIndentationTabs(d) + line;
     currentFunction.top()->addLine(indentedLine);
+}
+
+void Generator::addLine(std::vector<std::string> lines, int d) {
+    for (auto line : lines) {
+        addLine(line, d);
+    }
 }
 
 void Generator::startScope() {
@@ -87,10 +79,7 @@ void Generator::startScope() {
 
 void Generator::startFunc(int funcId, int nParameters) {
     GeneratorFunction func = GeneratorFunction(funcId);
-    std::string funcHeader = getVarTypeDeclaration() + " func" + std::to_string(funcId) + "(";
-    if (varType == "array") {
-        funcHeader += "ArrayParam* vars, ";
-    }
+    std::string funcHeader = varObject()->typeString + " func" + std::to_string(funcId) + "(" + varObject()->typeString + "Param* vars, ";
     for (int i = 0; i < nParameters; i++) {
         funcHeader += "const unsigned long PATH" + std::to_string(i) + ", ";
     }
@@ -114,30 +103,25 @@ bool Generator::functionExists(int funcId) {
     return false;
 }
 
-std::string Generator::createArrayParams() {
+std::string Generator::createParams() {
     std::string name = "params" + std::to_string(currentScope.top().addParam());
-    addLine("ArrayParam " + name + ";");
-    addLine(name + ".size = " + std::to_string(currentScope.top().avaiableVarsID.size()) + ";");
-    addLine(name + ".data = (Array*)malloc(" + name + ".size*sizeof(Array));");
+    std::vector<GeneratorVariable*> varsParams;
     for (int i = 0; i < currentScope.top().avaiableVarsID.size(); i++) {
-        GeneratorVariable* var = variables[currentScope.top().avaiableVarsID[i]];
-        addLine(name + ".data[" + std::to_string(i) + "] = " + var->name + ";");
+        varsParams.push_back(variables[currentScope.top().avaiableVarsID[i]]);
     }
+    std::vector<std::string> params = varObject()->genParams(name, varsParams);
+    addLine(params);
     return name;
 }
 
 void Generator::callFunc(int funcId, int nParameters) {
     std::string param = "";
-    if (varType == "array")
-        param = createArrayParams();
+    param = createParams();
 
     int id = addVar(varType);
     GeneratorVariable* var = variables[id];
+    std::string line = var->typeString + " " + var->name + " = func" + std::to_string(funcId) + "(&" + param + ", ";
 
-    std::string line = var->typeString + " " + var->name + " = func" + std::to_string(funcId) + "(";
-
-    if (varType == "array")
-        line += "&" + param + ", ";
     for (int i = 0; i < nParameters; i++)
         line += "rng(), ";
     line += "loopsFactor";
@@ -158,10 +142,7 @@ void Generator::freeVars(bool hasReturn, int returnVarPos) {
         int varPos = availableVarsId.size() - i - 1;
         if (!hasReturn || varPos != returnVarPos) {
             GeneratorVariable* var = variables[availableVarsId[varPos]];
-            addLine(var->name + ".refC--;");
-            addLine("if(" + var->name + ".refC == 0) {");
-            addLine("   free(" + var->name + ".data);");
-            addLine("}");
+            addLine(var->free());
         }
     }
 }

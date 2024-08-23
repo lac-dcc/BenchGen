@@ -17,6 +17,7 @@ class GeneratorFunction {
     int getId();
     std::vector<std::string> getLines();
     void addLine(std::string);
+    void addLine(std::vector<std::string>);
 };
 
 #endif

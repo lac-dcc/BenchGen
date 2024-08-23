@@ -81,17 +81,43 @@ std::vector<std::string> Array::contains(bool shouldReturn) {
     return temp;
 }
 
-std::vector<std::string> Array::globalVars() {
+std::vector<std::string> Array::free() {
+    std::vector<std::string> temp = {};
+    temp.push_back(this->name + ".refC--;");
+    temp.push_back("if(" + this->name + ".refC == 0) {");
+    temp.push_back("   free(" + this->name + ".data);");
+    temp.push_back("}");
+    return temp;
+}
+
+std::vector<std::string> Array::genIncludes() {
+    std::vector<std::string> temp = {};
+    temp.push_back("#include <string.h>");
+    return temp;
+}
+
+std::vector<std::string> Array::genGlobalVars() {
     std::vector<std::string> temp = {};
     temp.push_back("typedef struct {");
     temp.push_back("   unsigned int* data;");
     temp.push_back("   size_t size;");
     temp.push_back("   size_t refC;");
-    temp.push_back("} Array;");
+    temp.push_back("} " + this->typeString + ";");
     temp.push_back("typedef struct {");
     temp.push_back("   Array* data;");
     temp.push_back("   size_t size;");
-    temp.push_back("} ArrayParam;");
+    temp.push_back("} " + this->typeString + "Param;");
+    return temp;
+}
+
+std::vector<std::string> Array::genParams(std::string paramName, std::vector<GeneratorVariable*> varsParams) {
+    std::vector<std::string> temp = {};
+    temp.push_back(this->typeString + "Param " + paramName + ";");
+    temp.push_back(paramName + ".size = " + std::to_string(varsParams.size()) + ";");
+    temp.push_back(paramName + ".data = (" + this->typeString + "*)malloc(" + paramName + ".size*sizeof(" + this->typeString + "));");
+    for (int i = 0; i < varsParams.size(); i++) {
+        temp.push_back(paramName + ".data[" + std::to_string(i) + "] = " + varsParams[i]->name + ";");
+    }
     return temp;
 }
 

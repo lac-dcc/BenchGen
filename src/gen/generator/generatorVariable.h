@@ -19,8 +19,11 @@ class GeneratorVariable {
     virtual std::vector<std::string> insert() = 0;
     virtual std::vector<std::string> remove() = 0;
     virtual std::vector<std::string> contains(bool = false) = 0;
+    virtual std::vector<std::string> free() = 0;
 
-    virtual std::vector<std::string> globalVars() = 0;
+    virtual std::vector<std::string> genIncludes() = 0;
+    virtual std::vector<std::string> genGlobalVars() = 0;
+    virtual std::vector<std::string> genParams(std::string, std::vector<GeneratorVariable*>) = 0;
 };
 
 class Array : public GeneratorVariable {
@@ -35,8 +38,11 @@ class Array : public GeneratorVariable {
     std::vector<std::string> insert() override;
     std::vector<std::string> remove() override;
     std::vector<std::string> contains(bool = false) override;
+    std::vector<std::string> free() override;
 
-    std::vector<std::string> globalVars() override;
+    std::vector<std::string> genIncludes() override;
+    std::vector<std::string> genGlobalVars() override;
+    std::vector<std::string> genParams(std::string, std::vector<GeneratorVariable*>) override;
 };
 
 class VariableFactory {
