@@ -9,7 +9,7 @@ import re
 compilers = ["tcc", "gcc", "clang"]
 cflags = ["-O0", "-O1", "-O2", "-O3"]
 
-header = ["Program", "Compiler", "Opt", "Binary_Size(B)" 
+header = ["Program", "Compiler", "Opt", "Binary_Size(B)", 
           "Compilation_User(s)", "Compilation_Sys(s)", 
           "Exec_User(s)", "Exec_Sys(s)"]
 
@@ -48,13 +48,13 @@ def run_comparison(programs_dir):
                 
                 program_path = os.path.join(programs_dir, program)
                 tcc_run = f'./{program_path}/{program}_tcc'
-                print(f'Compiling [tcc] {tcc_run} ...')
+                # print(f'Compiling [tcc] {tcc_run} ...')
                 tcc_comp_time = get_comp_time(program_path, "CC=tcc", "CFLAGS=")
-                print(f'Running [tcc] {tcc_run} ...')
+                # print(f'Running [tcc] {tcc_run} ...')
                 tcc_run_time = get_exec_time(tcc_run)
                 
                 tcc_size = get_program_size(tcc_run)
-                new_row = [program, "tcc", "", tcc_size, tcc_comp_time[0].group(1), tcc_comp_time[1].group(1), tcc_run_time[0].group(1), tcc_run_time[1].group(1)]
+                new_row = [program, "tcc", "NONE", tcc_size, tcc_comp_time[0].group(1), tcc_comp_time[1].group(1), tcc_run_time[0].group(1), tcc_run_time[1].group(1)]
                 csv_writer.writerow(new_row) 
                 subprocess.run(["make", "clean", "-C", program_path, "CC=tcc"], stdout=subprocess.PIPE,  stderr=subprocess.PIPE)
                 
@@ -64,12 +64,12 @@ def run_comparison(programs_dir):
                         flag_option = f'CFLAGS={flag}'
                         run_command = f'./{program_path}/{program}_{compiler}'
                         
-                        print(f'Compiling [{compiler} {flag}] {run_command} ...')
+                        # print(f'Compiling [{compiler} {flag}] {run_command} ...')
                         comp_time = get_comp_time(program_path, compiler_option, flag_option)
-                        print(f'Running [{compiler} {flag}] {run_command} ...')
+                        # print(f'Running [{compiler} {flag}] {run_command} ...')
                         run_time = get_exec_time(run_command)
                         size = get_program_size(run_command)           
-                        new_row = [program, compiler, flag, size, comp_time[0].group(1), comp_time[1].group(1), run_time[0].group(1), run_time[1].group(1)]
+                        new_row = [program, compiler, flag[1:], size, comp_time[0].group(1), comp_time[1].group(1), run_time[0].group(1), run_time[1].group(1)]
                         csv_writer.writerow(new_row) 
                         subprocess.run(["make", "clean", "-C", program_path, compiler_option], stdout=subprocess.PIPE,  stderr=subprocess.PIPE)
 
