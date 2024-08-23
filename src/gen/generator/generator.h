@@ -6,6 +6,7 @@
 
 #include "../shared/enums.h"
 #include "../shared/globalStructs.h"
+#include "../shared/varTypes.h"
 #include "generatorFunction.h"
 #include "generatorScope.h"
 #include "generatorVariable.h"

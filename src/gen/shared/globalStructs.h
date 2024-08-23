@@ -1,5 +1,5 @@
-#ifndef TYPEDEFS_H
-#define TYPEDEFS_H
+#ifndef GLOBALSTRUCTS_H
+#define GLOBALSTRUCTS_H
 #include <iostream>
 #include <tuple>
 #include <vector>

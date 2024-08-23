@@ -16,18 +16,13 @@ Generator::Generator(std::string variableType) {
 void Generator::generateIncludes() {
     includes.push_back("#include <stdio.h>");
     includes.push_back("#include <stdlib.h>");
-    if (varType == "bool")
-        includes.push_back("#include <stdbool.h>");
-    else if (varType == "string" || varType == "array")
+    if (varType == VarTypes::ARRAY) {
         includes.push_back("#include <string.h>");
-    else if (varType == "vector")
-        includes.push_back("#include <vector>");
-    else if (varType == "list")
-        includes.push_back("#include <list>");
+    }
 }
 
 void Generator::generateGlobalVars() {
-    if (varType == "array") {
+    if (varType == VarTypes::ARRAY) {
         globalVars.push_back("typedef struct {");
         globalVars.push_back("   unsigned int* data;");
         globalVars.push_back("   size_t size;");
@@ -69,16 +64,8 @@ void Generator::generateMainFunction() {
 }
 
 std::string Generator::getVarTypeDeclaration() {
-    if (varType == "scalar") {
-        return "int";
-    } else if (varType == "array") {
+    if (varType == VarTypes::ARRAY) {
         return "Array";
-    } else if (varType == "matrix") {
-        return "Matrix";
-    } else if (varType == "vector") {
-        return "std::vector<int>";
-    } else if (varType == "list") {
-        return "std::list<int>";
     }
     return "";
 }
