@@ -14,10 +14,13 @@ class GeneratorVariable {
     std::string name;
     std::string typeString;
     virtual ~GeneratorVariable() {}
+
     virtual std::vector<std::string> new_(bool = false) = 0;
     virtual std::vector<std::string> insert() = 0;
     virtual std::vector<std::string> remove() = 0;
     virtual std::vector<std::string> contains(bool = false) = 0;
+
+    virtual std::vector<std::string> globalVars() = 0;
 };
 
 class Array : public GeneratorVariable {
@@ -26,11 +29,14 @@ class Array : public GeneratorVariable {
     Array() {};
     Array(int totalSize, int* values, int id);
     ~Array();
+
     std::vector<std::string> new_(bool = false) override;
     std::vector<std::string> realloc();
     std::vector<std::string> insert() override;
     std::vector<std::string> remove() override;
     std::vector<std::string> contains(bool = false) override;
+
+    std::vector<std::string> globalVars() override;
 };
 
 class VariableFactory {

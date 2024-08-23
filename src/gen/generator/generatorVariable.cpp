@@ -81,5 +81,19 @@ std::vector<std::string> Array::contains(bool shouldReturn) {
     return temp;
 }
 
+std::vector<std::string> Array::globalVars() {
+    std::vector<std::string> temp = {};
+    temp.push_back("typedef struct {");
+    temp.push_back("   unsigned int* data;");
+    temp.push_back("   size_t size;");
+    temp.push_back("   size_t refC;");
+    temp.push_back("} Array;");
+    temp.push_back("typedef struct {");
+    temp.push_back("   Array* data;");
+    temp.push_back("   size_t size;");
+    temp.push_back("} ArrayParam;");
+    return temp;
+}
+
 Array::~Array() {
 }

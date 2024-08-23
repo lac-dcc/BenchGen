@@ -22,6 +22,11 @@ void Generator::generateIncludes() {
 }
 
 void Generator::generateGlobalVars() {
+    std::vector<std::string> globalVarsVector = VariableFactory::createVariable(varType, 0)->globalVars();
+    for (auto var : globalVarsVector) {
+        globalVars.push_back(var);
+    }
+    
     if (varType == VarTypes::ARRAY) {
         globalVars.push_back("typedef struct {");
         globalVars.push_back("   unsigned int* data;");
