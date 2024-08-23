@@ -80,10 +80,12 @@ std::shared_ptr<Node> parseTokensToAST(Parser& parser, const std::vector<Token>&
 
 void generateCode(Generator& generator, std::shared_ptr<Node>& AST) {
     AST->gen(generator);
+    generator.freeVars();
 }
 
 void genBenchmark(Generator& generator, std::string bench_name) {
     generator.genBenchmark(bench_name);
+    generator.freeVars();
     generator.endScope();
     std::cout << "Done!" << std::endl;
 }

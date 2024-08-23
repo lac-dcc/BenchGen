@@ -159,43 +159,30 @@ int Generator::addVar(std::string type) {
     return varCounter++;
 }
 
-void Generator::returnFunc() {
-    int varCount = currentScope.top().avaiableVarsID.size();
-    int varPos = rand() % varCount;
-    GeneratorVariable* var = variables[currentScope.top().avaiableVarsID[varPos]];
+void Generator::freeVars(bool hasReturn, int returnVarPos) {
+    int numberOfAddedVars = currentScope.top().numberOfAddedVars;
+    std::vector<int> availableVarsId = currentScope.top().avaiableVarsID;
+    for (int i = 0; i < numberOfAddedVars; i++) {
+        int varPos = availableVarsId.size() - i - 1;
+        if (!hasReturn || varPos != returnVarPos) {
+            GeneratorVariable* var = variables[availableVarsId[varPos]];
+            addLine(var->name + ".refC--;");
+            addLine("if(" + var->name + ".refC == 0) {");
+            addLine("   free(" + var->name + ".data);");
+            addLine("}");
+        }
+    }
+}
+
+void Generator::returnFunc(int returnVarPos) {
+    GeneratorVariable* var = variables[currentScope.top().avaiableVarsID[returnVarPos]];
     addLine("return " + var->name + ";");
 }
 
 void Generator::endScope() {
-    int addedVars = currentScope.top().addedVars;
-
-    for (int i = 0; i < addedVars; ++i) {
-        std::string decreasingRef = currentScope.top().getIndentationTabs(-1);
-        std::string freeMem = currentScope.top().getIndentationTabs(-1);
-        auto it = variables.end();
-        if (it != variables.begin()) {
-            --it;
-            if (it->second != nullptr) { 
-                decreasingRef += it->second->name + ".refC--;";
-                freeMem += "if("+ it->second->name + ".refC == 0) {\n";
-                freeMem += currentScope.top().getIndentationTabs(-1);
-                freeMem += "   free("+ it->second->name + ".data);\n";
-                freeMem += currentScope.top().getIndentationTabs(-1);
-                freeMem += "}\n";
-
-                currentFunction.top()->addLine(decreasingRef);
-                currentFunction.top()->addLine(freeMem);
-                delete it->second;
-            }
-            variables.erase(it);
-        }
-    }
-    
-    currentScope.pop();
-    varCounter -= addedVars;
     std::string line = currentScope.top().getIndentationTabs(-1) + "}";
     currentFunction.top()->addLine(line);
-
+    currentScope.pop();
 }
 
 void Generator::endFunc() {

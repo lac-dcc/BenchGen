@@ -46,7 +46,8 @@ class Generator {
     bool functionExists(int);
     void callFunc(int, int);
     int addVar(std::string);
-    void returnFunc();
+    void freeVars(bool = false, int = 0);
+    void returnFunc(int);
     void endScope();
     void endFunc();
     void genBenchmark(std::string);

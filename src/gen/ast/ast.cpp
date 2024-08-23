@@ -96,6 +96,7 @@ void Loop::gen(Generator& generator) {
     generator.loopLevel++;
     generator.loopCounter++;
     code->gen(generator);
+    generator.freeVars();
     generator.endScope();
     generator.loopLevel--;
 }
@@ -113,7 +114,10 @@ void Call::gen(Generator& generator) {
                 generator.addLine(line);
             }
         }
-        generator.returnFunc();
+        int varCount = generator.currentScope.top().avaiableVarsID.size();
+        int returnVarPos = rand() % varCount;
+        generator.freeVars(true, returnVarPos);
+        generator.returnFunc(returnVarPos);
         generator.endFunc();
     }
 }
@@ -133,6 +137,7 @@ void IfParam::gen(Generator& generator) {
     generator.addLine(line);
     generator.startScope();
     code->gen(generator);
+    generator.freeVars();
     generator.endScope();
     else_->gen(generator);
 }
@@ -150,6 +155,7 @@ void CodeElse::gen(Generator& generator) {
     generator.addLine(line);
     generator.startScope();
     code->gen(generator);
+    generator.freeVars();
     generator.endScope();
 }
 
