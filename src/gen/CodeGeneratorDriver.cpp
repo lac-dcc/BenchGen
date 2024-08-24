@@ -18,6 +18,8 @@ int main(int argc, char const* argv[]) {
         return 1;
     }
 
+    std::cout << "Generating..." << std::endl;
+
     int iterations = std::stoi(argv[1]);
     std::string productionRulesFile = argv[2];
     std::string inputFile = argv[3];
@@ -32,31 +34,15 @@ int main(int argc, char const* argv[]) {
 
     getInputTokens(inputTokens, lexer, inputFile);
 
-    // Print input tokens
-    // std::cout << "BEFORE LSYSTEM:\n";
-    // for (auto tok : inputTokens) {
-    //     std::cout << tok.text << " ";
-    // }
-    // std::cout << std::endl;
-
     applyLSystem(inputTokens, lexer, iterations, productionRulesFile);
-
-    // Print input tokens
-    // std::cout << "AFTER LSYSTEM:\n";
-    // for (auto tok : inputTokens) {
-    //     std::cout << tok.text << " ";
-    // }
-    // std::cout << std::endl;
 
     std::shared_ptr<Node> AST = parseTokensToAST(parser, inputTokens);
 
     generateCode(generator, AST);
 
-    // Apply "behavior" later
-
     genBenchmark(generator, bench_name);
-    // std::cout << "Printing AST..." << std::endl;
-    // AST->print(2);
+
+    std::cout << "Done!" << std::endl;
 
     return 0;
 }
@@ -87,5 +73,4 @@ void genBenchmark(Generator& generator, std::string bench_name) {
     generator.genBenchmark(bench_name);
     generator.freeVars();
     generator.endScope();
-    std::cout << "Done!" << std::endl;
 }
