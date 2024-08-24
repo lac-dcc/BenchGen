@@ -1,1 +1,2 @@
+# Simple example to explore the memory leak issue
 new CALL(new LOOP(A) new new new) contains

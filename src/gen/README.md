@@ -28,22 +28,17 @@ Run the binary output with a input and output file as parameter.
 Calls to the Program Generator must be done in the following format:
 
 ```
-./main <Number of iterations> <Production Rules File> <Seed String File> <Output File> <Variable Type>
+./main <Number of iterations> <Production Rules File> <Seed String File> <Output Folder> <Variable Type>
 ```
 
-The current `<Variable Type>`s available are:
-
--   scalar
--   array
--   vector
--   list
+The available variables types are in the `shared/varTypes.h` file.
 
 ## Examples
 
 We provide examples for inputs in the `examples folder`. An example of execution would be:
 
 ```
-./main 3 production_rule_8.l seed_string.l output.c scalar
+./main 3 production_rule_8.txt seed_string.txt output array
 ```
 
 ### Production Rules File
