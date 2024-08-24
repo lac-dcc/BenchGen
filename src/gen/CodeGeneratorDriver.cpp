@@ -114,7 +114,6 @@ int main(int argc, char const* argv[]) {
  * @param inputFile Path to the input file containing the seed string.
  */
 void tokenizeInput(std::vector<Token>& inputTokens, Lexer& lexer, const std::string& inputFile) {
-    lexer.loadConfiguration();
     inputTokens = lexer.getTokens(inputFile);
 }
 
