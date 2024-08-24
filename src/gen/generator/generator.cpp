@@ -191,7 +191,7 @@ void Generator::genMakefile(std::string dir, std::string target) {
     makefile << "%.o: %.c\n";
 }
 
-void Generator::genBenchmark(std::string benchmarkName) {
+void Generator::generateFiles(std::string benchmarkName) {
     std::string benchDir = benchmarkName + "/";
     std::string sourceFile = benchmarkName + ".c";
     std::string includeName = benchmarkName + ".h";

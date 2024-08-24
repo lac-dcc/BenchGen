@@ -52,7 +52,7 @@ class Generator {
     void returnFunc(int);
     void endScope();
     void endFunc();
-    void genBenchmark(std::string);
+    void generateFiles(std::string);
 };
 
 #endif
