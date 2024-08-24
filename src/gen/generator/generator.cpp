@@ -1,18 +1,31 @@
 #include "generator.h"
 
+/**
+ * @brief Constructs a Generator object with initial settings.
+ *
+ * Initializes various counters, sets the variable type, and prepares the initial scope.
+ * Generates necessary includes, global variables, random number generator, and the main function.
+ *
+ * @param variableType The type of variable to be used in code generation.
+ */
 Generator::Generator(std::string variableType) {
-    this->ifCounter.push(0);
-    this->varCounter = 0;
-    this->loopLevel = 0;
-    this->loopCounter = 0;
-    this->varType = variableType;
-    currentScope.push(GeneratorScope(0));
+    this->ifCounter.push(0);               // Initialize if statement counter
+    this->varCounter = 0;                  // Initialize variable counter
+    this->loopLevel = 0;                   // Initialize loop nesting level
+    this->loopCounter = 0;                 // Initialize loop counter
+    this->varType = variableType;          // Set the variable type for generation
+    currentScope.push(GeneratorScope(0));  // Start with the global scope
     generateIncludes();
     generateGlobalVars();
     generateRandomNumberGenerator();
     generateMainFunction();
 }
 
+/**
+ * @brief Generates the necessary include statements for the generated code.
+ *
+ * Adds standard and variable-specific include directives to the list of includes.
+ */
 void Generator::generateIncludes() {
     includes.push_back("#include <stdio.h>");
     includes.push_back("#include <stdlib.h>");
@@ -22,6 +35,11 @@ void Generator::generateIncludes() {
     }
 }
 
+/**
+ * @brief Generates global variables needed for the generated code.
+ *
+ * Calls variable-specific methods to generate and add global variable declarations.
+ */
 void Generator::generateGlobalVars() {
     std::vector<std::string> varGlobalVars = varObject()->genGlobalVars();
     for (auto gVar : varGlobalVars) {
@@ -29,6 +47,11 @@ void Generator::generateGlobalVars() {
     }
 }
 
+/**
+ * @brief Generates a random number generator function.
+ *
+ * Creates a function that returns a 64-bit random number by combining two 32-bit random numbers.
+ */
 void Generator::generateRandomNumberGenerator() {
     GeneratorFunction rngFunction = GeneratorFunction(-1);
     rngFunction.addLine({"unsigned long rng() {",
@@ -38,6 +61,12 @@ void Generator::generateRandomNumberGenerator() {
     functions.push_back(rngFunction);
 }
 
+/**
+ * @brief Generates the main function for the generated code.
+ *
+ * Initializes the main function with argument handling, setting up the random seed,
+ * and loop factor initialization.
+ */
 void Generator::generateMainFunction() {
     mainFunction = GeneratorFunction(-1);
     mainFunction.addLine({"int main(int argc, char** argv) {",
@@ -57,26 +86,62 @@ void Generator::generateMainFunction() {
     startScope();
 }
 
+/**
+ * @brief Creates a variable object based on the specified type.
+ *
+ * Uses the VariableFactory to create and return a variable object.
+ *
+ * @return A pointer to the created GeneratorVariable object.
+ */
 GeneratorVariable* Generator::varObject() {
     return VariableFactory::createVariable(varType, 0);
 }
 
+/**
+ * @brief Adds a line of code to the current function with indentation.
+ *
+ * The line is indented based on the current scope's indentation level.
+ *
+ * @param line The line of code to add.
+ * @param d Additional depth for indentation.
+ */
 void Generator::addLine(std::string line, int d) {
     std::string indentedLine = currentScope.top().getIndentationTabs(d) + line;
     currentFunction.top()->addLine(indentedLine);
 }
 
+/**
+ * @brief Adds multiple lines of code to the current function with indentation.
+ *
+ * Each line is indented based on the current scope's indentation level.
+ *
+ * @param lines A vector of lines of code to add.
+ * @param d Additional depth for indentation.
+ */
 void Generator::addLine(std::vector<std::string> lines, int d) {
     for (auto line : lines) {
         addLine(line, d);
     }
 }
 
+/**
+ * @brief Starts a new scope for variable declarations.
+ *
+ * Pushes a new GeneratorScope onto the scope stack, inheriting the current scope's variables and indentation.
+ */
 void Generator::startScope() {
     GeneratorScope scope = GeneratorScope(currentScope.top().avaiableVarsID, currentScope.top().avaiableParamsID, currentScope.top().getIndentation());
     currentScope.push(scope);
 }
 
+/**
+ * @brief Starts the definition of a new function.
+ *
+ * Creates a function header with specified parameters and starts a new scope for the function body.
+ *
+ * @param funcId The ID of the function to create.
+ * @param nParameters The number of parameters the function takes.
+ */
 void Generator::startFunc(int funcId, int nParameters) {
     GeneratorFunction func = GeneratorFunction(funcId);
     std::string funcHeader = varObject()->typeString + " func" + std::to_string(funcId) + "(" + varObject()->typeString + "Param* vars, ";
@@ -94,6 +159,14 @@ void Generator::startFunc(int funcId, int nParameters) {
     addLine("size_t pCounter = vars->size;");
 }
 
+/**
+ * @brief Checks if a function with a given ID already exists.
+ *
+ * Iterates through the list of functions to see if a function with the specified ID is present.
+ *
+ * @param funcId The ID of the function to check.
+ * @return True if the function exists, false otherwise.
+ */
 bool Generator::functionExists(int funcId) {
     for (auto func : functions) {
         if (func.getId() == funcId) {
@@ -103,6 +176,13 @@ bool Generator::functionExists(int funcId) {
     return false;
 }
 
+/**
+ * @brief Creates a parameter object to pass into a function.
+ *
+ * Generates the parameter name, creates the parameter object, and adds the necessary code lines.
+ *
+ * @return The name of the created parameter object.
+ */
 std::string Generator::createParams() {
     std::string name = "params" + std::to_string(currentScope.top().addParam());
     std::vector<GeneratorVariable*> varsParams;
@@ -114,6 +194,14 @@ std::string Generator::createParams() {
     return name;
 }
 
+/**
+ * @brief Calls a function with the specified ID and parameters.
+ *
+ * Generates the necessary code to call a function, passing parameters and handling the return value.
+ *
+ * @param funcId The ID of the function to call.
+ * @param nParameters The number of parameters to pass to the function.
+ */
 void Generator::callFunc(int funcId, int nParameters) {
     std::string param = "";
     param = createParams();
@@ -129,12 +217,28 @@ void Generator::callFunc(int funcId, int nParameters) {
     addLine(line);
 }
 
+/**
+ * @brief Adds a new variable of the specified type to the current scope.
+ *
+ * Creates a new variable, adds it to the list of variables, and returns its ID.
+ *
+ * @param type The type of variable to create.
+ * @return The ID of the newly created variable.
+ */
 int Generator::addVar(std::string type) {
     this->variables[varCounter] = VariableFactory::createVariable(type, varCounter);
     this->currentScope.top().addVar(varCounter);
     return varCounter++;
 }
 
+/**
+ * @brief Frees variables in the current scope.
+ *
+ * Frees all variables added in the current scope, except the return variable if specified.
+ *
+ * @param hasReturn Specifies whether there is a return variable.
+ * @param returnVarPos The position of the return variable to keep.
+ */
 void Generator::freeVars(bool hasReturn, int returnVarPos) {
     int numberOfAddedVars = currentScope.top().numberOfAddedVars;
     std::vector<int> availableVarsId = currentScope.top().avaiableVarsID;
@@ -147,23 +251,48 @@ void Generator::freeVars(bool hasReturn, int returnVarPos) {
     }
 }
 
+/**
+ * @brief Returns a value from a function.
+ *
+ * Adds a return statement to the function, returning the specified variable.
+ *
+ * @param returnVarPos The position of the variable to return.
+ */
 void Generator::returnFunc(int returnVarPos) {
     GeneratorVariable* var = variables[currentScope.top().avaiableVarsID[returnVarPos]];
     addLine("return " + var->name + ";");
 }
 
+/**
+ * @brief Ends the current scope.
+ *
+ * Pops the current scope from the stack and adds a closing brace to the code.
+ */
 void Generator::endScope() {
     std::string line = currentScope.top().getIndentationTabs(-1) + "}";
     currentFunction.top()->addLine(line);
     currentScope.pop();
 }
 
+/**
+ * @brief Ends the current function.
+ *
+ * Ends the current function scope, pops the function and the if counter from the stack.
+ */
 void Generator::endFunc() {
     endScope();
     currentFunction.pop();
     ifCounter.pop();
 }
 
+/**
+ * @brief Generates a Makefile for the benchmark.
+ *
+ * Creates a Makefile with rules for compiling the generated source files.
+ *
+ * @param dir The directory where the Makefile should be created.
+ * @param target The target executable name.
+ */
 void Generator::genMakefile(std::string dir, std::string target) {
     std::ofstream makefile;
     makefile.open(dir + "Makefile");
@@ -191,6 +320,13 @@ void Generator::genMakefile(std::string dir, std::string target) {
     makefile << "%.o: %.c\n";
 }
 
+/**
+ * @brief Generates source and header files for the benchmark.
+ *
+ * Creates the necessary directory structure and writes the generated code to files.
+ *
+ * @param benchmarkName The name of the benchmark to generate files for.
+ */
 void Generator::generateFiles(std::string benchmarkName) {
     std::string benchDir = benchmarkName + "/";
     std::string sourceFile = benchmarkName + ".c";
@@ -231,6 +367,7 @@ void Generator::generateFiles(std::string benchmarkName) {
         includeFile << header << std::endl;
     }
     file << std::endl;
+
     // Main function
     auto lines = mainFunction.getLines();
     for (auto line : lines) {
@@ -242,7 +379,6 @@ void Generator::generateFiles(std::string benchmarkName) {
     for (auto func : functions) {
         std::string funcSource;
         if (func.getId() == -1) {
-            // RNG Function
             funcSource = "rng.c";
         } else {
             funcSource = "func" + std::to_string(func.getId()) + ".c";
