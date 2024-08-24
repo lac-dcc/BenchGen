@@ -13,13 +13,8 @@
 GeneratorVariable* VariableFactory::createVariable(std::string type, int identifier) {
     if (type == VarTypes::ARRAY) {
         int size = rand() % 1000;  // Random size for the array
-        int* temp_array = new int[size];
-        for (int i = 0; i < size; i++) {
-            temp_array[i] = 0;  // Initialize array elements to 0
-        }
-        return new Array(size, temp_array, identifier);
+        return new Array(size, identifier);
     }
-
     // TODO: Error Handling
     return nullptr;
 }
@@ -32,10 +27,9 @@ GeneratorVariable* VariableFactory::createVariable(std::string type, int identif
  * Initializes an Array object with a specified size, values, and identifier.
  *
  * @param size The size of the array.
- * @param values Pointer to the array of integer values.
  * @param id The unique identifier for the array.
  */
-Array::Array(int size, int* values, int id) {
+Array::Array(int size, int id) {
     this->typeString = "Array";
     this->totalSize = size;
     this->id = id;

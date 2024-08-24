@@ -29,10 +29,12 @@ Generator::Generator(std::string variableType) {
 void Generator::generateIncludes() {
     includes.push_back("#include <stdio.h>");
     includes.push_back("#include <stdlib.h>");
-    std::vector<std::string> varIncludes = varObject()->genIncludes();
+    GeneratorVariable* var = varObject();
+    std::vector<std::string> varIncludes = var->genIncludes();
     for (auto var : varIncludes) {
         globalVars.push_back(var);
     }
+    delete var;
 }
 
 /**
@@ -41,10 +43,12 @@ void Generator::generateIncludes() {
  * Calls variable-specific methods to generate and add global variable declarations.
  */
 void Generator::generateGlobalVars() {
-    std::vector<std::string> varGlobalVars = varObject()->genGlobalVars();
+    GeneratorVariable* var = varObject();
+    std::vector<std::string> varGlobalVars = var->genGlobalVars();
     for (auto gVar : varGlobalVars) {
         globalVars.push_back(gVar);
     }
+    delete var;
 }
 
 /**
@@ -144,7 +148,8 @@ void Generator::startScope() {
  */
 void Generator::startFunc(int funcId, int nParameters) {
     GeneratorFunction func = GeneratorFunction(funcId);
-    std::string funcHeader = varObject()->typeString + " func" + std::to_string(funcId) + "(" + varObject()->typeString + "Param* vars, ";
+    GeneratorVariable* var = varObject();
+    std::string funcHeader = var->typeString + " func" + std::to_string(funcId) + "(" + var->typeString + "Param* vars, ";
     for (int i = 0; i < nParameters; i++) {
         funcHeader += "const unsigned long PATH" + std::to_string(i) + ", ";
     }
@@ -157,6 +162,7 @@ void Generator::startFunc(int funcId, int nParameters) {
     currentScope.push(scope);
     this->ifCounter.push(0);
     addLine("size_t pCounter = vars->size;");
+    delete var;
 }
 
 /**
@@ -189,8 +195,10 @@ std::string Generator::createParams() {
     for (int i = 0; i < currentScope.top().avaiableVarsID.size(); i++) {
         varsParams.push_back(variables[currentScope.top().avaiableVarsID[i]]);
     }
-    std::vector<std::string> params = varObject()->genParams(name, varsParams);
+    GeneratorVariable* var = varObject();
+    std::vector<std::string> params = var->genParams(name, varsParams);
     addLine(params);
+    delete var;
     return name;
 }
 
@@ -306,10 +314,10 @@ void Generator::genMakefile(std::string dir, std::string target) {
     makefile << "OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))\n\n";
 
     makefile << "$(TARGET)_$(CC): $(OBJ)\n";
-    makefile << "\t$(CC) -o $(TARGET)_$(CC) $(OBJ)\n\n";
+    makefile << "\t$(CC) ${CFLAGS} -o $(TARGET)_$(CC) $(OBJ)\n\n";
 
     makefile << "$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)\n";
-    makefile << "\t$(CC) -c $< -o $@\n\n";
+    makefile << "\t$(CC) ${CFLAGS} -c $< -o $@\n\n";
 
     makefile << "$(OBJ_DIR):\n";
     makefile << "\tmkdir -p $(OBJ_DIR)\n\n";

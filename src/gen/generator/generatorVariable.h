@@ -125,7 +125,7 @@ class Array : public GeneratorVariable {
      * @param values Pointer to the array of integer values.
      * @param id The unique identifier for the array.
      */
-    Array(int totalSize, int* values, int id);
+    Array(int totalSize, int id);
 
     /**
      * @brief Destructor for the Array class.
