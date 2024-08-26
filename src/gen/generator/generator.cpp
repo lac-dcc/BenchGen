@@ -186,7 +186,7 @@ std::string Generator::createParams() {
 /**
  * @brief Calls a function with the specified ID and parameters.
  *
- * Generates the necessary code to call a function, passing parameters and handling the return value.
+ * Generates the necessary code to call a function, passing parameters, handling the return value and freeing memory.
  *
  * @param funcId The ID of the function to call.
  * @param nParameters The number of parameters to pass to the function.
@@ -203,6 +203,8 @@ void Generator::callFunc(int funcId, int nParameters) {
         line += "rng(), ";
     line += "loopsFactor";
     line += ");";
+    addLine(line);
+    line = "free(" + param + ".data);";
     addLine(line);
 }
 
