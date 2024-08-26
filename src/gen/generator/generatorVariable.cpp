@@ -4,7 +4,7 @@
  * @brief Factory method to create a GeneratorVariable of a specified type.
  *
  * This method creates a new variable of the specified type and initializes it with
- * default values.
+ * default values. The created variable is returned as a pointer to a GeneratorVariable.
  *
  * @param type The type of variable to create (e.g., "array").
  * @param identifier A unique identifier for the variable.
@@ -17,6 +17,70 @@ GeneratorVariable* VariableFactory::createVariable(std::string type, int identif
     }
     // TODO: Error Handling
     return nullptr;
+}
+
+/**
+ * @brief Generates a string representation of the variable type.
+ *
+ * This method creates a temporary variable of the specified type to retrieve its type string.
+ *
+ * @param type The type of variable to create (e.g., "array").
+ * @return A string representing the type of the variable.
+ */
+std::string VariableFactory::genTypeString(std::string type) {
+    GeneratorVariable* var = createVariable(type, 0);
+    std::string typeString = var->typeString;
+    delete var;
+    return typeString;
+}
+
+/**
+ * @brief Generates include statements required for the specified variable type.
+ *
+ * This method creates a temporary variable of the specified type to determine the necessary include
+ * statements for that type.
+ *
+ * @param type The type of variable to create (e.g., "array").
+ * @return A vector of strings representing the include directives.
+ */
+std::vector<std::string> VariableFactory::genIncludes(std::string type) {
+    GeneratorVariable* var = createVariable(type, 0);
+    std::vector<std::string> includes = var->genIncludes();
+    delete var;
+    return includes;
+}
+
+/**
+ * @brief Generates global variable declarations for the specified variable type.
+ *
+ * This method creates a temporary variable of the specified type to retrieve its global variable declarations.
+ *
+ * @param type The type of variable to create (e.g., "array").
+ * @return A vector of strings representing global variable declarations.
+ */
+std::vector<std::string> VariableFactory::genGlobalVars(std::string type) {
+    GeneratorVariable* var = createVariable(type, 0);
+    std::vector<std::string> globalVars = var->genGlobalVars();
+    delete var;
+    return globalVars;
+}
+
+/**
+ * @brief Generates parameter handling code for functions using the specified variable type.
+ *
+ * This method creates a temporary variable of the specified type to generate code for handling
+ * parameters in functions.
+ *
+ * @param type The type of variable to create (e.g., "array").
+ * @param paramName The name of the parameter.
+ * @param varsParams List of variables to be used as parameters.
+ * @return A vector of strings representing the code for parameter handling.
+ */
+std::vector<std::string> VariableFactory::genParams(std::string type, std::string paramName, std::vector<GeneratorVariable*> varsParams) {
+    GeneratorVariable* var = createVariable(type, 0);
+    std::vector<std::string> params = var->genParams(paramName, varsParams);
+    delete var;
+    return params;
 }
 
 // ARRAY

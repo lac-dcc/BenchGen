@@ -29,12 +29,10 @@ Generator::Generator(std::string variableType) {
 void Generator::generateIncludes() {
     includes.push_back("#include <stdio.h>");
     includes.push_back("#include <stdlib.h>");
-    GeneratorVariable* var = varObject();
-    std::vector<std::string> varIncludes = var->genIncludes();
+    std::vector<std::string> varIncludes = VariableFactory::genIncludes(varType);
     for (auto var : varIncludes) {
         globalVars.push_back(var);
     }
-    delete var;
 }
 
 /**
@@ -43,12 +41,10 @@ void Generator::generateIncludes() {
  * Calls variable-specific methods to generate and add global variable declarations.
  */
 void Generator::generateGlobalVars() {
-    GeneratorVariable* var = varObject();
-    std::vector<std::string> varGlobalVars = var->genGlobalVars();
+    std::vector<std::string> varGlobalVars = VariableFactory::genGlobalVars(varType);
     for (auto gVar : varGlobalVars) {
         globalVars.push_back(gVar);
     }
-    delete var;
 }
 
 /**
@@ -88,17 +84,6 @@ void Generator::generateMainFunction() {
     mainFunction.insertBack = true;
     currentFunction.push(&mainFunction);
     startScope();
-}
-
-/**
- * @brief Creates a variable object based on the specified type.
- *
- * Uses the VariableFactory to create and return a variable object.
- *
- * @return A pointer to the created GeneratorVariable object.
- */
-GeneratorVariable* Generator::varObject() {
-    return VariableFactory::createVariable(varType, 0);
 }
 
 /**
@@ -148,8 +133,7 @@ void Generator::startScope() {
  */
 void Generator::startFunc(int funcId, int nParameters) {
     GeneratorFunction func = GeneratorFunction(funcId);
-    GeneratorVariable* var = varObject();
-    std::string funcHeader = var->typeString + " func" + std::to_string(funcId) + "(" + var->typeString + "Param* vars, ";
+    std::string funcHeader = VariableFactory::genTypeString(varType) + " func" + std::to_string(funcId) + "(" + VariableFactory::genTypeString(varType) + "Param* vars, ";
     for (int i = 0; i < nParameters; i++) {
         funcHeader += "const unsigned long PATH" + std::to_string(i) + ", ";
     }
@@ -162,7 +146,6 @@ void Generator::startFunc(int funcId, int nParameters) {
     currentScope.push(scope);
     this->ifCounter.push(0);
     addLine("size_t pCounter = vars->size;");
-    delete var;
 }
 
 /**
@@ -195,10 +178,8 @@ std::string Generator::createParams() {
     for (int i = 0; i < currentScope.top().avaiableVarsID.size(); i++) {
         varsParams.push_back(variables[currentScope.top().avaiableVarsID[i]]);
     }
-    GeneratorVariable* var = varObject();
-    std::vector<std::string> params = var->genParams(name, varsParams);
+    std::vector<std::string> params = VariableFactory::genParams(varType, name, varsParams);
     addLine(params);
-    delete var;
     return name;
 }
 

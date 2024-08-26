@@ -51,15 +51,6 @@ class Generator {
     void generateRandomNumberGenerator();
 
     /**
-     * @brief Creates a variable object based on the current variable type.
-     *
-     * Uses the VariableFactory to instantiate and return a variable object.
-     *
-     * @return A pointer to the created GeneratorVariable object.
-     */
-    GeneratorVariable* varObject();
-
-    /**
      * @brief Creates a parameter object to pass into a function.
      *
      * Generates the parameter name, creates the parameter object, and adds the necessary code lines.
