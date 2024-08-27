@@ -45,10 +45,10 @@ def run_comparison(programs_dir):
         csv_writer.writerow(header) 
         if os.path.isdir(programs_dir):
             for program in os.listdir(programs_dir):
+                print(f'Running for {program} ...')
                 
                 program_path = os.path.join(programs_dir, program)
                 tcc_run = f'./{program_path}/{program}_tcc'
-                # print(f'Compiling [tcc] {tcc_run} ...')
                 tcc_comp_time = get_comp_time(program_path, "CC=tcc", "CFLAGS=")
                 # print(f'Running [tcc] {tcc_run} ...')
                 tcc_run_time = get_exec_time(tcc_run)
