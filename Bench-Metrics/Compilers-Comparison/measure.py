@@ -31,7 +31,7 @@ def get_comp_time(program_path, compiler, flag):
     return (user_time_comp, system_time_comp)
 
 def get_exec_time(program):
-    run_time = subprocess.run(["time", program, "0"], stdout=subprocess.PIPE,  stderr=subprocess.PIPE)
+    run_time = subprocess.run(["time", program, "0", "100"], stdout=subprocess.PIPE,  stderr=subprocess.PIPE)
     run_time = run_time.stderr.decode()
     user_time_run = re.search(r'(\d+\.\d+)user', run_time)
     system_time_run = re.search(r'(\d+\.\d+)system', run_time)

@@ -1,0 +1,6 @@
+# 3 Loops
+# 9 Recursive Calls
+A = LOOP(B C contains);
+B = IF(new LOOP(remove contains) D, CALL(new A remove contains));
+C = new CALL(new D LOOP(insert) contains) B;
+D = CALL(IF(CALL(A),CALL(B)) CALL(C));
