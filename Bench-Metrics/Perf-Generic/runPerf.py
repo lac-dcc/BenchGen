@@ -38,7 +38,7 @@ iTLB-load-misses"""
 
 def run_perf_stat(programs_dir, compiler, flags):
     os.makedirs('result', exist_ok=True)
-    with open('result/results.csv', 'w', newline='') as csvfile:
+    with open(f"result/results_{compiler}.csv", 'w', newline='') as csvfile:
         csv_writer = csv.writer(csvfile, delimiter=',')
         events_list = perf_events.strip().split('\n')
         csv_writer.writerow(["Program"] + events_list)
@@ -52,7 +52,7 @@ def run_perf_stat(programs_dir, compiler, flags):
                     print(f'Running {program}...')
                     perf_command = ["perf", "stat", "-o", "temp.txt", "-x,"]
                     perf_command += ["-e", ','.join(events_list), executable_path, "0", "150"]
-                    subprocess.run(perf_command, stdout=subprocess.DEVNULL)
+                    subprocess.run(perf_command)
                     with open('temp.txt', 'r') as perf_result:
                         perf_output = perf_result.read().strip()
                         perf_result_list = [program]
@@ -66,8 +66,8 @@ def run_perf_stat(programs_dir, compiler, flags):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Run perf stat over a set of programs.')
     parser.add_argument('programs_dir', help='Path to the set of programs.')
-    parser.add_argument('compiler', help='Compiler name or path.')
     parser.add_argument('-f', '--flags', nargs='*', help='Compiler Flags')
     args = parser.parse_args()
     flags = [f'-{flag}' for flag in args.flags] if args.flags else []
-    run_perf_stat(args.programs_dir, args.compiler, flags)
+    for compiler in ['gcc', 'clang']:
+        run_perf_stat(args.programs_dir, compiler, flags)
