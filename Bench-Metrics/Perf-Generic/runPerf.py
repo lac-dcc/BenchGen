@@ -61,7 +61,7 @@ def run_perf_stat(programs_dir, compiler, flags):
                                 perf_result_list.append(line.split(',')[0].strip())
                         csv_writer.writerow(perf_result_list)
                     os.remove('temp.txt')
-                    subprocess.run(["make", "-C", program_path, "clean"], stdout=subprocess.DEVNULL)
+                    subprocess.run(["make", "-C", program_path, "clean", f"CC={compiler}"], stdout=subprocess.DEVNULL)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Run perf stat over a set of programs.')
