@@ -51,7 +51,7 @@ def run_perf_stat(programs_dir, compiler, flags):
                 if os.path.exists(executable_path):
                     print(f'Running {program}...')
                     perf_command = ["perf", "stat", "-o", "temp.txt", "-x,"]
-                    perf_command += ["-e", ','.join(events_list), executable_path]
+                    perf_command += ["-e", ','.join(events_list), executable_path, "0", "150"]
                     subprocess.run(perf_command, stdout=subprocess.DEVNULL)
                     with open('temp.txt', 'r') as perf_result:
                         perf_output = perf_result.read().strip()
