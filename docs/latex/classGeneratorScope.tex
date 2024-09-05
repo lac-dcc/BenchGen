@@ -1,0 +1,203 @@
+\hypertarget{classGeneratorScope}{}\doxysection{Generator\+Scope Class Reference}
+\label{classGeneratorScope}\index{GeneratorScope@{GeneratorScope}}
+
+
+The \mbox{\hyperlink{classGeneratorScope}{Generator\+Scope}} class manages scopes in the generator.  
+
+
+
+
+{\ttfamily \#include $<$generator\+Scope.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classGeneratorScope_a48f77ea07a9d9f5d6c6d84ebf895ff5d}{Generator\+Scope}} (int identation=1)
+\begin{DoxyCompactList}\small\item\em Constructs a \mbox{\hyperlink{classGeneratorScope}{Generator\+Scope}} with an optional initial indentation level. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classGeneratorScope_a784dd4e38b784696edec93f97570b488}{Generator\+Scope}} (std\+::vector$<$ int $>$ parent\+Vars, std\+::vector$<$ int $>$ parent\+Params, int parent\+Indentation)
+\begin{DoxyCompactList}\small\item\em Constructs a \mbox{\hyperlink{classGeneratorScope}{Generator\+Scope}} based on a parent scope. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classGeneratorScope_aa630e1a983ff105e5ff30c8a5bbef064}{$\sim$\+Generator\+Scope}} ()
+\begin{DoxyCompactList}\small\item\em Destructor for the \mbox{\hyperlink{classGeneratorScope}{Generator\+Scope}} class. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classGeneratorScope_ae3ce195daac642202f5883515c236eae}{get\+Var\+Counter}} ()
+\begin{DoxyCompactList}\small\item\em Gets the number of available variables in the current scope. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classGeneratorScope_af9db4292c47f74158f80134bc15a89b6}{get\+Indentation}} ()
+\begin{DoxyCompactList}\small\item\em Retrieves the current indentation level. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{classGeneratorScope_a36f0117d1c40929cab40af0944351729}{get\+Indentation\+Tabs}} (int=0)
+\begin{DoxyCompactList}\small\item\em Generates a string of tabs for code indentation. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classGeneratorScope_aa556e693c1b917955b033700881fc21b}{add\+Var}} (int id)
+\begin{DoxyCompactList}\small\item\em Adds a variable ID to the current scope. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classGeneratorScope_aa6ca852bf1bc60638981056f510dc2d6}{add\+Param}} ()
+\begin{DoxyCompactList}\small\item\em Adds a new parameter ID to the current scope. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{classGeneratorScope_ac47f14a9582fbbb53cd4917a0efcd99b}{number\+Of\+Added\+Vars}}
+\item 
+std\+::vector$<$ int $>$ \mbox{\hyperlink{classGeneratorScope_a2302ef2d49c30a9e51b0d1f3494f13b1}{avaiable\+Vars\+ID}}
+\item 
+std\+::vector$<$ int $>$ \mbox{\hyperlink{classGeneratorScope_a098b83b9c2b12b8c19dfa9a7cf5f08b2}{avaiable\+Params\+ID}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The \mbox{\hyperlink{classGeneratorScope}{Generator\+Scope}} class manages scopes in the generator. 
+
+This class is responsible for handling the scope of variables and parameters, managing indentation levels, and tracking the number of variables added to the current scope. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classGeneratorScope_a48f77ea07a9d9f5d6c6d84ebf895ff5d}\label{classGeneratorScope_a48f77ea07a9d9f5d6c6d84ebf895ff5d}} 
+\index{GeneratorScope@{GeneratorScope}!GeneratorScope@{GeneratorScope}}
+\index{GeneratorScope@{GeneratorScope}!GeneratorScope@{GeneratorScope}}
+\doxysubsubsection{\texorpdfstring{GeneratorScope()}{GeneratorScope()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Generator\+Scope\+::\+Generator\+Scope (\begin{DoxyParamCaption}\item[{int}]{identation = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructs a \mbox{\hyperlink{classGeneratorScope}{Generator\+Scope}} with an optional initial indentation level. 
+
+Initializes a new scope with no variables or parameters and a specified level of indentation.
+
+
+\begin{DoxyParams}{Parameters}
+{\em identation} & The initial level of indentation (default is 1). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classGeneratorScope_a784dd4e38b784696edec93f97570b488}\label{classGeneratorScope_a784dd4e38b784696edec93f97570b488}} 
+\index{GeneratorScope@{GeneratorScope}!GeneratorScope@{GeneratorScope}}
+\index{GeneratorScope@{GeneratorScope}!GeneratorScope@{GeneratorScope}}
+\doxysubsubsection{\texorpdfstring{GeneratorScope()}{GeneratorScope()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Generator\+Scope\+::\+Generator\+Scope (\begin{DoxyParamCaption}\item[{std\+::vector$<$ int $>$}]{parent\+Vars,  }\item[{std\+::vector$<$ int $>$}]{parent\+Params,  }\item[{int}]{parent\+Indentation }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructs a \mbox{\hyperlink{classGeneratorScope}{Generator\+Scope}} based on a parent scope. 
+
+Initializes a new scope by inheriting variables, parameters, and indentation from a parent scope.
+
+
+\begin{DoxyParams}{Parameters}
+{\em parent\+Vars} & List of variable IDs from the parent scope. \\
+\hline
+{\em parent\+Params} & List of parameter IDs from the parent scope. \\
+\hline
+{\em parent\+Indentation} & The indentation level of the parent scope. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classGeneratorScope_aa630e1a983ff105e5ff30c8a5bbef064}\label{classGeneratorScope_aa630e1a983ff105e5ff30c8a5bbef064}} 
+\index{GeneratorScope@{GeneratorScope}!````~GeneratorScope@{$\sim$GeneratorScope}}
+\index{````~GeneratorScope@{$\sim$GeneratorScope}!GeneratorScope@{GeneratorScope}}
+\doxysubsubsection{\texorpdfstring{$\sim$GeneratorScope()}{~GeneratorScope()}}
+{\footnotesize\ttfamily Generator\+Scope\+::$\sim$\+Generator\+Scope (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Destructor for the \mbox{\hyperlink{classGeneratorScope}{Generator\+Scope}} class. 
+
+Currently, this destructor does not perform any special operations. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classGeneratorScope_aa6ca852bf1bc60638981056f510dc2d6}\label{classGeneratorScope_aa6ca852bf1bc60638981056f510dc2d6}} 
+\index{GeneratorScope@{GeneratorScope}!addParam@{addParam}}
+\index{addParam@{addParam}!GeneratorScope@{GeneratorScope}}
+\doxysubsubsection{\texorpdfstring{addParam()}{addParam()}}
+{\footnotesize\ttfamily int Generator\+Scope\+::add\+Param (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Adds a new parameter ID to the current scope. 
+
+Adds a new parameter by pushing the next available parameter ID to the list and returning its position.
+
+\begin{DoxyReturn}{Returns}
+The index of the newly added parameter. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classGeneratorScope_aa556e693c1b917955b033700881fc21b}\label{classGeneratorScope_aa556e693c1b917955b033700881fc21b}} 
+\index{GeneratorScope@{GeneratorScope}!addVar@{addVar}}
+\index{addVar@{addVar}!GeneratorScope@{GeneratorScope}}
+\doxysubsubsection{\texorpdfstring{addVar()}{addVar()}}
+{\footnotesize\ttfamily void Generator\+Scope\+::add\+Var (\begin{DoxyParamCaption}\item[{int}]{id }\end{DoxyParamCaption})}
+
+
+
+Adds a variable ID to the current scope. 
+
+Increases the count of added variables and stores the given variable ID in the list of available variable IDs.
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & The ID of the variable to add. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classGeneratorScope_af9db4292c47f74158f80134bc15a89b6}\label{classGeneratorScope_af9db4292c47f74158f80134bc15a89b6}} 
+\index{GeneratorScope@{GeneratorScope}!getIndentation@{getIndentation}}
+\index{getIndentation@{getIndentation}!GeneratorScope@{GeneratorScope}}
+\doxysubsubsection{\texorpdfstring{getIndentation()}{getIndentation()}}
+{\footnotesize\ttfamily int Generator\+Scope\+::get\+Indentation (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Retrieves the current indentation level. 
+
+\begin{DoxyReturn}{Returns}
+The current indentation level. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classGeneratorScope_a36f0117d1c40929cab40af0944351729}\label{classGeneratorScope_a36f0117d1c40929cab40af0944351729}} 
+\index{GeneratorScope@{GeneratorScope}!getIndentationTabs@{getIndentationTabs}}
+\index{getIndentationTabs@{getIndentationTabs}!GeneratorScope@{GeneratorScope}}
+\doxysubsubsection{\texorpdfstring{getIndentationTabs()}{getIndentationTabs()}}
+{\footnotesize\ttfamily std\+::string Generator\+Scope\+::get\+Indentation\+Tabs (\begin{DoxyParamCaption}\item[{int}]{d = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+
+
+Generates a string of tabs for code indentation. 
+
+This method creates a string containing tabs based on the current indentation level and an additional depth parameter.
+
+
+\begin{DoxyParams}{Parameters}
+{\em d} & Additional depth to add to the current indentation (default is 0). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A string of tabs representing the indentation. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classGeneratorScope_ae3ce195daac642202f5883515c236eae}\label{classGeneratorScope_ae3ce195daac642202f5883515c236eae}} 
+\index{GeneratorScope@{GeneratorScope}!getVarCounter@{getVarCounter}}
+\index{getVarCounter@{getVarCounter}!GeneratorScope@{GeneratorScope}}
+\doxysubsubsection{\texorpdfstring{getVarCounter()}{getVarCounter()}}
+{\footnotesize\ttfamily int Generator\+Scope\+::get\+Var\+Counter (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Gets the number of available variables in the current scope. 
+
+\begin{DoxyReturn}{Returns}
+The number of available variables. 
+\end{DoxyReturn}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classGeneratorScope_a098b83b9c2b12b8c19dfa9a7cf5f08b2}\label{classGeneratorScope_a098b83b9c2b12b8c19dfa9a7cf5f08b2}} 
+\index{GeneratorScope@{GeneratorScope}!avaiableParamsID@{avaiableParamsID}}
+\index{avaiableParamsID@{avaiableParamsID}!GeneratorScope@{GeneratorScope}}
+\doxysubsubsection{\texorpdfstring{avaiableParamsID}{avaiableParamsID}}
+{\footnotesize\ttfamily std\+::vector$<$int$>$ Generator\+Scope\+::avaiable\+Params\+ID}
+
+\mbox{\Hypertarget{classGeneratorScope_a2302ef2d49c30a9e51b0d1f3494f13b1}\label{classGeneratorScope_a2302ef2d49c30a9e51b0d1f3494f13b1}} 
+\index{GeneratorScope@{GeneratorScope}!avaiableVarsID@{avaiableVarsID}}
+\index{avaiableVarsID@{avaiableVarsID}!GeneratorScope@{GeneratorScope}}
+\doxysubsubsection{\texorpdfstring{avaiableVarsID}{avaiableVarsID}}
+{\footnotesize\ttfamily std\+::vector$<$int$>$ Generator\+Scope\+::avaiable\+Vars\+ID}
+
+\mbox{\Hypertarget{classGeneratorScope_ac47f14a9582fbbb53cd4917a0efcd99b}\label{classGeneratorScope_ac47f14a9582fbbb53cd4917a0efcd99b}} 
+\index{GeneratorScope@{GeneratorScope}!numberOfAddedVars@{numberOfAddedVars}}
+\index{numberOfAddedVars@{numberOfAddedVars}!GeneratorScope@{GeneratorScope}}
+\doxysubsubsection{\texorpdfstring{numberOfAddedVars}{numberOfAddedVars}}
+{\footnotesize\ttfamily int Generator\+Scope\+::number\+Of\+Added\+Vars}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/bruno/\+Documents/\+IC/\+Bench\+Gen/src/gen/generator/\mbox{\hyperlink{generatorScope_8h}{generator\+Scope.\+h}}\item 
+/home/bruno/\+Documents/\+IC/\+Bench\+Gen/src/gen/generator/\mbox{\hyperlink{generatorScope_8cpp}{generator\+Scope.\+cpp}}\end{DoxyCompactItemize}

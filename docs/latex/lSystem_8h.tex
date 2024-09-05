@@ -1,0 +1,44 @@
+\hypertarget{lSystem_8h}{}\doxysection{/home/bruno/\+Documents/\+IC/\+Bench\+Gen/src/gen/l\+System/l\+System.h File Reference}
+\label{lSystem_8h}\index{/home/bruno/Documents/IC/BenchGen/src/gen/lSystem/lSystem.h@{/home/bruno/Documents/IC/BenchGen/src/gen/lSystem/lSystem.h}}
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$list$>$}\newline
+{\ttfamily \#include $<$unordered\+\_\+map$>$}\newline
+{\ttfamily \#include \char`\"{}../generator/generator.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../shared/enums.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../shared/global\+Structs.\+h\char`\"{}}\newline
+Include dependency graph for l\+System.\+h\+:
+% FIG 0
+This graph shows which files directly or indirectly include this file\+:
+% FIG 1
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespacelSystem}{l\+System}}
+\begin{DoxyCompactList}\small\item\em The \mbox{\hyperlink{namespacelSystem}{l\+System}} namespace contains functions to apply L-\/system rules to sequences of tokens, including matching rules and applying production rules. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{lSystem_8h_a602388eae79b404d29f792b443af93d2}{PRODUCTION\+\_\+\+TOK}}~\mbox{\hyperlink{enums_8h_aa520fbf142ba1e7e659590c07da31921a7ab6a53757cfe2a0fc35ee646bd1cbeb}{TOK\+\_\+\+ID}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ \mbox{\hyperlink{structToken}{Token}} $>$ \mbox{\hyperlink{namespacelSystem_a8e790c302d06e99cee21b449065319f4}{l\+System\+::l\+System}} (int iterations, const std\+::vector$<$ \mbox{\hyperlink{structProductionRule}{Production\+Rule}} $>$ \&production\+Rules, const std\+::vector$<$ \mbox{\hyperlink{structToken}{Token}} $>$ \&input\+Tokens)
+\begin{DoxyCompactList}\small\item\em Applies L-\/system rules to generate a sequence of tokens. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{namespacelSystem_a9ae60c701b7cc49a5d316a8ec39f5fbe}{l\+System\+::match}} (std\+::string match, const std\+::vector$<$ \mbox{\hyperlink{structProductionRule}{Production\+Rule}} $>$ \&rules)
+\begin{DoxyCompactList}\small\item\em Matches a string to a production rule. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{namespacelSystem_ad9a9316944d05d4bcc667664a067328f}{l\+System\+::find\+Equal\+Call}} (const std\+::unordered\+\_\+map$<$ std\+::vector$<$ \mbox{\hyperlink{structToken}{Token}} $>$, int, \mbox{\hyperlink{structTokenVectorHash}{Token\+Vector\+Hash}}, \mbox{\hyperlink{structTokenVectorEqual}{Token\+Vector\+Equal}} $>$ \&call\+Map, const std\+::vector$<$ \mbox{\hyperlink{structToken}{Token}} $>$ \&call\+Tokens)
+\begin{DoxyCompactList}\small\item\em Finds an existing call ID for a given set of tokens, if one exists. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{namespacelSystem_af26d28ffafed03a06fcf26ce8e7805b1}{l\+System\+::apply\+Call\+Ids}} (std\+::list$<$ \mbox{\hyperlink{structToken}{Token}} $>$ \&output\+Tokens, int \&call\+Counter)
+\begin{DoxyCompactList}\small\item\em Applies call IDs to sequences of tokens representing function calls. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{namespacelSystem_a8695b6c5d1023f1f7d9a30daa4fef3f6}{l\+System\+::apply\+Production\+Rules}} (std\+::list$<$ \mbox{\hyperlink{structToken}{Token}} $>$ \&output\+Tokens, const std\+::vector$<$ \mbox{\hyperlink{structProductionRule}{Production\+Rule}} $>$ \&production\+Rules)
+\begin{DoxyCompactList}\small\item\em Applies production rules to the output tokens. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{lSystem_8h_a602388eae79b404d29f792b443af93d2}\label{lSystem_8h_a602388eae79b404d29f792b443af93d2}} 
+\index{lSystem.h@{lSystem.h}!PRODUCTION\_TOK@{PRODUCTION\_TOK}}
+\index{PRODUCTION\_TOK@{PRODUCTION\_TOK}!lSystem.h@{lSystem.h}}
+\doxysubsubsection{\texorpdfstring{PRODUCTION\_TOK}{PRODUCTION\_TOK}}
+{\footnotesize\ttfamily \#define PRODUCTION\+\_\+\+TOK~\mbox{\hyperlink{enums_8h_aa520fbf142ba1e7e659590c07da31921a7ab6a53757cfe2a0fc35ee646bd1cbeb}{TOK\+\_\+\+ID}}}
+

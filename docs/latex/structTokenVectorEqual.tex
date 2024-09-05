@@ -1,0 +1,49 @@
+\hypertarget{structTokenVectorEqual}{}\doxysection{Token\+Vector\+Equal Struct Reference}
+\label{structTokenVectorEqual}\index{TokenVectorEqual@{TokenVectorEqual}}
+
+
+Equality comparison object for vectors of Tokens.  
+
+
+
+
+{\ttfamily \#include $<$global\+Structs.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{structTokenVectorEqual_a719bb06aee8a1d7d0f29dae53f7f3ef4}{operator()}} (const std\+::vector$<$ \mbox{\hyperlink{structToken}{Token}} $>$ \&t1, const std\+::vector$<$ \mbox{\hyperlink{structToken}{Token}} $>$ \&t2) const
+\begin{DoxyCompactList}\small\item\em Compares two vectors of Tokens for equality. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Equality comparison object for vectors of Tokens. 
+
+This structure provides a custom equality function for use in unordered containers such as std\+::unordered\+\_\+map or std\+::unordered\+\_\+set, where vectors of tokens are keys. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{structTokenVectorEqual_a719bb06aee8a1d7d0f29dae53f7f3ef4}\label{structTokenVectorEqual_a719bb06aee8a1d7d0f29dae53f7f3ef4}} 
+\index{TokenVectorEqual@{TokenVectorEqual}!operator()@{operator()}}
+\index{operator()@{operator()}!TokenVectorEqual@{TokenVectorEqual}}
+\doxysubsubsection{\texorpdfstring{operator()()}{operator()()}}
+{\footnotesize\ttfamily bool Token\+Vector\+Equal\+::operator() (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ \mbox{\hyperlink{structToken}{Token}} $>$ \&}]{t1,  }\item[{const std\+::vector$<$ \mbox{\hyperlink{structToken}{Token}} $>$ \&}]{t2 }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Compares two vectors of Tokens for equality. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em t1} & The first vector of Tokens. \\
+\hline
+{\em t2} & The second vector of Tokens. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if both vectors contain the same tokens in the same order, otherwise false. 
+\end{DoxyReturn}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/bruno/\+Documents/\+IC/\+Bench\+Gen/src/gen/shared/\mbox{\hyperlink{globalStructs_8h}{global\+Structs.\+h}}\end{DoxyCompactItemize}

@@ -1,0 +1,38 @@
+digraph "Node"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="Node",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Base class for all nodes in the abstract syntax tree (AST)."];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="Call",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classCall.html",tooltip="Represents a function call in the AST."];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="CodeElse",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classCodeElse.html",tooltip="Represents an else clause with a code block in the AST."];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node4 [label="Contains",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classContains.html",tooltip="Represents a contains operation in the AST."];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node5 [label="Id",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classId.html",tooltip="Represents an identifier in the AST."];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node6 [label="If",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classIf.html",tooltip="Represents an if statement in the AST."];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node7 [label="IfParam",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classIfParam.html",tooltip="Represents the parameters of an if statement in the AST."];
+  Node1 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node8 [label="Insert",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classInsert.html",tooltip="Represents an insert operation in the AST."];
+  Node1 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node9 [label="LambdaCode",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classLambdaCode.html",tooltip="Represents a lambda expression in the AST."];
+  Node1 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node10 [label="Loop",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classLoop.html",tooltip="Represents a loop in the AST."];
+  Node1 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node11 [label="New",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classNew.html",tooltip="Represents a new variable creation in the AST."];
+  Node1 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node12 [label="NoCodeElse",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classNoCodeElse.html",tooltip="Represents an else clause with no code block in the AST."];
+  Node1 -> Node13 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node13 [label="NoParamIf",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classNoParamIf.html",tooltip="Represents an if statement with no parameters in the AST."];
+  Node1 -> Node14 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node14 [label="Remove",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classRemove.html",tooltip="Represents a remove operation in the AST."];
+  Node1 -> Node15 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node15 [label="Seq",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classSeq.html",tooltip="Represents a sequence of operations in the AST."];
+  Node1 -> Node16 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node16 [label="StatementCode",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classStatementCode.html",tooltip="Represents a block of statements in the AST."];
+}

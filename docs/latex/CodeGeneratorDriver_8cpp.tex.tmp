@@ -1,0 +1,62 @@
+\hypertarget{CodeGeneratorDriver_8cpp}{}\doxysection{/home/bruno/\+Documents/\+IC/\+Bench\+Gen/src/gen/\+Code\+Generator\+Driver.cpp File Reference}
+\label{CodeGeneratorDriver_8cpp}\index{/home/bruno/Documents/IC/BenchGen/src/gen/CodeGeneratorDriver.cpp@{/home/bruno/Documents/IC/BenchGen/src/gen/CodeGeneratorDriver.cpp}}
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include \char`\"{}l\+System/l\+System.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}lexer/lexer.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}parser/parser.\+h\char`\"{}}\newline
+Include dependency graph for Code\+Generator\+Driver.\+cpp\+:
+% FIG 0
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{CodeGeneratorDriver_8cpp_aaa88f4e610934ea4cc30b4d767febd9a}{tokenize\+Input}} (std\+::vector$<$ \mbox{\hyperlink{structToken}{Token}} $>$ \&input\+Tokens, \mbox{\hyperlink{classLexer}{Lexer}} \&lexer, const std\+::string \&input\+File)
+\item 
+void \mbox{\hyperlink{CodeGeneratorDriver_8cpp_adf4e081ae08c5db11f0ff29bc9881fe8}{apply\+LSystem}} (std\+::vector$<$ \mbox{\hyperlink{structToken}{Token}} $>$ \&input\+Tokens, \mbox{\hyperlink{classLexer}{Lexer}} \&lexer, int iterations, const std\+::string \&production\+Rules\+File)
+\item 
+std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classNode}{Node}} $>$ \mbox{\hyperlink{CodeGeneratorDriver_8cpp_a408460954856854f57fae7e2862eaf23}{parse\+Tokens\+To\+AST}} (\mbox{\hyperlink{classParser}{Parser}} \&parser, const std\+::vector$<$ \mbox{\hyperlink{structToken}{Token}} $>$ \&token\+Sequence)
+\item 
+void \mbox{\hyperlink{CodeGeneratorDriver_8cpp_a8d9acc3dc8d71bbe49217b320d092ab3}{generate\+Code}} (\mbox{\hyperlink{classGenerator}{Generator}} \&generator, std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classNode}{Node}} $>$ \&AST)
+\item 
+void \mbox{\hyperlink{CodeGeneratorDriver_8cpp_a8ebf15ae00afc7bb14d5f86147dd973f}{generate\+Files}} (\mbox{\hyperlink{classGenerator}{Generator}} \&generator, std\+::string bench\+\_\+name)
+\item 
+int \mbox{\hyperlink{CodeGeneratorDriver_8cpp_abf9e6b7e6f15df4b525a2e7705ba3089}{main}} (int argc, char const $\ast$argv\mbox{[}$\,$\mbox{]})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{CodeGeneratorDriver_8cpp_adf4e081ae08c5db11f0ff29bc9881fe8}\label{CodeGeneratorDriver_8cpp_adf4e081ae08c5db11f0ff29bc9881fe8}} 
+\index{CodeGeneratorDriver.cpp@{CodeGeneratorDriver.cpp}!applyLSystem@{applyLSystem}}
+\index{applyLSystem@{applyLSystem}!CodeGeneratorDriver.cpp@{CodeGeneratorDriver.cpp}}
+\doxysubsubsection{\texorpdfstring{applyLSystem()}{applyLSystem()}}
+{\footnotesize\ttfamily void apply\+LSystem (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{structToken}{Token}} $>$ \&}]{input\+Tokens,  }\item[{\mbox{\hyperlink{classLexer}{Lexer}} \&}]{lexer,  }\item[{int}]{iterations,  }\item[{const std\+::string \&}]{production\+Rules\+File }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{CodeGeneratorDriver_8cpp_a8d9acc3dc8d71bbe49217b320d092ab3}\label{CodeGeneratorDriver_8cpp_a8d9acc3dc8d71bbe49217b320d092ab3}} 
+\index{CodeGeneratorDriver.cpp@{CodeGeneratorDriver.cpp}!generateCode@{generateCode}}
+\index{generateCode@{generateCode}!CodeGeneratorDriver.cpp@{CodeGeneratorDriver.cpp}}
+\doxysubsubsection{\texorpdfstring{generateCode()}{generateCode()}}
+{\footnotesize\ttfamily void generate\+Code (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classGenerator}{Generator}} \&}]{generator,  }\item[{std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classNode}{Node}} $>$ \&}]{AST }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{CodeGeneratorDriver_8cpp_a8ebf15ae00afc7bb14d5f86147dd973f}\label{CodeGeneratorDriver_8cpp_a8ebf15ae00afc7bb14d5f86147dd973f}} 
+\index{CodeGeneratorDriver.cpp@{CodeGeneratorDriver.cpp}!generateFiles@{generateFiles}}
+\index{generateFiles@{generateFiles}!CodeGeneratorDriver.cpp@{CodeGeneratorDriver.cpp}}
+\doxysubsubsection{\texorpdfstring{generateFiles()}{generateFiles()}}
+{\footnotesize\ttfamily void generate\+Files (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classGenerator}{Generator}} \&}]{generator,  }\item[{std\+::string}]{bench\+\_\+name }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{CodeGeneratorDriver_8cpp_abf9e6b7e6f15df4b525a2e7705ba3089}\label{CodeGeneratorDriver_8cpp_abf9e6b7e6f15df4b525a2e7705ba3089}} 
+\index{CodeGeneratorDriver.cpp@{CodeGeneratorDriver.cpp}!main@{main}}
+\index{main@{main}!CodeGeneratorDriver.cpp@{CodeGeneratorDriver.cpp}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char const $\ast$}]{argv\mbox{[}$\,$\mbox{]} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{CodeGeneratorDriver_8cpp_a408460954856854f57fae7e2862eaf23}\label{CodeGeneratorDriver_8cpp_a408460954856854f57fae7e2862eaf23}} 
+\index{CodeGeneratorDriver.cpp@{CodeGeneratorDriver.cpp}!parseTokensToAST@{parseTokensToAST}}
+\index{parseTokensToAST@{parseTokensToAST}!CodeGeneratorDriver.cpp@{CodeGeneratorDriver.cpp}}
+\doxysubsubsection{\texorpdfstring{parseTokensToAST()}{parseTokensToAST()}}
+{\footnotesize\ttfamily std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classNode}{Node}} $>$ parse\+Tokens\+To\+AST (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classParser}{Parser}} \&}]{parser,  }\item[{const std\+::vector$<$ \mbox{\hyperlink{structToken}{Token}} $>$ \&}]{token\+Sequence }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{CodeGeneratorDriver_8cpp_aaa88f4e610934ea4cc30b4d767febd9a}\label{CodeGeneratorDriver_8cpp_aaa88f4e610934ea4cc30b4d767febd9a}} 
+\index{CodeGeneratorDriver.cpp@{CodeGeneratorDriver.cpp}!tokenizeInput@{tokenizeInput}}
+\index{tokenizeInput@{tokenizeInput}!CodeGeneratorDriver.cpp@{CodeGeneratorDriver.cpp}}
+\doxysubsubsection{\texorpdfstring{tokenizeInput()}{tokenizeInput()}}
+{\footnotesize\ttfamily void tokenize\+Input (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{structToken}{Token}} $>$ \&}]{input\+Tokens,  }\item[{\mbox{\hyperlink{classLexer}{Lexer}} \&}]{lexer,  }\item[{const std\+::string \&}]{input\+File }\end{DoxyParamCaption})}
+

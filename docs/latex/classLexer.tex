@@ -1,0 +1,99 @@
+\hypertarget{classLexer}{}\doxysection{Lexer Class Reference}
+\label{classLexer}\index{Lexer@{Lexer}}
+
+
+The \mbox{\hyperlink{classLexer}{Lexer}} class is responsible for reading input, applying lexer rules, and generating tokens from the input.  
+
+
+
+
+{\ttfamily \#include $<$lexer.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classLexer_a2752a2b16cc1ffbcb8fc3e82e95bf331}{Lexer}} ()
+\begin{DoxyCompactList}\small\item\em Constructs a \mbox{\hyperlink{classLexer}{Lexer}} object and loads the configuration rules. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classLexer_afe3589775612d8f22f7855727b5b483a}{load\+Configuration}} ()
+\begin{DoxyCompactList}\small\item\em Loads lexer configuration rules. \end{DoxyCompactList}\item 
+std\+::vector$<$ \mbox{\hyperlink{structToken}{Token}} $>$ \mbox{\hyperlink{classLexer_ac88a93f87a3ca91ef6a53cefaa980f9a}{get\+Tokens}} (std\+::string file\+Name)
+\begin{DoxyCompactList}\small\item\em Gets the tokens from a given file. \end{DoxyCompactList}\item 
+std\+::vector$<$ \mbox{\hyperlink{structProductionRule}{Production\+Rule}} $>$ \mbox{\hyperlink{classLexer_afd212967afe5cec638318df193b37b07}{get\+Production\+Rules}} (std\+::string file\+Name)
+\begin{DoxyCompactList}\small\item\em Extracts production rules from a given file. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The \mbox{\hyperlink{classLexer}{Lexer}} class is responsible for reading input, applying lexer rules, and generating tokens from the input. 
+
+The \mbox{\hyperlink{classLexer}{Lexer}} class provides methods to load configuration rules, tokenize input strings, and generate production rules from files. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classLexer_a2752a2b16cc1ffbcb8fc3e82e95bf331}\label{classLexer_a2752a2b16cc1ffbcb8fc3e82e95bf331}} 
+\index{Lexer@{Lexer}!Lexer@{Lexer}}
+\index{Lexer@{Lexer}!Lexer@{Lexer}}
+\doxysubsubsection{\texorpdfstring{Lexer()}{Lexer()}}
+{\footnotesize\ttfamily Lexer\+::\+Lexer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Constructs a \mbox{\hyperlink{classLexer}{Lexer}} object and loads the configuration rules. 
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classLexer_afd212967afe5cec638318df193b37b07}\label{classLexer_afd212967afe5cec638318df193b37b07}} 
+\index{Lexer@{Lexer}!getProductionRules@{getProductionRules}}
+\index{getProductionRules@{getProductionRules}!Lexer@{Lexer}}
+\doxysubsubsection{\texorpdfstring{getProductionRules()}{getProductionRules()}}
+{\footnotesize\ttfamily std\+::vector$<$ \mbox{\hyperlink{structProductionRule}{Production\+Rule}} $>$ Lexer\+::get\+Production\+Rules (\begin{DoxyParamCaption}\item[{std\+::string}]{file\+Name }\end{DoxyParamCaption})}
+
+
+
+Extracts production rules from a given file. 
+
+Reads a file, tokenizes its content, and extracts production rules defined in the file.
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\+Name} & The path to the file containing production rules. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A vector of Production\+Rules extracted from the file. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classLexer_ac88a93f87a3ca91ef6a53cefaa980f9a}\label{classLexer_ac88a93f87a3ca91ef6a53cefaa980f9a}} 
+\index{Lexer@{Lexer}!getTokens@{getTokens}}
+\index{getTokens@{getTokens}!Lexer@{Lexer}}
+\doxysubsubsection{\texorpdfstring{getTokens()}{getTokens()}}
+{\footnotesize\ttfamily std\+::vector$<$ \mbox{\hyperlink{structToken}{Token}} $>$ Lexer\+::get\+Tokens (\begin{DoxyParamCaption}\item[{std\+::string}]{file\+Name }\end{DoxyParamCaption})}
+
+
+
+Gets the tokens from a given file. 
+
+Reads the content of a file and tokenizes each line to generate a vector of tokens.
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\+Name} & The path to the file from which tokens are to be generated. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A vector of Tokens extracted from the file. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classLexer_afe3589775612d8f22f7855727b5b483a}\label{classLexer_afe3589775612d8f22f7855727b5b483a}} 
+\index{Lexer@{Lexer}!loadConfiguration@{loadConfiguration}}
+\index{loadConfiguration@{loadConfiguration}!Lexer@{Lexer}}
+\doxysubsubsection{\texorpdfstring{loadConfiguration()}{loadConfiguration()}}
+{\footnotesize\ttfamily void Lexer\+::load\+Configuration (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Loads lexer configuration rules. 
+
+Initializes the lexer rules with predefined types and regular expressions that will be used for tokenizing input. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/bruno/\+Documents/\+IC/\+Bench\+Gen/src/gen/lexer/\mbox{\hyperlink{lexer_8h}{lexer.\+h}}\item 
+/home/bruno/\+Documents/\+IC/\+Bench\+Gen/src/gen/lexer/\mbox{\hyperlink{lexer_8cpp}{lexer.\+cpp}}\end{DoxyCompactItemize}

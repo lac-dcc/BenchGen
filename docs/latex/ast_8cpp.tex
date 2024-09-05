@@ -1,0 +1,52 @@
+\hypertarget{ast_8cpp}{}\doxysection{/home/bruno/\+Documents/\+IC/\+Bench\+Gen/src/gen/ast/ast.cpp File Reference}
+\label{ast_8cpp}\index{/home/bruno/Documents/IC/BenchGen/src/gen/ast/ast.cpp@{/home/bruno/Documents/IC/BenchGen/src/gen/ast/ast.cpp}}
+{\ttfamily \#include \char`\"{}ast.\+h\char`\"{}}\newline
+Include dependency graph for ast.\+cpp\+:
+% FIG 0
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{ast_8cpp_af12984b6a0989c6d6f10ae4945014a2e}{print\+Indentation\+Spaces}} (int indent)
+\begin{DoxyCompactList}\small\item\em Prints a specified number of indentation spaces. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{ast_8cpp_ab44b775fa3c3f1c1fee7e02c98ed08cf}{generate\+If\+Condition}} (\mbox{\hyperlink{classGenerator}{Generator}} \&generator)
+\begin{DoxyCompactList}\small\item\em Generates a condition string for an if statement. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{ast_8cpp_ab44b775fa3c3f1c1fee7e02c98ed08cf}\label{ast_8cpp_ab44b775fa3c3f1c1fee7e02c98ed08cf}} 
+\index{ast.cpp@{ast.cpp}!generateIfCondition@{generateIfCondition}}
+\index{generateIfCondition@{generateIfCondition}!ast.cpp@{ast.cpp}}
+\doxysubsubsection{\texorpdfstring{generateIfCondition()}{generateIfCondition()}}
+{\footnotesize\ttfamily std\+::string generate\+If\+Condition (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classGenerator}{Generator}} \&}]{generator }\end{DoxyParamCaption})}
+
+
+
+Generates a condition string for an if statement. 
+
+Generates a condition based on the generator\textquotesingle{}s current context, either returning a random condition or a condition based on PATH variables.
+
+
+\begin{DoxyParams}{Parameters}
+{\em generator} & The generator object used to track the current state of code generation. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A string representing the generated condition. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{ast_8cpp_af12984b6a0989c6d6f10ae4945014a2e}\label{ast_8cpp_af12984b6a0989c6d6f10ae4945014a2e}} 
+\index{ast.cpp@{ast.cpp}!printIndentationSpaces@{printIndentationSpaces}}
+\index{printIndentationSpaces@{printIndentationSpaces}!ast.cpp@{ast.cpp}}
+\doxysubsubsection{\texorpdfstring{printIndentationSpaces()}{printIndentationSpaces()}}
+{\footnotesize\ttfamily void print\+Indentation\+Spaces (\begin{DoxyParamCaption}\item[{int}]{indent }\end{DoxyParamCaption})}
+
+
+
+Prints a specified number of indentation spaces. 
+
+Used for formatting output to visualize the structure of the AST.
+
+
+\begin{DoxyParams}{Parameters}
+{\em indent} & The number of spaces to print. \\
+\hline
+\end{DoxyParams}
