@@ -141,3 +141,45 @@ std::vector<std::string> Array::genParams(std::string paramName, std::vector<Gen
 
 Array::~Array() {
 }
+
+
+std::vector<std::string> GeneratorSortedList::new_(bool inFunction = false){
+
+}
+
+std::vector<std::string> GeneratorSortedList::insert(){
+    std::list<std::string> tmp = {};
+
+    
+}
+
+std::vector<std::string> GeneratorSortedList::remove(){
+
+}
+
+std::vector<std::string> GeneratorSortedList::contains(bool shouldReturn = false){
+    
+    int compare = rand() % 100;  // Random value to compare against
+    std::list<std::string> tmp = {};
+
+    tmp.push_back("for(int i = 0; i < " + this->name  + ".size; i++)");
+    tmp.push_back(" if(" + this->name + ".data[i] == " + std::to_string(compare) + ") {");
+    shouldReturn  = true;
+    tmp.push_back("     return " + std::to_string(shouldReturn) + ")");
+}
+
+std::vector<std::string> GeneratorSortedList::free(){
+
+}
+
+std::vector<std::string> GeneratorSortedList::genIncludes(){
+
+}
+
+std::vector<std::string> GeneratorSortedList::genGlobalVars(){
+
+}
+
+std::vector<std::string> GeneratorSortedList::genParams(std::string paramName, std::vector<GeneratorVariable*> varsParams){
+
+}
