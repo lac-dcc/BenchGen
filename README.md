@@ -1,6 +1,70 @@
 # BenchGen
 
+## Introduction
+The BenchGen project aims to synthesize programs that are sufficiently expressive to stress-test computing systems, such as operating systems, compiler optimizations, memory allocation libraries and even computer architectures.
+BenchGen implements an **L-System** to generate programs from a seed string and a set of production rules, enabling the creation of large programs through iterative expansion of the L-System. Additionally, our goal is for BenchGen to generate programs that are as similar as possible to widely used benchmarks, such as SPEC CPU 2017 and the LLVM Test Suite.
+The program generator is entirely written in C++.
 
-The goal of this project is to synthesize programs that are sufficiently expressive to stress-test computing systems, such as operating systems, compiler optimizations, memory allocation libraries and even computer architectures.
+BenchGen project is financed by FAPEMIG and sponsored by Google.
 
-Code components of BenchGen can be found in the `src` folder, each documented in their own directories.
+## Structure
+There are two main directories in the project, `src` and `Bench-Metrics`: 
+
+[src](./src/): code components of BenchGen can be found in the `src` folder, each documented in their own directories. \
+[Bench-Metrics](./Bench-Metrics): the Benchmark Metrics is a part of the project that collects metrics from benchmarks.
+
+## Generating a Program
+
+### Building BenchGen
+After cloning the repository, you can easily build the project by running the `make` command in the `src/gen` directory. Notice that CLANG++ is used as the default compiler.
+```bash
+git clone https://github.com/lac-dcc/BenchGen.git
+cd src/gen
+make
+```
+
+### Creating the Rules
+To generate a program, you will need to create a file containing the production rules and a file containing the seed string to be used by the L-System.
+You can find a set of examples in the directory `src/gen`. An example of production rules and seed string is:
+
+**Production Rule**: 
+```txt
+A = IF(A, new new new);
+```
+
+**Seed String**: 
+```txt
+new CALL(new LOOP(A) new new new) contains
+```
+### Running BenchGen
+To run BenchGen, you need to provide the following five parameters:
+
+1. **Number of Iterations**
+2. **Production Rules** (file containing the production rules)
+3. **Seed String File** (file containing the seed string)
+4. **Program Name**
+5. **Variable Type**. (`array` or `scalar`)
+   
+An example of usage is:
+``` bash
+./benchGen 1 productionRule.txt seedString.txt myProgram array
+```
+After that, a program will be generated with the following structure:
+
+```
+myProgram/
+├── Makefile
+└── src
+    ├── func0.c
+    ├── func1.c
+    ├── func2.c
+    ├── func3.c
+    ├── func4.c
+    ├── rng.c
+    ├── myProgram.c
+    └── myProgram.h
+```
+
+## Acknowledgements
+
+The BenchGen project is financed by **FAPEMIG** and sponsored by **Google**. We appreciate their support and contributions to the development of this project.
