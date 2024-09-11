@@ -2,7 +2,7 @@
 
 ## Introduction
 The BenchGen project aims to synthesize programs that are sufficiently expressive to stress-test computing systems, such as operating systems, compiler optimizations, memory allocation libraries and even computer architectures.
-BenchGen implements an **L-System** to generate programs from a seed string and a set of production rules, enabling the creation of large programs through iterative expansion of the L-System. Additionally, our goal is for BenchGen to generate programs that are as similar as possible to widely used benchmarks, such as SPEC CPU 2017 and the LLVM Test Suite.
+BenchGen implements an [L-System](https://en.wikipedia.org/wiki/L-system) to generate programs from a seed string and a set of production rules, enabling the creation of large programs through iterative expansion of the L-System. Additionally, our goal is for BenchGen to generate programs that are as similar as possible to widely used benchmarks, such as SPEC CPU 2017 and the LLVM Test Suite.
 The program generator is entirely written in C++.
 
 BenchGen project is financed by FAPEMIG and sponsored by Google.
@@ -16,7 +16,7 @@ There are two main directories in the project, `src` and `Bench-Metrics`:
 ## Generating a Program
 
 ### Building BenchGen
-After cloning the repository, you can easily build the project by running the `make` command in the `src/gen` directory. Notice that CLANG++ is used as the default compiler.
+After cloning the repository, you can build the project by running the `make` command in the `src/gen` directory. Notice that CLANG++ is used as the default compiler.
 ```bash
 git clone https://github.com/lac-dcc/BenchGen.git
 cd src/gen
@@ -24,7 +24,7 @@ make
 ```
 
 ### Creating the Rules
-To generate a program, you will need to create a file containing the production rules and a file containing the seed string to be used by the L-System.
+To generate a program, you will need to create a file containing the [production rules](https://en.wikipedia.org/wiki/Production_(computer_science)) and a file containing the seed string to be used by the L-System.
 You can find a set of examples in the directory `src/gen`. An example of production rules and seed string is:
 
 **Production Rule**: 
@@ -49,7 +49,7 @@ An example of usage is:
 ``` bash
 ./benchGen 1 productionRule.txt seedString.txt myProgram array
 ```
-After that, a program will be generated with the following structure:
+After that, BenchGen will generate a program with the following structure:
 
 ```
 myProgram/
@@ -67,4 +67,4 @@ myProgram/
 
 ## Acknowledgements
 
-The BenchGen project is financed by **FAPEMIG** and sponsored by **Google**. We appreciate their support and contributions to the development of this project.
+The BenchGen project is financed by [FAPEMIG](http://www.fapemig.br/pt/) and Google. We appreciate their support and contributions to the development of this project.
