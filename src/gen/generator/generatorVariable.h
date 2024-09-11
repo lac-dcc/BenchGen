@@ -105,13 +105,13 @@ class GeneratorVariable {
 };
 
 
-class GeneratorSortedList : public GeneratorVariable {
+
+class GeneratorSortedList : public GeneratorVariable{
     public:
-        int totalSize;
 
     GeneratorSortedList() {};
 
-    GeneratorSortedList(int totalSize, int id);
+    GeneratorSortedList(int id);
 
     ~GeneratorSortedList();
 
@@ -123,7 +123,8 @@ class GeneratorSortedList : public GeneratorVariable {
     std::vector<std::string> genIncludes() override;
     std::vector<std::string> genGlobalVars() override;
     std::vector<std::string> genParams(std::string paramName, std::vector<GeneratorVariable*> varsParams) override;
-}
+
+};
 
 /**
  * @brief Class representing an array variable.
@@ -171,6 +172,8 @@ class Array : public GeneratorVariable {
  */
 class VariableFactory {
    public:
+    static unsigned int var_counter;
+
     /**
      * @brief Creates a GeneratorVariable of the specified type.
      *
