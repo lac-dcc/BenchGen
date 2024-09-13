@@ -75,7 +75,7 @@ void Generator::startScope() {
 
 void Generator::startFunc(int funcId, int nParameters) {
     GeneratorFunction func = GeneratorFunction(funcId);
-    std::string funcHeader = VariableFactory::genTypeString(varType) + "* func" + std::to_string(funcId) + "(" + VariableFactory::genTypeString(varType) + "Param* vars, ";
+    std::string funcHeader = VariableFactory::genTypeString(varType) + "* func" + std::to_string(funcId) + "(" + VariableFactory::genTypeString(varType) + "_param* vars, ";
     for (int i = 0; i < nParameters; i++) {
         funcHeader += "const unsigned long PATH" + std::to_string(i) + ", ";
     }
