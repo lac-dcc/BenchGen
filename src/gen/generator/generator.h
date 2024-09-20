@@ -67,7 +67,7 @@ class Generator {
      * @param dir The directory where the Makefile should be created.
      * @param target The target executable name.
      */
-    void genMakefile(std::string dir, std::string target, std::string target_type);
+    void genMakefile(std::string dir, std::string target);
 
    public:
     GeneratorFunction mainFunction;                  // Main function for the generated program
@@ -203,7 +203,7 @@ class Generator {
      *
      * @param benchmarkName The name of the benchmark to generate files for.
      */
-    void generateFiles(std::string, std::string);
+    void generateFiles(std::string);
 };
 
 #endif
