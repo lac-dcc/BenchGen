@@ -2,17 +2,6 @@
 
 unsigned int VariableFactory::var_counter = 0;
 
-GeneratorVariable* VariableFactory::createVariable(std::string type, int identifier) {
-    if (type == VarTypes::ARRAY) {
-        int size = rand() % 1000;  // Random size for the array
-        return new GeneratorArray(size, identifier);
-    } else if (type == VarTypes::SORTEDLIST) {
-        return new GeneratorSortedList(identifier);
-    }
-    // TODO: Error Handling
-    return nullptr;
-}
-
 std::string VariableFactory::genTypeString(std::string type) {
     GeneratorVariable* var = createVariable(type, 0);
     std::string typeString = var->typeString;
