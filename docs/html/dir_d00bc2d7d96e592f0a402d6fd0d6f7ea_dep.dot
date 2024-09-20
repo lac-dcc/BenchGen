@@ -1,0 +1,11 @@
+digraph "/home/bruno/Documents/IC/BenchGen/src/gen/lexer" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_8f4776c0a463d1ee0804df2637941998 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="gen" fontname="Helvetica", fontsize="10", URL="dir_8f4776c0a463d1ee0804df2637941998.html"]
+  dir_24557070e25569301ed3ff56f5b731ef [shape=box label="shared" URL="dir_24557070e25569301ed3ff56f5b731ef.html"];
+  dir_d00bc2d7d96e592f0a402d6fd0d6f7ea [shape=box, label="lexer", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_d00bc2d7d96e592f0a402d6fd0d6f7ea.html"];
+  }
+  dir_d00bc2d7d96e592f0a402d6fd0d6f7ea->dir_24557070e25569301ed3ff56f5b731ef [headlabel="2", labeldistance=1.5 headhref="dir_000004_000007.html"];
+}

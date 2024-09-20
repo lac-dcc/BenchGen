@@ -1,0 +1,369 @@
+\hypertarget{classGenerator}{}\doxysection{Generator Class Reference}
+\label{classGenerator}\index{Generator@{Generator}}
+
+
+The \mbox{\hyperlink{classGenerator}{Generator}} class handles the generation of code and files for benchmarks.  
+
+
+
+
+{\ttfamily \#include $<$generator.\+h$>$}
+
+
+
+Collaboration diagram for Generator\+:
+% FIG 0
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classGenerator_a2d1c204d02c3c3e000e870758e8b40b5}{Generator}} (std\+::string variable\+Type)
+\begin{DoxyCompactList}\small\item\em Constructs a \mbox{\hyperlink{classGenerator}{Generator}} object with a specified variable type. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classGenerator_acc85fbe22690003267ba899bacf777d1}{$\sim$\+Generator}} ()
+\begin{DoxyCompactList}\small\item\em Destructor for the \mbox{\hyperlink{classGenerator}{Generator}} class. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classGenerator_a2bd8c5ad46d91923eaadf326a4d348ee}{add\+Line}} (std\+::string, int=0)
+\begin{DoxyCompactList}\small\item\em Adds a line of code to the current function with optional indentation. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classGenerator_a9258a283506ea58d1ee52c8e7fe16775}{add\+Line}} (std\+::vector$<$ std\+::string $>$, int=0)
+\begin{DoxyCompactList}\small\item\em Adds multiple lines of code to the current function with optional indentation. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classGenerator_a518129dac59a52b195b666bb15c2c3c5}{start\+Scope}} ()
+\begin{DoxyCompactList}\small\item\em Starts a new scope for variable declarations. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classGenerator_ae23df309fb6c74441f5b054e8368180f}{start\+Func}} (int, int)
+\begin{DoxyCompactList}\small\item\em Starts the definition of a new function. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classGenerator_a3e83eefd33040973b44e3e96901e0353}{function\+Exists}} (int)
+\begin{DoxyCompactList}\small\item\em Checks if a function with a given ID already exists. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classGenerator_af1a3b958599cb38d0dcd0f620e5a4cf5}{call\+Func}} (int, int)
+\begin{DoxyCompactList}\small\item\em Calls a function with the specified ID and parameters. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classGenerator_a3ddf4df7e603baa56607f3cbefecda6f}{add\+Var}} (std\+::string)
+\begin{DoxyCompactList}\small\item\em Adds a new variable of the specified type to the current scope. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classGenerator_af576c36b6e58b55322a0d3ac7c3712b1}{free\+Vars}} (bool=false, int=0)
+\begin{DoxyCompactList}\small\item\em Frees variables in the current scope. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classGenerator_ac75a69518db1e431662b1e891d455942}{return\+Func}} (int)
+\begin{DoxyCompactList}\small\item\em Returns a value from a function. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classGenerator_ac873bbde78af069271060d1a7ef2b6de}{end\+Scope}} ()
+\begin{DoxyCompactList}\small\item\em Ends the current scope. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classGenerator_ac2dcabf409a700b0f1b2618b50682a25}{end\+Func}} ()
+\begin{DoxyCompactList}\small\item\em Ends the current function. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classGenerator_af1e66c6712829de03afb5ea7ed98c131}{generate\+Files}} (std\+::string)
+\begin{DoxyCompactList}\small\item\em Generates source and header files for the benchmark. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classGeneratorFunction}{Generator\+Function}} \mbox{\hyperlink{classGenerator_a8821eabb4243b77d75448c344a84f994}{main\+Function}}
+\item 
+std\+::list$<$ \mbox{\hyperlink{classGeneratorFunction}{Generator\+Function}} $>$ \mbox{\hyperlink{classGenerator_a9ee62e0f655e8c492c83f2aeec5f54e1}{functions}}
+\item 
+std\+::stack$<$ \mbox{\hyperlink{classGeneratorFunction}{Generator\+Function}} $\ast$ $>$ \mbox{\hyperlink{classGenerator_a7534ce47b9618c0d0c39d1e66e1b4f96}{current\+Function}}
+\item 
+std\+::stack$<$ int $>$ \mbox{\hyperlink{classGenerator_a2c4764349aba7f302eb7ca2d155837f6}{if\+Counter}}
+\item 
+int \mbox{\hyperlink{classGenerator_ad11cf008479d85cad8dde1a502a714b6}{var\+Counter}}
+\item 
+int \mbox{\hyperlink{classGenerator_a4b6101ecf351a3ddb458a70e3ac915e4}{loop\+Level}}
+\item 
+int \mbox{\hyperlink{classGenerator_ae81d7f270043bbc6cb75ea3a7f33750a}{loop\+Counter}}
+\item 
+std\+::string \mbox{\hyperlink{classGenerator_a879c5349bc03a52f947ae824189ce8e0}{var\+Type}}
+\item 
+std\+::map$<$ int, \mbox{\hyperlink{classGeneratorVariable}{Generator\+Variable}} $\ast$ $>$ \mbox{\hyperlink{classGenerator_ab8865afc41af5096f31efab1de1f99ae}{variables}}
+\item 
+std\+::stack$<$ \mbox{\hyperlink{classGeneratorScope}{Generator\+Scope}} $>$ \mbox{\hyperlink{classGenerator_a6ae34b5a0449b6f8cfa16e2fa5eeedc2}{current\+Scope}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The \mbox{\hyperlink{classGenerator}{Generator}} class handles the generation of code and files for benchmarks. 
+
+This class manages the creation of variables, functions, scopes, and file outputs required for generating complete benchmark programs. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classGenerator_a2d1c204d02c3c3e000e870758e8b40b5}\label{classGenerator_a2d1c204d02c3c3e000e870758e8b40b5}} 
+\index{Generator@{Generator}!Generator@{Generator}}
+\index{Generator@{Generator}!Generator@{Generator}}
+\doxysubsubsection{\texorpdfstring{Generator()}{Generator()}}
+{\footnotesize\ttfamily Generator\+::\+Generator (\begin{DoxyParamCaption}\item[{std\+::string}]{variable\+Type }\end{DoxyParamCaption})}
+
+
+
+Constructs a \mbox{\hyperlink{classGenerator}{Generator}} object with a specified variable type. 
+
+Initializes various counters, sets the variable type, and prepares the initial scope. Generates necessary includes, global variables, random number generator, and the main function.
+
+
+\begin{DoxyParams}{Parameters}
+{\em variable\+Type} & The type of variable to be used in code generation. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classGenerator_acc85fbe22690003267ba899bacf777d1}\label{classGenerator_acc85fbe22690003267ba899bacf777d1}} 
+\index{Generator@{Generator}!````~Generator@{$\sim$Generator}}
+\index{````~Generator@{$\sim$Generator}!Generator@{Generator}}
+\doxysubsubsection{\texorpdfstring{$\sim$Generator()}{~Generator()}}
+{\footnotesize\ttfamily Generator\+::$\sim$\+Generator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Destructor for the \mbox{\hyperlink{classGenerator}{Generator}} class. 
+
+Cleans up dynamically allocated variables. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classGenerator_a2bd8c5ad46d91923eaadf326a4d348ee}\label{classGenerator_a2bd8c5ad46d91923eaadf326a4d348ee}} 
+\index{Generator@{Generator}!addLine@{addLine}}
+\index{addLine@{addLine}!Generator@{Generator}}
+\doxysubsubsection{\texorpdfstring{addLine()}{addLine()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void Generator\+::add\+Line (\begin{DoxyParamCaption}\item[{std\+::string}]{line,  }\item[{int}]{d = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+
+
+Adds a line of code to the current function with optional indentation. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em line} & The line of code to add. \\
+\hline
+{\em d} & Additional depth for indentation (default is 0). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classGenerator_a9258a283506ea58d1ee52c8e7fe16775}\label{classGenerator_a9258a283506ea58d1ee52c8e7fe16775}} 
+\index{Generator@{Generator}!addLine@{addLine}}
+\index{addLine@{addLine}!Generator@{Generator}}
+\doxysubsubsection{\texorpdfstring{addLine()}{addLine()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void Generator\+::add\+Line (\begin{DoxyParamCaption}\item[{std\+::vector$<$ std\+::string $>$}]{lines,  }\item[{int}]{d = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+
+
+Adds multiple lines of code to the current function with optional indentation. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em lines} & A vector of lines of code to add. \\
+\hline
+{\em d} & Additional depth for indentation (default is 0). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classGenerator_a3ddf4df7e603baa56607f3cbefecda6f}\label{classGenerator_a3ddf4df7e603baa56607f3cbefecda6f}} 
+\index{Generator@{Generator}!addVar@{addVar}}
+\index{addVar@{addVar}!Generator@{Generator}}
+\doxysubsubsection{\texorpdfstring{addVar()}{addVar()}}
+{\footnotesize\ttfamily int Generator\+::add\+Var (\begin{DoxyParamCaption}\item[{std\+::string}]{type }\end{DoxyParamCaption})}
+
+
+
+Adds a new variable of the specified type to the current scope. 
+
+Creates a new variable, adds it to the list of variables, and returns its ID.
+
+
+\begin{DoxyParams}{Parameters}
+{\em type} & The type of variable to create. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The ID of the newly created variable. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classGenerator_af1a3b958599cb38d0dcd0f620e5a4cf5}\label{classGenerator_af1a3b958599cb38d0dcd0f620e5a4cf5}} 
+\index{Generator@{Generator}!callFunc@{callFunc}}
+\index{callFunc@{callFunc}!Generator@{Generator}}
+\doxysubsubsection{\texorpdfstring{callFunc()}{callFunc()}}
+{\footnotesize\ttfamily void Generator\+::call\+Func (\begin{DoxyParamCaption}\item[{int}]{func\+Id,  }\item[{int}]{n\+Parameters }\end{DoxyParamCaption})}
+
+
+
+Calls a function with the specified ID and parameters. 
+
+Generates the necessary code to call a function, passing parameters and handling the return value.
+
+
+\begin{DoxyParams}{Parameters}
+{\em func\+Id} & The ID of the function to call. \\
+\hline
+{\em n\+Parameters} & The number of parameters to pass to the function. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classGenerator_ac2dcabf409a700b0f1b2618b50682a25}\label{classGenerator_ac2dcabf409a700b0f1b2618b50682a25}} 
+\index{Generator@{Generator}!endFunc@{endFunc}}
+\index{endFunc@{endFunc}!Generator@{Generator}}
+\doxysubsubsection{\texorpdfstring{endFunc()}{endFunc()}}
+{\footnotesize\ttfamily void Generator\+::end\+Func (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Ends the current function. 
+
+Ends the current function scope, pops the function from the stack, and updates the if counter. \mbox{\Hypertarget{classGenerator_ac873bbde78af069271060d1a7ef2b6de}\label{classGenerator_ac873bbde78af069271060d1a7ef2b6de}} 
+\index{Generator@{Generator}!endScope@{endScope}}
+\index{endScope@{endScope}!Generator@{Generator}}
+\doxysubsubsection{\texorpdfstring{endScope()}{endScope()}}
+{\footnotesize\ttfamily void Generator\+::end\+Scope (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Ends the current scope. 
+
+Pops the current scope from the stack and adds a closing brace to the code. \mbox{\Hypertarget{classGenerator_af576c36b6e58b55322a0d3ac7c3712b1}\label{classGenerator_af576c36b6e58b55322a0d3ac7c3712b1}} 
+\index{Generator@{Generator}!freeVars@{freeVars}}
+\index{freeVars@{freeVars}!Generator@{Generator}}
+\doxysubsubsection{\texorpdfstring{freeVars()}{freeVars()}}
+{\footnotesize\ttfamily void Generator\+::free\+Vars (\begin{DoxyParamCaption}\item[{bool}]{has\+Return = {\ttfamily false},  }\item[{int}]{return\+Var\+Pos = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+
+
+Frees variables in the current scope. 
+
+Frees all variables added in the current scope, except the return variable if specified.
+
+
+\begin{DoxyParams}{Parameters}
+{\em has\+Return} & Specifies whether there is a return variable (default is false). \\
+\hline
+{\em return\+Var\+Pos} & The position of the return variable to keep (default is 0). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classGenerator_a3e83eefd33040973b44e3e96901e0353}\label{classGenerator_a3e83eefd33040973b44e3e96901e0353}} 
+\index{Generator@{Generator}!functionExists@{functionExists}}
+\index{functionExists@{functionExists}!Generator@{Generator}}
+\doxysubsubsection{\texorpdfstring{functionExists()}{functionExists()}}
+{\footnotesize\ttfamily bool Generator\+::function\+Exists (\begin{DoxyParamCaption}\item[{int}]{func\+Id }\end{DoxyParamCaption})}
+
+
+
+Checks if a function with a given ID already exists. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em func\+Id} & The ID of the function to check. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the function exists, false otherwise. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classGenerator_af1e66c6712829de03afb5ea7ed98c131}\label{classGenerator_af1e66c6712829de03afb5ea7ed98c131}} 
+\index{Generator@{Generator}!generateFiles@{generateFiles}}
+\index{generateFiles@{generateFiles}!Generator@{Generator}}
+\doxysubsubsection{\texorpdfstring{generateFiles()}{generateFiles()}}
+{\footnotesize\ttfamily void Generator\+::generate\+Files (\begin{DoxyParamCaption}\item[{std\+::string}]{benchmark\+Name }\end{DoxyParamCaption})}
+
+
+
+Generates source and header files for the benchmark. 
+
+Creates the necessary directory structure and writes the generated code to files.
+
+
+\begin{DoxyParams}{Parameters}
+{\em benchmark\+Name} & The name of the benchmark to generate files for. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classGenerator_ac75a69518db1e431662b1e891d455942}\label{classGenerator_ac75a69518db1e431662b1e891d455942}} 
+\index{Generator@{Generator}!returnFunc@{returnFunc}}
+\index{returnFunc@{returnFunc}!Generator@{Generator}}
+\doxysubsubsection{\texorpdfstring{returnFunc()}{returnFunc()}}
+{\footnotesize\ttfamily void Generator\+::return\+Func (\begin{DoxyParamCaption}\item[{int}]{return\+Var\+Pos }\end{DoxyParamCaption})}
+
+
+
+Returns a value from a function. 
+
+Adds a return statement to the function, returning the specified variable.
+
+
+\begin{DoxyParams}{Parameters}
+{\em return\+Var\+Pos} & The position of the variable to return. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classGenerator_ae23df309fb6c74441f5b054e8368180f}\label{classGenerator_ae23df309fb6c74441f5b054e8368180f}} 
+\index{Generator@{Generator}!startFunc@{startFunc}}
+\index{startFunc@{startFunc}!Generator@{Generator}}
+\doxysubsubsection{\texorpdfstring{startFunc()}{startFunc()}}
+{\footnotesize\ttfamily void Generator\+::start\+Func (\begin{DoxyParamCaption}\item[{int}]{func\+Id,  }\item[{int}]{n\+Parameters }\end{DoxyParamCaption})}
+
+
+
+Starts the definition of a new function. 
+
+Creates a function header with specified parameters and starts a new scope for the function body.
+
+
+\begin{DoxyParams}{Parameters}
+{\em func\+Id} & The ID of the function to create. \\
+\hline
+{\em n\+Parameters} & The number of parameters the function takes. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classGenerator_a518129dac59a52b195b666bb15c2c3c5}\label{classGenerator_a518129dac59a52b195b666bb15c2c3c5}} 
+\index{Generator@{Generator}!startScope@{startScope}}
+\index{startScope@{startScope}!Generator@{Generator}}
+\doxysubsubsection{\texorpdfstring{startScope()}{startScope()}}
+{\footnotesize\ttfamily void Generator\+::start\+Scope (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Starts a new scope for variable declarations. 
+
+Pushes a new \mbox{\hyperlink{classGeneratorScope}{Generator\+Scope}} onto the scope stack, inheriting the current scope\textquotesingle{}s variables and indentation. 
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classGenerator_a7534ce47b9618c0d0c39d1e66e1b4f96}\label{classGenerator_a7534ce47b9618c0d0c39d1e66e1b4f96}} 
+\index{Generator@{Generator}!currentFunction@{currentFunction}}
+\index{currentFunction@{currentFunction}!Generator@{Generator}}
+\doxysubsubsection{\texorpdfstring{currentFunction}{currentFunction}}
+{\footnotesize\ttfamily std\+::stack$<$\mbox{\hyperlink{classGeneratorFunction}{Generator\+Function}}$\ast$$>$ Generator\+::current\+Function}
+
+\mbox{\Hypertarget{classGenerator_a6ae34b5a0449b6f8cfa16e2fa5eeedc2}\label{classGenerator_a6ae34b5a0449b6f8cfa16e2fa5eeedc2}} 
+\index{Generator@{Generator}!currentScope@{currentScope}}
+\index{currentScope@{currentScope}!Generator@{Generator}}
+\doxysubsubsection{\texorpdfstring{currentScope}{currentScope}}
+{\footnotesize\ttfamily std\+::stack$<$\mbox{\hyperlink{classGeneratorScope}{Generator\+Scope}}$>$ Generator\+::current\+Scope}
+
+\mbox{\Hypertarget{classGenerator_a9ee62e0f655e8c492c83f2aeec5f54e1}\label{classGenerator_a9ee62e0f655e8c492c83f2aeec5f54e1}} 
+\index{Generator@{Generator}!functions@{functions}}
+\index{functions@{functions}!Generator@{Generator}}
+\doxysubsubsection{\texorpdfstring{functions}{functions}}
+{\footnotesize\ttfamily std\+::list$<$\mbox{\hyperlink{classGeneratorFunction}{Generator\+Function}}$>$ Generator\+::functions}
+
+\mbox{\Hypertarget{classGenerator_a2c4764349aba7f302eb7ca2d155837f6}\label{classGenerator_a2c4764349aba7f302eb7ca2d155837f6}} 
+\index{Generator@{Generator}!ifCounter@{ifCounter}}
+\index{ifCounter@{ifCounter}!Generator@{Generator}}
+\doxysubsubsection{\texorpdfstring{ifCounter}{ifCounter}}
+{\footnotesize\ttfamily std\+::stack$<$int$>$ Generator\+::if\+Counter}
+
+\mbox{\Hypertarget{classGenerator_ae81d7f270043bbc6cb75ea3a7f33750a}\label{classGenerator_ae81d7f270043bbc6cb75ea3a7f33750a}} 
+\index{Generator@{Generator}!loopCounter@{loopCounter}}
+\index{loopCounter@{loopCounter}!Generator@{Generator}}
+\doxysubsubsection{\texorpdfstring{loopCounter}{loopCounter}}
+{\footnotesize\ttfamily int Generator\+::loop\+Counter}
+
+\mbox{\Hypertarget{classGenerator_a4b6101ecf351a3ddb458a70e3ac915e4}\label{classGenerator_a4b6101ecf351a3ddb458a70e3ac915e4}} 
+\index{Generator@{Generator}!loopLevel@{loopLevel}}
+\index{loopLevel@{loopLevel}!Generator@{Generator}}
+\doxysubsubsection{\texorpdfstring{loopLevel}{loopLevel}}
+{\footnotesize\ttfamily int Generator\+::loop\+Level}
+
+\mbox{\Hypertarget{classGenerator_a8821eabb4243b77d75448c344a84f994}\label{classGenerator_a8821eabb4243b77d75448c344a84f994}} 
+\index{Generator@{Generator}!mainFunction@{mainFunction}}
+\index{mainFunction@{mainFunction}!Generator@{Generator}}
+\doxysubsubsection{\texorpdfstring{mainFunction}{mainFunction}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classGeneratorFunction}{Generator\+Function}} Generator\+::main\+Function}
+
+\mbox{\Hypertarget{classGenerator_ad11cf008479d85cad8dde1a502a714b6}\label{classGenerator_ad11cf008479d85cad8dde1a502a714b6}} 
+\index{Generator@{Generator}!varCounter@{varCounter}}
+\index{varCounter@{varCounter}!Generator@{Generator}}
+\doxysubsubsection{\texorpdfstring{varCounter}{varCounter}}
+{\footnotesize\ttfamily int Generator\+::var\+Counter}
+
+\mbox{\Hypertarget{classGenerator_ab8865afc41af5096f31efab1de1f99ae}\label{classGenerator_ab8865afc41af5096f31efab1de1f99ae}} 
+\index{Generator@{Generator}!variables@{variables}}
+\index{variables@{variables}!Generator@{Generator}}
+\doxysubsubsection{\texorpdfstring{variables}{variables}}
+{\footnotesize\ttfamily std\+::map$<$int, \mbox{\hyperlink{classGeneratorVariable}{Generator\+Variable}}$\ast$$>$ Generator\+::variables}
+
+\mbox{\Hypertarget{classGenerator_a879c5349bc03a52f947ae824189ce8e0}\label{classGenerator_a879c5349bc03a52f947ae824189ce8e0}} 
+\index{Generator@{Generator}!varType@{varType}}
+\index{varType@{varType}!Generator@{Generator}}
+\doxysubsubsection{\texorpdfstring{varType}{varType}}
+{\footnotesize\ttfamily std\+::string Generator\+::var\+Type}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/bruno/\+Documents/\+IC/\+Bench\+Gen/src/gen/generator/\mbox{\hyperlink{generator_8h}{generator.\+h}}\item 
+/home/bruno/\+Documents/\+IC/\+Bench\+Gen/src/gen/generator/\mbox{\hyperlink{generator_8cpp}{generator.\+cpp}}\end{DoxyCompactItemize}

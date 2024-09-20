@@ -1,0 +1,257 @@
+\hypertarget{classGeneratorVariable}{}\doxysection{Generator\+Variable Class Reference}
+\label{classGeneratorVariable}\index{GeneratorVariable@{GeneratorVariable}}
+
+
+Abstract base class for variable generation.  
+
+
+
+
+{\ttfamily \#include $<$generator\+Variable.\+h$>$}
+
+
+
+Inheritance diagram for Generator\+Variable\+:
+% FIG 0
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{classGeneratorVariable_a0491c8d291877ae428bbdef208519f6f}{$\sim$\+Generator\+Variable}} ()
+\item 
+virtual std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{classGeneratorVariable_aae76def05f9ed1cf852ed0d435694c1e}{new\+\_\+}} (bool in\+Function=false)=0
+\begin{DoxyCompactList}\small\item\em Creates a new variable. \end{DoxyCompactList}\item 
+virtual std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{classGeneratorVariable_ab18e1ff7bb53da36fc810ef370be10a6}{insert}} ()=0
+\begin{DoxyCompactList}\small\item\em Generates code to perform an insertion operation on the variable. \end{DoxyCompactList}\item 
+virtual std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{classGeneratorVariable_ab8dfa888456cc20e71477993f01abb3c}{remove}} ()=0
+\begin{DoxyCompactList}\small\item\em Generates code to perform a removal operation on the variable. \end{DoxyCompactList}\item 
+virtual std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{classGeneratorVariable_a2e1525c30a8f70b612b4af09be5f8cfa}{contains}} (bool should\+Return=false)=0
+\begin{DoxyCompactList}\small\item\em Generates code to perform a contains operation on the variable. \end{DoxyCompactList}\item 
+virtual std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{classGeneratorVariable_adc2362174fbf63425c9d208de6bece90}{free}} ()=0
+\begin{DoxyCompactList}\small\item\em Generates code to free or release resources associated with the variable. \end{DoxyCompactList}\item 
+virtual std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{classGeneratorVariable_a2cadd514a1268230e4971f3f47f1cbdd}{gen\+Includes}} ()=0
+\begin{DoxyCompactList}\small\item\em Generates necessary include statements for the variable. \end{DoxyCompactList}\item 
+virtual std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{classGeneratorVariable_a9baa148ac30d1225d63048a416745d18}{gen\+Global\+Vars}} ()=0
+\begin{DoxyCompactList}\small\item\em Generates global variable declarations for the variable type. \end{DoxyCompactList}\item 
+virtual std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{classGeneratorVariable_ad256a2004ecfb989fb8403630958b7c4}{gen\+Params}} (std\+::string param\+Name, std\+::vector$<$ \mbox{\hyperlink{classGeneratorVariable}{Generator\+Variable}} $\ast$ $>$ vars\+Params)=0
+\begin{DoxyCompactList}\small\item\em Generates parameter handling code for functions using this variable type. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{classGeneratorVariable_a6405b2c851f96a0b9bc609e82e11d9b6}{id}}
+\item 
+std\+::string \mbox{\hyperlink{classGeneratorVariable_a34521795d468fdcbfdb49a4157c01743}{name}}
+\item 
+std\+::string \mbox{\hyperlink{classGeneratorVariable_ad1c1aaa33727679158ccc11a6f1779b8}{type\+String}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Abstract base class for variable generation. 
+
+This class defines a common interface for different types of generator variables. It provides methods for common operations, which may vary in behavior depending on the specific type of variable. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classGeneratorVariable_a0491c8d291877ae428bbdef208519f6f}\label{classGeneratorVariable_a0491c8d291877ae428bbdef208519f6f}} 
+\index{GeneratorVariable@{GeneratorVariable}!````~GeneratorVariable@{$\sim$GeneratorVariable}}
+\index{````~GeneratorVariable@{$\sim$GeneratorVariable}!GeneratorVariable@{GeneratorVariable}}
+\doxysubsubsection{\texorpdfstring{$\sim$GeneratorVariable()}{~GeneratorVariable()}}
+{\footnotesize\ttfamily virtual Generator\+Variable\+::$\sim$\+Generator\+Variable (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classGeneratorVariable_a2e1525c30a8f70b612b4af09be5f8cfa}\label{classGeneratorVariable_a2e1525c30a8f70b612b4af09be5f8cfa}} 
+\index{GeneratorVariable@{GeneratorVariable}!contains@{contains}}
+\index{contains@{contains}!GeneratorVariable@{GeneratorVariable}}
+\doxysubsubsection{\texorpdfstring{contains()}{contains()}}
+{\footnotesize\ttfamily virtual std\+::vector$<$std\+::string$>$ Generator\+Variable\+::contains (\begin{DoxyParamCaption}\item[{bool}]{should\+Return = {\ttfamily false} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Generates code to perform a contains operation on the variable. 
+
+The behavior of this method varies depending on the type of the variable.
+
+
+\begin{DoxyParams}{Parameters}
+{\em should\+Return} & Indicates whether the method should generate code that returns a value based on the condition. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A vector of strings representing the code to check the condition. 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{classArray_a3f384d1119330a46554f68d1a7340746}{Array}}.
+
+\mbox{\Hypertarget{classGeneratorVariable_adc2362174fbf63425c9d208de6bece90}\label{classGeneratorVariable_adc2362174fbf63425c9d208de6bece90}} 
+\index{GeneratorVariable@{GeneratorVariable}!free@{free}}
+\index{free@{free}!GeneratorVariable@{GeneratorVariable}}
+\doxysubsubsection{\texorpdfstring{free()}{free()}}
+{\footnotesize\ttfamily virtual std\+::vector$<$std\+::string$>$ Generator\+Variable\+::free (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Generates code to free or release resources associated with the variable. 
+
+This method generates code to clean up or release resources held by the variable, if necessary. The specific actions taken depend on the type of the variable and how resources are managed.
+
+\begin{DoxyReturn}{Returns}
+A vector of strings representing the code to free the variable. 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{classArray_a4c6a9296474b482bd8a7ee63f306160f}{Array}}.
+
+\mbox{\Hypertarget{classGeneratorVariable_a9baa148ac30d1225d63048a416745d18}\label{classGeneratorVariable_a9baa148ac30d1225d63048a416745d18}} 
+\index{GeneratorVariable@{GeneratorVariable}!genGlobalVars@{genGlobalVars}}
+\index{genGlobalVars@{genGlobalVars}!GeneratorVariable@{GeneratorVariable}}
+\doxysubsubsection{\texorpdfstring{genGlobalVars()}{genGlobalVars()}}
+{\footnotesize\ttfamily virtual std\+::vector$<$std\+::string$>$ Generator\+Variable\+::gen\+Global\+Vars (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Generates global variable declarations for the variable type. 
+
+This method returns a vector of strings representing the typedefs and struct definitions necessary for the specific variable type.
+
+\begin{DoxyReturn}{Returns}
+A vector of strings, each representing a global variable or type definition. 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{classArray_a4a363021a32e7158ca4cb6ccea6b37f2}{Array}}.
+
+\mbox{\Hypertarget{classGeneratorVariable_a2cadd514a1268230e4971f3f47f1cbdd}\label{classGeneratorVariable_a2cadd514a1268230e4971f3f47f1cbdd}} 
+\index{GeneratorVariable@{GeneratorVariable}!genIncludes@{genIncludes}}
+\index{genIncludes@{genIncludes}!GeneratorVariable@{GeneratorVariable}}
+\doxysubsubsection{\texorpdfstring{genIncludes()}{genIncludes()}}
+{\footnotesize\ttfamily virtual std\+::vector$<$std\+::string$>$ Generator\+Variable\+::gen\+Includes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Generates necessary include statements for the variable. 
+
+This method returns a vector of strings containing the required include directives for working with the variable type.
+
+\begin{DoxyReturn}{Returns}
+A vector of strings representing include directives. 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{classArray_a90b22653be963fd02e3fdc0fc7507a4b}{Array}}.
+
+\mbox{\Hypertarget{classGeneratorVariable_ad256a2004ecfb989fb8403630958b7c4}\label{classGeneratorVariable_ad256a2004ecfb989fb8403630958b7c4}} 
+\index{GeneratorVariable@{GeneratorVariable}!genParams@{genParams}}
+\index{genParams@{genParams}!GeneratorVariable@{GeneratorVariable}}
+\doxysubsubsection{\texorpdfstring{genParams()}{genParams()}}
+{\footnotesize\ttfamily virtual std\+::vector$<$std\+::string$>$ Generator\+Variable\+::gen\+Params (\begin{DoxyParamCaption}\item[{std\+::string}]{param\+Name,  }\item[{std\+::vector$<$ \mbox{\hyperlink{classGeneratorVariable}{Generator\+Variable}} $\ast$ $>$}]{vars\+Params }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Generates parameter handling code for functions using this variable type. 
+
+This method generates code to handle parameters when functions utilize this variable type. It includes initialization and assignment for the parameters.
+
+
+\begin{DoxyParams}{Parameters}
+{\em param\+Name} & The name of the parameter. \\
+\hline
+{\em vars\+Params} & List of variables to be used as parameters. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A vector of strings representing the code for parameter handling. 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{classArray_ae24ed37bda3a90bdd8b93e21428313f2}{Array}}.
+
+\mbox{\Hypertarget{classGeneratorVariable_ab18e1ff7bb53da36fc810ef370be10a6}\label{classGeneratorVariable_ab18e1ff7bb53da36fc810ef370be10a6}} 
+\index{GeneratorVariable@{GeneratorVariable}!insert@{insert}}
+\index{insert@{insert}!GeneratorVariable@{GeneratorVariable}}
+\doxysubsubsection{\texorpdfstring{insert()}{insert()}}
+{\footnotesize\ttfamily virtual std\+::vector$<$std\+::string$>$ Generator\+Variable\+::insert (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Generates code to perform an insertion operation on the variable. 
+
+The exact behavior of this method depends on the type of the variable.
+
+\begin{DoxyReturn}{Returns}
+A vector of strings representing the insertion operation code. 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{classArray_adb9134956509307fc0a331647e993f44}{Array}}.
+
+\mbox{\Hypertarget{classGeneratorVariable_aae76def05f9ed1cf852ed0d435694c1e}\label{classGeneratorVariable_aae76def05f9ed1cf852ed0d435694c1e}} 
+\index{GeneratorVariable@{GeneratorVariable}!new\_@{new\_}}
+\index{new\_@{new\_}!GeneratorVariable@{GeneratorVariable}}
+\doxysubsubsection{\texorpdfstring{new\_()}{new\_()}}
+{\footnotesize\ttfamily virtual std\+::vector$<$std\+::string$>$ Generator\+Variable\+::new\+\_\+ (\begin{DoxyParamCaption}\item[{bool}]{in\+Function = {\ttfamily false} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Creates a new variable. 
+
+This method generates code to initialize a new variable. The exact implementation depends on the specific type of the variable.
+
+
+\begin{DoxyParams}{Parameters}
+{\em in\+Function} & Indicates whether the variable is created within a function context. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A vector of strings representing the code to create the variable. 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{classArray_a38a66817768e3a30b9e9179132d801f2}{Array}}.
+
+\mbox{\Hypertarget{classGeneratorVariable_ab8dfa888456cc20e71477993f01abb3c}\label{classGeneratorVariable_ab8dfa888456cc20e71477993f01abb3c}} 
+\index{GeneratorVariable@{GeneratorVariable}!remove@{remove}}
+\index{remove@{remove}!GeneratorVariable@{GeneratorVariable}}
+\doxysubsubsection{\texorpdfstring{remove()}{remove()}}
+{\footnotesize\ttfamily virtual std\+::vector$<$std\+::string$>$ Generator\+Variable\+::remove (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Generates code to perform a removal operation on the variable. 
+
+The behavior of this method varies depending on the type of the variable.
+
+\begin{DoxyReturn}{Returns}
+A vector of strings representing the removal operation code. 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{classArray_a101e2eb4aec606f9ed6228f81e9cf028}{Array}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classGeneratorVariable_a6405b2c851f96a0b9bc609e82e11d9b6}\label{classGeneratorVariable_a6405b2c851f96a0b9bc609e82e11d9b6}} 
+\index{GeneratorVariable@{GeneratorVariable}!id@{id}}
+\index{id@{id}!GeneratorVariable@{GeneratorVariable}}
+\doxysubsubsection{\texorpdfstring{id}{id}}
+{\footnotesize\ttfamily int Generator\+Variable\+::id}
+
+\mbox{\Hypertarget{classGeneratorVariable_a34521795d468fdcbfdb49a4157c01743}\label{classGeneratorVariable_a34521795d468fdcbfdb49a4157c01743}} 
+\index{GeneratorVariable@{GeneratorVariable}!name@{name}}
+\index{name@{name}!GeneratorVariable@{GeneratorVariable}}
+\doxysubsubsection{\texorpdfstring{name}{name}}
+{\footnotesize\ttfamily std\+::string Generator\+Variable\+::name}
+
+\mbox{\Hypertarget{classGeneratorVariable_ad1c1aaa33727679158ccc11a6f1779b8}\label{classGeneratorVariable_ad1c1aaa33727679158ccc11a6f1779b8}} 
+\index{GeneratorVariable@{GeneratorVariable}!typeString@{typeString}}
+\index{typeString@{typeString}!GeneratorVariable@{GeneratorVariable}}
+\doxysubsubsection{\texorpdfstring{typeString}{typeString}}
+{\footnotesize\ttfamily std\+::string Generator\+Variable\+::type\+String}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/bruno/\+Documents/\+IC/\+Bench\+Gen/src/gen/generator/\mbox{\hyperlink{generatorVariable_8h}{generator\+Variable.\+h}}\end{DoxyCompactItemize}

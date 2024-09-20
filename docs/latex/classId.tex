@@ -1,0 +1,89 @@
+\hypertarget{classId}{}\doxysection{Id Class Reference}
+\label{classId}\index{Id@{Id}}
+
+
+Represents an identifier in the AST.  
+
+
+
+
+{\ttfamily \#include $<$ast.\+h$>$}
+
+
+
+Inheritance diagram for Id\+:
+% FIG 0
+
+
+Collaboration diagram for Id\+:
+% FIG 1
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classId_a6e5174709e0a4f8096fda3d697454244}{Id}} (std\+::string id)
+\item 
+void \mbox{\hyperlink{classId_a603f9e3f1546d940e5121d0893e811fc}{gen}} (\mbox{\hyperlink{classGenerator}{Generator}} \&) override
+\begin{DoxyCompactList}\small\item\em Generates code for this AST node. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classId_aa8cc90f296b03b513ded7f9f6e323989}{print}} (int indent) override
+\begin{DoxyCompactList}\small\item\em Prints the structure of this AST node. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Represents an identifier in the AST. 
+
+Holds the name of the identifier. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classId_a6e5174709e0a4f8096fda3d697454244}\label{classId_a6e5174709e0a4f8096fda3d697454244}} 
+\index{Id@{Id}!Id@{Id}}
+\index{Id@{Id}!Id@{Id}}
+\doxysubsubsection{\texorpdfstring{Id()}{Id()}}
+{\footnotesize\ttfamily Id\+::\+Id (\begin{DoxyParamCaption}\item[{std\+::string}]{id }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classId_a603f9e3f1546d940e5121d0893e811fc}\label{classId_a603f9e3f1546d940e5121d0893e811fc}} 
+\index{Id@{Id}!gen@{gen}}
+\index{gen@{gen}!Id@{Id}}
+\doxysubsubsection{\texorpdfstring{gen()}{gen()}}
+{\footnotesize\ttfamily void Id\+::gen (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classGenerator}{Generator}} \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Generates code for this AST node. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em generator} & The generator object used to manage code generation. \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{classNode_a21e4ebe899c1ec58f42940c61db0326c}{Node}}.
+
+\mbox{\Hypertarget{classId_aa8cc90f296b03b513ded7f9f6e323989}\label{classId_aa8cc90f296b03b513ded7f9f6e323989}} 
+\index{Id@{Id}!print@{print}}
+\index{print@{print}!Id@{Id}}
+\doxysubsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily void Id\+::print (\begin{DoxyParamCaption}\item[{int}]{indent }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Prints the structure of this AST node. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em indent} & The number of spaces to indent the output. \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{classNode_aae6f19c98b72b2d5ce0fc64de1939d7c}{Node}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/bruno/\+Documents/\+IC/\+Bench\+Gen/src/gen/ast/\mbox{\hyperlink{ast_8h}{ast.\+h}}\item 
+/home/bruno/\+Documents/\+IC/\+Bench\+Gen/src/gen/ast/\mbox{\hyperlink{ast_8cpp}{ast.\+cpp}}\end{DoxyCompactItemize}

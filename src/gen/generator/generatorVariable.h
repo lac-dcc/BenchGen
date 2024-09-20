@@ -104,19 +104,37 @@ class GeneratorVariable {
     virtual std::vector<std::string> genParams(std::string paramName, std::vector<GeneratorVariable*> varsParams) = 0;
 };
 
+class GeneratorSortedList : public GeneratorVariable {
+   public:
+    GeneratorSortedList() {};
+
+    GeneratorSortedList(int id);
+
+    ~GeneratorSortedList();
+
+    std::vector<std::string> new_(bool inFunction = false) override;
+    std::vector<std::string> insert() override;
+    std::vector<std::string> remove() override;
+    std::vector<std::string> contains(bool shouldReturn = false) override;
+    std::vector<std::string> free() override;
+    std::vector<std::string> genIncludes() override;
+    std::vector<std::string> genGlobalVars() override;
+    std::vector<std::string> genParams(std::string paramName, std::vector<GeneratorVariable*> varsParams) override;
+};
+
 /**
  * @brief Class representing an array variable.
  *
  * This class provides methods for operations specific to array variables.
  */
-class Array : public GeneratorVariable {
+class GeneratorArray : public GeneratorVariable {
    public:
     int totalSize;  // The total size of the array
 
     /**
      * @brief Default constructor for the Array class.
      */
-    Array() {};
+    GeneratorArray() {};
 
     /**
      * @brief Constructs an Array with a specified size, values, and identifier.
@@ -125,12 +143,12 @@ class Array : public GeneratorVariable {
      * @param values Pointer to the array of integer values.
      * @param id The unique identifier for the array.
      */
-    Array(int totalSize, int id);
+    GeneratorArray(int totalSize, int id);
 
     /**
      * @brief Destructor for the Array class.
      */
-    ~Array();
+    ~GeneratorArray();
 
     std::vector<std::string> new_(bool inFunction = false) override;
     std::vector<std::string> insert() override;
@@ -150,6 +168,8 @@ class Array : public GeneratorVariable {
  */
 class VariableFactory {
    public:
+    static unsigned int var_counter;
+
     /**
      * @brief Creates a GeneratorVariable of the specified type.
      *

@@ -1,0 +1,77 @@
+This program parses a DSL describing an L-\/\+System, and generates benchmarks from this specification.\hypertarget{md__home_bruno_Documents_IC_BenchGen_src_gen_README_autotoc_md1}{}\doxysection{Dependencies}\label{md__home_bruno_Documents_IC_BenchGen_src_gen_README_autotoc_md1}
+The only dependency is a C++ compiler. Here are some suggestions\+:
+
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{2}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Compiler   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Link    }\\\cline{1-2}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Compiler   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Link    }\\\cline{1-2}
+\endhead
+clang   &\href{https://clang.llvm.org/}{\texttt{ llvm.\+org}}    \\\cline{1-2}
+gcc   &\href{https://gcc.gnu.org/}{\texttt{ gnu.\+org}}   \\\cline{1-2}
+\end{longtabu}
+
+
+\mbox{\hyperlink{classIf}{If}} you wish to use something other than clang++, please alter the {\ttfamily CC} variable of the Makefile.\hypertarget{md__home_bruno_Documents_IC_BenchGen_src_gen_README_autotoc_md2}{}\doxysection{Compiling}\label{md__home_bruno_Documents_IC_BenchGen_src_gen_README_autotoc_md2}
+Compilation example\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{make}
+
+\end{DoxyCode}
+\hypertarget{md__home_bruno_Documents_IC_BenchGen_src_gen_README_autotoc_md3}{}\doxysection{Running}\label{md__home_bruno_Documents_IC_BenchGen_src_gen_README_autotoc_md3}
+Run the binary output with a input and output file as parameter.
+
+Calls to the Program \mbox{\hyperlink{classGenerator}{Generator}} must be done in the following format\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{./main <Number of iterations> <Production Rules File> <Seed String File> <Output Folder> <Variable Type>}
+
+\end{DoxyCode}
+
+
+The available variables types are in the {\ttfamily \mbox{\hyperlink{varTypes_8h}{shared/var\+Types.\+h}}} file.\hypertarget{md__home_bruno_Documents_IC_BenchGen_src_gen_README_autotoc_md4}{}\doxysection{Examples}\label{md__home_bruno_Documents_IC_BenchGen_src_gen_README_autotoc_md4}
+We provide examples for inputs in the {\ttfamily examples folder}. An example of execution would be\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{./main 3 production\_rule\_8.txt seed\_string.txt output array}
+
+\end{DoxyCode}
+\hypertarget{md__home_bruno_Documents_IC_BenchGen_src_gen_README_autotoc_md5}{}\doxysubsection{Production Rules File}\label{md__home_bruno_Documents_IC_BenchGen_src_gen_README_autotoc_md5}
+The production rules file should have production rules of the format\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{<LHS> = <Production>;}
+
+\end{DoxyCode}
+
+
+You may repeat these as many times as you wish for each production rule.
+
+Example\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{A = insert A remove;}
+\DoxyCodeLine{B = A B;}
+
+\end{DoxyCode}
+\hypertarget{md__home_bruno_Documents_IC_BenchGen_src_gen_README_autotoc_md6}{}\doxysubsection{Seed String File}\label{md__home_bruno_Documents_IC_BenchGen_src_gen_README_autotoc_md6}
+The Seed String File should contain only {\bfseries{Valid Tokens}}. Other than that, these tokens can be written as the user wishes.
+
+Example\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{IF(LOOP(CALL(B)),A)}
+
+\end{DoxyCode}
+ 

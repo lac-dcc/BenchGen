@@ -1,0 +1,89 @@
+\hypertarget{classIf}{}\doxysection{If Class Reference}
+\label{classIf}\index{If@{If}}
+
+
+Represents an if statement in the AST.  
+
+
+
+
+{\ttfamily \#include $<$ast.\+h$>$}
+
+
+
+Inheritance diagram for If\+:
+% FIG 0
+
+
+Collaboration diagram for If\+:
+% FIG 1
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classIf_afab80ba1c82747536ab2d2828f9fde75}{If}} (std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classNode}{Node}} $>$ if\+Param)
+\item 
+void \mbox{\hyperlink{classIf_acc90a8fa5d318383b19e5eeb4985e79e}{gen}} (\mbox{\hyperlink{classGenerator}{Generator}} \&) override
+\begin{DoxyCompactList}\small\item\em Generates code for this AST node. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classIf_a7addf177113fb00cf35b401815e007bb}{print}} (int indent) override
+\begin{DoxyCompactList}\small\item\em Prints the structure of this AST node. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Represents an if statement in the AST. 
+
+\mbox{\hyperlink{classContains}{Contains}} the parameters and the else clause for the if statement. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classIf_afab80ba1c82747536ab2d2828f9fde75}\label{classIf_afab80ba1c82747536ab2d2828f9fde75}} 
+\index{If@{If}!If@{If}}
+\index{If@{If}!If@{If}}
+\doxysubsubsection{\texorpdfstring{If()}{If()}}
+{\footnotesize\ttfamily If\+::\+If (\begin{DoxyParamCaption}\item[{std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classNode}{Node}} $>$}]{if\+Param }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classIf_acc90a8fa5d318383b19e5eeb4985e79e}\label{classIf_acc90a8fa5d318383b19e5eeb4985e79e}} 
+\index{If@{If}!gen@{gen}}
+\index{gen@{gen}!If@{If}}
+\doxysubsubsection{\texorpdfstring{gen()}{gen()}}
+{\footnotesize\ttfamily void If\+::gen (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classGenerator}{Generator}} \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Generates code for this AST node. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em generator} & The generator object used to manage code generation. \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{classNode_a21e4ebe899c1ec58f42940c61db0326c}{Node}}.
+
+\mbox{\Hypertarget{classIf_a7addf177113fb00cf35b401815e007bb}\label{classIf_a7addf177113fb00cf35b401815e007bb}} 
+\index{If@{If}!print@{print}}
+\index{print@{print}!If@{If}}
+\doxysubsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily void If\+::print (\begin{DoxyParamCaption}\item[{int}]{indent }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Prints the structure of this AST node. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em indent} & The number of spaces to indent the output. \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{classNode_aae6f19c98b72b2d5ce0fc64de1939d7c}{Node}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/bruno/\+Documents/\+IC/\+Bench\+Gen/src/gen/ast/\mbox{\hyperlink{ast_8h}{ast.\+h}}\item 
+/home/bruno/\+Documents/\+IC/\+Bench\+Gen/src/gen/ast/\mbox{\hyperlink{ast_8cpp}{ast.\+cpp}}\end{DoxyCompactItemize}

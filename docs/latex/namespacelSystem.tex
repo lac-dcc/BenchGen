@@ -1,0 +1,132 @@
+\hypertarget{namespacelSystem}{}\doxysection{l\+System Namespace Reference}
+\label{namespacelSystem}\index{lSystem@{lSystem}}
+
+
+The \mbox{\hyperlink{namespacelSystem}{l\+System}} namespace contains functions to apply L-\/system rules to sequences of tokens, including matching rules and applying production rules.  
+
+
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ \mbox{\hyperlink{structToken}{Token}} $>$ \mbox{\hyperlink{namespacelSystem_a8e790c302d06e99cee21b449065319f4}{l\+System}} (int iterations, const std\+::vector$<$ \mbox{\hyperlink{structProductionRule}{Production\+Rule}} $>$ \&production\+Rules, const std\+::vector$<$ \mbox{\hyperlink{structToken}{Token}} $>$ \&input\+Tokens)
+\begin{DoxyCompactList}\small\item\em Applies L-\/system rules to generate a sequence of tokens. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{namespacelSystem_a9ae60c701b7cc49a5d316a8ec39f5fbe}{match}} (std\+::string match, const std\+::vector$<$ \mbox{\hyperlink{structProductionRule}{Production\+Rule}} $>$ \&rules)
+\begin{DoxyCompactList}\small\item\em Matches a string to a production rule. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{namespacelSystem_ad9a9316944d05d4bcc667664a067328f}{find\+Equal\+Call}} (const std\+::unordered\+\_\+map$<$ std\+::vector$<$ \mbox{\hyperlink{structToken}{Token}} $>$, int, \mbox{\hyperlink{structTokenVectorHash}{Token\+Vector\+Hash}}, \mbox{\hyperlink{structTokenVectorEqual}{Token\+Vector\+Equal}} $>$ \&call\+Map, const std\+::vector$<$ \mbox{\hyperlink{structToken}{Token}} $>$ \&call\+Tokens)
+\begin{DoxyCompactList}\small\item\em Finds an existing call ID for a given set of tokens, if one exists. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{namespacelSystem_af26d28ffafed03a06fcf26ce8e7805b1}{apply\+Call\+Ids}} (std\+::list$<$ \mbox{\hyperlink{structToken}{Token}} $>$ \&output\+Tokens, int \&call\+Counter)
+\begin{DoxyCompactList}\small\item\em Applies call IDs to sequences of tokens representing function calls. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{namespacelSystem_a8695b6c5d1023f1f7d9a30daa4fef3f6}{apply\+Production\+Rules}} (std\+::list$<$ \mbox{\hyperlink{structToken}{Token}} $>$ \&output\+Tokens, const std\+::vector$<$ \mbox{\hyperlink{structProductionRule}{Production\+Rule}} $>$ \&production\+Rules)
+\begin{DoxyCompactList}\small\item\em Applies production rules to the output tokens. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The \mbox{\hyperlink{namespacelSystem}{l\+System}} namespace contains functions to apply L-\/system rules to sequences of tokens, including matching rules and applying production rules. 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{namespacelSystem_af26d28ffafed03a06fcf26ce8e7805b1}\label{namespacelSystem_af26d28ffafed03a06fcf26ce8e7805b1}} 
+\index{lSystem@{lSystem}!applyCallIds@{applyCallIds}}
+\index{applyCallIds@{applyCallIds}!lSystem@{lSystem}}
+\doxysubsubsection{\texorpdfstring{applyCallIds()}{applyCallIds()}}
+{\footnotesize\ttfamily void l\+System\+::apply\+Call\+Ids (\begin{DoxyParamCaption}\item[{std\+::list$<$ \mbox{\hyperlink{structToken}{Token}} $>$ \&}]{output\+Tokens,  }\item[{int \&}]{call\+Counter }\end{DoxyParamCaption})}
+
+
+
+Applies call IDs to sequences of tokens representing function calls. 
+
+Processes the output tokens to assign unique call IDs to sequences representing function calls, ensuring that each unique call sequence has a unique ID.
+
+
+\begin{DoxyParams}{Parameters}
+{\em output\+Tokens} & A list of tokens representing the current state of the output. \\
+\hline
+{\em call\+Counter} & A reference to the counter used for assigning new call IDs. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{namespacelSystem_a8695b6c5d1023f1f7d9a30daa4fef3f6}\label{namespacelSystem_a8695b6c5d1023f1f7d9a30daa4fef3f6}} 
+\index{lSystem@{lSystem}!applyProductionRules@{applyProductionRules}}
+\index{applyProductionRules@{applyProductionRules}!lSystem@{lSystem}}
+\doxysubsubsection{\texorpdfstring{applyProductionRules()}{applyProductionRules()}}
+{\footnotesize\ttfamily void l\+System\+::apply\+Production\+Rules (\begin{DoxyParamCaption}\item[{std\+::list$<$ \mbox{\hyperlink{structToken}{Token}} $>$ \&}]{output\+Tokens,  }\item[{const std\+::vector$<$ \mbox{\hyperlink{structProductionRule}{Production\+Rule}} $>$ \&}]{production\+Rules }\end{DoxyParamCaption})}
+
+
+
+Applies production rules to the output tokens. 
+
+Replaces tokens in the output that match a production rule with the corresponding production, modifying the output sequence accordingly.
+
+
+\begin{DoxyParams}{Parameters}
+{\em output\+Tokens} & A list of tokens representing the current state of the output. \\
+\hline
+{\em production\+Rules} & The vector of production rules to apply to the output. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{namespacelSystem_ad9a9316944d05d4bcc667664a067328f}\label{namespacelSystem_ad9a9316944d05d4bcc667664a067328f}} 
+\index{lSystem@{lSystem}!findEqualCall@{findEqualCall}}
+\index{findEqualCall@{findEqualCall}!lSystem@{lSystem}}
+\doxysubsubsection{\texorpdfstring{findEqualCall()}{findEqualCall()}}
+{\footnotesize\ttfamily int l\+System\+::find\+Equal\+Call (\begin{DoxyParamCaption}\item[{const std\+::unordered\+\_\+map$<$ std\+::vector$<$ \mbox{\hyperlink{structToken}{Token}} $>$, int, \mbox{\hyperlink{structTokenVectorHash}{Token\+Vector\+Hash}}, \mbox{\hyperlink{structTokenVectorEqual}{Token\+Vector\+Equal}} $>$ \&}]{call\+Map,  }\item[{const std\+::vector$<$ \mbox{\hyperlink{structToken}{Token}} $>$ \&}]{call\+Tokens }\end{DoxyParamCaption})}
+
+
+
+Finds an existing call ID for a given set of tokens, if one exists. 
+
+Checks if a given sequence of tokens has already been assigned a call ID.
+
+
+\begin{DoxyParams}{Parameters}
+{\em call\+Map} & A map of token sequences to their corresponding call IDs. \\
+\hline
+{\em call\+Tokens} & The vector of tokens representing the call to check. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The call ID if found, or -\/1 if no existing call ID is found. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{namespacelSystem_a8e790c302d06e99cee21b449065319f4}\label{namespacelSystem_a8e790c302d06e99cee21b449065319f4}} 
+\index{lSystem@{lSystem}!lSystem@{lSystem}}
+\index{lSystem@{lSystem}!lSystem@{lSystem}}
+\doxysubsubsection{\texorpdfstring{lSystem()}{lSystem()}}
+{\footnotesize\ttfamily std\+::vector$<$ \mbox{\hyperlink{structToken}{Token}} $>$ l\+System\+::l\+System (\begin{DoxyParamCaption}\item[{int}]{iterations,  }\item[{const std\+::vector$<$ \mbox{\hyperlink{structProductionRule}{Production\+Rule}} $>$ \&}]{production\+Rules,  }\item[{const std\+::vector$<$ \mbox{\hyperlink{structToken}{Token}} $>$ \&}]{input\+Tokens }\end{DoxyParamCaption})}
+
+
+
+Applies L-\/system rules to generate a sequence of tokens. 
+
+Takes an initial set of tokens, applies the specified production rules for a given number of iterations, and generates a new sequence of tokens based on the rules.
+
+
+\begin{DoxyParams}{Parameters}
+{\em iterations} & The number of times the production rules should be applied. \\
+\hline
+{\em production\+Rules} & The production rules to apply, represented as a vector of \mbox{\hyperlink{structProductionRule}{Production\+Rule}} objects. \\
+\hline
+{\em input\+Tokens} & The initial vector of Tokens to which the rules are applied. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A vector of Tokens resulting from applying the production rules to the input. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{namespacelSystem_a9ae60c701b7cc49a5d316a8ec39f5fbe}\label{namespacelSystem_a9ae60c701b7cc49a5d316a8ec39f5fbe}} 
+\index{lSystem@{lSystem}!match@{match}}
+\index{match@{match}!lSystem@{lSystem}}
+\doxysubsubsection{\texorpdfstring{match()}{match()}}
+{\footnotesize\ttfamily int l\+System\+::match (\begin{DoxyParamCaption}\item[{std\+::string}]{match,  }\item[{const std\+::vector$<$ \mbox{\hyperlink{structProductionRule}{Production\+Rule}} $>$ \&}]{rules }\end{DoxyParamCaption})}
+
+
+
+Matches a string to a production rule. 
+
+Searches for a match between a given string and the rules in the provided vector.
+
+
+\begin{DoxyParams}{Parameters}
+{\em match} & The string to match against the production rules. \\
+\hline
+{\em rules} & The vector of production rules to search. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The index of the matching rule, or -\/1 if no match is found. 
+\end{DoxyReturn}
