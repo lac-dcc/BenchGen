@@ -149,7 +149,7 @@ GeneratorSortedList::~GeneratorSortedList() {
 
 std::vector<std::string> GeneratorSortedList::genIncludes() {
     std::vector<std::string> temp = {};
-    temp.push_back("#include <stdlib.h>");
+    temp.push_back("#include <stdbool.h>");
     return temp;
 }
 
@@ -186,7 +186,7 @@ std::vector<std::string> GeneratorSortedList::insert() {
     tmp.push_back("                 " + cell_varname + "->next->next = NULL;");
     tmp.push_back("                 " + cell_varname + "->next->val  = " + std::to_string(value) + ";");
     tmp.push_back("                 " + this->name + "->n++;");
-    tmp.push_back("                 return " + this->name + ";");
+    tmp.push_back("                 break;");
     tmp.push_back("             } else if(" + std::to_string(value) + " < " + cell_varname + "->val) {");
     tmp.push_back("                 cell_t* " + tmp_varname + " = " + cell_varname + "->next;");
     tmp.push_back("                 " + cell_varname + "->next = (cell_t*)malloc(sizeof(cell_t));");
@@ -195,7 +195,7 @@ std::vector<std::string> GeneratorSortedList::insert() {
     tmp.push_back("                 " + cell_varname + "->val = " + std::to_string(value) + ";");
     tmp.push_back("                 " + cell_varname + "->next->val = " + int_tmp_varname + ";");
     tmp.push_back("                 " + this->name + "->n++;");
-    tmp.push_back("                 return " + this->name + ";");
+    tmp.push_back("                 break;");
     tmp.push_back("             }");
     tmp.push_back("             " + cell_varname + " = " + cell_varname + "->next;");
     tmp.push_back("         }");
@@ -219,20 +219,15 @@ std::vector<std::string> GeneratorSortedList::remove() {
     tmp.push_back("    {");
     tmp.push_back("        " + cell_varname + " = " + cell_varname + "->next;");
     tmp.push_back("        " + this->name + "->n--;");
-    tmp.push_back("        return " + this->name + ";");
     tmp.push_back("    }else{");
     tmp.push_back("        while(" + cell_varname + "->next != NULL && " + cell_varname + "->next->val != " + std::to_string(value) + ") " + cell_varname + " = " + cell_varname + "->next;");
     tmp.push_back("        if(" + cell_varname + "->next != NULL)");
     tmp.push_back("        {");
     tmp.push_back("            " + cell_varname + " = " + cell_varname + "->next->next;");
     tmp.push_back("            " + this->name + "->n--;");
-    tmp.push_back("            return " + this->name + ";");
-    tmp.push_back("        }else{");
-    tmp.push_back("            return " + this->name + ";");
     tmp.push_back("        }");
-    tmp.push_back("    }");
+    tmp.push_back("     }");
     tmp.push_back("}");
-    tmp.push_back("return " + this->name + ";");
     VariableFactory::var_counter++;
 
     return tmp;
@@ -246,7 +241,9 @@ std::vector<std::string> GeneratorSortedList::contains(bool shouldReturn) {
     tmp.push_back("if("+this->name+" != NULL && "+this->name+"->n > 0){");
     tmp.push_back("     cell_t* " + cell_varname + " = " + this->name + "->root;");
     tmp.push_back("     while(" + cell_varname + " != NULL && " + cell_varname + "->val != " + std::to_string(value) + ") " + cell_varname + " = " + cell_varname + "->next;");
-    tmp.push_back("     return " + cell_varname + " != NULL ? " + this->name + " : NULL;");
+    if(shouldReturn){
+        tmp.push_back("     return " + cell_varname + " != NULL ? " + this->name + " : NULL;");
+    }
     tmp.push_back("}");
     VariableFactory::var_counter++;
 
