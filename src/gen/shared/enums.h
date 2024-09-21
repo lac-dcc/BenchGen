@@ -21,16 +21,15 @@ enum TokenType {
 
     TOK_END = -10,  // Token marking the end of a production rule (e.g., ';')
 
-    TOK_OPAREN = -11,     // Token for an open parenthesis '('
-    TOK_CPAREN = -12,     // Token for a close parenthesis ')'
-    TOK_COMMA = -13,      // Token for a comma ','
-    TOK_EQUAL = -14,      // Token for an equality check or assignment '='
-    TOK_UNDERLINE = -15,  // Token for an underline character '_'
-    TOK_COMMENT = -16,    // Token for a comment line (e.g., '#')
+    TOK_OPAREN = -11,   // Token for an open parenthesis '('
+    TOK_CPAREN = -12,   // Token for a close parenthesis ')'
+    TOK_COMMA = -13,    // Token for a comma ','
+    TOK_EQUAL = -14,    // Token for an equality check or assignment '='
+    TOK_COMMENT = -15,  // Token for a comment line (e.g., '#')
 
-    TOK_ID = -17,  // Token for an identifier (e.g., production rules names)
+    TOK_ID = -16,  // Token for an identifier (e.g., production rules names)
 
-    TOK_CALL_ID = -18,  // Token specifically for function call identifiers
+    TOK_CALL_ID = -17,  // Token specifically for function call identifiers
 
     TOK_ERROR = -1  // Token indicating an error or unrecognized token
 };
