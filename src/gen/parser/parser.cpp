@@ -111,8 +111,6 @@ std::shared_ptr<Node> Parser::parse_IFPARAM() {
             match(TOK_COMMA);
             return std::make_shared<IfParam>(IfParam(code, parse_ELSE()));
         }
-        case TOK_UNDERLINE:
-            match(TOK_UNDERLINE);
         case TOK_COMMA:
             match(TOK_COMMA);
             return std::make_shared<NoParamIf>(NoParamIf(parse_ELSE()));
@@ -139,8 +137,6 @@ std::shared_ptr<Node> Parser::parse_ELSE() {
             match(TOK_CPAREN);
             return std::make_shared<CodeElse>(CodeElse(code));
         }
-        case TOK_UNDERLINE:
-            match(TOK_UNDERLINE);
         case TOK_CPAREN:
             match(TOK_CPAREN);
             return std::make_shared<NoCodeElse>(NoCodeElse());
