@@ -1,2 +1,1 @@
-# Large example to data analysis
 new contains LOOP(insert CALL(A) B C contains) IF(contains, new) CALL(new contains)

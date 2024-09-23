@@ -1,0 +1,3 @@
+A = new IF(LOOP(new contains C LOOP(insert)),CALL(new B contains));
+B = LOOP(remove) C LOOP(insert) A CALL(new IF(B,A) LOOP(insert A));
+C = A CALL(new IF(B,B) LOOP(insert B) LOOP(insert B)) LOOP(remove);

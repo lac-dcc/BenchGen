@@ -1,0 +1,1 @@
+LOOP(A A B LOOP(C A))
