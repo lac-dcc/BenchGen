@@ -1,0 +1,17 @@
+# BenchGen DSL Grammar
+# & means λ (lambda)
+
+CODE          ->  STATEMENT CODE
+CODE          ->  &
+STATEMENT     ->  id
+STATEMENT     ->  insert
+STATEMENT     ->  remove
+STATEMENT     ->  new
+STATEMENT     ->  contains
+STATEMENT     ->  loop ( CODE )
+STATEMENT     ->  call ( CODE )
+STATEMENT     ->  if ( IFPARAM
+IFPARAM       ->  CODE , ELSE
+IFPARAM       ->  , ELSE
+ELSE          ->  CODE )
+ELSE          ->  )
