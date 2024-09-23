@@ -165,7 +165,7 @@ void Generator::endFunc() {
 void Generator::genMakefile(std::string dir, std::string target) {
     std::ofstream makefile;
     makefile.open(dir + "Makefile");
-    makefile << "CC = gcc\n";
+    makefile << "CC = clang\n";
     makefile << "CFLAGS = \n";
     makefile << "TARGET = " + target + "\n";
     makefile << "SRC_DIR = src\n";
@@ -187,6 +187,29 @@ void Generator::genMakefile(std::string dir, std::string target) {
     makefile << "\trm -f $(OBJ) $(TARGET)_$(CC)\n\n";
 
     makefile << "%.o: %.c\n";
+    // _________________
+    // makefile << "CC = clang\n";
+    // makefile << "CFLAGS = -emit-llvm\n";
+    // makefile << "TARGET = " + target + "\n";
+    // makefile << "SRC_DIR = src\n";
+    // makefile << "OBJ_DIR = obj\n\n";
+
+    // makefile << "SRC = $(wildcard $(SRC_DIR)/*.c)\n";
+    // makefile << "OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.bc, $(SRC))\n\n";
+
+    // makefile << "$(TARGET)_$(CC).bc: $(OBJ)\n";
+    // makefile << "\tllvm-link -o $(TARGET)_$(CC).bc $(OBJ)\n\n";
+
+    // makefile << "$(OBJ_DIR)/%.bc: $(SRC_DIR)/%.c | $(OBJ_DIR)\n";
+    // makefile << "\t$(CC) ${CFLAGS} -c $< -o $@\n\n";
+
+    // makefile << "$(OBJ_DIR):\n";
+    // makefile << "\tmkdir -p $(OBJ_DIR)\n\n";
+
+    // makefile << "clean:\n";
+    // makefile << "\trm -f $(OBJ) $(TARGET)_$(CC).bc\n\n";
+
+    // makefile << "%.o: %.c\n";
 }
 
 void Generator::generateFiles(std::string benchmarkName) {
