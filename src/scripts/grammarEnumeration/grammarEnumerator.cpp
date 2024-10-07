@@ -14,10 +14,28 @@ std::vector<std::string> getNonTerminals() {
 
 void writeToFile(const std::vector<std::string>* s, std::ofstream* file) {
     static int count = 0;
-    std::string line = std::to_string(count) + ": ";
-    for (auto c : *s) {
-        line += c + " ";
+    std::string line = std::to_string(count) + ": \n    SS: ";
+    int i = 0;
+    for (; i < s->size() - 1; i++) {
+        if (s->at(i) == "\n") {
+            break;
+        } else {
+            line += s->at(i) + " ";
+        }
     }
+    line += "\n    A: ";
+    for (i++; i < s->size() - 1; i++) {
+        if (s->at(i) == "\n") {
+            break;
+        } else {
+            line += s->at(i) + " ";
+        }
+    }
+    line += "\n    B: ";
+    for (i++; i < s->size() - 1; i++) {
+        line += s->at(i) + " ";
+    }
+
     *file << line << std::endl;
     count++;
 }
@@ -77,8 +95,16 @@ std::vector<std::vector<std::string>> expandSymbol(std::string symbol) {
 }
 
 std::vector<std::vector<std::string>> addLineBreaks(const std::vector<std::string>* s) {
-    int size = s->size();
-    std::vector<std::vector<std::string>> programs = {};
-    int pos0 = 0;
-    int pos1 = 1;
+    int fSize = s->size() + 2;
+    std::vector<std::vector<std::string>> programs;
+
+    for (int pos0 = 0; pos0 < fSize - 2; pos0++) {
+        for (int pos1 = pos0 + 1; pos1 < fSize - 1; pos1++) {
+            std::vector<std::string> program = *s;
+            program.insert(program.begin() + pos0, "\n");
+            program.insert(program.begin() + pos1, "\n");
+        }
+    }
+
+    return programs;
 }
