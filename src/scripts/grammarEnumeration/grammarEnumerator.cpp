@@ -12,10 +12,10 @@ std::vector<std::string> getNonTerminals() {
     return nonTerminals;
 }
 
-void writeToFile(std::vector<std::string> s, std::ofstream* file) {
+void writeToFile(const std::vector<std::string>* s, std::ofstream* file) {
     static int count = 0;
     std::string line = std::to_string(count) + ": ";
-    for (auto c : s) {
+    for (auto c : *s) {
         line += c + " ";
     }
     *file << line << std::endl;
@@ -40,7 +40,10 @@ void enumerateGrammar(std::vector<std::string> s, const std::vector<std::string>
         }
     }
     if (!hasNonTerminal) {
-        writeToFile(s, file);
+        std::vector<std::vector<std::string>> programs = addLineBreaks(&s);
+        for (auto program : programs) {
+            writeToFile(&program, file);
+        }
         return;
     }
 
@@ -71,4 +74,11 @@ std::vector<std::vector<std::string>> expandSymbol(std::string symbol) {
         }
     }
     return rules;
+}
+
+std::vector<std::vector<std::string>> addLineBreaks(const std::vector<std::string>* s) {
+    int size = s->size();
+    std::vector<std::vector<std::string>> programs = {};
+    int pos0 = 0;
+    int pos1 = 1;
 }

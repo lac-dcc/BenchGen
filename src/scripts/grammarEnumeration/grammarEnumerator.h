@@ -10,7 +10,8 @@ std::vector<std::string> getNonTerminals();
 void enumerateGrammar(std::ofstream *, const int);
 void enumerateGrammar(std::vector<std::string>, const std::vector<std::string> *, int, const int, std::ofstream *);
 std::vector<std::vector<std::string>> expandSymbol(std::string);
+std::vector<std::vector<std::string>> addLineBreaks(const std::vector<std::string> *);
 
-void writeToFile(std::vector<std::string>, std::ofstream *);
+void writeToFile(const std::vector<std::string> *, std::ofstream *);
 
 #endif
