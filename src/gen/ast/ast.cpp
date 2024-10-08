@@ -130,14 +130,6 @@ void IfParam::gen(Generator& generator) {
     else_->gen(generator);
 }
 
-void NoParamIf::gen(Generator& generator) {
-    std::string condition = generateIfCondition(generator);
-    generator.ifCounter.top()++;
-    std::string line = "if(" + condition + ") {}";
-    generator.addLine(line);
-    else_->gen(generator);
-}
-
 void CodeElse::gen(Generator& generator) {
     std::string line = "else {";
     generator.addLine(line);
@@ -145,10 +137,6 @@ void CodeElse::gen(Generator& generator) {
     code->gen(generator);
     generator.freeVars();
     generator.endScope();
-}
-
-void NoCodeElse::gen(Generator& generator) {
-    // No operation for no-code else generation
 }
 
 // Printing Methods
@@ -220,19 +208,8 @@ void IfParam::print(int ident) {
     else_->print(ident + 2);
 }
 
-void NoParamIf::print(int ident) {
-    printIndentationSpaces(ident);
-    std::cout << "NoParamIf" << std::endl;
-    else_->print(ident + 2);
-}
-
 void CodeElse::print(int ident) {
     printIndentationSpaces(ident);
     std::cout << "CodeElse" << std::endl;
     code->print(ident + 2);
-}
-
-void NoCodeElse::print(int ident) {
-    printIndentationSpaces(ident);
-    std::cout << "NoCodeElse" << std::endl;
 }
