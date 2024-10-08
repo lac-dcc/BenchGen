@@ -264,24 +264,6 @@ class IfParam : public Node {
 };
 
 /**
- * @brief Represents an if statement with no parameters in the AST.
- *
- * Contains the else clause for the if statement.
- */
-class NoParamIf : public Node {
-   private:
-    std::shared_ptr<Node> else_;  // The else clause
-
-   public:
-    NoParamIf(std::shared_ptr<Node> else_) : else_(else_) {
-    }
-
-    void gen(Generator&) override;
-
-    void print(int indent) override;
-};
-
-/**
  * @brief Represents an else clause with a code block in the AST.
  *
  * Contains the code block for the else clause.
@@ -294,18 +276,6 @@ class CodeElse : public Node {
     CodeElse(std::shared_ptr<Node> code) : code(code) {
     }
 
-    void gen(Generator&) override;
-
-    void print(int indent) override;
-};
-
-/**
- * @brief Represents an else clause with no code block in the AST.
- *
- * This class does not generate any code.
- */
-class NoCodeElse : public Node {
-   public:
     void gen(Generator&) override;
 
     void print(int indent) override;
