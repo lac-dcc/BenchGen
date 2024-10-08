@@ -25,7 +25,6 @@ const grammar_t grammar = {
     {"STATEMENT", {"IF", "(", "IFPARAM"}},
     {"IFPARAM", {"CODE", "ELSE"}},
     {"IFPARAM", {",", "ELSE"}},
-    {"ELSE", {"CODE", ")"}},
-    {"ELSE", {")"}}};
+    {"ELSE", {"CODE", ")"}}};
 
 #endif
