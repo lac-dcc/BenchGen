@@ -2,6 +2,22 @@
 
 ## Why to compare compilers?
 
+Comparing compilers is a powerful approach to understanding how different compilers optimize and generate code, significantly 
+impacting performance, memory usage, and CPU consumption. This type of experiment can help to identify the scenarios in which 
+each compiler performs better.
+
+Different compilers apply various optimization strategies, resulting in codes with different properties. Furthermore, some 
+compilers provide a set of optimization flags that allow the user to choose the desired optimization level. Comparing the 
+compilers with multiple flags enables us to analyze the impact of these flags as we increase the optimization level across
+different compilers.
+
+Comparing compilers and optimizations is essential for reducing the time and cost of running large and widely used applications.
+Different optimization techniques applied by various compilers can significantly impact execution speed, memory usage, and overall 
+efficiency. Choosing the most efficient compiler and optimization settings for a specific scenario is key to minimizing resource 
+consumption, cost, and execution time, especially in fields like scientific computing, high-performance computing, data processing, 
+and efficiency-driven systems.
+
+
 ## Which benchmarks can we use?
 ### BenchGen: A Benchmark Generator!
 
