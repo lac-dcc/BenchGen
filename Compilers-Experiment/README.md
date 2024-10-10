@@ -17,8 +17,13 @@ efficiency. Choosing the most efficient compiler and optimization settings for a
 consumption, cost, and execution time, especially in fields like scientific computing, high-performance computing, data processing, 
 and efficiency-driven systems.
 
-
 ## Which benchmarks can we use?
+
+There are many widely used benchmark collections for comparing compilers, such as SPEC CPU, LLVM Test Suite, and PolyBench. 
+Each collection targets different scenarios and domains, including scientific computing, industry applications, embedded systems, 
+and programs of varying sizes. Creating benchmarks that capture the unique characteristics of a specific domain can be a limitation
+for performance analysis, as it often involves significant cost and effort to build comprehensive tests for that scenario. 
+
 ### BenchGen: A Benchmark Generator!
 
 ## Experimental SetUp
