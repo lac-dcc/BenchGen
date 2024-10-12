@@ -1,5 +1,10 @@
 # Comparing Compilers
 
+<p align="center">
+  </br>
+  <img alt="logo" src="./assets/compilers.png" width="100%" height="auto"/>
+</p>
+
 ## Why to compare compilers?
 
 Comparing compilers is a powerful approach to understanding how different compilers optimize and generate code, significantly 
