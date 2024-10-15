@@ -96,7 +96,6 @@ void Lexer::loadConfiguration() {
     LexerRule lrCParen;
     LexerRule lrComma;
     LexerRule lrEqual;
-    LexerRule lrUnderline;
     LexerRule lrComment;
     LexerRule lrId;
     LexerRule lrError;
@@ -114,7 +113,6 @@ void Lexer::loadConfiguration() {
     lrCParen.type = TOK_CPAREN;
     lrComma.type = TOK_COMMA;
     lrEqual.type = TOK_EQUAL;
-    lrUnderline.type = TOK_UNDERLINE;
     lrComment.type = TOK_COMMENT;
     lrId.type = TOK_ID;
     lrError.type = TOK_ERROR;
@@ -132,14 +130,13 @@ void Lexer::loadConfiguration() {
     lrCParen.regex = "[)]";
     lrComma.regex = "[,]";
     lrEqual.regex = "[=]";
-    lrUnderline.regex = "[_]";
     lrComment.regex = "[#]";
     lrId.regex = "[a-zA-Z]+[a-zA-Z0-9]*";
     lrError.regex = ".";
 
     rules = {
         lrIf, lrLoop, lrCall, lrSeq, lrInsert, lrRemove, lrNew, lrContains, lrEnd,
-        lrOParen, lrCParen, lrComma, lrEqual, lrUnderline, lrComment, lrId, lrError};
+        lrOParen, lrCParen, lrComma, lrEqual, lrComment, lrId, lrError};
 }
 
 std::vector<Token> Lexer::getTokens(std::string fileName) {
