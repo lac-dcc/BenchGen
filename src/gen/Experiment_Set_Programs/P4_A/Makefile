@@ -1,22 +1,22 @@
 CC = clang
-CFLAGS = -emit-llvm
+CFLAGS = 
 TARGET = Experiment_Set_Programs/P4_A
 SRC_DIR = src
 OBJ_DIR = obj
 
 SRC = $(wildcard $(SRC_DIR)/*.c)
-OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.bc, $(SRC))
+OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 
-$(TARGET)_$(CC).bc: $(OBJ)
-	llvm-link -o $(TARGET)_$(CC).bc $(OBJ)
+$(TARGET)_$(CC): $(OBJ)
+	$(CC) ${CFLAGS} -o $(TARGET)_$(CC) $(OBJ)
 
-$(OBJ_DIR)/%.bc: $(SRC_DIR)/%.c | $(OBJ_DIR)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	$(CC) ${CFLAGS} -c $< -o $@
 
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
 
 clean:
-	rm -f $(OBJ) $(TARGET)_$(CC).bc
+	rm -f $(OBJ) $(TARGET)_$(CC)
 
 %.o: %.c
