@@ -1,0 +1,1 @@
+LOOP(LOOP(new insert A insert IF(contains, IF(contains, insert)) remove B CALL(C) LOOP(insert contains contains insert)))

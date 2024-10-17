@@ -1,0 +1,1 @@
+new LOOP(contains A remove B LOOP(insert C IF(contains, new) CALL(insert C remove CALL(insert))))
