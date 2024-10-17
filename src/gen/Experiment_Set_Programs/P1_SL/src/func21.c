@@ -1,9 +1,16 @@
-#include "P1_SL.h" 
+#include "Experiment_Set_Programs/P1_SL.h" 
 sortedlist_t* func21(sortedlist_t_param* vars, int loopsFactor) {
    size_t pCounter = vars->size;
-   sortedlist_t* sortedlist21 = (sortedlist_t*)malloc(sizeof(sortedlist_t));
-   sortedlist21->n = 0;
-   sortedlist21->root = NULL;
+   sortedlist_t* sortedlist21;
+   if (pCounter > 0) {
+      sortedlist21 = vars->data[--pCounter];
+      sortedlist21->refC++;
+   } else {
+        sortedlist21 = (sortedlist_t*)malloc(sizeof(sortedlist_t));
+        sortedlist21->refC = 1;
+        sortedlist21->n = 0;
+        sortedlist21->root = NULL;
+   }
    if(sortedlist21 != NULL && sortedlist21->n > 0) {
         cell_t* cell21 = sortedlist21->root;
         if(sortedlist21->n == 0) {

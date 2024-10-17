@@ -1,9 +1,16 @@
-#include "P3_SL.h" 
+#include "Experiment_Set_Programs/P3_SL.h" 
 sortedlist_t* func9(sortedlist_t_param* vars, const unsigned long PATH0, int loopsFactor) {
    size_t pCounter = vars->size;
-   sortedlist_t* sortedlist17 = (sortedlist_t*)malloc(sizeof(sortedlist_t));
-   sortedlist17->n = 0;
-   sortedlist17->root = NULL;
+   sortedlist_t* sortedlist17;
+   if (pCounter > 0) {
+      sortedlist17 = vars->data[--pCounter];
+      sortedlist17->refC++;
+   } else {
+        sortedlist17 = (sortedlist_t*)malloc(sizeof(sortedlist_t));
+        sortedlist17->refC = 1;
+        sortedlist17->n = 0;
+        sortedlist17->root = NULL;
+   }
    if(PATH0 & 1) {
    }
    else {

@@ -1,9 +1,16 @@
-#include "P1_SL.h" 
+#include "Experiment_Set_Programs/P1_SL.h" 
 sortedlist_t* func4(sortedlist_t_param* vars, const unsigned long PATH0, int loopsFactor) {
    size_t pCounter = vars->size;
-   sortedlist_t* sortedlist155 = (sortedlist_t*)malloc(sizeof(sortedlist_t));
-   sortedlist155->n = 0;
-   sortedlist155->root = NULL;
+   sortedlist_t* sortedlist155;
+   if (pCounter > 0) {
+      sortedlist155 = vars->data[--pCounter];
+      sortedlist155->refC++;
+   } else {
+        sortedlist155 = (sortedlist_t*)malloc(sizeof(sortedlist_t));
+        sortedlist155->refC = 1;
+        sortedlist155->n = 0;
+        sortedlist155->root = NULL;
+   }
    if(PATH0 & 1) {
       unsigned int loop61 = 0;
       unsigned int loopLimit61 = (rand()%loopsFactor)/2 + 1;
@@ -25,16 +32,30 @@ sortedlist_t* func4(sortedlist_t_param* vars, const unsigned long PATH0, int loo
               }
          }
       }
-      sortedlist_t* sortedlist156 = (sortedlist_t*)malloc(sizeof(sortedlist_t));
-      sortedlist156->n = 0;
-      sortedlist156->root = NULL;
+      sortedlist_t* sortedlist156;
+      if (pCounter > 0) {
+         sortedlist156 = vars->data[--pCounter];
+         sortedlist156->refC++;
+      } else {
+           sortedlist156 = (sortedlist_t*)malloc(sizeof(sortedlist_t));
+           sortedlist156->refC = 1;
+           sortedlist156->n = 0;
+           sortedlist156->root = NULL;
+      }
       if(PATH0 & 2) {
          unsigned int loop62 = 0;
          unsigned int loopLimit62 = (rand()%loopsFactor)/2 + 1;
          for(; loop62 < loopLimit62; loop62++) {
-            sortedlist_t* sortedlist157 = (sortedlist_t*)malloc(sizeof(sortedlist_t));
-            sortedlist157->n = 0;
-            sortedlist157->root = NULL;
+            sortedlist_t* sortedlist157;
+            if (pCounter > 0) {
+               sortedlist157 = vars->data[--pCounter];
+               sortedlist157->refC++;
+            } else {
+                 sortedlist157 = (sortedlist_t*)malloc(sizeof(sortedlist_t));
+                 sortedlist157->refC = 1;
+                 sortedlist157->n = 0;
+                 sortedlist157->root = NULL;
+            }
             if(sortedlist156 != NULL && sortedlist156->n > 0)
             {
                 cell_t* cell277 = sortedlist156->root;
@@ -56,13 +77,14 @@ sortedlist_t* func4(sortedlist_t_param* vars, const unsigned long PATH0, int loo
                  while(cell278 != NULL && cell278->val != 67) cell278 = cell278->next;
                  return cell278 != NULL ? sortedlist157 : NULL;
             }
-            if(sortedlist157 != NULL && sortedlist157->n > 0){
+            sortedlist157->refC--;
+            if(sortedlist157->refC == 0 && sortedlist157->n > 0){
                  cell_t* cell279 = sortedlist157->root;
                  cell_t* tmp279  = NULL;
                  while(cell279 != NULL) {
-                      tmp279 = cell279->next;
-                      free(cell279);
-                      cell279 = tmp279;
+                     tmp279 = cell279->next;
+                     free(cell279);
+                     cell279 = tmp279;
                  }
                  free(sortedlist157);
             }
@@ -76,13 +98,14 @@ sortedlist_t* func4(sortedlist_t_param* vars, const unsigned long PATH0, int loo
          params0.data[1] = sortedlist156;
          sortedlist_t* sortedlist158 = func11(&params0, rng(), loopsFactor);
          free(params0.data);
-         if(sortedlist158 != NULL && sortedlist158->n > 0){
+         sortedlist158->refC--;
+         if(sortedlist158->refC == 0 && sortedlist158->n > 0){
               cell_t* cell280 = sortedlist158->root;
               cell_t* tmp280  = NULL;
               while(cell280 != NULL) {
-                   tmp280 = cell280->next;
-                   free(cell280);
-                   cell280 = tmp280;
+                  tmp280 = cell280->next;
+                  free(cell280);
+                  cell280 = tmp280;
               }
               free(sortedlist158);
          }
@@ -136,41 +159,51 @@ sortedlist_t* func4(sortedlist_t_param* vars, const unsigned long PATH0, int loo
       params1.data[2] = sortedlist159;
       sortedlist_t* sortedlist160 = func5(&params1, rng(), loopsFactor);
       free(params1.data);
-      if(sortedlist160 != NULL && sortedlist160->n > 0){
+      sortedlist160->refC--;
+      if(sortedlist160->refC == 0 && sortedlist160->n > 0){
            cell_t* cell282 = sortedlist160->root;
            cell_t* tmp282  = NULL;
            while(cell282 != NULL) {
-                tmp282 = cell282->next;
-                free(cell282);
-                cell282 = tmp282;
+               tmp282 = cell282->next;
+               free(cell282);
+               cell282 = tmp282;
            }
            free(sortedlist160);
       }
-      if(sortedlist159 != NULL && sortedlist159->n > 0){
+      sortedlist159->refC--;
+      if(sortedlist159->refC == 0 && sortedlist159->n > 0){
            cell_t* cell283 = sortedlist159->root;
            cell_t* tmp283  = NULL;
            while(cell283 != NULL) {
-                tmp283 = cell283->next;
-                free(cell283);
-                cell283 = tmp283;
+               tmp283 = cell283->next;
+               free(cell283);
+               cell283 = tmp283;
            }
            free(sortedlist159);
       }
-      if(sortedlist156 != NULL && sortedlist156->n > 0){
+      sortedlist156->refC--;
+      if(sortedlist156->refC == 0 && sortedlist156->n > 0){
            cell_t* cell284 = sortedlist156->root;
            cell_t* tmp284  = NULL;
            while(cell284 != NULL) {
-                tmp284 = cell284->next;
-                free(cell284);
-                cell284 = tmp284;
+               tmp284 = cell284->next;
+               free(cell284);
+               cell284 = tmp284;
            }
            free(sortedlist156);
       }
    }
    else {
-      sortedlist_t* sortedlist161 = (sortedlist_t*)malloc(sizeof(sortedlist_t));
-      sortedlist161->n = 0;
-      sortedlist161->root = NULL;
+      sortedlist_t* sortedlist161;
+      if (pCounter > 0) {
+         sortedlist161 = vars->data[--pCounter];
+         sortedlist161->refC++;
+      } else {
+           sortedlist161 = (sortedlist_t*)malloc(sizeof(sortedlist_t));
+           sortedlist161->refC = 1;
+           sortedlist161->n = 0;
+           sortedlist161->root = NULL;
+      }
       if(sortedlist161 != NULL && sortedlist161->n > 0) {
            cell_t* cell285 = sortedlist161->root;
            if(sortedlist161->n == 0) {
@@ -222,16 +255,30 @@ sortedlist_t* func4(sortedlist_t_param* vars, const unsigned long PATH0, int loo
               }
            }
       }
-      sortedlist_t* sortedlist162 = (sortedlist_t*)malloc(sizeof(sortedlist_t));
-      sortedlist162->n = 0;
-      sortedlist162->root = NULL;
+      sortedlist_t* sortedlist162;
+      if (pCounter > 0) {
+         sortedlist162 = vars->data[--pCounter];
+         sortedlist162->refC++;
+      } else {
+           sortedlist162 = (sortedlist_t*)malloc(sizeof(sortedlist_t));
+           sortedlist162->refC = 1;
+           sortedlist162->n = 0;
+           sortedlist162->root = NULL;
+      }
       if(PATH0 & 4) {
          unsigned int loop64 = 0;
          unsigned int loopLimit64 = (rand()%loopsFactor)/2 + 1;
          for(; loop64 < loopLimit64; loop64++) {
-            sortedlist_t* sortedlist163 = (sortedlist_t*)malloc(sizeof(sortedlist_t));
-            sortedlist163->n = 0;
-            sortedlist163->root = NULL;
+            sortedlist_t* sortedlist163;
+            if (pCounter > 0) {
+               sortedlist163 = vars->data[--pCounter];
+               sortedlist163->refC++;
+            } else {
+                 sortedlist163 = (sortedlist_t*)malloc(sizeof(sortedlist_t));
+                 sortedlist163->refC = 1;
+                 sortedlist163->n = 0;
+                 sortedlist163->root = NULL;
+            }
             if(sortedlist162 != NULL && sortedlist162->n > 0)
             {
                 cell_t* cell288 = sortedlist162->root;
@@ -253,13 +300,14 @@ sortedlist_t* func4(sortedlist_t_param* vars, const unsigned long PATH0, int loo
                  while(cell289 != NULL && cell289->val != 81) cell289 = cell289->next;
                  return cell289 != NULL ? sortedlist155 : NULL;
             }
-            if(sortedlist163 != NULL && sortedlist163->n > 0){
+            sortedlist163->refC--;
+            if(sortedlist163->refC == 0 && sortedlist163->n > 0){
                  cell_t* cell290 = sortedlist163->root;
                  cell_t* tmp290  = NULL;
                  while(cell290 != NULL) {
-                      tmp290 = cell290->next;
-                      free(cell290);
-                      cell290 = tmp290;
+                     tmp290 = cell290->next;
+                     free(cell290);
+                     cell290 = tmp290;
                  }
                  free(sortedlist163);
             }
@@ -274,13 +322,14 @@ sortedlist_t* func4(sortedlist_t_param* vars, const unsigned long PATH0, int loo
          params0.data[2] = sortedlist162;
          sortedlist_t* sortedlist164 = func11(&params0, rng(), loopsFactor);
          free(params0.data);
-         if(sortedlist164 != NULL && sortedlist164->n > 0){
+         sortedlist164->refC--;
+         if(sortedlist164->refC == 0 && sortedlist164->n > 0){
               cell_t* cell291 = sortedlist164->root;
               cell_t* tmp291  = NULL;
               while(cell291 != NULL) {
-                   tmp291 = cell291->next;
-                   free(cell291);
-                   cell291 = tmp291;
+                  tmp291 = cell291->next;
+                  free(cell291);
+                  cell291 = tmp291;
               }
               free(sortedlist164);
          }
@@ -293,33 +342,36 @@ sortedlist_t* func4(sortedlist_t_param* vars, const unsigned long PATH0, int loo
       params0.data[2] = sortedlist162;
       sortedlist_t* sortedlist165 = func8(&params0, rng(), loopsFactor);
       free(params0.data);
-      if(sortedlist165 != NULL && sortedlist165->n > 0){
+      sortedlist165->refC--;
+      if(sortedlist165->refC == 0 && sortedlist165->n > 0){
            cell_t* cell292 = sortedlist165->root;
            cell_t* tmp292  = NULL;
            while(cell292 != NULL) {
-                tmp292 = cell292->next;
-                free(cell292);
-                cell292 = tmp292;
+               tmp292 = cell292->next;
+               free(cell292);
+               cell292 = tmp292;
            }
            free(sortedlist165);
       }
-      if(sortedlist162 != NULL && sortedlist162->n > 0){
+      sortedlist162->refC--;
+      if(sortedlist162->refC == 0 && sortedlist162->n > 0){
            cell_t* cell293 = sortedlist162->root;
            cell_t* tmp293  = NULL;
            while(cell293 != NULL) {
-                tmp293 = cell293->next;
-                free(cell293);
-                cell293 = tmp293;
+               tmp293 = cell293->next;
+               free(cell293);
+               cell293 = tmp293;
            }
            free(sortedlist162);
       }
-      if(sortedlist161 != NULL && sortedlist161->n > 0){
+      sortedlist161->refC--;
+      if(sortedlist161->refC == 0 && sortedlist161->n > 0){
            cell_t* cell294 = sortedlist161->root;
            cell_t* tmp294  = NULL;
            while(cell294 != NULL) {
-                tmp294 = cell294->next;
-                free(cell294);
-                cell294 = tmp294;
+               tmp294 = cell294->next;
+               free(cell294);
+               cell294 = tmp294;
            }
            free(sortedlist161);
       }
@@ -357,9 +409,16 @@ sortedlist_t* func4(sortedlist_t_param* vars, const unsigned long PATH0, int loo
                }
            }
       }
-      sortedlist_t* sortedlist166 = (sortedlist_t*)malloc(sizeof(sortedlist_t));
-      sortedlist166->n = 0;
-      sortedlist166->root = NULL;
+      sortedlist_t* sortedlist166;
+      if (pCounter > 0) {
+         sortedlist166 = vars->data[--pCounter];
+         sortedlist166->refC++;
+      } else {
+           sortedlist166 = (sortedlist_t*)malloc(sizeof(sortedlist_t));
+           sortedlist166->refC = 1;
+           sortedlist166->n = 0;
+           sortedlist166->root = NULL;
+      }
       if(sortedlist155 != NULL && sortedlist155->n > 0) {
            cell_t* cell296 = sortedlist155->root;
            if(sortedlist155->n == 0) {
@@ -411,16 +470,30 @@ sortedlist_t* func4(sortedlist_t_param* vars, const unsigned long PATH0, int loo
               }
            }
       }
-      sortedlist_t* sortedlist167 = (sortedlist_t*)malloc(sizeof(sortedlist_t));
-      sortedlist167->n = 0;
-      sortedlist167->root = NULL;
+      sortedlist_t* sortedlist167;
+      if (pCounter > 0) {
+         sortedlist167 = vars->data[--pCounter];
+         sortedlist167->refC++;
+      } else {
+           sortedlist167 = (sortedlist_t*)malloc(sizeof(sortedlist_t));
+           sortedlist167->refC = 1;
+           sortedlist167->n = 0;
+           sortedlist167->root = NULL;
+      }
       if(PATH0 & 8) {
          unsigned int loop66 = 0;
          unsigned int loopLimit66 = (rand()%loopsFactor)/3 + 1;
          for(; loop66 < loopLimit66; loop66++) {
-            sortedlist_t* sortedlist168 = (sortedlist_t*)malloc(sizeof(sortedlist_t));
-            sortedlist168->n = 0;
-            sortedlist168->root = NULL;
+            sortedlist_t* sortedlist168;
+            if (pCounter > 0) {
+               sortedlist168 = vars->data[--pCounter];
+               sortedlist168->refC++;
+            } else {
+                 sortedlist168 = (sortedlist_t*)malloc(sizeof(sortedlist_t));
+                 sortedlist168->refC = 1;
+                 sortedlist168->n = 0;
+                 sortedlist168->root = NULL;
+            }
             if(sortedlist167 != NULL && sortedlist167->n > 0)
             {
                 cell_t* cell299 = sortedlist167->root;
@@ -442,13 +515,14 @@ sortedlist_t* func4(sortedlist_t_param* vars, const unsigned long PATH0, int loo
                  while(cell300 != NULL && cell300->val != 42) cell300 = cell300->next;
                  return cell300 != NULL ? sortedlist155 : NULL;
             }
-            if(sortedlist168 != NULL && sortedlist168->n > 0){
+            sortedlist168->refC--;
+            if(sortedlist168->refC == 0 && sortedlist168->n > 0){
                  cell_t* cell301 = sortedlist168->root;
                  cell_t* tmp301  = NULL;
                  while(cell301 != NULL) {
-                      tmp301 = cell301->next;
-                      free(cell301);
-                      cell301 = tmp301;
+                     tmp301 = cell301->next;
+                     free(cell301);
+                     cell301 = tmp301;
                  }
                  free(sortedlist168);
             }
@@ -463,13 +537,14 @@ sortedlist_t* func4(sortedlist_t_param* vars, const unsigned long PATH0, int loo
          params0.data[2] = sortedlist167;
          sortedlist_t* sortedlist169 = func11(&params0, rng(), loopsFactor);
          free(params0.data);
-         if(sortedlist169 != NULL && sortedlist169->n > 0){
+         sortedlist169->refC--;
+         if(sortedlist169->refC == 0 && sortedlist169->n > 0){
               cell_t* cell302 = sortedlist169->root;
               cell_t* tmp302  = NULL;
               while(cell302 != NULL) {
-                   tmp302 = cell302->next;
-                   free(cell302);
-                   cell302 = tmp302;
+                  tmp302 = cell302->next;
+                  free(cell302);
+                  cell302 = tmp302;
               }
               free(sortedlist169);
          }
@@ -482,33 +557,36 @@ sortedlist_t* func4(sortedlist_t_param* vars, const unsigned long PATH0, int loo
       params0.data[2] = sortedlist167;
       sortedlist_t* sortedlist170 = func8(&params0, rng(), loopsFactor);
       free(params0.data);
-      if(sortedlist170 != NULL && sortedlist170->n > 0){
+      sortedlist170->refC--;
+      if(sortedlist170->refC == 0 && sortedlist170->n > 0){
            cell_t* cell303 = sortedlist170->root;
            cell_t* tmp303  = NULL;
            while(cell303 != NULL) {
-                tmp303 = cell303->next;
-                free(cell303);
-                cell303 = tmp303;
+               tmp303 = cell303->next;
+               free(cell303);
+               cell303 = tmp303;
            }
            free(sortedlist170);
       }
-      if(sortedlist167 != NULL && sortedlist167->n > 0){
+      sortedlist167->refC--;
+      if(sortedlist167->refC == 0 && sortedlist167->n > 0){
            cell_t* cell304 = sortedlist167->root;
            cell_t* tmp304  = NULL;
            while(cell304 != NULL) {
-                tmp304 = cell304->next;
-                free(cell304);
-                cell304 = tmp304;
+               tmp304 = cell304->next;
+               free(cell304);
+               cell304 = tmp304;
            }
            free(sortedlist167);
       }
-      if(sortedlist166 != NULL && sortedlist166->n > 0){
+      sortedlist166->refC--;
+      if(sortedlist166->refC == 0 && sortedlist166->n > 0){
            cell_t* cell305 = sortedlist166->root;
            cell_t* tmp305  = NULL;
            while(cell305 != NULL) {
-                tmp305 = cell305->next;
-                free(cell305);
-                cell305 = tmp305;
+               tmp305 = cell305->next;
+               free(cell305);
+               cell305 = tmp305;
            }
            free(sortedlist166);
       }

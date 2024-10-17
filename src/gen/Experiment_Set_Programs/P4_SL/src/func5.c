@@ -1,9 +1,16 @@
-#include "P4_SL.h" 
+#include "Experiment_Set_Programs/P4_SL.h" 
 sortedlist_t* func5(sortedlist_t_param* vars, int loopsFactor) {
    size_t pCounter = vars->size;
-   sortedlist_t* sortedlist61 = (sortedlist_t*)malloc(sizeof(sortedlist_t));
-   sortedlist61->n = 0;
-   sortedlist61->root = NULL;
+   sortedlist_t* sortedlist61;
+   if (pCounter > 0) {
+      sortedlist61 = vars->data[--pCounter];
+      sortedlist61->refC++;
+   } else {
+        sortedlist61 = (sortedlist_t*)malloc(sizeof(sortedlist_t));
+        sortedlist61->refC = 1;
+        sortedlist61->n = 0;
+        sortedlist61->root = NULL;
+   }
    unsigned int loop60 = 0;
    unsigned int loopLimit60 = (rand()%loopsFactor)/2 + 1;
    for(; loop60 < loopLimit60; loop60++) {
@@ -27,12 +34,26 @@ sortedlist_t* func5(sortedlist_t_param* vars, int loopsFactor) {
    unsigned int loop61 = 0;
    unsigned int loopLimit61 = (rand()%loopsFactor)/2 + 1;
    for(; loop61 < loopLimit61; loop61++) {
-      sortedlist_t* sortedlist62 = (sortedlist_t*)malloc(sizeof(sortedlist_t));
-      sortedlist62->n = 0;
-      sortedlist62->root = NULL;
-      sortedlist_t* sortedlist63 = (sortedlist_t*)malloc(sizeof(sortedlist_t));
-      sortedlist63->n = 0;
-      sortedlist63->root = NULL;
+      sortedlist_t* sortedlist62;
+      if (pCounter > 0) {
+         sortedlist62 = vars->data[--pCounter];
+         sortedlist62->refC++;
+      } else {
+           sortedlist62 = (sortedlist_t*)malloc(sizeof(sortedlist_t));
+           sortedlist62->refC = 1;
+           sortedlist62->n = 0;
+           sortedlist62->root = NULL;
+      }
+      sortedlist_t* sortedlist63;
+      if (pCounter > 0) {
+         sortedlist63 = vars->data[--pCounter];
+         sortedlist63->refC++;
+      } else {
+           sortedlist63 = (sortedlist_t*)malloc(sizeof(sortedlist_t));
+           sortedlist63->refC = 1;
+           sortedlist63->n = 0;
+           sortedlist63->root = NULL;
+      }
       if(sortedlist63 != NULL && sortedlist63->n > 0){
            cell_t* cell137 = sortedlist63->root;
            while(cell137 != NULL && cell137->val != 28) cell137 = cell137->next;
@@ -47,23 +68,25 @@ sortedlist_t* func5(sortedlist_t_param* vars, int loopsFactor) {
               return cell138 != NULL ? sortedlist63 : NULL;
          }
       }
-      if(sortedlist63 != NULL && sortedlist63->n > 0){
+      sortedlist63->refC--;
+      if(sortedlist63->refC == 0 && sortedlist63->n > 0){
            cell_t* cell139 = sortedlist63->root;
            cell_t* tmp139  = NULL;
            while(cell139 != NULL) {
-                tmp139 = cell139->next;
-                free(cell139);
-                cell139 = tmp139;
+               tmp139 = cell139->next;
+               free(cell139);
+               cell139 = tmp139;
            }
            free(sortedlist63);
       }
-      if(sortedlist62 != NULL && sortedlist62->n > 0){
+      sortedlist62->refC--;
+      if(sortedlist62->refC == 0 && sortedlist62->n > 0){
            cell_t* cell140 = sortedlist62->root;
            cell_t* tmp140  = NULL;
            while(cell140 != NULL) {
-                tmp140 = cell140->next;
-                free(cell140);
-                cell140 = tmp140;
+               tmp140 = cell140->next;
+               free(cell140);
+               cell140 = tmp140;
            }
            free(sortedlist62);
       }
@@ -79,13 +102,14 @@ sortedlist_t* func5(sortedlist_t_param* vars, int loopsFactor) {
         while(cell141 != NULL && cell141->val != 21) cell141 = cell141->next;
         return cell141 != NULL ? sortedlist61 : NULL;
    }
-   if(sortedlist64 != NULL && sortedlist64->n > 0){
+   sortedlist64->refC--;
+   if(sortedlist64->refC == 0 && sortedlist64->n > 0){
         cell_t* cell142 = sortedlist64->root;
         cell_t* tmp142  = NULL;
         while(cell142 != NULL) {
-             tmp142 = cell142->next;
-             free(cell142);
-             cell142 = tmp142;
+            tmp142 = cell142->next;
+            free(cell142);
+            cell142 = tmp142;
         }
         free(sortedlist64);
    }

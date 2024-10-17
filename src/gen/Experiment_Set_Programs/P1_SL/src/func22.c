@@ -1,9 +1,16 @@
-#include "P1_SL.h" 
+#include "Experiment_Set_Programs/P1_SL.h" 
 sortedlist_t* func22(sortedlist_t_param* vars, const unsigned long PATH0, int loopsFactor) {
    size_t pCounter = vars->size;
-   sortedlist_t* sortedlist33 = (sortedlist_t*)malloc(sizeof(sortedlist_t));
-   sortedlist33->n = 0;
-   sortedlist33->root = NULL;
+   sortedlist_t* sortedlist33;
+   if (pCounter > 0) {
+      sortedlist33 = vars->data[--pCounter];
+      sortedlist33->refC++;
+   } else {
+        sortedlist33 = (sortedlist_t*)malloc(sizeof(sortedlist_t));
+        sortedlist33->refC = 1;
+        sortedlist33->n = 0;
+        sortedlist33->root = NULL;
+   }
    if(PATH0 & 1) {
       unsigned int loop14 = 0;
       unsigned int loopLimit14 = (rand()%loopsFactor)/2 + 1;
@@ -65,21 +72,29 @@ sortedlist_t* func22(sortedlist_t_param* vars, const unsigned long PATH0, int lo
       params0.data[0] = sortedlist33;
       sortedlist_t* sortedlist34 = func23(&params0, loopsFactor);
       free(params0.data);
-      if(sortedlist34 != NULL && sortedlist34->n > 0){
+      sortedlist34->refC--;
+      if(sortedlist34->refC == 0 && sortedlist34->n > 0){
            cell_t* cell48 = sortedlist34->root;
            cell_t* tmp48  = NULL;
            while(cell48 != NULL) {
-                tmp48 = cell48->next;
-                free(cell48);
-                cell48 = tmp48;
+               tmp48 = cell48->next;
+               free(cell48);
+               cell48 = tmp48;
            }
            free(sortedlist34);
       }
    }
    else {
-      sortedlist_t* sortedlist35 = (sortedlist_t*)malloc(sizeof(sortedlist_t));
-      sortedlist35->n = 0;
-      sortedlist35->root = NULL;
+      sortedlist_t* sortedlist35;
+      if (pCounter > 0) {
+         sortedlist35 = vars->data[--pCounter];
+         sortedlist35->refC++;
+      } else {
+           sortedlist35 = (sortedlist_t*)malloc(sizeof(sortedlist_t));
+           sortedlist35->refC = 1;
+           sortedlist35->n = 0;
+           sortedlist35->root = NULL;
+      }
       if(sortedlist33 != NULL && sortedlist33->n > 0) {
            cell_t* cell49 = sortedlist33->root;
            if(sortedlist33->n == 0) {
@@ -131,13 +146,14 @@ sortedlist_t* func22(sortedlist_t_param* vars, const unsigned long PATH0, int lo
               }
            }
       }
-      if(sortedlist35 != NULL && sortedlist35->n > 0){
+      sortedlist35->refC--;
+      if(sortedlist35->refC == 0 && sortedlist35->n > 0){
            cell_t* cell52 = sortedlist35->root;
            cell_t* tmp52  = NULL;
            while(cell52 != NULL) {
-                tmp52 = cell52->next;
-                free(cell52);
-                cell52 = tmp52;
+               tmp52 = cell52->next;
+               free(cell52);
+               cell52 = tmp52;
            }
            free(sortedlist35);
       }
@@ -175,9 +191,16 @@ sortedlist_t* func22(sortedlist_t_param* vars, const unsigned long PATH0, int lo
                }
            }
       }
-      sortedlist_t* sortedlist36 = (sortedlist_t*)malloc(sizeof(sortedlist_t));
-      sortedlist36->n = 0;
-      sortedlist36->root = NULL;
+      sortedlist_t* sortedlist36;
+      if (pCounter > 0) {
+         sortedlist36 = vars->data[--pCounter];
+         sortedlist36->refC++;
+      } else {
+           sortedlist36 = (sortedlist_t*)malloc(sizeof(sortedlist_t));
+           sortedlist36->refC = 1;
+           sortedlist36->n = 0;
+           sortedlist36->root = NULL;
+      }
       if(sortedlist33 != NULL && sortedlist33->n > 0) {
            cell_t* cell54 = sortedlist33->root;
            if(sortedlist33->n == 0) {
@@ -229,13 +252,14 @@ sortedlist_t* func22(sortedlist_t_param* vars, const unsigned long PATH0, int lo
               }
            }
       }
-      if(sortedlist36 != NULL && sortedlist36->n > 0){
+      sortedlist36->refC--;
+      if(sortedlist36->refC == 0 && sortedlist36->n > 0){
            cell_t* cell57 = sortedlist36->root;
            cell_t* tmp57  = NULL;
            while(cell57 != NULL) {
-                tmp57 = cell57->next;
-                free(cell57);
-                cell57 = tmp57;
+               tmp57 = cell57->next;
+               free(cell57);
+               cell57 = tmp57;
            }
            free(sortedlist36);
       }

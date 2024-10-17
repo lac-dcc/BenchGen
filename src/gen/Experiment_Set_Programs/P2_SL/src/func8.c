@@ -1,9 +1,16 @@
-#include "P2_SL.h" 
+#include "Experiment_Set_Programs/P2_SL.h" 
 sortedlist_t* func8(sortedlist_t_param* vars, int loopsFactor) {
    size_t pCounter = vars->size;
-   sortedlist_t* sortedlist16 = (sortedlist_t*)malloc(sizeof(sortedlist_t));
-   sortedlist16->n = 0;
-   sortedlist16->root = NULL;
+   sortedlist_t* sortedlist16;
+   if (pCounter > 0) {
+      sortedlist16 = vars->data[--pCounter];
+      sortedlist16->refC++;
+   } else {
+        sortedlist16 = (sortedlist_t*)malloc(sizeof(sortedlist_t));
+        sortedlist16->refC = 1;
+        sortedlist16->n = 0;
+        sortedlist16->root = NULL;
+   }
    unsigned int loop12 = 0;
    unsigned int loopLimit12 = (rand()%loopsFactor)/3 + 1;
    for(; loop12 < loopLimit12; loop12++) {
@@ -96,23 +103,25 @@ sortedlist_t* func8(sortedlist_t_param* vars, int loopsFactor) {
         while(cell38 != NULL && cell38->val != 46) cell38 = cell38->next;
         return cell38 != NULL ? sortedlist19 : NULL;
    }
-   if(sortedlist19 != NULL && sortedlist19->n > 0){
+   sortedlist19->refC--;
+   if(sortedlist19->refC == 0 && sortedlist19->n > 0){
         cell_t* cell39 = sortedlist19->root;
         cell_t* tmp39  = NULL;
         while(cell39 != NULL) {
-             tmp39 = cell39->next;
-             free(cell39);
-             cell39 = tmp39;
+            tmp39 = cell39->next;
+            free(cell39);
+            cell39 = tmp39;
         }
         free(sortedlist19);
    }
-   if(sortedlist17 != NULL && sortedlist17->n > 0){
+   sortedlist17->refC--;
+   if(sortedlist17->refC == 0 && sortedlist17->n > 0){
         cell_t* cell40 = sortedlist17->root;
         cell_t* tmp40  = NULL;
         while(cell40 != NULL) {
-             tmp40 = cell40->next;
-             free(cell40);
-             cell40 = tmp40;
+            tmp40 = cell40->next;
+            free(cell40);
+            cell40 = tmp40;
         }
         free(sortedlist17);
    }

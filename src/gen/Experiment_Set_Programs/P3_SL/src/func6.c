@@ -1,9 +1,16 @@
-#include "P3_SL.h" 
+#include "Experiment_Set_Programs/P3_SL.h" 
 sortedlist_t* func6(sortedlist_t_param* vars, int loopsFactor) {
    size_t pCounter = vars->size;
-   sortedlist_t* sortedlist38 = (sortedlist_t*)malloc(sizeof(sortedlist_t));
-   sortedlist38->n = 0;
-   sortedlist38->root = NULL;
+   sortedlist_t* sortedlist38;
+   if (pCounter > 0) {
+      sortedlist38 = vars->data[--pCounter];
+      sortedlist38->refC++;
+   } else {
+        sortedlist38 = (sortedlist_t*)malloc(sizeof(sortedlist_t));
+        sortedlist38->refC = 1;
+        sortedlist38->n = 0;
+        sortedlist38->root = NULL;
+   }
    unsigned int loop40 = 0;
    unsigned int loopLimit40 = (rand()%loopsFactor)/3 + 1;
    for(; loop40 < loopLimit40; loop40++) {
@@ -69,13 +76,14 @@ sortedlist_t* func6(sortedlist_t_param* vars, int loopsFactor) {
         while(cell74 != NULL && cell74->val != 78) cell74 = cell74->next;
         return cell74 != NULL ? sortedlist38 : NULL;
    }
-   if(sortedlist38 != NULL && sortedlist38->n > 0){
+   sortedlist38->refC--;
+   if(sortedlist38->refC == 0 && sortedlist38->n > 0){
         cell_t* cell75 = sortedlist38->root;
         cell_t* tmp75  = NULL;
         while(cell75 != NULL) {
-             tmp75 = cell75->next;
-             free(cell75);
-             cell75 = tmp75;
+            tmp75 = cell75->next;
+            free(cell75);
+            cell75 = tmp75;
         }
         free(sortedlist38);
    }

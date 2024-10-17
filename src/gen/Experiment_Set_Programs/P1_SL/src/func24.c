@@ -1,9 +1,16 @@
-#include "P1_SL.h" 
+#include "Experiment_Set_Programs/P1_SL.h" 
 sortedlist_t* func24(sortedlist_t_param* vars, const unsigned long PATH0, int loopsFactor) {
    size_t pCounter = vars->size;
-   sortedlist_t* sortedlist19 = (sortedlist_t*)malloc(sizeof(sortedlist_t));
-   sortedlist19->n = 0;
-   sortedlist19->root = NULL;
+   sortedlist_t* sortedlist19;
+   if (pCounter > 0) {
+      sortedlist19 = vars->data[--pCounter];
+      sortedlist19->refC++;
+   } else {
+        sortedlist19 = (sortedlist_t*)malloc(sizeof(sortedlist_t));
+        sortedlist19->refC = 1;
+        sortedlist19->n = 0;
+        sortedlist19->root = NULL;
+   }
    if(PATH0 & 1) {
    }
    else {
