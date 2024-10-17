@@ -1,6 +1,6 @@
 CC = clang
 CFLAGS = 
-TARGET = Experiment_Set_Programs/P2_A
+TARGET = P2_A
 SRC_DIR = src
 OBJ_DIR = obj
 

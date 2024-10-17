@@ -1,4 +1,4 @@
-#include "Experiment_Set_Programs/P3_A.h" 
+#include "P3_A.h" 
 array_t* func6(array_t_param* vars, int loopsFactor) {
    size_t pCounter = vars->size;
    array_t* array13;
