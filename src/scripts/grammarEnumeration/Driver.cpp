@@ -11,7 +11,7 @@ int main(int argc, char const* argv[]) {
 
     std::filesystem::create_directory("results");
     std::ofstream ssFile;
-    ssFile.open("results/seed_strings.txt");
+    ssFile.open("results/programs.txt");
     enumerateGrammar(&ssFile, DEPTH);
     ssFile.close();
 
