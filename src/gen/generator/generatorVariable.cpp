@@ -156,9 +156,23 @@ std::vector<std::string> GeneratorSortedList::genIncludes() {
 std::vector<std::string> GeneratorSortedList::new_(bool inFunction) {
     std::vector<std::string> tmp = {};
 
-    tmp.push_back("sortedlist_t* " + this->name + " = (sortedlist_t*)malloc(sizeof(sortedlist_t));");
-    tmp.push_back(this->name + "->n = 0;");
-    tmp.push_back(this->name + "->root = NULL;");
+    if(inFunction){
+        tmp.push_back("sortedlist_t* " + this->name + ";");
+        tmp.push_back("if (pCounter > 0) {");
+        tmp.push_back("   " + this->name + " = vars->data[--pCounter];");
+        tmp.push_back("   " + this->name + "->refC++;");
+        tmp.push_back("} else {");
+        tmp.push_back("     " + this->name + " = (sortedlist_t*)malloc(sizeof(sortedlist_t));");
+        tmp.push_back("     " + this->name + "->refC = 1;");
+        tmp.push_back("     " + this->name + "->n = 0;");
+        tmp.push_back("     " + this->name + "->root = NULL;");
+        tmp.push_back("}");
+    }else{
+        tmp.push_back("sortedlist_t* " + this->name + " = (sortedlist_t*)malloc(sizeof(sortedlist_t));");
+        tmp.push_back(this->name + "->refC = 1;");
+        tmp.push_back(this->name + "->n = 0;");
+        tmp.push_back(this->name + "->root = NULL;");
+    }
     return tmp;
 }
 
@@ -255,13 +269,15 @@ std::vector<std::string> GeneratorSortedList::free() {
 
     std::string cell_varname = "cell" + std::to_string(VariableFactory::var_counter);
     std::string tmp_varname = "tmp" + std::to_string(VariableFactory::var_counter);
-    tmp.push_back("if(" + this->name + " != NULL && " + this->name + "->n > 0){");
+    
+    tmp.push_back(this->name + "->refC--;");
+    tmp.push_back("if(" + this->name + "->refC == 0 && " + this->name + "->n > 0){");
     tmp.push_back("     cell_t* " + cell_varname + " = " + this->name + "->root;");
     tmp.push_back("     cell_t* " + tmp_varname + "  = NULL;");
     tmp.push_back("     while(" + cell_varname + " != NULL) {");
-    tmp.push_back("          " + tmp_varname + " = " + cell_varname + "->next;");
-    tmp.push_back("          free(" + cell_varname + ");");
-    tmp.push_back("          " + cell_varname + " = " + tmp_varname + ";");
+    tmp.push_back("         " + tmp_varname + " = " + cell_varname + "->next;");
+    tmp.push_back("         free(" + cell_varname + ");");
+    tmp.push_back("         " + cell_varname + " = " + tmp_varname + ";");
     tmp.push_back("     }");
     tmp.push_back("     free(" + this->name + ");");
     tmp.push_back("}");
@@ -279,6 +295,7 @@ std::vector<std::string> GeneratorSortedList::genGlobalVars() {
 
     tmp.push_back("typedef struct sortedlist_t {");
     tmp.push_back("     cell_t* root;");
+    tmp.push_back("     size_t refC;");
     tmp.push_back("     unsigned int n;");
     tmp.push_back("} sortedlist_t;");
 
