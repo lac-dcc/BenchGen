@@ -65,8 +65,8 @@ The production rules and the generated programs we have used can be found in the
 ## Comparing Running Time
 
 For the initial analysis, we were interested in comparing the total (absolute) difference in the time taken to run all the benchmarks.
-First, we compared the total time each compiler (GCC 13, TCC, and CLANG 16) took to run the 10 benchmarks. To minimize the effects of outliers, we 
-calculated the geometric mean of the times.
+First, we compared the total time each compiler (GCC 13, TCC, and CLANG 16) took to run the 10 benchmarks. However, the absolute difference metric 
+is strongly affected by outliers. To minimize these effects, we calculated the geometric mean of the times.
 
 <p align="center">
   </br>
@@ -80,8 +80,13 @@ calculated the geometric mean of the times.
   
 </p>
 
+As a result, TCC was slower than both GCC and CLANG without optimizations, being 9.7% slower than GCC and 11.7% slower than CLANG when comparing the geometric means. 
+The GCC and CLANG compilers had similar performance without optimizations, with a slight advantage for CLANG. However, CLANG's advantage increased as we raised
+the optimization level. Additionally, we observed that CLANG converged at -O2, while there was a gap between GCC -O2 and -O3.
+
 ## Comparing Version of GCC
 
+In this experiment, we are interested in the evolution of the GCC compiler, including its optimizations. As in the first experiment, we compared the absolute difference and the geometric mean difference between the compilers.
 
 <p align="center">
   </br>
@@ -92,4 +97,8 @@ calculated the geometric mean of the times.
   </br>
   <img alt="logo" src="./assets/gcc_geometric_mean_comparison.png" width="100%" height="auto"/>
 </p>
+
+The performance of GCC at -O0 is quite stable, showing small differences. However, when looking at the other optimization levels, GCC demonstrates consistent performance improvement. Comparing GCC 8 and GCC 13, we observe that GCC 13 is 9% faster than GCC 8 at -O3.
+
+
 ## Conclusion
