@@ -63,6 +63,11 @@ The production rules and the generated programs we have used can be found in the
 | GCC             | [8.4.0](https://gcc.gnu.org/gcc-8/)                                     |
 
 ## Comparing Running Time
+
+For the initial analysis, we were interested in comparing the total (absolute) difference in the time taken to run all the benchmarks.
+First, we compared the total time each compiler (GCC 13, TCC, and CLANG 16) took to run the 10 benchmarks. To minimize the effects of outliers, we 
+calculated the geometric mean of the times.
+
 <p align="center">
   </br>
   <img alt="logo" src="./assets/comparing_compilers.png" width="100%" height="auto"/>
@@ -70,9 +75,12 @@ The production rules and the generated programs we have used can be found in the
 </p>
 
 ## Comparing Version of GCC
+
+
 <p align="center">
   </br>
   <img alt="logo" src="./assets/gcc-version.png" width="100%" height="auto"/>
 </p>
+
 
 ## Conclusion
