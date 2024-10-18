@@ -74,6 +74,12 @@ calculated the geometric mean of the times.
   
 </p>
 
+<p align="center">
+  </br>
+  <img alt="logo" src="./assets/geometric_mean_comparison.png" width="100%" height="auto"/>
+  
+</p>
+
 ## Comparing Version of GCC
 
 
@@ -82,5 +88,8 @@ calculated the geometric mean of the times.
   <img alt="logo" src="./assets/gcc-version.png" width="100%" height="auto"/>
 </p>
 
-
+<p align="center">
+  </br>
+  <img alt="logo" src="./assets/gcc_geometric_mean_comparison.png" width="100%" height="auto"/>
+</p>
 ## Conclusion
