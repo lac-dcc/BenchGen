@@ -98,7 +98,7 @@ In this experiment, we are interested in the evolution of the GCC compiler, incl
   <img alt="logo" src="./assets/gcc_geometric_mean_comparison.png" width="100%" height="auto"/>
 </p>
 
-The performance of GCC at -O0 is quite stable, showing small differences. However, when looking at the other optimization levels, GCC demonstrates consistent performance improvement. Comparing GCC 8 and GCC 13, we observe that GCC 13 is 9% faster than GCC 8 at -O3.
+The performance of GCC at -O0 is quite stable, showing small differences. However, when looking at the other optimization levels, GCC demonstrates consistent performance improvement. Comparing GCC 8 and GCC 13, we observe that GCC 13 is 9.4% faster than GCC 8 at -O3.
 
 
 ## Conclusion
