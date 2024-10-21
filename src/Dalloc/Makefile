@@ -8,7 +8,7 @@ all: example
 example: $(OBJ)
 	$(CC) $(CARGS) -o $@ $^
 
-$(OBJ): obj/%.o: src/%.cpp src/Dalloc/Dalloc.h | obj
+$(OBJ): obj/%.o: src/%.cpp src/Dalloc.h | obj
 	$(CC) -c -o $@ $<
 
 obj: 
