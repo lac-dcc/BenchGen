@@ -18,7 +18,7 @@ void __wrap_free(void* ptr) {
 	return;
 }
 
-void debug_print(void* ptr, size_t size, operation op){
+void debug_print(void* ptr, size_t size, enum operation op){
 	char o;
 	switch (op){
 		case MALLOC:
@@ -33,8 +33,6 @@ void debug_print(void* ptr, size_t size, operation op){
 	return;
 }
 
-// Used for clock_gettime
-#include <time.h>
 
 // returns the time in milliseconds
 long long millitime(){
