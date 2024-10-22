@@ -76,7 +76,7 @@ is strongly affected by outliers. To minimize these effects, we calculated the g
 
 <p align="center">
   </br>
-  <img alt="logo" src="./assets/geometric_mean_comparison.png" width="100%" height="auto"/>
+  <img alt="logo" src="./assets/geometric_mean_compilers.png" width="100%" height="auto"/>
   
 </p>
 
