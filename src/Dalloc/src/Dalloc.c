@@ -29,15 +29,15 @@ void debug_print(void* ptr, size_t size, enum operation op){
 			// This servers as a guard for future operations.
 			exit(1);
 	}
-	printf("[%lld, %p, %ld, %c]\n", millitime(), ptr, size, o);
+
+	printf("[%lld, %p, %ld, %c]\n", microtime(), ptr, size, o);
 	return;
 }
 
-
-// returns the time in milliseconds
-long long millitime(){
-	struct timespec t;
-	clock_gettime(CLOCK_REALTIME, &t);
-	return t.tv_sec * 1000 + t.tv_nsec / 1000000;
+// returns the time in microseconds
+long long microtime(){
+	struct timeval tv;
+    gettimeofday(&tv, NULL);
+    return tv.tv_sec * 1000000LL + tv.tv_usec;
 }
 
