@@ -18,7 +18,7 @@ There are two main directories in the project, `src` and `Bench-Metrics`:
 ### Building BenchGen
 After cloning the repository, you can build the project by running the `make` command in the `src/gen` directory. Notice that CLANG++ is used as the default compiler.
 ```bash
-git clone https://github.com/lac-dcc/BenchGen.git
+git clone --recurse-submodules https://github.com/lac-dcc/BenchGen.git
 cd src/gen
 make
 ```
