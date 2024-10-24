@@ -1,3 +1,3 @@
 [submodule "benchgen.github.io"]
-    path = benchgen.github.io
-    url  = https://github.com/benchGen/benchGen.github.io.git
+	path = benchgen.github.io
+	url = https://github.com/benchGen/benchGen.github.io.git
