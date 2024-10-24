@@ -65,6 +65,9 @@ myProgram/
     └── myProgram.h
 ```
 
+## Documentation
+Visit our documentation avaliable [here](https://benchgen.github.io/index.html)
+
 ## Acknowledgements
 
 The BenchGen project is financed by [FAPEMIG](http://www.fapemig.br/pt/) and Google. We appreciate their support and contributions to the development of this project.
