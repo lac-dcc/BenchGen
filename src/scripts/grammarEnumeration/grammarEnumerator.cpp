@@ -14,17 +14,9 @@ std::vector<std::string> getNonTerminals() {
 
 void writeToFile(const std::vector<std::string>* s, std::ofstream* file) {
     static int count = 0;
-    std::string line = std::to_string(count) + ": \n    SS: ";
+    std::string line = std::to_string(count) + ": \n    SS: A\n    A: ";
     int i = 0;
     for (; i < s->size(); i++) {
-        if (s->at(i) == "\n") {
-            break;
-        } else {
-            line += s->at(i) + " ";
-        }
-    }
-    line += "\n    A: ";
-    for (i++; i < s->size(); i++) {
         if (s->at(i) == "\n") {
             break;
         } else {
@@ -58,7 +50,7 @@ void enumerateGrammar(std::vector<std::string> s, const std::vector<std::string>
         }
     }
     if (!hasNonTerminal) {
-        std::vector<std::vector<std::string>> programs = addLineBreaks(&s);
+        std::vector<std::vector<std::string>> programs = addLineBreak(&s);
         for (auto program : programs) {
             writeToFile(&program, file);
         }
@@ -94,42 +86,25 @@ std::vector<std::vector<std::string>> expandSymbol(std::string symbol) {
     return rules;
 }
 
-std::vector<std::vector<std::string>> addLineBreaks(const std::vector<std::string>* s) {
-    int fSize = s->size() + 2;
+std::vector<std::vector<std::string>> addLineBreak(const std::vector<std::string>* s) {
     std::vector<std::vector<std::string>> programs;
-    int paren0Count = 0;
-    int paren1Count = 0;
-    for (int pos0 = 1; pos0 < fSize - 1; pos0++) {
-        if (pos0 < s->size()) {
-            std::string symbol = s->at(pos0);
+    int parenCount = 0;
+    for (int pos = 0; pos < s->size() + 1; pos++) {
+        if (pos < s->size()) {
+            std::string symbol = s->at(pos);
             if (symbol == "(") {
-                paren0Count++;
+                parenCount++;
                 continue;
             } else if (symbol == ")") {
-                paren0Count--;
+                parenCount--;
                 continue;
-            } else if (paren0Count > 0) {
+            } else if (parenCount > 0) {
                 continue;
             }
         }
-        for (int pos1 = pos0 + 1; pos1 < fSize; pos1++) {
-            if (pos1 < s->size()) {
-                std::string symbol = s->at(pos1);
-                if (symbol == "(") {
-                    paren1Count++;
-                    continue;
-                } else if (symbol == ")") {
-                    paren1Count--;
-                    continue;
-                } else if (paren1Count > 0) {
-                    continue;
-                }
-            }
-            std::vector<std::string> program = *s;
-            program.insert(program.begin() + pos0, "\n");
-            program.insert(program.begin() + pos1, "\n");
-            programs.push_back(program);
-        }
+        std::vector<std::string> program = *s;
+        program.insert(program.begin() + pos, "\n");
+        programs.push_back(program);
     }
     return programs;
 }
