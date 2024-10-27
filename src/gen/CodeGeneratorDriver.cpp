@@ -18,7 +18,7 @@ int main(int argc, char const* argv[]) {
     if (argc < 6) {
         std::cout << "ERROR! Missing arguments!" << std::endl;
         std::cout << "Please provide Number of Iterations, Production Rules, Seed String File, Output Folder Name and Variable Type." << std::endl;
-        std::cout << "Usage: ./main <number_of_iterations> <production_rules_file> <seed_string_file> <bench_name> <var_type>" << std::endl;
+        std::cout << "Usage: ./main <number_of_iterations> <production_rules_file> <seed_string_file> <bench_name> <var_type> <debug_mode (optional)>" << std::endl;
         return 1;
     }
 
@@ -30,9 +30,17 @@ int main(int argc, char const* argv[]) {
     std::string bench_name = argv[4];
     std::string varType = argv[5];
 
+    bool debugMode = false;
+    if (argc > 6) {
+        std::string debugModeCC = argv[6];
+        debugMode = debugModeCC == "1" || debugModeCC == "y" || debugModeCC == "Y";
+    }
+
+    printf("Debug mode: %s\n", debugMode ? "true" : "false");
+
     Lexer lexer = Lexer();
     Parser parser = Parser();
-    Generator generator = Generator(varType);
+    Generator generator = Generator(varType, debugMode);
 
     std::vector<Token> inputTokens;
 

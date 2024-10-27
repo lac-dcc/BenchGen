@@ -19,6 +19,7 @@ class GeneratorVariable {
     int id;                  // Unique identifier for the variable
     std::string name;        // Name of the variable
     std::string typeString;  // String representing the type of the variable
+    bool debugMode;          // Indicates whether debug mode is enabled
 
     virtual ~GeneratorVariable() {}
 
@@ -108,7 +109,7 @@ class GeneratorSortedList : public GeneratorVariable {
    public:
     GeneratorSortedList() {};
 
-    GeneratorSortedList(int id);
+    GeneratorSortedList(int id, bool debugMode);
 
     ~GeneratorSortedList();
 
@@ -140,10 +141,10 @@ class GeneratorArray : public GeneratorVariable {
      * @brief Constructs an Array with a specified size, values, and identifier.
      *
      * @param totalSize The size of the array.
-     * @param values Pointer to the array of integer values.
      * @param id The unique identifier for the array.
+     * @param debugMode Indicates whether debug mode is enabled.
      */
-    GeneratorArray(int totalSize, int id);
+    GeneratorArray(int totalSize, int id, bool debugMode);
 
     /**
      * @brief Destructor for the Array class.
@@ -180,7 +181,7 @@ class VariableFactory {
      * @param identifier A unique identifier for the variable.
      * @return A pointer to the created GeneratorVariable object.
      */
-    static GeneratorVariable* createVariable(std::string type, int identifier);
+    static GeneratorVariable* createVariable(std::string type, int identifier, bool debugMode = false);
 
     /**
      * @brief Generates a string representation of the variable type.

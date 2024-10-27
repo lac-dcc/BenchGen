@@ -1,11 +1,12 @@
 #include "generator.h"
 
-Generator::Generator(std::string variableType) {
+Generator::Generator(std::string variableType, bool debugMode) {
     this->ifCounter.push(0);
     this->varCounter = 0;
     this->loopLevel = 0;
     this->loopCounter = 0;
     this->varType = variableType;
+    this->debugMode = debugMode;
     currentScope.push(GeneratorScope(0));
     generateIncludes();
     generateGlobalVars();
@@ -123,12 +124,18 @@ void Generator::callFunc(int funcId, int nParameters) {
     line += "loopsFactor";
     line += ");";
     addLine(line);
+
+    if (this->debugMode) {
+        line = "printf(\"[RETURN] Id \%d returned\\n\", " + var->name + "->id);";
+        addLine(line);
+    }
+
     line = "free(" + param + ".data);";
     addLine(line);
 }
 
 int Generator::addVar(std::string type) {
-    this->variables[varCounter] = VariableFactory::createVariable(type, varCounter);
+    this->variables[varCounter] = VariableFactory::createVariable(type, varCounter, this->debugMode);
     this->currentScope.top().addVar(varCounter);
     return varCounter++;
 }
