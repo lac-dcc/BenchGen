@@ -43,7 +43,7 @@ To run BenchGen, you need to provide the following five parameters:
 2. **Production Rules** (file containing the production rules)
 3. **Seed String File** (file containing the seed string)
 4. **Program Name**
-5. **Variable Type**. (`array` or `scalar`)
+5. **Variable Type**. (`array` or `scalar` or `sortedlist`)
    
 An example of usage is:
 ``` bash
