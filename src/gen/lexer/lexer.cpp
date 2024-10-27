@@ -24,7 +24,7 @@ std::vector<std::string> Lexer::readFile(std::string fileName) {
 
 std::vector<Token> Lexer::tokenize(std::string code) {
     std::vector<Token> tokens = {};
-    for (int i = 0; i < code.size(); i++) {
+    for (int i = 0; i < (int)code.size(); i++) {
         std::string lexeme = code.substr(i, 1);
         if (lexeme[0] == ' ') {
             continue;
@@ -36,7 +36,7 @@ std::vector<Token> Lexer::tokenize(std::string code) {
 
         // Getting largest sequence possible using lookahead
         bool lookaheaded = false;
-        while (matchAnyRule(lexeme) && i < code.length() - 1) {
+        while (matchAnyRule(lexeme) && i < (int)code.length() - 1) {
             lookaheaded = true;
             i++;
             std::string c = code.substr(i, 1);
@@ -152,14 +152,14 @@ std::vector<Token> Lexer::getTokens(std::string fileName) {
 std::vector<ProductionRule> Lexer::getProductionRules(std::string fileName) {
     std::vector<ProductionRule> productionRules = {};
     std::vector<Token> tokens = getTokens(fileName);
-    for (int i = 0; i < tokens.size(); i++) {
+    for (int i = 0; i < (int)tokens.size(); i++) {
         if (tokens[i].type == TOK_ID) {
             std::string id = tokens[i].text;
             i++;
             if (tokens[i].type == TOK_EQUAL) {
                 i++;
                 std::vector<Token> production = {};
-                while (tokens[i].type != TOK_END && i < tokens.size()) {
+                while (tokens[i].type != TOK_END && i < (int)tokens.size()) {
                     production.push_back(tokens[i]);
                     i++;
                 }

@@ -21,7 +21,7 @@ std::vector<Token> lSystem::lSystem(int iterations, const std::vector<Production
 
 int lSystem::match(std::string match, const std::vector<ProductionRule>& rules) {
     int i = 0;
-    for (; i < rules.size(); i++) {
+    for (; i < (int)rules.size(); i++) {
         if (match == rules[i].rule) return i;
     }
     return -1;
