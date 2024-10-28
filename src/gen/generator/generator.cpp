@@ -164,9 +164,16 @@ void Generator::endFunc() {
 
 void Generator::genMakefile(std::string dir, std::string target) {
     std::ofstream makefile;
+
+    std::string current_dir = std::filesystem::current_path();
+    std::string base_dir = current_dir.replace(current_dir.find("gen"), 3, "");
+
+    std::string dalloc_dir = "\""+base_dir + "Dalloc/src" + "\"";
+    std::string dalloc_cpp = "\""+base_dir + "Dalloc/src/Dalloc.c" + "\"";
+
     makefile.open(dir + "Makefile");
     makefile << "CC = gcc\n";
-    makefile << "CFLAGS = \n";
+    makefile << "CFLAGS = -Wl,--wrap=malloc -Wl,--wrap=free -I "+dalloc_dir+"\n";
     makefile << "TARGET = " + target + "\n";
     makefile << "SRC_DIR = src\n";
     makefile << "OBJ_DIR = obj\n\n";
@@ -175,10 +182,10 @@ void Generator::genMakefile(std::string dir, std::string target) {
     makefile << "OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))\n\n";
 
     makefile << "$(TARGET)_$(CC): $(OBJ)\n";
-    makefile << "\t$(CC) ${CFLAGS} -o $(TARGET)_$(CC) $(OBJ)\n\n";
+    makefile << "\t$(CC) ${CFLAGS} "+dalloc_cpp+" -o $(TARGET)_$(CC) $(OBJ)\n\n";
 
     makefile << "$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)\n";
-    makefile << "\t$(CC) ${CFLAGS} -c $< -o $@\n\n";
+    makefile << "\t$(CC) ${CFLAGS} -c $< -o $@ -lrt\n\n";
 
     makefile << "$(OBJ_DIR):\n";
     makefile << "\tmkdir -p $(OBJ_DIR)\n\n";
@@ -190,6 +197,7 @@ void Generator::genMakefile(std::string dir, std::string target) {
 }
 
 void Generator::generateFiles(std::string benchmarkName) {
+    
     std::string benchDir = benchmarkName + "/";
     std::string sourceFile = benchmarkName + ".c";
     std::string includeName = benchmarkName + ".h";
