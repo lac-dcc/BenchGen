@@ -46,20 +46,6 @@ class Parser {
      */
     std::shared_ptr<Node> parse_STATEMENT();
 
-    /**
-     * @brief Parses the parameters for an if statement.
-     *
-     * @return A shared pointer to the node representing the parsed if parameters.
-     */
-    std::shared_ptr<Node> parse_IFPARAM();
-
-    /**
-     * @brief Parses the else clause of an if statement.
-     *
-     * @return A shared pointer to the node representing the parsed else clause.
-     */
-    std::shared_ptr<Node> parse_ELSE();
-
    public:
     /**
      * @brief Constructs a Parser object with default values.

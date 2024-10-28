@@ -23,8 +23,7 @@ std::shared_ptr<Node> Parser::parse_CODE() {
         case TOK_CALL:
         case TOK_SEQ:
         case TOK_IF:
-        case TOK_ID:
-        {
+        case TOK_ID: {
             std::shared_ptr<Node> n = parse_STATEMENT();
             return std::make_shared<StatementCode>(StatementCode(n, parse_CODE()));
         }
@@ -82,67 +81,24 @@ std::shared_ptr<Node> Parser::parse_STATEMENT() {
             match(TOK_CPAREN);
             return seq;
         }
-        case TOK_IF:
+        case TOK_IF: {
             match(TOK_IF);
             match(TOK_OPAREN);
             if (!currentCall.empty()) {
                 currentCall.top()->conditionalCounts++;
             }
-            return std::make_shared<If>(If(parse_IFPARAM()));
+            std::shared_ptr<Node> c1 = parse_CODE();
+            match(TOK_COMMA);
+            std::shared_ptr<Node> c2 = parse_CODE();
+            match(TOK_CPAREN);
+            return std::make_shared<If>(If(c1, c2));
+        }
         case TOK_ID:
             match(TOK_ID);
             return std::make_shared<Id>(Id(tokens[tokenIndex - 1].text));
         default:
             // TODO: Error handling
             std::cout << "ERROR PARSING INSTRUCTION! AT " << tokens[tokenIndex].type << std::endl;
-            break;
-    }
-    return nullptr;
-}
-
-std::shared_ptr<Node> Parser::parse_IFPARAM() {
-    switch (tokens[tokenIndex].type) {
-        case TOK_IF:
-        case TOK_LOOP:
-        case TOK_CALL:
-        case TOK_SEQ:
-        case TOK_INSERT:
-        case TOK_REMOVE:
-        case TOK_NEW:
-        case TOK_CONTAINS:
-        case TOK_COMMA:
-        case TOK_ID: {
-            std::shared_ptr<Node> code = parse_CODE();
-            match(TOK_COMMA);
-            return std::make_shared<IfParam>(IfParam(code, parse_ELSE()));
-        }
-        default:
-            // TODO: Error handling
-            std::cout << "ERROR PARSING IFPARAM! AT " << tokens[tokenIndex].type << std::endl;
-            break;
-    }
-    return nullptr;
-}
-
-std::shared_ptr<Node> Parser::parse_ELSE() {
-    switch (tokens[tokenIndex].type) {
-        case TOK_IF:
-        case TOK_LOOP:
-        case TOK_CALL:
-        case TOK_SEQ:
-        case TOK_INSERT:
-        case TOK_REMOVE:
-        case TOK_NEW:
-        case TOK_CONTAINS:
-        case TOK_CPAREN:
-        case TOK_ID: {
-            std::shared_ptr<Node> code = parse_CODE();
-            match(TOK_CPAREN);
-            return std::make_shared<CodeElse>(CodeElse(code));
-        }
-        default:
-            // TODO: Error handling
-            std::cout << "ERROR PARSING ELSE! AT " << tokens[tokenIndex].type << std::endl;
             break;
     }
     return nullptr;
