@@ -102,7 +102,7 @@ bool Generator::functionExists(int funcId) {
 std::string Generator::createParams() {
     std::string name = "params" + std::to_string(currentScope.top().addParam());
     std::vector<GeneratorVariable*> varsParams;
-    for (int i = 0; i < currentScope.top().avaiableVarsID.size(); i++) {
+    for (int i = 0; i < (int)currentScope.top().avaiableVarsID.size(); i++) {
         varsParams.push_back(variables[currentScope.top().avaiableVarsID[i]]);
     }
     std::vector<std::string> params = VariableFactory::genParams(varType, name, varsParams);

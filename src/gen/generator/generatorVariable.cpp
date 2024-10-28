@@ -129,7 +129,7 @@ std::vector<std::string> GeneratorArray::genParams(std::string paramName, std::v
     temp.push_back(this->typeString + "_param " + paramName + ";");
     temp.push_back(paramName + ".size = " + std::to_string(varsParams.size()) + ";");
     temp.push_back(paramName + ".data = (" + this->typeString + "**)malloc(" + paramName + ".size*sizeof(" + this->typeString + "*));");
-    for (int i = 0; i < varsParams.size(); i++) {
+    for (int i = 0; i < (int)varsParams.size(); i++) {
         temp.push_back(paramName + ".data[" + std::to_string(i) + "] = " + varsParams[i]->name + ";");
     }
     return temp;
@@ -316,7 +316,7 @@ std::vector<std::string> GeneratorSortedList::genParams(std::string paramName, s
     tmp.push_back(this->typeString + "_param " + paramName + ";");
     tmp.push_back(paramName + ".size = " + std::to_string(varsParams.size()) + ";");
     tmp.push_back(paramName + ".data = (" + this->typeString + "**)malloc(" + paramName + ".size*sizeof(" + this->typeString + "*));");
-    for (int i = 0; i < varsParams.size(); i++) {
+    for (int i = 0; i < (int)varsParams.size(); i++) {
         tmp.push_back(paramName + ".data[" + std::to_string(i) + "] = " + varsParams[i]->name + ";");
     }
 
