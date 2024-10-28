@@ -10,8 +10,4 @@ STATEMENT     ->  new
 STATEMENT     ->  contains
 STATEMENT     ->  loop ( CODE )
 STATEMENT     ->  call ( CODE )
-STATEMENT     ->  if ( IFPARAM
-IFPARAM       ->  CODE , ELSE
-IFPARAM       ->  , ELSE
-ELSE          ->  CODE )
-ELSE          ->  )
+STATEMENT     ->  if ( CODE , CODE )
