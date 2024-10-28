@@ -21,7 +21,6 @@ class Generator {
    private:
     std::vector<std::string> includes;    // List of include statements for the generated code
     std::vector<std::string> globalVars;  // List of global variable declarations
-    bool debugMode;                       // Flag for enabling debug output
 
     /**
      * @brief Generates the necessary include statements.
@@ -89,9 +88,8 @@ class Generator {
      * Generates necessary includes, global variables, random number generator, and the main function.
      *
      * @param variableType The type of variable to be used in code generation.
-     * @param debugMode Flag for enabling debug output.
      */
-    Generator(std::string variableType, bool debugMode);
+    Generator(std::string variableType);
 
     /**
      * @brief Destructor for the Generator class.

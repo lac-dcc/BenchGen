@@ -1,12 +1,11 @@
 #include "generator.h"
 
-Generator::Generator(std::string variableType, bool debugMode) {
+Generator::Generator(std::string variableType) {
     this->ifCounter.push(0);
     this->varCounter = 0;
     this->loopLevel = 0;
     this->loopCounter = 0;
     this->varType = variableType;
-    this->debugMode = debugMode;
     currentScope.push(GeneratorScope(0));
     generateIncludes();
     generateGlobalVars();
@@ -17,6 +16,18 @@ Generator::Generator(std::string variableType, bool debugMode) {
 void Generator::generateIncludes() {
     includes.push_back("#include <stdio.h>");
     includes.push_back("#include <stdlib.h>");
+    includes.push_back("#include <string.h>");
+    includes.push_back("#ifdef DEBUG");
+    includes.push_back("    #define DEBUG_NEW(id) printf(\"[NEW]\\t\\tId \%d created\\n\", id)");
+    includes.push_back("    #define DEBUG_COPY(id) printf(\"[COPY]\\t\\tId \%d copied\\n\", id)");
+    includes.push_back("    #define DEBUG_RETURN(id) printf(\"[RETURN]\\tId \%d returned\\n\", id)");
+    includes.push_back("    #define DEBUG_FREE(id) printf(\"[FREE]\\t\\tId \%d freed\\n\", id)");
+    includes.push_back("#else");
+    includes.push_back("    #define DEBUG_NEW(id)");
+    includes.push_back("    #define DEBUG_COPY(id)");
+    includes.push_back("    #define DEBUG_RETURN(id)");
+    includes.push_back("    #define DEBUG_FREE(id)");
+    includes.push_back("#endif");
     std::vector<std::string> varIncludes = VariableFactory::genIncludes(varType);
     for (auto var : varIncludes) {
         globalVars.push_back(var);
@@ -42,15 +53,22 @@ void Generator::generateRandomNumberGenerator() {
 void Generator::generateMainFunction() {
     mainFunction = GeneratorFunction(-1);
     mainFunction.addLine({"int main(int argc, char** argv) {",
-                          "   if (argc < 2 || argc > 3) {",
-                          "      printf(\"Usage: %s <paths seed> <loops factor (optional)>\\n\", argv[0]);",
-                          "      return 1;",
-                          "   }",
                           "   int loopsFactor = 100;",
-                          "   if (argc == 3) {",
-                          "      loopsFactor = atoi(argv[2]);",
+                          "   srand(0);",
+                          "   for (int i = 1; i < argc; i++) {",
+                          "      if (strcmp(argv[i], \"-path-seed\") == 0) {",
+                          "         i++;",
+                          "         if (i < argc) {",
+                          "            srand(atoi(argv[i]));",
+                          "         }",
+                          "      }",
+                          "      else if (strcmp(argv[i], \"-loops-factor\") == 0) {",
+                          "         i++;",
+                          "         if (i < argc) {",
+                          "            loopsFactor = atoi(argv[i]);",
+                          "         }",
+                          "      }",
                           "   }",
-                          "   srand(atol(argv[1]));",
                           "   return 0;",
                           "}"});
     mainFunction.insertBack = true;
@@ -125,17 +143,15 @@ void Generator::callFunc(int funcId, int nParameters) {
     line += ");";
     addLine(line);
 
-    if (this->debugMode) {
-        line = "printf(\"[RETURN] Id \%d returned\\n\", " + var->name + "->id);";
-        addLine(line);
-    }
+    line = "DEBUG_RETURN(" + var->name + "->id);";
+    addLine(line);
 
     line = "free(" + param + ".data);";
     addLine(line);
 }
 
 int Generator::addVar(std::string type) {
-    this->variables[varCounter] = VariableFactory::createVariable(type, varCounter, this->debugMode);
+    this->variables[varCounter] = VariableFactory::createVariable(type, varCounter);
     this->currentScope.top().addVar(varCounter);
     return varCounter++;
 }
