@@ -13,6 +13,7 @@ std::shared_ptr<Node> Parser::parse_CODE() {
     if ((int)tokens.size() <= tokenIndex) {
         return std::make_shared<LambdaCode>(LambdaCode());
     }
+
     switch (tokens[tokenIndex].type) {
         case TOK_INSERT:
         case TOK_REMOVE:
@@ -23,7 +24,10 @@ std::shared_ptr<Node> Parser::parse_CODE() {
         case TOK_SEQ:
         case TOK_IF:
         case TOK_ID:
-            return std::make_shared<StatementCode>(StatementCode(parse_STATEMENT(), parse_CODE()));
+        {
+            std::shared_ptr<Node> n = parse_STATEMENT();
+            return std::make_shared<StatementCode>(StatementCode(n, parse_CODE()));
+        }
         case TOK_CPAREN:
         case TOK_COMMA:
             return std::make_shared<LambdaCode>(LambdaCode());
