@@ -69,6 +69,16 @@ class Generator {
      */
     void genMakefile(std::string dir, std::string target);
 
+    /**
+     * @brief Generates a README file for the generated program.
+     *
+     * Creates a README file with information about the benchmark program.
+     *
+     * @param dir The directory where the README file should be created.
+     * @param target The target executable name.
+     */
+    void genReadme(std::string dir, std::string target);
+
    public:
     GeneratorFunction mainFunction;                  // Main function for the generated program
     std::list<GeneratorFunction> functions;          // List of all functions in the generated program
