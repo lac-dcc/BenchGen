@@ -28,14 +28,14 @@ def createProgramFiles(obj_folder, current_program):
 def generateProgram():
     gen_folder = './../../gen'
     obj_folder_relative = './../scripts/grammarEnumeration/obj'
-    subprocess.run(f"cd {gen_folder} && rm -r program", shell=True, check=True)
+    subprocess.run(f"cd {gen_folder} && rm -r program", shell=True)
     subprocess.run(f"cd {gen_folder} && ./benchGen 5 {obj_folder_relative}/pr.txt {obj_folder_relative}/ss.txt program array", shell=True, stdout=subprocess.DEVNULL, check=True)
     return f"{gen_folder}/program"
 
 def compileProgram(obj_folder, program_folder_path):
     stderr_temp = os.path.join(obj_folder, "stderr_temp.txt")
     with open(stderr_temp, "w") as stderr_temp:
-        subprocess.run(f"cd {program_folder_path} && make", shell=True, check=True, stdout=subprocess.DEVNULL, stderr=stderr_temp)
+        subprocess.run(f"cd {program_folder_path} && make && make llvm && mv ./ll/program.ll ./../../scripts/grammarEnumeration/obj", shell=True, check=True, stdout=subprocess.DEVNULL, stderr=stderr_temp)
 
 def doAnalysis(program_number, analysis_file, obj_folder):
     stderr_temp = os.path.join(obj_folder, "stderr_temp.txt")
@@ -43,10 +43,19 @@ def doAnalysis(program_number, analysis_file, obj_folder):
         stderr = stderr_temp.read()
         if stderr:
             analysis_file.write(f"{program_number}: ERROR!\n")
-            return False
+            return 0
         else:
-            analysis_file.write(f"{program_number}: OK!\n")
-            return True
+            isEmptyFile = os.path.join(obj_folder, "isEmpty.txt")
+            with open(isEmptyFile, "w") as f:
+                subprocess.run(f"./emptinessChecker.sh obj/program.ll", shell=True, stdout=f, stderr=subprocess.DEVNULL, check=True)
+            with open(isEmptyFile, "r") as f:
+                content = f.read()
+                if content.strip() == "1":
+                    analysis_file.write(f"{program_number}: EMPTY!\n")
+                    return 1
+                else:
+                    analysis_file.write(f"{program_number}: OK!\n")
+                    return 2
 
 def analyzePrograms(path):
     file = os.path.join(path, "programs.txt")    
@@ -55,9 +64,12 @@ def analyzePrograms(path):
     os.makedirs(obj_folder, exist_ok=True)
     number_of_errors = 0
     number_of_successes = 0
+    number_of_empty = 0
+    with open(file, "r") as f:
+        lineC = round((f.read().count('\n')) / 4)
     with open(file, "r") as f, open(analysis, "w") as analysis_file:
         current_program = {}
-        for line in f:
+        for i, line in enumerate(f):
             line = line.strip()
             if re.match(r"^\d+:", line):
                 current_program['number'] = int(line.split(":")[0].strip())
@@ -71,20 +83,25 @@ def analyzePrograms(path):
                 program_folder_path = generateProgram()
                 compileProgram(obj_folder, program_folder_path)
                 result = doAnalysis(current_program["number"], analysis_file, obj_folder)
-                if result:
-                    number_of_successes += 1
-                else:
+                if result == 0:
                     number_of_errors += 1
+                elif result == 1:
+                    number_of_empty += 1
+                else:
+                    number_of_successes += 1
                 current_program = {}
+                print("Program ", round((i + 1)/4), "/", lineC)
     with open(analysis, "r") as file:
         original_content = file.readlines()
     with open(analysis, "w") as file:
-        total = number_of_successes + number_of_errors
-        p_success = number_of_successes / (total) * 100
-        p_errors = number_of_errors / (total) * 100
+        total = number_of_successes + number_of_errors + number_of_empty
+        p_success = round(number_of_successes / (total) * 100)
+        p_errors = round(number_of_errors / (total) * 100)
+        p_empty = round(number_of_empty / (total) * 100)
         file.write(f"Number of programs: {total}\n")
         file.write(f"% of successes: {p_success}%\n")
         file.write(f"% of errors: {p_errors}%\n")
+        file.write(f"% of empty programs: {p_empty}%\n")
         file.write("\n")
         file.writelines(original_content)
                 
