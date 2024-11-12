@@ -213,7 +213,7 @@ void Generator::genMakefile(std::string dir, std::string target) {
     makefile << "\t$(CC) ${CFLAGS} " + dalloc_cpp + " -o $(TARGET) $(OBJ)\n\n";
 
     makefile << "$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)\n";
-    makefile << "\t$(CC) ${CFLAGS} -c $< -o $@\n\n";
+    makefile << "\t$(CC) ${CFLAGS} -c $< -o $@ -lrt\n\n";
 
     makefile << "$(LL_DIR)/%.ll: $(SRC_DIR)/%.c | $(LL_DIR)\n";
     makefile << "\t$(CC) ${LLVMFLAGS} $< -o $@\n\n";
