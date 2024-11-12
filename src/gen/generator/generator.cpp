@@ -121,7 +121,7 @@ bool Generator::functionExists(int funcId) {
 std::string Generator::createParams() {
     std::string name = "params" + std::to_string(currentScope.top().addParam());
     std::vector<GeneratorVariable*> varsParams;
-    for (int i = 0; i < currentScope.top().avaiableVarsID.size(); i++) {
+    for (int i = 0; i < (int)currentScope.top().avaiableVarsID.size(); i++) {
         varsParams.push_back(variables[currentScope.top().avaiableVarsID[i]]);
     }
     std::vector<std::string> params = VariableFactory::genParams(varType, name, varsParams);
@@ -187,9 +187,16 @@ void Generator::endFunc() {
 
 void Generator::genMakefile(std::string dir, std::string target) {
     std::ofstream makefile;
+
+    std::string current_dir = std::filesystem::current_path();
+    std::string base_dir = current_dir.replace(current_dir.find("gen"), 3, "");
+
+    std::string dalloc_dir = "\"" + base_dir + "Dalloc/src" + "\"";
+    std::string dalloc_cpp = "\"" + base_dir + "Dalloc/src/Dalloc.c" + "\"";
+
     makefile.open(dir + "Makefile");
     makefile << "CC = clang\n";
-    makefile << "CFLAGS = \n";
+    makefile << "CFLAGS = -Wl,--wrap=malloc -Wl,--wrap=free -I " + dalloc_dir + "\n";
     makefile << "LLVMFLAGS = -S -emit-llvm\n";
     makefile << "TARGET = " + target + "\n";
     makefile << "SRC_DIR = src\n";
@@ -203,7 +210,7 @@ void Generator::genMakefile(std::string dir, std::string target) {
     makefile << "all: $(TARGET)\n\n";
 
     makefile << "$(TARGET): $(OBJ)\n";
-    makefile << "\t$(CC) ${CFLAGS} -o $@ $(OBJ)\n\n";
+    makefile << "\t$(CC) ${CFLAGS} " + dalloc_cpp + " -o $(TARGET) $(OBJ)\n\n";
 
     makefile << "$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)\n";
     makefile << "\t$(CC) ${CFLAGS} -c $< -o $@\n\n";
