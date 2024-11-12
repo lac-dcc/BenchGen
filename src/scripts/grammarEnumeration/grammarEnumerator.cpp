@@ -14,7 +14,7 @@ std::vector<std::string> getNonTerminals() {
 
 void writeToFile(const std::vector<std::string>* s, std::ofstream* file) {
     static int count = 0;
-    std::string line = std::to_string(count) + ": \n    SS: A\n    A: ";
+    std::string line = std::to_string(count) + ": \nSS: A\nA = ";
     int i = 0;
     for (; i < s->size(); i++) {
         if (s->at(i) == "\n") {
@@ -23,7 +23,7 @@ void writeToFile(const std::vector<std::string>* s, std::ofstream* file) {
             line += s->at(i) + " ";
         }
     }
-    line += ";\n    B: ";
+    line += ";\nB = ";
     for (i++; i < s->size(); i++) {
         line += s->at(i) + " ";
     }

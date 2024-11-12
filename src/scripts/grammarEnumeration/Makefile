@@ -17,5 +17,5 @@ $(OBJ)Driver.o: Driver.cpp | $(OBJ)
 	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@
 
 clean: 
-	rm $(OBJ)*
+	rm -r $(OBJ)
 	rm $(TARGET)

@@ -140,7 +140,6 @@ class GeneratorArray : public GeneratorVariable {
      * @brief Constructs an Array with a specified size, values, and identifier.
      *
      * @param totalSize The size of the array.
-     * @param values Pointer to the array of integer values.
      * @param id The unique identifier for the array.
      */
     GeneratorArray(int totalSize, int id);

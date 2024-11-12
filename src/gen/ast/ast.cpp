@@ -115,26 +115,18 @@ void Seq::gen(Generator& generator) {
 }
 
 void If::gen(Generator& generator) {
-    ifParam->gen(generator);
-}
-
-void IfParam::gen(Generator& generator) {
     std::string condition = generateIfCondition(generator);
     generator.ifCounter.top()++;
     std::string line = "if(" + condition + ") {";
     generator.addLine(line);
     generator.startScope();
-    code->gen(generator);
+    c1->gen(generator);
     generator.freeVars();
     generator.endScope();
-    else_->gen(generator);
-}
-
-void CodeElse::gen(Generator& generator) {
-    std::string line = "else {";
+    line = "else {";
     generator.addLine(line);
     generator.startScope();
-    code->gen(generator);
+    c2->gen(generator);
     generator.freeVars();
     generator.endScope();
 }
@@ -198,18 +190,6 @@ void Seq::print(int ident) {
 void If::print(int ident) {
     printIndentationSpaces(ident);
     std::cout << "If" << std::endl;
-    ifParam->print(ident + 2);
-}
-
-void IfParam::print(int ident) {
-    printIndentationSpaces(ident);
-    std::cout << "IfParam" << std::endl;
-    code->print(ident + 2);
-    else_->print(ident + 2);
-}
-
-void CodeElse::print(int ident) {
-    printIndentationSpaces(ident);
-    std::cout << "CodeElse" << std::endl;
-    code->print(ident + 2);
+    c1->print(ident + 2);
+    c2->print(ident + 2);
 }

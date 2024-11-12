@@ -16,6 +16,18 @@ Generator::Generator(std::string variableType) {
 void Generator::generateIncludes() {
     includes.push_back("#include <stdio.h>");
     includes.push_back("#include <stdlib.h>");
+    includes.push_back("#include <string.h>");
+    includes.push_back("#ifdef DEBUG");
+    includes.push_back("    #define DEBUG_NEW(id) printf(\"[NEW]\\t\\tId \%d created\\n\", id)");
+    includes.push_back("    #define DEBUG_COPY(id) printf(\"[COPY]\\t\\tId \%d copied\\n\", id)");
+    includes.push_back("    #define DEBUG_RETURN(id) printf(\"[RETURN]\\tId \%d returned\\n\", id)");
+    includes.push_back("    #define DEBUG_FREE(id) printf(\"[FREE]\\t\\tId \%d freed\\n\", id)");
+    includes.push_back("#else");
+    includes.push_back("    #define DEBUG_NEW(id)");
+    includes.push_back("    #define DEBUG_COPY(id)");
+    includes.push_back("    #define DEBUG_RETURN(id)");
+    includes.push_back("    #define DEBUG_FREE(id)");
+    includes.push_back("#endif");
     std::vector<std::string> varIncludes = VariableFactory::genIncludes(varType);
     for (auto var : varIncludes) {
         globalVars.push_back(var);
@@ -41,15 +53,22 @@ void Generator::generateRandomNumberGenerator() {
 void Generator::generateMainFunction() {
     mainFunction = GeneratorFunction(-1);
     mainFunction.addLine({"int main(int argc, char** argv) {",
-                          "   if (argc < 2 || argc > 3) {",
-                          "      printf(\"Usage: %s <paths seed> <loops factor (optional)>\\n\", argv[0]);",
-                          "      return 1;",
-                          "   }",
                           "   int loopsFactor = 100;",
-                          "   if (argc == 3) {",
-                          "      loopsFactor = atoi(argv[2]);",
+                          "   srand(0);",
+                          "   for (int i = 1; i < argc; i++) {",
+                          "      if (strcmp(argv[i], \"-path-seed\") == 0) {",
+                          "         i++;",
+                          "         if (i < argc) {",
+                          "            srand(atoi(argv[i]));",
+                          "         }",
+                          "      }",
+                          "      else if (strcmp(argv[i], \"-loops-factor\") == 0) {",
+                          "         i++;",
+                          "         if (i < argc) {",
+                          "            loopsFactor = atoi(argv[i]);",
+                          "         }",
+                          "      }",
                           "   }",
-                          "   srand(atol(argv[1]));",
                           "   return 0;",
                           "}"});
     mainFunction.insertBack = true;
@@ -123,6 +142,10 @@ void Generator::callFunc(int funcId, int nParameters) {
     line += "loopsFactor";
     line += ");";
     addLine(line);
+
+    line = "DEBUG_RETURN(" + var->name + "->id);";
+    addLine(line);
+
     line = "free(" + param + ".data);";
     addLine(line);
 }
@@ -168,36 +191,82 @@ void Generator::genMakefile(std::string dir, std::string target) {
     std::string current_dir = std::filesystem::current_path();
     std::string base_dir = current_dir.replace(current_dir.find("gen"), 3, "");
 
-    std::string dalloc_dir = "\""+base_dir + "Dalloc/src" + "\"";
-    std::string dalloc_cpp = "\""+base_dir + "Dalloc/src/Dalloc.c" + "\"";
+    std::string dalloc_dir = "\"" + base_dir + "Dalloc/src" + "\"";
+    std::string dalloc_cpp = "\"" + base_dir + "Dalloc/src/Dalloc.c" + "\"";
 
     makefile.open(dir + "Makefile");
-    makefile << "CC = gcc\n";
-    makefile << "CFLAGS = -Wl,--wrap=malloc -Wl,--wrap=free -I "+dalloc_dir+"\n";
+    makefile << "CC = clang\n";
+    makefile << "CFLAGS = -Wl,--wrap=malloc -Wl,--wrap=free -I " + dalloc_dir + "\n";
+    makefile << "LLVMFLAGS = -S -emit-llvm\n";
     makefile << "TARGET = " + target + "\n";
     makefile << "SRC_DIR = src\n";
-    makefile << "OBJ_DIR = obj\n\n";
+    makefile << "OBJ_DIR = obj\n";
+    makefile << "LL_DIR = ll\n\n";
 
     makefile << "SRC = $(wildcard $(SRC_DIR)/*.c)\n";
-    makefile << "OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))\n\n";
+    makefile << "OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))\n";
+    makefile << "LL = $(patsubst $(SRC_DIR)/%.c, $(LL_DIR)/%.ll, $(SRC))\n\n";
 
-    makefile << "$(TARGET)_$(CC): $(OBJ)\n";
-    makefile << "\t$(CC) ${CFLAGS} "+dalloc_cpp+" -o $(TARGET)_$(CC) $(OBJ)\n\n";
+    makefile << "all: $(TARGET)\n\n";
+
+    makefile << "$(TARGET): $(OBJ)\n";
+    makefile << "\t$(CC) ${CFLAGS} " + dalloc_cpp + " -o $(TARGET) $(OBJ)\n\n";
 
     makefile << "$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)\n";
     makefile << "\t$(CC) ${CFLAGS} -c $< -o $@ -lrt\n\n";
 
-    makefile << "$(OBJ_DIR):\n";
-    makefile << "\tmkdir -p $(OBJ_DIR)\n\n";
+    makefile << "$(LL_DIR)/%.ll: $(SRC_DIR)/%.c | $(LL_DIR)\n";
+    makefile << "\t$(CC) ${LLVMFLAGS} $< -o $@\n\n";
+
+    makefile << "$(OBJ_DIR) $(LL_DIR):\n";
+    makefile << "\tmkdir -p $@\n\n";
+
+    makefile << "llvm: $(LL)\n\n";
 
     makefile << "clean:\n";
-    makefile << "\trm -f $(OBJ) $(TARGET)_$(CC)\n\n";
+    makefile << "\trm -f $(OBJ) $(LL) $(TARGET)\n";
+    makefile << "\trm -rf $(OBJ_DIR) $(LL_DIR)\n\n";
+}
 
-    makefile << "%.o: %.c\n";
+void Generator::genReadme(std::string dir, std::string target) {
+    std::ofstream readme;
+    readme.open(dir + "README.md");
+    readme << "# " + target + " Program\n\n";
+    readme << "This program was generated by the **BenchGen** tool.\n\n";
+
+    readme << "## Compilation\n\n";
+    readme << "There are two ways to compile the program:\n\n";
+    readme << "1. Standard Compilation:\n\n";
+    readme << "    ```bash\n";
+    readme << "    make\n";
+    readme << "    ```\n\n";
+    readme << "    This will create:\n\n";
+    readme << "    - The executable file `" + target + "`\n\n";
+    readme << "    - The object files in the `obj` directory\n\n";
+    readme << "2. LLVM Compilation:\n\n";
+    readme << "    ```bash\n";
+    readme << "    make llvm\n";
+    readme << "    ```\n\n";
+    readme << "    This will create and `ll` folder containing `.ll` files, which are LLVM IR (Intermediate Representation).\n\n";
+
+    readme << "## Run\n\n";
+    readme << "To run the program, execute the following command:\n\n";
+    readme << "```bash\n";
+    readme << "./" + target + "\n";
+    readme << "```\n\n";
+
+    readme << "### Optional Arguments\n\n";
+    readme << "This program accepts the following optional arguments:\n\n";
+    readme << "-   `-path-seed <seed>`: Sets the seed for the random number generator. Default is `0`.\n\n";
+    readme << "-   `-loops-factor <factor>`: Sets the factor for the number of loops. Default is `100`.\n\n";
+
+    readme << "#### Example:\n\n";
+    readme << "```bash\n";
+    readme << "./" + target + " -loops-factor 50 -path-seed 123\n";
+    readme << "```";
 }
 
 void Generator::generateFiles(std::string benchmarkName) {
-    
     std::string benchDir = benchmarkName + "/";
     std::string sourceFile = benchmarkName + ".c";
     std::string includeName = benchmarkName + ".h";
@@ -266,6 +335,7 @@ void Generator::generateFiles(std::string benchmarkName) {
     }
     includeFile << "#endif";
     this->genMakefile(benchDir, benchmarkName);
+    this->genReadme(benchDir, benchmarkName);
     includeFile.close();
     file.close();
 }

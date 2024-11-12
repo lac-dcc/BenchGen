@@ -233,47 +233,11 @@ class Seq : public Node {
  */
 class If : public Node {
    private:
-    std::shared_ptr<Node> ifParam;  // The parameters for the if statement
+    std::shared_ptr<Node> c1;
+    std::shared_ptr<Node> c2;
 
    public:
-    If(std::shared_ptr<Node> ifParam) : ifParam(ifParam) {
-    }
-
-    void gen(Generator&) override;
-
-    void print(int indent) override;
-};
-
-/**
- * @brief Represents the parameters of an if statement in the AST.
- *
- * Contains the code block for the if statement and the else clause.
- */
-class IfParam : public Node {
-   private:
-    std::shared_ptr<Node> code;   // The code block for the if statement
-    std::shared_ptr<Node> else_;  // The else clause
-
-   public:
-    IfParam(std::shared_ptr<Node> code, std::shared_ptr<Node> else_) : code(code), else_(else_) {
-    }
-
-    void gen(Generator&) override;
-
-    void print(int indent) override;
-};
-
-/**
- * @brief Represents an else clause with a code block in the AST.
- *
- * Contains the code block for the else clause.
- */
-class CodeElse : public Node {
-   private:
-    std::shared_ptr<Node> code;  // The code block for the else clause
-
-   public:
-    CodeElse(std::shared_ptr<Node> code) : code(code) {
+    If(std::shared_ptr<Node> c1, std::shared_ptr<Node> c2) : c1(c1), c2(c2) {
     }
 
     void gen(Generator&) override;

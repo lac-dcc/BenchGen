@@ -21,7 +21,7 @@ int main(int argc, char const* argv[]) {
         std::cout << "Usage: ./main <number_of_iterations> <production_rules_file> <seed_string_file> <bench_name> <var_type>" << std::endl;
         return 1;
     }
-
+    
     std::cout << "Generating..." << std::endl;
 
     int iterations = std::stoi(argv[1]);
@@ -29,6 +29,7 @@ int main(int argc, char const* argv[]) {
     std::string inputFile = argv[3];
     std::string bench_name = argv[4];
     std::string varType = argv[5];
+
 
     Lexer lexer = Lexer();
     Parser parser = Parser();
