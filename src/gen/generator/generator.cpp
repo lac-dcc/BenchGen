@@ -249,6 +249,13 @@ void Generator::genReadme(std::string dir, std::string target) {
     readme << "    ```\n\n";
     readme << "    This will create and `ll` folder containing `.ll` files, which are LLVM IR (Intermediate Representation).\n\n";
 
+    readme << "### Compiling with debug mode:\n\n";
+    readme << "If you want to include debug prints in the output, compile the program with the `-DDEBUG` flag by modifying the `CFLAGS` during the `make` command:\n\n";
+    readme << "```bash\n";
+    readme << "make CFLAGS=\"-DDEBUG\"\n";
+    readme << "```\n\n";
+    readme << "This will create an executable with debug mode enabled, which prints additional debugging information to the terminal during execution.\n\n";
+
     readme << "## Run\n\n";
     readme << "To run the program, execute the following command:\n\n";
     readme << "```bash\n";
