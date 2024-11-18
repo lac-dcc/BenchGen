@@ -18,6 +18,6 @@ void __wrap_free(void* ptr);
 // Calculates time in microseconds. 
 long long microtime();
 // Prints debug info to terminal.
-void debug_print(void*, size_t, enum operation op);
+void debug_print(void*, size_t, enum operation op, long long timestamp);
 
 #endif
