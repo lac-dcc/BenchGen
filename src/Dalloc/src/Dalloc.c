@@ -1,24 +1,22 @@
 // Used for printf()
 #include <stdio.h>
-// Used for malloc_usable_size()
-#include <malloc.h>
 #include "Dalloc.h"
 
 void *__wrap_malloc(size_t size) {
 	void *ptr = __real_malloc(size);
-	debug_print(ptr, size, MALLOC);
+	long long abbreviated_timestamp = (microtime()%100000);
+	debug_print(ptr, size, MALLOC, abbreviated_timestamp);
 	return ptr;
 }
 
 void __wrap_free(void* ptr) {
-	//malloc_usable_size shows the actual size allocated, not the size requested by the user. This means that the value may differ from the malloc.
-	size_t size = malloc_usable_size(ptr);
+	long long abbreviated_timestamp = (microtime()%100000);
+	debug_print(ptr, -1, FREE, abbreviated_timestamp);
 	__real_free(ptr);
-	debug_print(ptr, size, FREE);
 	return;
 }
 
-void debug_print(void* ptr, size_t size, enum operation op){
+void debug_print(void* ptr, size_t size, enum operation op, long long timestamp){
 	char o;
 	switch (op){
 		case MALLOC:
@@ -26,11 +24,14 @@ void debug_print(void* ptr, size_t size, enum operation op){
 		case FREE:
 			o = 'f'; break;
 		default:
-			// This servers as a guard for future operations.
 			exit(1);
 	}
+	
+	unsigned long long abbreviated_address = ((unsigned long long)ptr&0xFFFFF);
 
-	printf("[%lld, %p, %ld, %c]\n", microtime(), ptr, size, o);
+	if((int)size >= 0) printf("[%lld, %llx, %ld, %c]\n", timestamp, abbreviated_address, size, o);
+	else printf("[%lld, %llx, %c]\n", timestamp, abbreviated_address,o);
+	
 	return;
 }
 
@@ -40,4 +41,3 @@ long long microtime(){
     gettimeofday(&tv, NULL);
     return tv.tv_sec * 1000000LL + tv.tv_usec;
 }
-
