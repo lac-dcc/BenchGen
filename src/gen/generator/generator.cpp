@@ -196,7 +196,8 @@ void Generator::genMakefile(std::string dir, std::string target) {
 
     makefile.open(dir + "Makefile");
     makefile << "CC = clang\n";
-    makefile << "CFLAGS = -Wl,--wrap=malloc -Wl,--wrap=free -I " + dalloc_dir + "\n";
+    makefile << "DALLOCFLAGS = -Wl,--wrap=malloc -Wl,--wrap=free -I " + dalloc_dir + "\n";
+    makefile << "CFLAGS =\n";
     makefile << "LLVMFLAGS = -S -emit-llvm\n";
     makefile << "TARGET = " + target + "\n";
     makefile << "SRC_DIR = src\n";
@@ -210,13 +211,13 @@ void Generator::genMakefile(std::string dir, std::string target) {
     makefile << "all: $(TARGET)\n\n";
 
     makefile << "$(TARGET): $(OBJ)\n";
-    makefile << "\t$(CC) ${CFLAGS} " + dalloc_cpp + " -o $(TARGET) $(OBJ)\n\n";
+    makefile << "\t$(CC) ${CFLAGS} ${DALLOCFLAGS} " + dalloc_cpp + " -o $(TARGET) $(OBJ)\n\n";
 
     makefile << "$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)\n";
-    makefile << "\t$(CC) ${CFLAGS} -c $< -o $@ -lrt\n\n";
+    makefile << "\t$(CC) ${CFLAGS} ${DALLOCFLAGS} -c $< -o $@ -lrt\n\n";
 
     makefile << "$(LL_DIR)/%.ll: $(SRC_DIR)/%.c | $(LL_DIR)\n";
-    makefile << "\t$(CC) $(CFLAGS) ${LLVMFLAGS} $< -o $@\n\n";
+    makefile << "\t$(CC) ${LLVMFLAGS} ${DALLOCFLAGS} $< -o $@\n\n";
 
     makefile << "$(OBJ_DIR) $(LL_DIR):\n";
     makefile << "\tmkdir -p $@\n\n";
@@ -248,6 +249,13 @@ void Generator::genReadme(std::string dir, std::string target) {
     readme << "    make llvm\n";
     readme << "    ```\n\n";
     readme << "    This will create and `ll` folder containing `.ll` files, which are LLVM IR (Intermediate Representation).\n\n";
+
+    readme << "### Compiling with debug mode:\n\n";
+    readme << "If you want to include debug prints in the output, compile the program with the `-DDEBUG` flag by modifying the `CFLAGS` during the `make` command:\n\n";
+    readme << "```bash\n";
+    readme << "make CFLAGS=\"-DDEBUG\"\n";
+    readme << "```\n\n";
+    readme << "This will create an executable with debug mode enabled, which prints additional debugging information to the terminal during execution.\n\n";
 
     readme << "## Run\n\n";
     readme << "To run the program, execute the following command:\n\n";
