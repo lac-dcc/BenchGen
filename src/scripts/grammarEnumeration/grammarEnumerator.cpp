@@ -1,9 +1,21 @@
 #include "grammarEnumerator.h"
 
+/**
+ * @brief Checks if a given string exists in a vector of strings.
+ *
+ * @param v The vector of strings to search.
+ * @param s The string to find in the vector.
+ * @return True if the string is found, false otherwise.
+ */
 bool contains(std::vector<std::string> v, std::string s) {
     return std::find(v.begin(), v.end(), s) != v.end();
 }
 
+/**
+ * @brief Retrieves all non-terminal symbols from the grammar.
+ *
+ * @return A vector containing all non-terminal symbols.
+ */
 std::vector<std::string> getNonTerminals() {
     std::vector<std::string> nonTerminals;
     for (auto const& [key, value] : grammar) {
@@ -12,6 +24,12 @@ std::vector<std::string> getNonTerminals() {
     return nonTerminals;
 }
 
+/**
+ * @brief Writes a given program structure to an output file in a specific format.
+ *
+ * @param s A pointer to a vector representing the program structure.
+ * @param file A pointer to the output file stream.
+ */
 void writeToFile(const std::vector<std::string>* s, std::ofstream* file) {
     static int count = 0;
     std::string line = std::to_string(count) + ": \nSS: A\nA = ";
@@ -32,6 +50,12 @@ void writeToFile(const std::vector<std::string>* s, std::ofstream* file) {
     count++;
 }
 
+/**
+ * @brief Starts the grammar enumeration process with the initial symbol.
+ *
+ * @param file A pointer to the output file stream.
+ * @param MAX_DEPTH The maximum recursion depth allowed.
+ */
 void enumerateGrammar(std::ofstream* file, const int MAX_DEPTH) {
     std::string initialSymbol = grammar.begin()->first;
 
@@ -40,6 +64,15 @@ void enumerateGrammar(std::ofstream* file, const int MAX_DEPTH) {
     enumerateGrammar({initialSymbol}, &nonTerminals, 0, MAX_DEPTH, file);
 }
 
+/**
+ * @brief Recursively enumerates all possible expansions of a grammar up to a maximum depth.
+ *
+ * @param s A vector representing the current grammar state.
+ * @param nonTerminals A pointer to the list of non-terminal symbols.
+ * @param cDepth The current recursion depth.
+ * @param MAX_DEPTH The maximum recursion depth allowed.
+ * @param file A pointer to the output file stream.
+ */
 void enumerateGrammar(std::vector<std::string> s, const std::vector<std::string>* nonTerminals, int cDepth, const int MAX_DEPTH, std::ofstream* file) {
     // Write if the code has only terminals left
     bool hasNonTerminal = false;
@@ -76,6 +109,12 @@ void enumerateGrammar(std::vector<std::string> s, const std::vector<std::string>
     }
 }
 
+/**
+ * @brief Expands a non-terminal symbol by retrieving all associated production rules.
+ *
+ * @param symbol The non-terminal symbol to expand.
+ * @return A vector of production rules, where each rule is represented as a vector of strings.
+ */
 std::vector<std::vector<std::string>> expandSymbol(std::string symbol) {
     std::vector<std::vector<std::string>> rules;
     for (auto const& [key, value] : grammar) {
@@ -86,6 +125,12 @@ std::vector<std::vector<std::string>> expandSymbol(std::string symbol) {
     return rules;
 }
 
+/**
+ * @brief Adds a line break at all possible positions in a given program structure.
+ *
+ * @param s A pointer to a vector representing the program structure.
+ * @return A vector of program structures with line breaks inserted.
+ */
 std::vector<std::vector<std::string>> addLineBreak(const std::vector<std::string>* s) {
     std::vector<std::vector<std::string>> programs;
     int parenCount = 0;
