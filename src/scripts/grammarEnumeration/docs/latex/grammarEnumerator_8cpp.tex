@@ -1,0 +1,157 @@
+\doxysection{/home/silva/doxygen/\+Bench\+Gen/src/scripts/grammar\+Enumeration/grammar\+Enumerator.cpp File Reference}
+\hypertarget{grammarEnumerator_8cpp}{}\label{grammarEnumerator_8cpp}\index{/home/silva/doxygen/BenchGen/src/scripts/grammarEnumeration/grammarEnumerator.cpp@{/home/silva/doxygen/BenchGen/src/scripts/grammarEnumeration/grammarEnumerator.cpp}}
+{\ttfamily \#include "{}grammar\+Enumerator.\+h"{}}\newline
+Include dependency graph for grammar\+Enumerator.\+cpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{grammarEnumerator_8cpp__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{grammarEnumerator_8cpp_ad469e40f3a8dc06929403bdf3ce010bd}{contains}} (std\+::vector$<$ std\+::string $>$ v, std\+::string s)
+\begin{DoxyCompactList}\small\item\em Checks if a given string exists in a vector of strings. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{grammarEnumerator_8cpp_a281c26086053ada3553f8beae0d46af1}{get\+Non\+Terminals}} ()
+\begin{DoxyCompactList}\small\item\em Retrieves all non-\/terminal symbols from the grammar. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{grammarEnumerator_8cpp_a57ce45e9c93f311adae7fa013431d271}{write\+To\+File}} (const std\+::vector$<$ std\+::string $>$ \texorpdfstring{$\ast$}{*}s, std\+::ofstream \texorpdfstring{$\ast$}{*}file)
+\begin{DoxyCompactList}\small\item\em Writes a given program structure to an output file in a specific format. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{grammarEnumerator_8cpp_a3dc8be18605ed932f2c323052255dadc}{enumerate\+Grammar}} (std\+::ofstream \texorpdfstring{$\ast$}{*}file, const int MAX\+\_\+\+DEPTH)
+\begin{DoxyCompactList}\small\item\em Starts the grammar enumeration process with the initial symbol. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{grammarEnumerator_8cpp_a7433c6b0d5a8928d69d2b5eba0331dce}{enumerate\+Grammar}} (std\+::vector$<$ std\+::string $>$ s, const std\+::vector$<$ std\+::string $>$ \texorpdfstring{$\ast$}{*}non\+Terminals, int c\+Depth, const int MAX\+\_\+\+DEPTH, std\+::ofstream \texorpdfstring{$\ast$}{*}file)
+\begin{DoxyCompactList}\small\item\em Recursively enumerates all possible expansions of a grammar up to a maximum depth. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::vector$<$ std\+::string $>$ $>$ \mbox{\hyperlink{grammarEnumerator_8cpp_a051407054ec55dddccacaf45bd16565c}{expand\+Symbol}} (std\+::string symbol)
+\begin{DoxyCompactList}\small\item\em Expands a non-\/terminal symbol by retrieving all associated production rules. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::vector$<$ std\+::string $>$ $>$ \mbox{\hyperlink{grammarEnumerator_8cpp_a63c92c37a5476b6f31514d66cd4dee9e}{add\+Line\+Break}} (const std\+::vector$<$ std\+::string $>$ \texorpdfstring{$\ast$}{*}s)
+\begin{DoxyCompactList}\small\item\em Adds a line break at all possible positions in a given program structure. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{grammarEnumerator_8cpp_a63c92c37a5476b6f31514d66cd4dee9e}\index{grammarEnumerator.cpp@{grammarEnumerator.cpp}!addLineBreak@{addLineBreak}}
+\index{addLineBreak@{addLineBreak}!grammarEnumerator.cpp@{grammarEnumerator.cpp}}
+\doxysubsubsection{\texorpdfstring{addLineBreak()}{addLineBreak()}}
+{\footnotesize\ttfamily \label{grammarEnumerator_8cpp_a63c92c37a5476b6f31514d66cd4dee9e} 
+std\+::vector$<$ std\+::vector$<$ std\+::string $>$ $>$ add\+Line\+Break (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ std\+::string $>$ \texorpdfstring{$\ast$}{*}}]{s}{}\end{DoxyParamCaption})}
+
+
+
+Adds a line break at all possible positions in a given program structure. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & A pointer to a vector representing the program structure. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A vector of program structures with line breaks inserted. 
+\end{DoxyReturn}
+\Hypertarget{grammarEnumerator_8cpp_ad469e40f3a8dc06929403bdf3ce010bd}\index{grammarEnumerator.cpp@{grammarEnumerator.cpp}!contains@{contains}}
+\index{contains@{contains}!grammarEnumerator.cpp@{grammarEnumerator.cpp}}
+\doxysubsubsection{\texorpdfstring{contains()}{contains()}}
+{\footnotesize\ttfamily \label{grammarEnumerator_8cpp_ad469e40f3a8dc06929403bdf3ce010bd} 
+bool contains (\begin{DoxyParamCaption}\item[{std\+::vector$<$ std\+::string $>$}]{v}{, }\item[{std\+::string}]{s}{}\end{DoxyParamCaption})}
+
+
+
+Checks if a given string exists in a vector of strings. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & The vector of strings to search. \\
+\hline
+{\em s} & The string to find in the vector. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the string is found, false otherwise. 
+\end{DoxyReturn}
+\Hypertarget{grammarEnumerator_8cpp_a3dc8be18605ed932f2c323052255dadc}\index{grammarEnumerator.cpp@{grammarEnumerator.cpp}!enumerateGrammar@{enumerateGrammar}}
+\index{enumerateGrammar@{enumerateGrammar}!grammarEnumerator.cpp@{grammarEnumerator.cpp}}
+\doxysubsubsection{\texorpdfstring{enumerateGrammar()}{enumerateGrammar()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{grammarEnumerator_8cpp_a3dc8be18605ed932f2c323052255dadc} 
+void enumerate\+Grammar (\begin{DoxyParamCaption}\item[{std\+::ofstream \texorpdfstring{$\ast$}{*}}]{file}{, }\item[{const int}]{MAX\+\_\+\+DEPTH}{}\end{DoxyParamCaption})}
+
+
+
+Starts the grammar enumeration process with the initial symbol. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file} & A pointer to the output file stream. \\
+\hline
+{\em MAX\+\_\+\+DEPTH} & The maximum recursion depth allowed. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{grammarEnumerator_8cpp_a7433c6b0d5a8928d69d2b5eba0331dce}\index{grammarEnumerator.cpp@{grammarEnumerator.cpp}!enumerateGrammar@{enumerateGrammar}}
+\index{enumerateGrammar@{enumerateGrammar}!grammarEnumerator.cpp@{grammarEnumerator.cpp}}
+\doxysubsubsection{\texorpdfstring{enumerateGrammar()}{enumerateGrammar()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{grammarEnumerator_8cpp_a7433c6b0d5a8928d69d2b5eba0331dce} 
+void enumerate\+Grammar (\begin{DoxyParamCaption}\item[{std\+::vector$<$ std\+::string $>$}]{s}{, }\item[{const std\+::vector$<$ std\+::string $>$ \texorpdfstring{$\ast$}{*}}]{non\+Terminals}{, }\item[{int}]{c\+Depth}{, }\item[{const int}]{MAX\+\_\+\+DEPTH}{, }\item[{std\+::ofstream \texorpdfstring{$\ast$}{*}}]{file}{}\end{DoxyParamCaption})}
+
+
+
+Recursively enumerates all possible expansions of a grammar up to a maximum depth. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & A vector representing the current grammar state. \\
+\hline
+{\em non\+Terminals} & A pointer to the list of non-\/terminal symbols. \\
+\hline
+{\em c\+Depth} & The current recursion depth. \\
+\hline
+{\em MAX\+\_\+\+DEPTH} & The maximum recursion depth allowed. \\
+\hline
+{\em file} & A pointer to the output file stream. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{grammarEnumerator_8cpp_a051407054ec55dddccacaf45bd16565c}\index{grammarEnumerator.cpp@{grammarEnumerator.cpp}!expandSymbol@{expandSymbol}}
+\index{expandSymbol@{expandSymbol}!grammarEnumerator.cpp@{grammarEnumerator.cpp}}
+\doxysubsubsection{\texorpdfstring{expandSymbol()}{expandSymbol()}}
+{\footnotesize\ttfamily \label{grammarEnumerator_8cpp_a051407054ec55dddccacaf45bd16565c} 
+std\+::vector$<$ std\+::vector$<$ std\+::string $>$ $>$ expand\+Symbol (\begin{DoxyParamCaption}\item[{std\+::string}]{symbol}{}\end{DoxyParamCaption})}
+
+
+
+Expands a non-\/terminal symbol by retrieving all associated production rules. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em symbol} & The non-\/terminal symbol to expand. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A vector of production rules, where each rule is represented as a vector of strings. 
+\end{DoxyReturn}
+\Hypertarget{grammarEnumerator_8cpp_a281c26086053ada3553f8beae0d46af1}\index{grammarEnumerator.cpp@{grammarEnumerator.cpp}!getNonTerminals@{getNonTerminals}}
+\index{getNonTerminals@{getNonTerminals}!grammarEnumerator.cpp@{grammarEnumerator.cpp}}
+\doxysubsubsection{\texorpdfstring{getNonTerminals()}{getNonTerminals()}}
+{\footnotesize\ttfamily \label{grammarEnumerator_8cpp_a281c26086053ada3553f8beae0d46af1} 
+std\+::vector$<$ std\+::string $>$ get\+Non\+Terminals (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Retrieves all non-\/terminal symbols from the grammar. 
+
+\begin{DoxyReturn}{Returns}
+A vector containing all non-\/terminal symbols. 
+\end{DoxyReturn}
+\Hypertarget{grammarEnumerator_8cpp_a57ce45e9c93f311adae7fa013431d271}\index{grammarEnumerator.cpp@{grammarEnumerator.cpp}!writeToFile@{writeToFile}}
+\index{writeToFile@{writeToFile}!grammarEnumerator.cpp@{grammarEnumerator.cpp}}
+\doxysubsubsection{\texorpdfstring{writeToFile()}{writeToFile()}}
+{\footnotesize\ttfamily \label{grammarEnumerator_8cpp_a57ce45e9c93f311adae7fa013431d271} 
+void write\+To\+File (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ std\+::string $>$ \texorpdfstring{$\ast$}{*}}]{s}{, }\item[{std\+::ofstream \texorpdfstring{$\ast$}{*}}]{file}{}\end{DoxyParamCaption})}
+
+
+
+Writes a given program structure to an output file in a specific format. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & A pointer to a vector representing the program structure. \\
+\hline
+{\em file} & A pointer to the output file stream. \\
+\hline
+\end{DoxyParams}

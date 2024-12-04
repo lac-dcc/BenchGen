@@ -1,0 +1,68 @@
+\doxysection{programs\+Density\+Plot Namespace Reference}
+\hypertarget{namespaceprogramsDensityPlot}{}\label{namespaceprogramsDensityPlot}\index{programsDensityPlot@{programsDensityPlot}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceprogramsDensityPlot_ab256343f50a8534d17fbe38aed3ffe6f}{parse\+\_\+file}} (\mbox{\hyperlink{namespaceprogramsDensityPlot_a9d561f19c2f557468e7cdb7cf03ef8ee}{file\+\_\+path}})
+\item 
+\mbox{\hyperlink{namespaceprogramsDensityPlot_ae33653a68b12a1eba34847ed4b1593fc}{create\+\_\+density\+\_\+plot}} (\mbox{\hyperlink{namespaceprogramsDensityPlot_aa8a846a7b197c71f4c1c24d0abeee5a6}{program\+\_\+classes}}, output\+\_\+path)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+str \mbox{\hyperlink{namespaceprogramsDensityPlot_a9d561f19c2f557468e7cdb7cf03ef8ee}{file\+\_\+path}} = "{}results/programs\+Analysis.\+txt"{}
+\item 
+str \mbox{\hyperlink{namespaceprogramsDensityPlot_aafafdf6af73b7ebb495548616715049e}{output\+\_\+image\+\_\+path}} = "{}results/densityplot.\+jpg"{}
+\item 
+\mbox{\hyperlink{namespaceprogramsDensityPlot_aa8a846a7b197c71f4c1c24d0abeee5a6}{program\+\_\+classes}} = \mbox{\hyperlink{namespaceprogramsDensityPlot_ab256343f50a8534d17fbe38aed3ffe6f}{parse\+\_\+file}}(\mbox{\hyperlink{namespaceprogramsDensityPlot_a9d561f19c2f557468e7cdb7cf03ef8ee}{file\+\_\+path}})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespaceprogramsDensityPlot_ae33653a68b12a1eba34847ed4b1593fc}\index{programsDensityPlot@{programsDensityPlot}!create\_density\_plot@{create\_density\_plot}}
+\index{create\_density\_plot@{create\_density\_plot}!programsDensityPlot@{programsDensityPlot}}
+\doxysubsubsection{\texorpdfstring{create\_density\_plot()}{create\_density\_plot()}}
+{\footnotesize\ttfamily \label{namespaceprogramsDensityPlot_ae33653a68b12a1eba34847ed4b1593fc} 
+programs\+Density\+Plot.\+create\+\_\+density\+\_\+plot (\begin{DoxyParamCaption}\item[{}]{program\+\_\+classes}{, }\item[{}]{output\+\_\+path}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Creates and saves a density plot for programs classified as "EMPTY".
+
+Args:
+    program_classes (dict): A dictionary with program IDs and their classifications.
+    output_path (str): Path to save the generated density plot image.
+\end{DoxyVerb}
+ \Hypertarget{namespaceprogramsDensityPlot_ab256343f50a8534d17fbe38aed3ffe6f}\index{programsDensityPlot@{programsDensityPlot}!parse\_file@{parse\_file}}
+\index{parse\_file@{parse\_file}!programsDensityPlot@{programsDensityPlot}}
+\doxysubsubsection{\texorpdfstring{parse\_file()}{parse\_file()}}
+{\footnotesize\ttfamily \label{namespaceprogramsDensityPlot_ab256343f50a8534d17fbe38aed3ffe6f} 
+programs\+Density\+Plot.\+parse\+\_\+file (\begin{DoxyParamCaption}\item[{}]{file\+\_\+path}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Parses the analysis file to extract program classifications.
+
+Args:
+    file_path (str): Path to the file containing program analysis results.
+
+Returns:
+    dict: A dictionary where the keys are program IDs and the values are their classifications.
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespaceprogramsDensityPlot_a9d561f19c2f557468e7cdb7cf03ef8ee}\index{programsDensityPlot@{programsDensityPlot}!file\_path@{file\_path}}
+\index{file\_path@{file\_path}!programsDensityPlot@{programsDensityPlot}}
+\doxysubsubsection{\texorpdfstring{file\_path}{file\_path}}
+{\footnotesize\ttfamily \label{namespaceprogramsDensityPlot_a9d561f19c2f557468e7cdb7cf03ef8ee} 
+str programs\+Density\+Plot.\+file\+\_\+path = "{}results/programs\+Analysis.\+txt"{}}
+
+\Hypertarget{namespaceprogramsDensityPlot_aafafdf6af73b7ebb495548616715049e}\index{programsDensityPlot@{programsDensityPlot}!output\_image\_path@{output\_image\_path}}
+\index{output\_image\_path@{output\_image\_path}!programsDensityPlot@{programsDensityPlot}}
+\doxysubsubsection{\texorpdfstring{output\_image\_path}{output\_image\_path}}
+{\footnotesize\ttfamily \label{namespaceprogramsDensityPlot_aafafdf6af73b7ebb495548616715049e} 
+str programs\+Density\+Plot.\+output\+\_\+image\+\_\+path = "{}results/densityplot.\+jpg"{}}
+
+\Hypertarget{namespaceprogramsDensityPlot_aa8a846a7b197c71f4c1c24d0abeee5a6}\index{programsDensityPlot@{programsDensityPlot}!program\_classes@{program\_classes}}
+\index{program\_classes@{program\_classes}!programsDensityPlot@{programsDensityPlot}}
+\doxysubsubsection{\texorpdfstring{program\_classes}{program\_classes}}
+{\footnotesize\ttfamily \label{namespaceprogramsDensityPlot_aa8a846a7b197c71f4c1c24d0abeee5a6} 
+programs\+Density\+Plot.\+program\+\_\+classes = \mbox{\hyperlink{namespaceprogramsDensityPlot_ab256343f50a8534d17fbe38aed3ffe6f}{parse\+\_\+file}}(\mbox{\hyperlink{namespaceprogramsDensityPlot_a9d561f19c2f557468e7cdb7cf03ef8ee}{file\+\_\+path}})}
+

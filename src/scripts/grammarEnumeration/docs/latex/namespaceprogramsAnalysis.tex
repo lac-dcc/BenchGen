@@ -1,0 +1,151 @@
+\doxysection{programs\+Analysis Namespace Reference}
+\hypertarget{namespaceprogramsAnalysis}{}\label{namespaceprogramsAnalysis}\index{programsAnalysis@{programsAnalysis}}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classprogramsAnalysis_1_1Program}{Program}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceprogramsAnalysis_a727a333dd5fbdc2e731ac18be5fd234a}{create\+Program\+Files}} (obj\+\_\+folder, current\+\_\+program)
+\item 
+\mbox{\hyperlink{namespaceprogramsAnalysis_a477d4d8050cbf9d34d7cce05aef3bd3f}{generate\+Program}} (iterations)
+\item 
+\mbox{\hyperlink{namespaceprogramsAnalysis_ac00c53676761ed94dc06c4e08f03e3ac}{compile\+Program}} (obj\+\_\+folder, program\+\_\+folder\+\_\+path, number)
+\item 
+\mbox{\hyperlink{namespaceprogramsAnalysis_a62919f77f3cfdf3420c561b93ce6a644}{do\+Analysis}} (program\+\_\+number, analysis\+\_\+file, obj\+\_\+folder, nums)
+\item 
+\mbox{\hyperlink{namespaceprogramsAnalysis_a372aa28ca2570fc6c5b469c4da6f6860}{get\+Total\+Lines}} (obj\+\_\+folder, number)
+\item 
+\mbox{\hyperlink{namespaceprogramsAnalysis_a8e70b61524d16c96058433d3c964c355}{analyze\+Programs}} (path)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceprogramsAnalysis_a8ddd93645688339c49c583d798371854}{parser}} = argparse.\+Argument\+Parser(description=\textquotesingle{}Analyzes the generated programs by the \mbox{\hyperlink{constants_8h_a724fe9f5a3f7b7d6a55a351557696fcf}{grammar}} enumerator.\textquotesingle{})
+\item 
+\mbox{\hyperlink{namespaceprogramsAnalysis_ab7fd8367b8b40b7aadf93406e021764c}{default}}
+\item 
+\mbox{\hyperlink{namespaceprogramsAnalysis_a922c9c3ea02450348e4368782a56e60a}{help}}
+\item 
+\mbox{\hyperlink{namespaceprogramsAnalysis_afbaf68154125c969e0cabe95bdfc4fc2}{args}} = parser.\+parse\+\_\+args()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}@file analyze_programs.py
+@brief Analyzes the generated programs by the grammar enumerator.
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespaceprogramsAnalysis_a8e70b61524d16c96058433d3c964c355}\index{programsAnalysis@{programsAnalysis}!analyzePrograms@{analyzePrograms}}
+\index{analyzePrograms@{analyzePrograms}!programsAnalysis@{programsAnalysis}}
+\doxysubsubsection{\texorpdfstring{analyzePrograms()}{analyzePrograms()}}
+{\footnotesize\ttfamily \label{namespaceprogramsAnalysis_a8e70b61524d16c96058433d3c964c355} 
+programs\+Analysis.\+analyze\+Programs (\begin{DoxyParamCaption}\item[{}]{path}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Analyzes the generated programs and writes results to an analysis file.
+
+Args:
+    path (str): The path to the folder containing the programs.txt file.
+\end{DoxyVerb}
+ \Hypertarget{namespaceprogramsAnalysis_ac00c53676761ed94dc06c4e08f03e3ac}\index{programsAnalysis@{programsAnalysis}!compileProgram@{compileProgram}}
+\index{compileProgram@{compileProgram}!programsAnalysis@{programsAnalysis}}
+\doxysubsubsection{\texorpdfstring{compileProgram()}{compileProgram()}}
+{\footnotesize\ttfamily \label{namespaceprogramsAnalysis_ac00c53676761ed94dc06c4e08f03e3ac} 
+programs\+Analysis.\+compile\+Program (\begin{DoxyParamCaption}\item[{}]{obj\+\_\+folder}{, }\item[{}]{program\+\_\+folder\+\_\+path}{, }\item[{}]{number}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Compiles a program and stores the compiled files in the object folder.
+
+Args:
+    obj_folder (str): The folder to store compiled files.
+    program_folder_path (str): The path to the program's source files.
+    number (int): The program number.
+\end{DoxyVerb}
+ \Hypertarget{namespaceprogramsAnalysis_a727a333dd5fbdc2e731ac18be5fd234a}\index{programsAnalysis@{programsAnalysis}!createProgramFiles@{createProgramFiles}}
+\index{createProgramFiles@{createProgramFiles}!programsAnalysis@{programsAnalysis}}
+\doxysubsubsection{\texorpdfstring{createProgramFiles()}{createProgramFiles()}}
+{\footnotesize\ttfamily \label{namespaceprogramsAnalysis_a727a333dd5fbdc2e731ac18be5fd234a} 
+programs\+Analysis.\+create\+Program\+Files (\begin{DoxyParamCaption}\item[{}]{obj\+\_\+folder}{, }\item[{}]{current\+\_\+program}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Creates files for a program's seed string and rules.
+
+Args:
+    obj_folder (str): The folder where files will be created.
+    current_program (dict): A dictionary containing program data.
+\end{DoxyVerb}
+ \Hypertarget{namespaceprogramsAnalysis_a62919f77f3cfdf3420c561b93ce6a644}\index{programsAnalysis@{programsAnalysis}!doAnalysis@{doAnalysis}}
+\index{doAnalysis@{doAnalysis}!programsAnalysis@{programsAnalysis}}
+\doxysubsubsection{\texorpdfstring{doAnalysis()}{doAnalysis()}}
+{\footnotesize\ttfamily \label{namespaceprogramsAnalysis_a62919f77f3cfdf3420c561b93ce6a644} 
+programs\+Analysis.\+do\+Analysis (\begin{DoxyParamCaption}\item[{}]{program\+\_\+number}{, }\item[{}]{analysis\+\_\+file}{, }\item[{}]{obj\+\_\+folder}{, }\item[{}]{nums}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Analyzes a program to check for errors, growth, or emptiness.
+
+Args:
+    program_number (int): The program number.
+    analysis_file (file object): The file to write analysis results.
+    obj_folder (str): The folder containing object files.
+    nums (list): A list of numbers identifying the program variants.
+
+Returns:
+    int: Analysis result code (0 for error, 1 for empty, 2 for no growth, 3 for success).
+\end{DoxyVerb}
+ \Hypertarget{namespaceprogramsAnalysis_a477d4d8050cbf9d34d7cce05aef3bd3f}\index{programsAnalysis@{programsAnalysis}!generateProgram@{generateProgram}}
+\index{generateProgram@{generateProgram}!programsAnalysis@{programsAnalysis}}
+\doxysubsubsection{\texorpdfstring{generateProgram()}{generateProgram()}}
+{\footnotesize\ttfamily \label{namespaceprogramsAnalysis_a477d4d8050cbf9d34d7cce05aef3bd3f} 
+programs\+Analysis.\+generate\+Program (\begin{DoxyParamCaption}\item[{}]{iterations}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Generates a program by running a subprocess with the specified iterations.
+
+Args:
+    iterations (int): The number of iterations for the generation process.
+
+Returns:
+    str: The path to the folder containing the generated program.
+\end{DoxyVerb}
+ \Hypertarget{namespaceprogramsAnalysis_a372aa28ca2570fc6c5b469c4da6f6860}\index{programsAnalysis@{programsAnalysis}!getTotalLines@{getTotalLines}}
+\index{getTotalLines@{getTotalLines}!programsAnalysis@{programsAnalysis}}
+\doxysubsubsection{\texorpdfstring{getTotalLines()}{getTotalLines()}}
+{\footnotesize\ttfamily \label{namespaceprogramsAnalysis_a372aa28ca2570fc6c5b469c4da6f6860} 
+programs\+Analysis.\+get\+Total\+Lines (\begin{DoxyParamCaption}\item[{}]{obj\+\_\+folder}{, }\item[{}]{number}{}\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}@brief Calculates the total number of lines in all .ll files for a program.
+
+Args:
+    obj_folder (str): The folder containing compiled files.
+    number (int): The program number.
+
+Returns:
+    int: The total number of lines across all .ll files.
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespaceprogramsAnalysis_afbaf68154125c969e0cabe95bdfc4fc2}\index{programsAnalysis@{programsAnalysis}!args@{args}}
+\index{args@{args}!programsAnalysis@{programsAnalysis}}
+\doxysubsubsection{\texorpdfstring{args}{args}}
+{\footnotesize\ttfamily \label{namespaceprogramsAnalysis_afbaf68154125c969e0cabe95bdfc4fc2} 
+programs\+Analysis.\+args = parser.\+parse\+\_\+args()}
+
+\Hypertarget{namespaceprogramsAnalysis_ab7fd8367b8b40b7aadf93406e021764c}\index{programsAnalysis@{programsAnalysis}!default@{default}}
+\index{default@{default}!programsAnalysis@{programsAnalysis}}
+\doxysubsubsection{\texorpdfstring{default}{default}}
+{\footnotesize\ttfamily \label{namespaceprogramsAnalysis_ab7fd8367b8b40b7aadf93406e021764c} 
+programs\+Analysis.\+default}
+
+\Hypertarget{namespaceprogramsAnalysis_a922c9c3ea02450348e4368782a56e60a}\index{programsAnalysis@{programsAnalysis}!help@{help}}
+\index{help@{help}!programsAnalysis@{programsAnalysis}}
+\doxysubsubsection{\texorpdfstring{help}{help}}
+{\footnotesize\ttfamily \label{namespaceprogramsAnalysis_a922c9c3ea02450348e4368782a56e60a} 
+programs\+Analysis.\+help}
+
+\Hypertarget{namespaceprogramsAnalysis_a8ddd93645688339c49c583d798371854}\index{programsAnalysis@{programsAnalysis}!parser@{parser}}
+\index{parser@{parser}!programsAnalysis@{programsAnalysis}}
+\doxysubsubsection{\texorpdfstring{parser}{parser}}
+{\footnotesize\ttfamily \label{namespaceprogramsAnalysis_a8ddd93645688339c49c583d798371854} 
+programs\+Analysis.\+parser = argparse.\+Argument\+Parser(description=\textquotesingle{}Analyzes the generated programs by the \mbox{\hyperlink{constants_8h_a724fe9f5a3f7b7d6a55a351557696fcf}{grammar}} enumerator.\textquotesingle{})}
+
