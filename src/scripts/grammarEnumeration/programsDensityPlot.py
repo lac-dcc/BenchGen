@@ -25,18 +25,18 @@ def parse_file(file_path):
             program_classes[program_num] = classification    
     return program_classes
 
-def create_density_plot(program_classes, output_path):
+def create_density_plot(program_classes, output_path, result):
     """
-    @brief Creates and saves a density plot for programs classified as "EMPTY".
+    @brief Creates and saves a density plot for programs classified as "EMPTY", "DOES NOT GROW" or "SUCCESS".
 
     Args:
         program_classes (dict): A dictionary with program IDs and their classifications.
         output_path (str): Path to save the generated density plot image.
     """
-    empty_programs = [program for program, classification in program_classes.items() if classification == "EMPTY"]    
+    result_programs = [program for program, classification in program_classes.items() if classification == result]
     plt.figure(figsize=(12, 6))
-    sns.kdeplot(empty_programs, bw_adjust=0.5, fill=True, color="blue", alpha=0.3)
-    sns.kdeplot(empty_programs, bw_adjust=0.5, color="blue", alpha=0.7, linewidth=2)
+    sns.kdeplot(result_programs, bw_adjust=0.5, fill=True, color="blue", alpha=0.3)
+    sns.kdeplot(result_programs, bw_adjust=0.5, color="blue", alpha=0.7, linewidth=2)
     plt.title("Density Plot of Empty Programs")
     plt.xlabel("Program ID")
     plt.ylabel("Density")
@@ -47,7 +47,17 @@ def create_density_plot(program_classes, output_path):
 
 if __name__ == "__main__":
     file_path = "results/programsAnalysis.txt"
-    output_image_path = "results/densityplot.jpg"
+    output_image_path = "results/densityplot_empty.jpg"
     program_classes = parse_file(file_path)
-    create_density_plot(program_classes, output_image_path)
+    create_density_plot(program_classes, output_image_path, "EMPTY")
+    print(f"Density plot saved to {output_image_path}")
+    
+    output_image_path = "results/densityplot_does_not_grow.jpg"
+    program_classes = parse_file(file_path)
+    create_density_plot(program_classes, output_image_path, "DOES NOT GROW")
+    print(f"Density plot saved to {output_image_path}")
+
+    output_image_path = "results/densityplot_success.jpg"
+    program_classes = parse_file(file_path)
+    create_density_plot(program_classes, output_image_path, "SUCCESS")
     print(f"Density plot saved to {output_image_path}")
