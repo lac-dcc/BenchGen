@@ -197,7 +197,7 @@ void Generator::genMakefile(std::string dir, std::string target) {
     makefile.open(dir + "Makefile");
     makefile << "CC = clang\n";
     makefile << "DALLOCFLAGS = -Wl,--wrap=malloc -Wl,--wrap=free -I " + dalloc_dir + "\n";
-    makefile << "LLVMFLAGS = -S -emit-llvm -I" + dalloc_dir + "\n";
+    makefile << "LLVMFLAGS = -DDEBUG -S -emit-llvm -I" + dalloc_dir + "\n";
     makefile << "TARGET = " + target + "\n";
     makefile << "SRC_DIR = src\n";
     makefile << "OBJ_DIR = obj\n";
@@ -221,10 +221,11 @@ void Generator::genMakefile(std::string dir, std::string target) {
     makefile << "$(OBJ_DIR) $(LL_DIR):\n";
     makefile << "\tmkdir -p $@\n\n";
 
-    makefile << "llvm: $(LL)\n\n";
+    makefile << "llvm: $(LL)\n";
+    makefile << "\t$(CC) ./ll/*.ll -o llvm_${TARGET}\n\n";
 
     makefile << "clean:\n";
-    makefile << "\trm -f $(OBJ) $(LL) $(TARGET)\n";
+    makefile << "\trm -f $(OBJ) $(LL) $(TARGET) llvm_${TARGET}\n";
     makefile << "\trm -rf $(OBJ_DIR) $(LL_DIR)\n\n";
 }
 
