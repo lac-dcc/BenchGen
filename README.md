@@ -101,7 +101,9 @@ And run a generated program with the following command:
 ./<program_name>
 ```
 
-To confirm that the program is running correctly, simply check if it generates messages on stdout.
+The Makefile will generate the programs in .ll format, which will be located in the ./ll directory.
+
+Note: To confirm that the program is running correctly, simply check if it generates messages on stdout.
 
 ## Structure
 
