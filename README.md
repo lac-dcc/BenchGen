@@ -85,6 +85,23 @@ And run a generated program with the following command:
 ```bash
 ./<program_name>
 ```
+## Running a program with LLVM
+
+Generated programs have their own README. Here we have a simpler explanation.
+
+Use the following command to compile a generated program:
+
+```bash
+make llvm
+```
+
+And run a generated program with the following command:
+
+```bash
+./<program_name>
+```
+
+To confirm that the program is running correctly, simply check if it generates messages on stdout.
 
 ## Structure
 
