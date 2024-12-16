@@ -1,1 +1,0 @@
-new contains LOOP(insert CALL(A) B C contains) IF(contains, new) CALL(new contains)
