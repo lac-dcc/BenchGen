@@ -1,3 +1,6 @@
 [submodule "benchgen.github.io"]
 	path = benchgen.github.io
 	url = https://github.com/benchGen/benchGen.github.io.git
+[submodule "bench_metrics"]
+	path = bench_metrics
+	url = https://github.com/lac-dcc/benchMetrics.git
