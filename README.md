@@ -15,7 +15,7 @@ BenchGen project is financed by FAPEMIG and sponsored by Google.
 After cloning the repository, you can build the project by running the `make` command in the `src/gen` directory. Notice that CLANG++ is used as the default compiler.
 
 ```bash
-git clone --recurse-submodules https://github.com/lac-dcc/BenchGen.git
+git clone https://github.com/lac-dcc/BenchGen.git
 cd src/gen
 make
 ```
