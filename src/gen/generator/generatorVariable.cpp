@@ -286,7 +286,7 @@ std::vector<std::string> GeneratorSortedList::free() {
     std::string tmp_varname = "tmp" + std::to_string(VariableFactory::var_counter);
 
     tmp.push_back(this->name + "->refC--;");
-    tmp.push_back("if(" + this->name + "->refC == 0 && " + this->name + "->n > 0){");
+    tmp.push_back("if(" + this->name + "->refC == 0){");
     tmp.push_back("     cell_t* " + cell_varname + " = " + this->name + "->root;");
     tmp.push_back("     cell_t* " + tmp_varname + "  = NULL;");
     tmp.push_back("     while(" + cell_varname + " != NULL) {");
