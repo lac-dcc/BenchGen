@@ -107,10 +107,10 @@ Note: To confirm that the program is running correctly, simply check if it gener
 
 ## Structure
 
-There are two main directories in the project, `src` and `Bench-Metrics`:
+There are a main directories in the project, `src`:
 
 [src](./src/): code components of BenchGen can be found in the `src` folder, each documented in their own directories. \
-[Bench-Metrics](./Bench-Metrics): the Benchmark Metrics is a part of the project that collects metrics from benchmarks.
+
 
 ## Documentation
 
