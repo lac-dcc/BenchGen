@@ -1,3 +1,4 @@
+#include <exception>
 #include <iostream>
 
 #include "lSystem/lSystem.h"
@@ -25,7 +26,14 @@ int main(int argc, char const* argv[]) {
     
     std::cout << "Generating..." << std::endl;
 
-    int iterations = std::stoi(argv[1]);
+    try{
+        int iterations = std::stoi(argv[1]);
+    }catch(const std::invalid_argument& e)
+    {
+        std::cout << "Number of iterations should be integer!" << std::endl;
+        return 1;
+    }
+
     std::string productionRulesFile = argv[2];
     std::string inputFile = argv[3];
     std::string bench_name = argv[4];
