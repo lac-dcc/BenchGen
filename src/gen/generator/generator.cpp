@@ -188,11 +188,8 @@ void Generator::endFunc() {
 void Generator::genMakefile(std::string dir, std::string target) {
     std::ofstream makefile;
 
-    std::string current_dir = std::filesystem::current_path();
-    std::string base_dir = current_dir.replace(current_dir.find("gen"), 3, "");
-
-    std::string dalloc_dir = "\"" + base_dir + "Dalloc/src" + "\"";
-    std::string dalloc_cpp = "\"" + base_dir + "Dalloc/src/Dalloc.c" + "\"";
+    std::string dalloc_dir = "../../Dalloc/src";
+    std::string dalloc_cpp = "../../Dalloc/src/Dalloc.c";
 
     makefile.open(dir + "Makefile");
     makefile << "CC = clang\n";
