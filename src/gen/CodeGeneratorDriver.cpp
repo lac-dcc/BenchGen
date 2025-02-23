@@ -3,6 +3,7 @@
 #include "lSystem/lSystem.h"
 #include "lexer/lexer.h"
 #include "parser/parser.h"
+#include "shared/varTypes.h"
 
 void tokenizeInput(std::vector<Token>& inputTokens, Lexer& lexer, const std::string& inputFile);
 
@@ -29,6 +30,13 @@ int main(int argc, char const* argv[]) {
     std::string inputFile = argv[3];
     std::string bench_name = argv[4];
     std::string varType = argv[5];
+
+    if(varType != VarTypes::ARRAY && varType != VarTypes::SORTEDLIST)
+    {
+        std::cout << "Variable " + varType + " is wrong!" << std::endl;
+        std::cout << "Variables '" + VarTypes::ARRAY + "' and '" + VarTypes::SORTEDLIST + "' is avaliable!" << std::endl;
+        return 1;
+    }
 
 
     Lexer lexer = Lexer();
