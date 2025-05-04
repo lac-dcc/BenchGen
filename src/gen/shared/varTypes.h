@@ -12,8 +12,10 @@
 class VarTypes {
    public:
     // Constant string representing the "array" variable type
-    inline static const std::string ARRAY      = "array";
-    inline static const std::string SORTEDLIST = "sortedlist";
+    inline static const std::string ARRAY       = "array";
+    inline static const std::string SORTEDLIST  = "sortedlist";
+    inline static const std::string GHASH_TABLE = "ghash";
+    inline static const std::string GLIST       = "glist";
 };
 
 #endif

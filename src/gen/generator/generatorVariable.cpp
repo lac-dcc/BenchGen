@@ -334,3 +334,266 @@ std::vector<std::string> GeneratorSortedList::genParams(std::string paramName, s
 
     return tmp;
 }
+
+
+GeneratorGHashTable::GeneratorGHashTable(int id) {
+    this->typeString = "ghash_t";
+    this->id = id;
+    this->name = VarTypes::GHASH_TABLE + std::to_string(id);
+}
+
+GeneratorGHashTable::~GeneratorGHashTable() {
+}
+
+std::vector<std::string> GeneratorGHashTable::genIncludes() {
+    std::vector<std::string> temp = {};
+    temp.push_back("#include <stdbool.h>");
+    temp.push_back("#include <glib.h>");
+    std::string dalloc_name = "\"Dalloc.h\"";
+    temp.push_back("#include " + dalloc_name);
+    return temp;
+}
+
+std::vector<std::string> GeneratorGHashTable::new_(bool inFunction) {
+    std::vector<std::string> tmp = {};
+
+    if (inFunction) {
+        tmp.push_back("ghash_t* " + this->name + ";");
+        tmp.push_back("if (pCounter > 0) {");
+        tmp.push_back("   " + this->name + " = vars->data[--pCounter];");
+        tmp.push_back("   " + this->name + "->refC++;");
+        tmp.push_back("   DEBUG_COPY(" + this->name + "->id);");
+        tmp.push_back("} else {");
+        tmp.push_back("   " + this->name + " = (ghash_t*)malloc(sizeof(ghash_t));");
+        tmp.push_back("   " + this->name + "->refC = 1;");
+        tmp.push_back("   " + this->name + "->id = " + std::to_string(this->id) + ";");
+        tmp.push_back("   " + this->name + "->n = 0;");
+        tmp.push_back("   " + this->name + "->hash = g_hash_table_new(g_str_hash, g_str_equal);");
+        tmp.push_back("   DEBUG_NEW(" + this->name + "->id);");
+        tmp.push_back("}");
+    } else {
+        tmp.push_back("ghash_t* " + this->name + " = (ghash_t*)malloc(sizeof(ghash_t));");
+        tmp.push_back(this->name + "->refC = 1;");
+        tmp.push_back(this->name + "->id = " + std::to_string(this->id) + ";");
+        tmp.push_back(this->name + "->n = 0;");
+        tmp.push_back(this->name + "->hash = g_hash_table_new(g_str_hash, g_str_equal);");
+        tmp.push_back("DEBUG_NEW(" + this->name + "->id);");
+    }
+    return tmp;
+}
+
+std::vector<std::string> GeneratorGHashTable::insert() {
+    std::vector<std::string> tmp = {};
+
+    int value = rand() % 100;
+    std::string str_value = std::to_string(value);
+
+    tmp.push_back("g_hash_table_insert("+this->name+"->hash,\""+ str_value +"\",\""+ str_value +"\");");
+    tmp.push_back(this->name + "->n = g_hash_table_size("+this->name + "->hash);");
+    
+    VariableFactory::var_counter++;
+    return tmp;
+}
+
+std::vector<std::string> GeneratorGHashTable::remove() {
+    std::vector<std::string> tmp = {};
+
+    int value = rand() % 100;
+    std::string str_value = std::to_string(value);
+
+    tmp.push_back("g_hash_table_remove("+this->name+"->hash,\""+ str_value +"\");");
+    tmp.push_back(this->name + "->n = g_hash_table_size("+this->name + "->hash);");
+    VariableFactory::var_counter++;
+
+    return tmp;
+}
+
+std::vector<std::string> GeneratorGHashTable::contains(bool shouldReturn) {
+    std::vector<std::string> tmp = {};
+    int value = rand() % 100;
+
+    std::string str_value = std::to_string(value);
+    
+    if (shouldReturn) {
+        tmp.push_back("return g_hash_table_contains("+this->name+"->hash,\""+ str_value +"\") == 1 ? " + this->name + " : NULL;");
+    }else{
+        tmp.push_back("g_hash_table_contains("+this->name+"->hash,\""+ str_value +"\");");
+    }
+    
+    VariableFactory::var_counter++;
+
+    return tmp;
+}
+
+std::vector<std::string> GeneratorGHashTable::free() {
+    std::vector<std::string> tmp = {};
+
+    tmp.push_back(this->name + "->refC--;");
+    tmp.push_back("if(" + this->name + "->refC == 0){");
+    tmp.push_back("	g_hash_table_remove_all("+this->name + "->hash);");
+    tmp.push_back("	" + this->name + "->n = g_hash_table_size("+ this->name + "->hash);");
+    tmp.push_back("     DEBUG_FREE(" + this->name + "->id);");
+    tmp.push_back("}");
+    VariableFactory::var_counter++;
+    return tmp;
+}
+
+std::vector<std::string> GeneratorGHashTable::genGlobalVars() {
+    std::vector<std::string> tmp = {};
+
+    tmp.push_back("typedef struct ghash_t {");
+    tmp.push_back("     GHashTable* hash;");
+    tmp.push_back("     size_t refC;");
+    tmp.push_back("     int id;");
+    tmp.push_back("     unsigned int n;");
+    tmp.push_back("} ghash_t;");
+
+    tmp.push_back("typedef struct {");
+    tmp.push_back("   ghash_t** data;");
+    tmp.push_back("   size_t size;");
+    tmp.push_back("} " + this->typeString + "_param;");
+    return tmp;
+}
+
+std::vector<std::string> GeneratorGHashTable::genParams(std::string paramName, std::vector<GeneratorVariable*> varsParams) {
+    std::vector<std::string> tmp = {};
+    tmp.push_back(this->typeString + "_param " + paramName + ";");
+    tmp.push_back(paramName + ".size = " + std::to_string(varsParams.size()) + ";");
+    tmp.push_back(paramName + ".data = (" + this->typeString + "**)malloc(" + paramName + ".size*sizeof(" + this->typeString + "*));");
+    for (int i = 0; i < (int)varsParams.size(); i++) {
+        tmp.push_back(paramName + ".data[" + std::to_string(i) + "] = " + varsParams[i]->name + ";");
+    }
+
+    return tmp;
+}
+
+GeneratorGList::GeneratorGList(int id) {
+    this->typeString = "glist_t";
+    this->id = id;
+    this->name = VarTypes::GLIST + std::to_string(id);
+}
+
+GeneratorGList::~GeneratorGList() {
+}
+
+std::vector<std::string> GeneratorGList::genIncludes() {
+    std::vector<std::string> temp = {};
+    temp.push_back("#include <stdbool.h>");
+    temp.push_back("#include <glib.h>");
+    std::string dalloc_name = "\"Dalloc.h\"";
+    temp.push_back("#include " + dalloc_name);
+    return temp;
+}
+
+std::vector<std::string> GeneratorGList::new_(bool inFunction) {
+    std::vector<std::string> tmp = {};
+
+    if (inFunction) {
+        tmp.push_back("glist_t* " + this->name + ";");
+        tmp.push_back("if (pCounter > 0) {");
+        tmp.push_back("   " + this->name + " = vars->data[--pCounter];");
+        tmp.push_back("   " + this->name + "->refC++;");
+        tmp.push_back("   DEBUG_COPY(" + this->name + "->id);");
+        tmp.push_back("} else {");
+        tmp.push_back("   " + this->name + " = (glist_t*)malloc(sizeof(glist_t));");
+        tmp.push_back("   " + this->name + "->refC = 1;");
+        tmp.push_back("   " + this->name + "->id = " + std::to_string(this->id) + ";");
+        tmp.push_back("   " + this->name + "->n = 0;");
+        tmp.push_back("   " + this->name + "->list = NULL;");
+        tmp.push_back("   DEBUG_NEW(" + this->name + "->id);");
+        tmp.push_back("}");
+    } else {
+        tmp.push_back("glist_t* " + this->name + " = (glist_t*)malloc(sizeof(glist_t));");
+        tmp.push_back(this->name + "->refC = 1;");
+        tmp.push_back(this->name + "->id = " + std::to_string(this->id) + ";");
+        tmp.push_back(this->name + "->n = 0;");
+        tmp.push_back(this->name + "->list = NULL;");
+        tmp.push_back("DEBUG_NEW(" + this->name + "->id);");
+    }
+    return tmp;
+}
+
+std::vector<std::string> GeneratorGList::insert() {
+    std::vector<std::string> tmp = {};
+
+    int value = rand() % 100;
+    std::string str_value = std::to_string(value);
+
+    tmp.push_back(this->name+"->list = g_list_append("+this->name+"->list,\""+ str_value +"\");");
+    tmp.push_back(this->name + "->n = g_list_length("+this->name + "->list);");
+    
+    VariableFactory::var_counter++;
+    return tmp;
+}
+
+std::vector<std::string> GeneratorGList::remove() {
+    std::vector<std::string> tmp = {};
+
+    int value = rand() % 100;
+    std::string str_value = std::to_string(value);
+
+    tmp.push_back(this->name+"->list = g_list_remove("+this->name+"->list,\""+ str_value +"\");");
+    tmp.push_back(this->name + "->n = g_list_length("+this->name + "->list);");
+    VariableFactory::var_counter++;
+
+    return tmp;
+}
+
+std::vector<std::string> GeneratorGList::contains(bool shouldReturn) {
+    std::vector<std::string> tmp = {};
+    int value = rand() % 100;
+
+    std::string str_value = std::to_string(value);
+    
+    if (shouldReturn) {
+        tmp.push_back("return g_list_find("+this->name+"->list,\""+ str_value +"\") ? " + this->name + " : NULL;");
+    }else{
+        tmp.push_back("g_list_find("+this->name+"->list,\""+ str_value +"\");");
+    }
+    
+    VariableFactory::var_counter++;
+
+    return tmp;
+}
+
+std::vector<std::string> GeneratorGList::free() {
+    std::vector<std::string> tmp = {};
+
+    tmp.push_back(this->name + "->refC--;");
+    tmp.push_back("if(" + this->name + "->refC == 0){");
+    tmp.push_back("	g_list_free("+this->name + "->list);");
+    tmp.push_back("	" + this->name + "->n = g_list_length("+ this->name + "->list);");
+    tmp.push_back("     DEBUG_FREE(" + this->name + "->id);");
+    tmp.push_back("}");
+    VariableFactory::var_counter++;
+    return tmp;
+}
+
+std::vector<std::string> GeneratorGList::genGlobalVars() {
+    std::vector<std::string> tmp = {};
+
+    tmp.push_back("typedef struct glist_t {");
+    tmp.push_back("     GList* list;");
+    tmp.push_back("     size_t refC;");
+    tmp.push_back("     int id;");
+    tmp.push_back("     unsigned int n;");
+    tmp.push_back("} glist_t;");
+
+    tmp.push_back("typedef struct {");
+    tmp.push_back("   glist_t** data;");
+    tmp.push_back("   size_t size;");
+    tmp.push_back("} " + this->typeString + "_param;");
+    return tmp;
+}
+
+std::vector<std::string> GeneratorGList::genParams(std::string paramName, std::vector<GeneratorVariable*> varsParams) {
+    std::vector<std::string> tmp = {};
+    tmp.push_back(this->typeString + "_param " + paramName + ";");
+    tmp.push_back(paramName + ".size = " + std::to_string(varsParams.size()) + ";");
+    tmp.push_back(paramName + ".data = (" + this->typeString + "**)malloc(" + paramName + ".size*sizeof(" + this->typeString + "*));");
+    for (int i = 0; i < (int)varsParams.size(); i++) {
+        tmp.push_back(paramName + ".data[" + std::to_string(i) + "] = " + varsParams[i]->name + ";");
+    }
+
+    return tmp;
+}
