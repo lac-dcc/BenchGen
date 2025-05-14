@@ -413,12 +413,8 @@ std::vector<std::string> GeneratorGHashTable::contains(bool shouldReturn) {
     int value = rand() % 100;
 
     std::string str_value = std::to_string(value);
-    
-    if (shouldReturn) {
-        tmp.push_back("return g_hash_table_contains("+this->name+"->hash,\""+ str_value +"\") == 1 ? " + this->name + " : NULL;");
-    }else{
-        tmp.push_back("g_hash_table_contains("+this->name+"->hash,\""+ str_value +"\");");
-    }
+     
+    tmp.push_back("g_hash_table_contains("+this->name+"->hash,\""+ str_value +"\");");
     
     VariableFactory::var_counter++;
 
@@ -431,7 +427,7 @@ std::vector<std::string> GeneratorGHashTable::free() {
     tmp.push_back(this->name + "->refC--;");
     tmp.push_back("if(" + this->name + "->refC == 0){");
     tmp.push_back("	g_hash_table_remove_all("+this->name + "->hash);");
-    tmp.push_back("	" + this->name + "->n = g_hash_table_size("+ this->name + "->hash);");
+    tmp.push_back("	" + this->name + "->n = 0");
     tmp.push_back("     DEBUG_FREE(" + this->name + "->id);");
     tmp.push_back("}");
     VariableFactory::var_counter++;
@@ -544,12 +540,8 @@ std::vector<std::string> GeneratorGList::contains(bool shouldReturn) {
     int value = rand() % 100;
 
     std::string str_value = std::to_string(value);
-    
-    if (shouldReturn) {
-        tmp.push_back("return g_list_find("+this->name+"->list,\""+ str_value +"\") ? " + this->name + " : NULL;");
-    }else{
-        tmp.push_back("g_list_find("+this->name+"->list,\""+ str_value +"\");");
-    }
+
+    tmp.push_back("g_list_find("+this->name+"->list,\""+ str_value +"\");");
     
     VariableFactory::var_counter++;
 
@@ -562,7 +554,7 @@ std::vector<std::string> GeneratorGList::free() {
     tmp.push_back(this->name + "->refC--;");
     tmp.push_back("if(" + this->name + "->refC == 0){");
     tmp.push_back("	g_list_free("+this->name + "->list);");
-    tmp.push_back("	" + this->name + "->n = g_list_length("+ this->name + "->list);");
+    tmp.push_back("	" + this->name + "->n = 0");
     tmp.push_back("     DEBUG_FREE(" + this->name + "->id);");
     tmp.push_back("}");
     VariableFactory::var_counter++;
