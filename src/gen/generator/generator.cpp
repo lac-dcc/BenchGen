@@ -198,7 +198,9 @@ void Generator::genMakefile(std::string dir, std::string target) {
     makefile << "TARGET = " + target + "\n";
     makefile << "SRC_DIR = src\n";
     makefile << "OBJ_DIR = obj\n";
-    makefile << "LL_DIR = ll\n\n";
+    makefile << "LL_DIR = ll\n";
+    makefile << "GLIB_CFLAGS = $(shell pkg-config --cflags glib-2.0)\n";
+    makefile << "GLIB_LIBS = $(shell pkg-config --libs glib-2.0)\n\n";
 
     makefile << "SRC = $(wildcard $(SRC_DIR)/*.c)\n";
     makefile << "OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))\n";
@@ -207,10 +209,10 @@ void Generator::genMakefile(std::string dir, std::string target) {
     makefile << "all: $(TARGET)\n\n";
 
     makefile << "$(TARGET): $(OBJ)\n";
-    makefile << "\t$(CC) ${DALLOCFLAGS} $(OBJ) " + dalloc_cpp + " -o $(TARGET) \n\n";
+    makefile << "\t$(CC) ${DALLOCFLAGS} $(OBJ) " + dalloc_cpp + " -o $(TARGET) $(GLIB_LIBS)\n\n";
 
     makefile << "$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)\n";
-    makefile << "\t$(CC) ${CFLAGS} -I " + dalloc_dir + " -c $< -o $@\n\n";
+    makefile << "\t$(CC) -Wunused-command-line-argument ${CFLAGS} -I " + dalloc_dir + " $(GLIB_CFLAGS) -c $< -o $@\n\n";
 
     makefile << "$(LL_DIR)/%.ll: $(SRC_DIR)/%.c | $(LL_DIR)\n";
     makefile << "\t$(CC) ${LLVMFLAGS} $< -o $@\n\n";

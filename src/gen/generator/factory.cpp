@@ -6,6 +6,10 @@ GeneratorVariable* VariableFactory::createVariable(std::string type, int identif
         return new GeneratorArray(size, identifier);
     } else if (type == VarTypes::SORTEDLIST) {
         return new GeneratorSortedList(identifier);
+    }else if (type == VarTypes::GHASH_TABLE) {
+        return new GeneratorGHashTable(identifier);
+    }else if (type == VarTypes::GLIST) {
+        return new GeneratorGList(identifier);
     }
     // TODO: Error Handling
     return nullptr;
