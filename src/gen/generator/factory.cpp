@@ -10,6 +10,8 @@ GeneratorVariable* VariableFactory::createVariable(std::string type, int identif
         return new GeneratorGHashTable(identifier);
     }else if (type == VarTypes::GLIST) {
         return new GeneratorGList(identifier);
+    }else if (type == VarTypes::GARRAY) {
+        return new GeneratorGArray(identifier);
     }
     // TODO: Error Handling
     return nullptr;
