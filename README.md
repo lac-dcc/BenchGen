@@ -3,10 +3,14 @@
 ## Introduction
 
 The BenchGen project aims to synthesize programs that are sufficiently expressive to stress-test computing systems, such as operating systems, compiler optimizations, memory allocation libraries and even computer architectures.
-BenchGen implements an [L-System](https://en.wikipedia.org/wiki/L-system) to generate programs from a seed string and a set of production rules, enabling the creation of large programs through iterative expansion of the L-System. Additionally, our goal is for BenchGen to generate programs that are as similar as possible to widely used benchmarks, such as SPEC CPU 2017 and the LLVM Test Suite.
-The program generator is entirely written in C++.
 
-BenchGen project is financed by FAPEMIG and sponsored by Google.
+### L-Systems
+
+BenchGen implements an [L-System](https://en.wikipedia.org/wiki/L-system) to generate programs from a seed string and a set of production rules, enabling the creation of large programs through iterative expansion of the L-System. 
+The program generator is entirely written in C++.
+To know more about how BenchGen works, you can read a brief [report](docs/BenchGen.pdf) about it.
+
+The BenchGen project is sponsored by FAPEMIG and by Google.
 
 ## Generating a Program
 
