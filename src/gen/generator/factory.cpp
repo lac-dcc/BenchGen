@@ -12,6 +12,8 @@ GeneratorVariable* VariableFactory::createVariable(std::string type, int identif
         return new GeneratorGList(identifier);
     }else if (type == VarTypes::GARRAY) {
         return new GeneratorGArray(identifier);
+    }else if (type == VarTypes::GTREE) {
+        return new GeneratorGTree(identifier);
     }
     // TODO: Error Handling
     return nullptr;

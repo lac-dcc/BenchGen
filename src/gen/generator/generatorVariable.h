@@ -123,6 +123,24 @@ class GeneratorSortedList : public GeneratorVariable {
 };
 
 
+class GeneratorGTree : public GeneratorVariable {
+   public:
+    GeneratorGTree() {};
+
+    GeneratorGTree(int id);
+
+    ~GeneratorGTree();
+
+    std::vector<std::string> new_(bool inFunction = false) override;
+    std::vector<std::string> insert() override;
+    std::vector<std::string> remove() override;
+    std::vector<std::string> contains(bool shouldReturn = false) override;
+    std::vector<std::string> free() override;
+    std::vector<std::string> genIncludes() override;
+    std::vector<std::string> genGlobalVars() override;
+    std::vector<std::string> genParams(std::string paramName, std::vector<GeneratorVariable*> varsParams) override;
+};
+
 class GeneratorGList : public GeneratorVariable {
    public:
     GeneratorGList() {};
