@@ -209,10 +209,10 @@ void Generator::genMakefile(std::string dir, std::string target) {
     makefile << "all: $(TARGET)\n\n";
 
     makefile << "$(TARGET): $(OBJ)\n";
-    makefile << "\t$(CC) ${DALLOCFLAGS} $(OBJ) " + dalloc_cpp + " -o $(TARGET) $(GLIB_LIBS)\n\n";
+    makefile << "\t$(CC) ${CFLAGS} ${DALLOCFLAGS} $(OBJ) " + dalloc_cpp + " -o $(TARGET) $(GLIB_LIBS)\n\n";
 
     makefile << "$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)\n";
-    makefile << "\t$(CC) -Wunused-command-line-argument ${CFLAGS} -I " + dalloc_dir + " $(GLIB_CFLAGS) -c $< -o $@\n\n";
+    makefile << "\t$(CC) ${CFLAGS} -I " + dalloc_dir + " $(GLIB_CFLAGS) -c $< -o $@\n\n";
 
     makefile << "$(LL_DIR)/%.ll: $(SRC_DIR)/%.c | $(LL_DIR)\n";
     makefile << "\t$(CC) ${LLVMFLAGS} $< -o $@\n\n";

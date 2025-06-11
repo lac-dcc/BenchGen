@@ -428,7 +428,8 @@ std::vector<std::string> GeneratorGHashTable::free() {
     tmp.push_back("if(" + this->name + "->refC == 0){");
     tmp.push_back("	g_hash_table_remove_all("+this->name + "->hash);");
     tmp.push_back("	" + this->name + "->n = 0");
-    tmp.push_back("     DEBUG_FREE(" + this->name + "->id);");
+    tmp.push_back("  DEBUG_FREE(" + this->name + "->id);");
+    tmp.push_back("	free("+this->name+");");
     tmp.push_back("}");
     VariableFactory::var_counter++;
     return tmp;
@@ -555,7 +556,8 @@ std::vector<std::string> GeneratorGList::free() {
     tmp.push_back("if(" + this->name + "->refC == 0){");
     tmp.push_back("	g_list_free("+this->name + "->list);");
     tmp.push_back("	" + this->name + "->n = 0");
-    tmp.push_back("     DEBUG_FREE(" + this->name + "->id);");
+    tmp.push_back("  DEBUG_FREE(" + this->name + "->id);");
+    tmp.push_back("	free("+this->name+");");
     tmp.push_back("}");
     VariableFactory::var_counter++;
     return tmp;
@@ -692,7 +694,8 @@ std::vector<std::string> GeneratorGArray::free() {
     tmp.push_back("if(" + this->name + "->refC == 0){");
     tmp.push_back("	g_array_free("+this->name + "->garray,TRUE);");
     tmp.push_back("	" + this->name + "->n = 0");
-    tmp.push_back("     DEBUG_FREE(" + this->name + "->id);");
+    tmp.push_back("  DEBUG_FREE(" + this->name + "->id);");
+    tmp.push_back("	free("+this->name+");");
     tmp.push_back("}");
     VariableFactory::var_counter++;
     return tmp;
