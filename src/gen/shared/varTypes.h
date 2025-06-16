@@ -18,6 +18,7 @@ class VarTypes {
     inline static const std::string GLIST       = "glist";
     inline static const std::string GARRAY      = "garray";
     inline static const std::string GTREE       = "gtree";
+    inline static const std::string GQUEUE      = "gqueue";
 };
 
 #endif

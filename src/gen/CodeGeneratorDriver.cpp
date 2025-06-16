@@ -40,10 +40,10 @@ int main(int argc, char const* argv[]) {
     std::string bench_name = argv[4];
     std::string varType = argv[5];
 
-    if(varType != VarTypes::ARRAY && varType != VarTypes::SORTEDLIST && varType != VarTypes::GHASH_TABLE && varType != VarTypes::GLIST && varType != VarTypes::GARRAY && varType != VarTypes::GTREE)
+    if(varType != VarTypes::ARRAY && varType != VarTypes::SORTEDLIST && varType != VarTypes::GHASH_TABLE && varType != VarTypes::GLIST && varType != VarTypes::GARRAY && varType != VarTypes::GTREE  && varType != VarTypes::GQUEUE)
     {
         std::cout << "Variable " + varType + " is wrong!" << std::endl;
-        std::cout << "Variables '" + VarTypes::ARRAY + "', '" + VarTypes::SORTEDLIST + "', '" + VarTypes::GHASH_TABLE +"', '" + VarTypes::GLIST + "', '" + VarTypes::GARRAY + "' and '" + VarTypes::GTREE + "' is avaliable!" << std::endl;
+        std::cout << "Variables '" + VarTypes::ARRAY + "', '" + VarTypes::SORTEDLIST + "', '" + VarTypes::GHASH_TABLE +"', '" + VarTypes::GLIST + "', '" + VarTypes::GARRAY + "', '" + VarTypes::GQUEUE  + "' and '" + VarTypes::GTREE + "' is avaliable!" << std::endl;
         return 1;
     }
 
