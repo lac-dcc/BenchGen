@@ -985,3 +985,132 @@ std::vector<std::string> GeneratorGQueue::genParams(std::string paramName, std::
 
     return tmp;
 }
+
+
+GeneratorGString::GeneratorGString(int id) {
+    this->typeString = "gstring_t";
+    this->id = id;
+    this->name = VarTypes::GSTRING + std::to_string(id);
+}
+
+GeneratorGString::~GeneratorGString() {
+}
+
+std::vector<std::string> GeneratorGString::genIncludes() {
+    std::vector<std::string> temp = {};
+    temp.push_back("#include <stdbool.h>");
+    temp.push_back("#include <glib.h>");
+    std::string dalloc_name = "\"Dalloc.h\"";
+    temp.push_back("#include " + dalloc_name);
+    return temp;
+}
+
+std::vector<std::string> GeneratorGString::new_(bool inFunction) {
+    std::vector<std::string> tmp = {};
+
+    if (inFunction) {
+        tmp.push_back("gstring_t* " + this->name + ";");
+        tmp.push_back("if (pCounter > 0) {");
+        tmp.push_back("   " + this->name + " = vars->data[--pCounter];");
+        tmp.push_back("   " + this->name + "->refC++;");
+        tmp.push_back("   DEBUG_COPY(" + this->name + "->id);");
+        tmp.push_back("} else {");
+        tmp.push_back("   " + this->name + " = (gstring_t*)malloc(sizeof(gstring_t));");
+        tmp.push_back("   " + this->name + "->refC = 1;");
+        tmp.push_back("   " + this->name + "->id = " + std::to_string(this->id) + ";");
+        tmp.push_back("   " + this->name + "->n = 0;");
+        tmp.push_back("   " + this->name + "->gstring = g_string_new();");
+        tmp.push_back("   DEBUG_NEW(" + this->name + "->id);");
+        tmp.push_back("}");
+    } else {
+        tmp.push_back("gstring_t* " + this->name + " = (gstring_t*)malloc(sizeof(gstring_t));");
+        tmp.push_back(this->name + "->refC = 1;");
+        tmp.push_back(this->name + "->id = " + std::to_string(this->id) + ";");
+        tmp.push_back(this->name + "->n = 0;");
+        tmp.push_back(this->name + "->gstring = g_string_new();");
+        tmp.push_back("DEBUG_NEW(" + this->name + "->id);");
+    }
+    return tmp;
+}
+
+std::vector<std::string> GeneratorGString::insert() {
+    std::vector<std::string> tmp = {};
+
+    int value = rand() % 100;
+    std::string str_value = std::to_string(value);
+
+    tmp.push_back("g_string_append("+this->name+"->gstring->str,\""+ str_value +"\");");
+    tmp.push_back(this->name + "->n = "+this->name + "->gstring->len);");
+    
+    VariableFactory::var_counter++;
+    return tmp;
+}
+
+std::vector<std::string> GeneratorGString::remove() {
+    std::vector<std::string> tmp = {};
+
+    int value = rand() % 100;
+    std::string str_value = std::to_string(value);
+
+    tmp.push_back("strstr("+this->name+"->gstring->str,\""+ str_value +"\");");
+    tmp.push_back(this->name + "->n = "+this->name + "->gstring->len);");
+    VariableFactory::var_counter++;
+
+    return tmp;
+}
+
+std::vector<std::string> GeneratorGString::contains(bool shouldReturn) {
+    std::vector<std::string> tmp = {};
+    int value = rand() % 100;
+
+    std::string str_value = std::to_string(value);
+     
+    tmp.push_back("strstr("+this->name+"->gstring->str,\""+ str_value +"\");");
+    
+    VariableFactory::var_counter++;
+
+    return tmp;
+}
+
+std::vector<std::string> GeneratorGString::free() {
+    std::vector<std::string> tmp = {};
+
+    tmp.push_back(this->name + "->refC--;");
+    tmp.push_back("if(" + this->name + "->refC == 0){");
+    tmp.push_back("	g_string_free("+this->name + "->gstring, 1);");
+    tmp.push_back("	" + this->name + "->n = 0");
+    tmp.push_back(" DEBUG_FREE(" + this->name + "->id);");
+    tmp.push_back("	free("+this->name+");");
+    tmp.push_back("}");
+    VariableFactory::var_counter++;
+    return tmp;
+}
+
+std::vector<std::string> GeneratorGString::genGlobalVars() {
+    std::vector<std::string> tmp = {};
+
+    tmp.push_back("typedef struct gstring_t {");
+    tmp.push_back("     GString* gstring;");
+    tmp.push_back("     size_t refC;");
+    tmp.push_back("     int id;");
+    tmp.push_back("     unsigned int n;");
+    tmp.push_back("} gstring_t;");
+
+    tmp.push_back("typedef struct {");
+    tmp.push_back("   gstring_t** data;");
+    tmp.push_back("   size_t size;");
+    tmp.push_back("} " + this->typeString + "_param;");
+    return tmp;
+}
+
+std::vector<std::string> GeneratorGString::genParams(std::string paramName, std::vector<GeneratorVariable*> varsParams) {
+    std::vector<std::string> tmp = {};
+    tmp.push_back(this->typeString + "_param " + paramName + ";");
+    tmp.push_back(paramName + ".size = " + std::to_string(varsParams.size()) + ";");
+    tmp.push_back(paramName + ".data = (" + this->typeString + "**)malloc(" + paramName + ".size*sizeof(" + this->typeString + "*));");
+    for (int i = 0; i < (int)varsParams.size(); i++) {
+        tmp.push_back(paramName + ".data[" + std::to_string(i) + "] = " + varsParams[i]->name + ";");
+    }
+
+    return tmp;
+}

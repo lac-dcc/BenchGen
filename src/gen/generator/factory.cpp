@@ -16,6 +16,8 @@ GeneratorVariable* VariableFactory::createVariable(std::string type, int identif
         return new GeneratorGTree(identifier);
     }else if (type == VarTypes::GQUEUE) {
         return new GeneratorGQueue(identifier);
+    }else if (type == VarTypes::GSTRING) {
+        return new GeneratorGString(identifier);
     }
     // TODO: Error Handling
     return nullptr;
