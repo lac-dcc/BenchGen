@@ -43,9 +43,14 @@ void Generator::generateGlobalVars() {
 
 void Generator::generateRandomNumberGenerator() {
     GeneratorFunction rngFunction = GeneratorFunction(-1);
-    rngFunction.addLine({"unsigned long rng() {",
-                         "   unsigned long n = rand();",
-                         "   return (n << 32) | rand();",
+    rngFunction.addLine({"unsigned long get_path() {",
+                         "   const char* path = getenv(\"BENCH_PATH\");",
+                         "   if(path != NULL) { ",
+                         "      return atoi(path);",
+                         "   }else {",
+                         "      unsigned long n = rand();",
+                         "      return (n << 32) | rand();",
+                         "   }",
                          "}"});
     functions.push_back(rngFunction);
 }
@@ -138,7 +143,7 @@ void Generator::callFunc(int funcId, int nParameters) {
     std::string line = var->typeString + "* " + var->name + " = func" + std::to_string(funcId) + "(&" + param + ", ";
 
     for (int i = 0; i < nParameters; i++)
-        line += "rng(), ";
+        line += "get_path(), ";
     line += "loopsFactor";
     line += ");";
     addLine(line);
@@ -319,7 +324,7 @@ void Generator::generateFiles(std::string benchmarkName) {
     for (auto func : functions) {
         std::string funcSource;
         if (func.getId() == -1) {
-            funcSource = "rng.c";
+            funcSource = "path.c";
         } else {
             funcSource = "func" + std::to_string(func.getId()) + ".c";
         }
