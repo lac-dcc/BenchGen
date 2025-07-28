@@ -1,4 +1,4 @@
-#include "generatorVariable.h"
+#include "../generatorVariable.h"
 
 GeneratorVariable* VariableFactory::createVariable(std::string type, int identifier) {
     if (type == VarTypes::ARRAY) {

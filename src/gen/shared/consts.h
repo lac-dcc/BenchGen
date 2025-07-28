@@ -16,4 +16,11 @@ class VarTypes {
     inline static const std::string SORTEDLIST = "sortedlist";
 };
 
+class ProgrammingLanguage {
+    public:
+    
+    inline static const std::string C   = "c";
+    inline static const std::string CPP = "cpp";
+};
+
 #endif

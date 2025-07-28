@@ -6,7 +6,7 @@
 
 #include "../shared/enums.h"
 #include "../shared/globalStructs.h"
-#include "../shared/varTypes.h"
+#include "../shared/consts.h"
 
 /**
  * @brief Abstract base class for variable generation.

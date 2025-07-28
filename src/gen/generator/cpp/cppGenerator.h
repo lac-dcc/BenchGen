@@ -4,12 +4,13 @@
 #include <fstream>
 #include <iostream>
 
-#include "../shared/enums.h"
-#include "../shared/globalStructs.h"
-#include "../shared/varTypes.h"
-#include "generatorFunction.h"
-#include "generatorScope.h"
-#include "generatorVariable.h"
+#include "../../shared/enums.h"
+#include "../../shared/globalStructs.h"
+#include "../../shared/consts.h"
+#include "../generatorFunction.h"
+#include "../generatorScope.h"
+#include "../generatorVariable.h"
+#include "../languageGenerator.h"
 
 /**
  * @brief The Generator class handles the generation of code and files for benchmarks.
@@ -17,7 +18,7 @@
  * This class manages the creation of variables, functions, scopes, and file outputs
  * required for generating complete benchmark programs.
  */
-class Generator {
+class CPPGenerator : public ProgrammingLanguageGenerator {
    private:
     std::vector<std::string> includes;    // List of include statements for the generated code
     std::vector<std::string> globalVars;  // List of global variable declarations
@@ -80,16 +81,7 @@ class Generator {
     void genReadme(std::string dir, std::string target);
 
    public:
-    GeneratorFunction mainFunction;                  // Main function for the generated program
-    std::list<GeneratorFunction> functions;          // List of all functions in the generated program
-    std::stack<GeneratorFunction*> currentFunction;  // Stack of current functions being generated
-    std::stack<int> ifCounter;                       // Counter for managing nested if statements
-    int varCounter;                                  // Counter for variables
-    int loopLevel;                                   // Current nesting level of loops
-    int loopCounter;                                 // Counter for loop iterations
-    std::string varType;                             // Type of variables to use in the generated code
-    std::map<int, GeneratorVariable*> variables;     // Map of variables by their ID
-    std::stack<GeneratorScope> currentScope;         // Stack of current scopes
+    
 
     /**
      * @brief Constructs a Generator object with a specified variable type.
@@ -99,14 +91,14 @@ class Generator {
      *
      * @param variableType The type of variable to be used in code generation.
      */
-    Generator(std::string variableType);
+    CPPGenerator(std::string variableType);
 
     /**
      * @brief Destructor for the Generator class.
      *
      * Cleans up dynamically allocated variables.
      */
-    ~Generator() {
+    ~CPPGenerator() {
         for (auto& vpair : variables) {
             delete vpair.second;
         }
@@ -118,7 +110,7 @@ class Generator {
      * @param line The line of code to add.
      * @param d Additional depth for indentation (default is 0).
      */
-    void addLine(std::string, int = 0);
+    void addLine(std::string, int = 0) override;
 
     /**
      * @brief Adds multiple lines of code to the current function with optional indentation.
@@ -126,14 +118,14 @@ class Generator {
      * @param lines A vector of lines of code to add.
      * @param d Additional depth for indentation (default is 0).
      */
-    void addLine(std::vector<std::string>, int = 0);
+    void addLine(std::vector<std::string>, int = 0) override;
 
     /**
      * @brief Starts a new scope for variable declarations.
      *
      * Pushes a new GeneratorScope onto the scope stack, inheriting the current scope's variables and indentation.
      */
-    void startScope();
+    void startScope() override;
 
     /**
      * @brief Starts the definition of a new function.
@@ -143,7 +135,7 @@ class Generator {
      * @param funcId The ID of the function to create.
      * @param nParameters The number of parameters the function takes.
      */
-    void startFunc(int, int);
+    void startFunc(int, int) override;
 
     /**
      * @brief Checks if a function with a given ID already exists.
@@ -151,7 +143,7 @@ class Generator {
      * @param funcId The ID of the function to check.
      * @return True if the function exists, false otherwise.
      */
-    bool functionExists(int);
+    bool functionExists(int) override;
 
     /**
      * @brief Calls a function with the specified ID and parameters.
@@ -161,7 +153,7 @@ class Generator {
      * @param funcId The ID of the function to call.
      * @param nParameters The number of parameters to pass to the function.
      */
-    void callFunc(int, int);
+    void callFunc(int, int) override;
 
     /**
      * @brief Adds a new variable of the specified type to the current scope.
@@ -171,7 +163,7 @@ class Generator {
      * @param type The type of variable to create.
      * @return The ID of the newly created variable.
      */
-    int addVar(std::string);
+    int addVar(std::string) override;
 
     /**
      * @brief Frees variables in the current scope.
@@ -181,7 +173,7 @@ class Generator {
      * @param hasReturn Specifies whether there is a return variable (default is false).
      * @param returnVarPos The position of the return variable to keep (default is 0).
      */
-    void freeVars(bool = false, int = 0);
+    void freeVars(bool = false, int = 0) override;
 
     /**
      * @brief Returns a value from a function.
@@ -190,21 +182,21 @@ class Generator {
      *
      * @param returnVarPos The position of the variable to return.
      */
-    void returnFunc(int);
+    void returnFunc(int) override;
 
     /**
      * @brief Ends the current scope.
      *
      * Pops the current scope from the stack and adds a closing brace to the code.
      */
-    void endScope();
+    void endScope() override;
 
     /**
      * @brief Ends the current function.
      *
      * Ends the current function scope, pops the function from the stack, and updates the if counter.
      */
-    void endFunc();
+    void endFunc() override;
 
     /**
      * @brief Generates source and header files for the benchmark.
@@ -213,7 +205,7 @@ class Generator {
      *
      * @param benchmarkName The name of the benchmark to generate files for.
      */
-    void generateFiles(std::string);
+    void generateFiles(std::string) override;
 };
 
 #endif

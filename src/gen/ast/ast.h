@@ -3,7 +3,7 @@
 
 #include <cmath>
 
-#include "../generator/generator.h"
+#include "../generator/languageGenerator.h"
 #include "../shared/enums.h"
 #include "../shared/globalStructs.h"
 
@@ -25,7 +25,7 @@ void printIndentationSpaces(int indent);
  * @param generator The generator object used to track the current state of code generation.
  * @return A string representing the generated condition.
  */
-std::string generateIfCondition(Generator& generator);
+std::string generateIfCondition(ProgrammingLanguageGenerator& generator);
 
 /**
  * @brief Base class for all nodes in the abstract syntax tree (AST).
@@ -41,7 +41,7 @@ class Node {
      *
      * @param generator The generator object used to manage code generation.
      */
-    virtual void gen(Generator&) = 0;
+    virtual void gen(ProgrammingLanguageGenerator&) = 0;
 
     /**
      * @brief Prints the structure of this AST node.
@@ -65,7 +65,7 @@ class StatementCode : public Node {
     StatementCode(std::shared_ptr<Node> stmt, std::shared_ptr<Node> code) : stmt(stmt), code(code) {
     }
 
-    void gen(Generator&) override;
+    void gen(ProgrammingLanguageGenerator&) override;
 
     void print(int) override;
 };
@@ -77,7 +77,7 @@ class StatementCode : public Node {
  */
 class LambdaCode : public Node {
    public:
-    void gen(Generator&) override;
+    void gen(ProgrammingLanguageGenerator&) override;
 
     void print(int indent) override;
 };
@@ -95,7 +95,7 @@ class Id : public Node {
     Id(std::string id) : id(id) {
     }
 
-    void gen(Generator&) override;
+    void gen(ProgrammingLanguageGenerator&) override;
 
     void print(int indent) override;
 };
@@ -107,7 +107,7 @@ class Id : public Node {
  */
 class Insert : public Node {
    public:
-    void gen(Generator&) override;
+    void gen(ProgrammingLanguageGenerator&) override;
 
     void print(int indent) override;
 };
@@ -119,7 +119,7 @@ class Insert : public Node {
  */
 class Remove : public Node {
    public:
-    void gen(Generator&) override;
+    void gen(ProgrammingLanguageGenerator&) override;
 
     void print(int indent) override;
 };
@@ -131,7 +131,7 @@ class Remove : public Node {
  */
 class New : public Node {
    public:
-    void gen(Generator&) override;
+    void gen(ProgrammingLanguageGenerator&) override;
 
     void print(int indent) override;
 };
@@ -143,7 +143,7 @@ class New : public Node {
  */
 class Contains : public Node {
    public:
-    void gen(Generator&) override;
+    void gen(ProgrammingLanguageGenerator&) override;
 
     void print(int indent) override;
 };
@@ -161,7 +161,7 @@ class Loop : public Node {
     Loop(std::shared_ptr<Node> code) : code(code) {
     }
 
-    void gen(Generator&) override;
+    void gen(ProgrammingLanguageGenerator&) override;
 
     void print(int indent) override;
 };
@@ -203,7 +203,7 @@ class Call : public Node {
         this->code = code;
     }
 
-    void gen(Generator&) override;
+    void gen(ProgrammingLanguageGenerator&) override;
 
     void print(int indent) override;
 };
@@ -221,7 +221,7 @@ class Seq : public Node {
     Seq(std::shared_ptr<Node> code) : code(code) {
     }
 
-    void gen(Generator&) override;
+    void gen(ProgrammingLanguageGenerator&) override;
 
     void print(int indent) override;
 };
@@ -240,7 +240,7 @@ class If : public Node {
     If(std::shared_ptr<Node> c1, std::shared_ptr<Node> c2) : c1(c1), c2(c2) {
     }
 
-    void gen(Generator&) override;
+    void gen(ProgrammingLanguageGenerator&) override;
 
     void print(int indent) override;
 };

@@ -6,7 +6,6 @@
 #include <vector>
 
 #include "../ast/ast.h"
-#include "../generator/generator.h"
 #include "../shared/enums.h"
 #include "../shared/globalStructs.h"
 

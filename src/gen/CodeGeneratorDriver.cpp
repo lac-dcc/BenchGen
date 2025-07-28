@@ -4,7 +4,7 @@
 #include "lSystem/lSystem.h"
 #include "lexer/lexer.h"
 #include "parser/parser.h"
-#include "shared/varTypes.h"
+#include "shared/consts.h"
 
 void tokenizeInput(std::vector<Token>& inputTokens, Lexer& lexer, const std::string& inputFile);
 
@@ -12,9 +12,9 @@ void applyLSystem(std::vector<Token>& inputTokens, Lexer& lexer, int iterations,
 
 std::shared_ptr<Node> parseTokensToAST(Parser& parser, const std::vector<Token>& tokenSequence);
 
-void generateCode(Generator& generator, std::shared_ptr<Node>& AST);
+void generateCode(ProgrammingLanguageGenerator& generator, std::shared_ptr<Node>& AST);
 
-void generateFiles(Generator& generator, std::string bench_name);
+void generateFiles(ProgrammingLanguageGenerator& generator, std::string bench_name);
 
 int main(int argc, char const* argv[]) {
     if (argc < 6) {
@@ -39,6 +39,7 @@ int main(int argc, char const* argv[]) {
     std::string inputFile = argv[3];
     std::string bench_name = argv[4];
     std::string varType = argv[5];
+    std::string language = argv[6];
 
     if(varType != VarTypes::ARRAY && varType != VarTypes::SORTEDLIST)
     {
@@ -47,10 +48,19 @@ int main(int argc, char const* argv[]) {
         return 1;
     }
 
+    if(language != ProgrammingLanguage::C && language != ProgrammingLanguage::CPP)
+    {
+        std::cout << "Programming language " + language + " is wrong!" << std::endl;
+        std::cout << "Avaliable '" + ProgrammingLanguage::C + "' and '" + ProgrammingLanguage::CPP << std::endl;
+        return 1;
+    }
+
 
     Lexer lexer = Lexer();
     Parser parser = Parser();
-    Generator generator = Generator(varType);
+
+    
+    ProgrammingLanguageGenerator* generator = ProgrammingLanguageGenerator().getGenerator(language, varType);
 
     std::vector<Token> inputTokens;
 
@@ -60,9 +70,9 @@ int main(int argc, char const* argv[]) {
 
     std::shared_ptr<Node> AST = parseTokensToAST(parser, inputTokens);
 
-    generateCode(generator, AST);
+    generateCode((ProgrammingLanguageGenerator &)generator, AST);
 
-    generateFiles(generator, bench_name);
+    generateFiles((ProgrammingLanguageGenerator &)generator, bench_name);
 
     std::cout << "Done!" << std::endl;
 
@@ -85,11 +95,11 @@ std::shared_ptr<Node> parseTokensToAST(Parser& parser, const std::vector<Token>&
     return AST;
 }
 
-void generateCode(Generator& generator, std::shared_ptr<Node>& AST) {
+void generateCode(ProgrammingLanguageGenerator& generator, std::shared_ptr<Node>& AST) {
     AST->gen(generator);
     generator.freeVars();
 }
 
-void generateFiles(Generator& generator, std::string bench_name) {
+void generateFiles(ProgrammingLanguageGenerator& generator, std::string bench_name) {
     generator.generateFiles(bench_name);
 }

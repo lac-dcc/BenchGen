@@ -1,4 +1,4 @@
-#include "generatorVariable.h"
+#include "../generatorVariable.h"
 
 unsigned int VariableFactory::var_counter = 0;
 

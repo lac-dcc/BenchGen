@@ -5,7 +5,7 @@
 #include <list>
 #include <unordered_map>
 
-#include "../generator/generator.h"
+#include "../generator/languageGenerator.h"
 #include "../shared/enums.h"
 #include "../shared/globalStructs.h"
 

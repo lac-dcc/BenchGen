@@ -6,7 +6,7 @@ void printIndentationSpaces(int indent) {
     }
 }
 
-std::string generateIfCondition(Generator& generator) {
+std::string generateIfCondition(ProgrammingLanguageGenerator& generator) {
     bool isMain = generator.currentFunction.top()->insertBack;
     if (isMain) {
         return "get_path() & 1";
@@ -20,20 +20,20 @@ std::string generateIfCondition(Generator& generator) {
 
 // Generation Methods
 
-void StatementCode::gen(Generator& generator) {
+void StatementCode::gen(ProgrammingLanguageGenerator& generator) {
     stmt->gen(generator);
     code->gen(generator);
 }
 
-void LambdaCode::gen(Generator& generator) {
+void LambdaCode::gen(ProgrammingLanguageGenerator& generator) {
     // No operation for lambda code generation
 }
 
-void Id::gen(Generator& generator) {
+void Id::gen(ProgrammingLanguageGenerator& generator) {
     // TODO: What to do with ids?
 }
 
-void Insert::gen(Generator& generator) {
+void Insert::gen(ProgrammingLanguageGenerator& generator) {
     int varCount = generator.currentScope.top().avaiableVarsID.size();
     if (varCount == 0) return;
 
@@ -43,7 +43,7 @@ void Insert::gen(Generator& generator) {
     generator.addLine(lines);
 }
 
-void Remove::gen(Generator& generator) {
+void Remove::gen(ProgrammingLanguageGenerator& generator) {
     int varCount = generator.currentScope.top().avaiableVarsID.size();
     if (varCount == 0) return;
 
@@ -53,13 +53,13 @@ void Remove::gen(Generator& generator) {
     generator.addLine(lines);
 }
 
-void New::gen(Generator& generator) {
+void New::gen(ProgrammingLanguageGenerator& generator) {
     int id = generator.addVar(generator.varType);
     std::vector<std::string> lines = generator.variables[id]->new_(!generator.currentFunction.top()->insertBack);
     generator.addLine(lines);
 }
 
-void Contains::gen(Generator& generator) {
+void Contains::gen(ProgrammingLanguageGenerator& generator) {
     int varCount = generator.currentScope.top().getVarCounter();
     if (varCount == 0) return;
 
@@ -69,7 +69,7 @@ void Contains::gen(Generator& generator) {
     generator.addLine(lines);
 }
 
-void Loop::gen(Generator& generator) {
+void Loop::gen(ProgrammingLanguageGenerator& generator) {
     std::string loopVar = "loop" + std::to_string(generator.loopCounter);
     std::string loopVarLine = "unsigned int " + loopVar + " = 0;";
     generator.addLine(loopVarLine);
@@ -91,7 +91,7 @@ void Loop::gen(Generator& generator) {
     generator.loopLevel--;
 }
 
-void Call::gen(Generator& generator) {
+void Call::gen(ProgrammingLanguageGenerator& generator) {
     int nParameters = std::ceil(conditionalCounts / 64.0);
     generator.callFunc(id, nParameters);
     if (!generator.functionExists(id)) {
@@ -110,11 +110,11 @@ void Call::gen(Generator& generator) {
     }
 }
 
-void Seq::gen(Generator& generator) {
+void Seq::gen(ProgrammingLanguageGenerator& generator) {
     // TODO: What to do with sequences?
 }
 
-void If::gen(Generator& generator) {
+void If::gen(ProgrammingLanguageGenerator& generator) {
     std::string condition = generateIfCondition(generator);
     generator.ifCounter.top()++;
     std::string line = "if(" + condition + ") {";
