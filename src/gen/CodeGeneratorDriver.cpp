@@ -86,6 +86,7 @@ std::shared_ptr<Node> parseTokensToAST(Parser& parser, const std::vector<Token>&
 }
 
 void generateCode(Generator& generator, std::shared_ptr<Node>& AST) {
+    path_stack_init();
     AST->gen(generator);
     generator.freeVars();
 }

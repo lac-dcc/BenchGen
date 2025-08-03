@@ -1,4 +1,24 @@
 #include "ast.h"
+#include <typeinfo>
+
+std::stack<int> path_stack;
+
+//void stack_path_clear()
+//{
+//    while (!path_stack.empty()) {
+//        path_stack.pop();
+//    }
+//}
+
+void path_stack_init()
+{
+   // stack_path_clear();
+    path_stack.push(1);
+}
+
+int get_mask() {
+    return 1 << (path_stack.top() - 1);
+}
 
 void printIndentationSpaces(int indent) {
     for (int i = 0; i < indent; i++) {
@@ -11,10 +31,11 @@ std::string generateIfCondition(Generator& generator) {
     if (isMain) {
         return "get_path() & 1";
     }
+    
     int ifCounter = generator.ifCounter.top();
     int pathNumber = std::ceil((ifCounter + 1) / 64.0) - 1;
-    int bit = std::pow(2, ifCounter % 64);
-    std::string condition = "PATH" + std::to_string(pathNumber) + " & " + std::to_string(bit);
+    std::string bit = std::format("{:#x}", get_mask());
+    std::string condition = "PATH" + std::to_string(pathNumber) + " & " + bit;
     return condition;
 }
 
@@ -94,6 +115,7 @@ void Loop::gen(Generator& generator) {
 void Call::gen(Generator& generator) {
     int nParameters = std::ceil(conditionalCounts / 64.0);
     generator.callFunc(id, nParameters);
+
     if (!generator.functionExists(id)) {
         generator.startFunc(id, nParameters);
         code->gen(generator);
@@ -114,21 +136,35 @@ void Seq::gen(Generator& generator) {
     // TODO: What to do with sequences?
 }
 
+
 void If::gen(Generator& generator) {
     std::string condition = generateIfCondition(generator);
     generator.ifCounter.top()++;
     std::string line = "if(" + condition + ") {";
     generator.addLine(line);
+
+    path_stack.push(path_stack.top() + 1);
+    
     generator.startScope();
     c1->gen(generator);
     generator.freeVars();
     generator.endScope();
+
+    int then_counter = path_stack.top();
+    path_stack.pop();
+    
     line = "else {";
     generator.addLine(line);
+    
+    int else_counter = path_stack.top();
+    
     generator.startScope();
+
     c2->gen(generator);
     generator.freeVars();
     generator.endScope();
+
+    path_stack.push(std::max(then_counter, else_counter));
 }
 
 // Printing Methods
