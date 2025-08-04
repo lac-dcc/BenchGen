@@ -116,7 +116,11 @@ void Call::gen(Generator& generator) {
     int nParameters = std::ceil(conditionalCounts / 64.0);
     generator.callFunc(id, nParameters);
 
+    
+
     if (!generator.functionExists(id)) {
+
+        std::stack<int> aux = path_stack;
         generator.startFunc(id, nParameters);
         code->gen(generator);
         if (generator.currentScope.top().avaiableVarsID.size() == 0) {
@@ -129,6 +133,7 @@ void Call::gen(Generator& generator) {
         generator.freeVars(true, returnVarPos);
         generator.returnFunc(returnVarPos);
         generator.endFunc();
+        path_stack = aux;
     }
 }
 
