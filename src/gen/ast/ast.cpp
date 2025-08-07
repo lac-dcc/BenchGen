@@ -28,13 +28,15 @@ void printIndentationSpaces(int indent) {
 
 std::string generateIfCondition(Generator& generator) {
     bool isMain = generator.currentFunction.top()->insertBack;
+    std::string bit = std::format("{:#x}", get_mask());
+
     if (isMain) {
-        return "get_path() & 1";
+        return "get_path() & " + bit;
     }
     
     int ifCounter = generator.ifCounter.top();
     int pathNumber = std::ceil((ifCounter + 1) / 64.0) - 1;
-    std::string bit = std::format("{:#x}", get_mask());
+    
     std::string condition = "PATH" + std::to_string(pathNumber) + " & " + bit;
     return condition;
 }
