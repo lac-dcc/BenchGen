@@ -108,11 +108,7 @@ std::vector<std::string> GeneratorArray::free() {
 }
 
 std::vector<std::string> GeneratorArray::genIncludes() {
-    std::vector<std::string> temp = {};
-    
-    std::string dalloc_name = "\"Dalloc.h\"";
-    temp.push_back("#include " + dalloc_name);
-    return temp;
+    return {};
 }
 
 std::vector<std::string> GeneratorArray::genGlobalVars() {
@@ -158,8 +154,6 @@ GeneratorSortedList::~GeneratorSortedList() {
 std::vector<std::string> GeneratorSortedList::genIncludes() {
     std::vector<std::string> temp = {};
     temp.push_back("#include <stdbool.h>");
-    std::string dalloc_name = "\"Dalloc.h\"";
-    temp.push_back("#include " + dalloc_name);
     return temp;
 }
 

@@ -43,9 +43,14 @@ void Generator::generateGlobalVars() {
 
 void Generator::generateRandomNumberGenerator() {
     GeneratorFunction rngFunction = GeneratorFunction(-1);
-    rngFunction.addLine({"unsigned long rng() {",
-                         "   unsigned long n = rand();",
-                         "   return (n << 32) | rand();",
+    rngFunction.addLine({"unsigned long get_path() {",
+                         "   const char* path = getenv(\"BENCH_PATH\");",
+                         "   if(path != NULL) { ",
+                         "      return atoi(path);",
+                         "   }else {",
+                         "      unsigned long n = rand();",
+                         "      return (n << 32) | rand();",
+                         "   }",
                          "}"});
     functions.push_back(rngFunction);
 }
@@ -138,7 +143,7 @@ void Generator::callFunc(int funcId, int nParameters) {
     std::string line = var->typeString + "* " + var->name + " = func" + std::to_string(funcId) + "(&" + param + ", ";
 
     for (int i = 0; i < nParameters; i++)
-        line += "rng(), ";
+        line += "get_path(), ";
     line += "loopsFactor";
     line += ");";
     addLine(line);
@@ -188,13 +193,9 @@ void Generator::endFunc() {
 void Generator::genMakefile(std::string dir, std::string target) {
     std::ofstream makefile;
 
-    std::string dalloc_dir = "../../Dalloc/src";
-    std::string dalloc_cpp = "../../Dalloc/src/Dalloc.c";
-
     makefile.open(dir + "Makefile");
     makefile << "CC = clang\n";
-    makefile << "DALLOCFLAGS = -Wl,--wrap=malloc -Wl,--wrap=free -I " + dalloc_dir + "\n";
-    makefile << "LLVMFLAGS = -DDEBUG -S -emit-llvm -I" + dalloc_dir + "\n";
+    makefile << "LLVMFLAGS = -DDEBUG -S -emit-llvm\n";
     makefile << "TARGET = " + target + "\n";
     makefile << "SRC_DIR = src\n";
     makefile << "OBJ_DIR = obj\n";
@@ -209,10 +210,11 @@ void Generator::genMakefile(std::string dir, std::string target) {
     makefile << "all: $(TARGET)\n\n";
 
     makefile << "$(TARGET): $(OBJ)\n";
-    makefile << "\t$(CC) ${CFLAGS} ${DALLOCFLAGS} $(OBJ) " + dalloc_cpp + " -o $(TARGET) $(GLIB_LIBS)\n\n";
+  
+    makefile << "\t$(CC) ${CFLAGS} $(OBJ) -o $(TARGET) $(GLIB_LIBS)\n\n";
 
     makefile << "$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)\n";
-    makefile << "\t$(CC) ${CFLAGS} -I " + dalloc_dir + " $(GLIB_CFLAGS) -c $< -o $@\n\n";
+    makefile << "\t$(CC) ${CFLAGS} $(GLIB_CFLAGS) -c $< -o $@\n\n";
 
     makefile << "$(LL_DIR)/%.ll: $(SRC_DIR)/%.c | $(LL_DIR)\n";
     makefile << "\t$(CC) ${LLVMFLAGS} $< -o $@\n\n";
@@ -325,7 +327,7 @@ void Generator::generateFiles(std::string benchmarkName) {
     for (auto func : functions) {
         std::string funcSource;
         if (func.getId() == -1) {
-            funcSource = "rng.c";
+            funcSource = "path.c";
         } else {
             funcSource = "func" + std::to_string(func.getId()) + ".c";
         }

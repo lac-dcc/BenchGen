@@ -9,7 +9,7 @@ void printIndentationSpaces(int indent) {
 std::string generateIfCondition(Generator& generator) {
     bool isMain = generator.currentFunction.top()->insertBack;
     if (isMain) {
-        return "rng() & 1";
+        return "get_path() & 1";
     }
     int ifCounter = generator.ifCounter.top();
     int pathNumber = std::ceil((ifCounter + 1) / 64.0) - 1;
