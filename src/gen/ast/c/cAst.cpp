@@ -1,4 +1,6 @@
-#include "ast.h"
+#include "cAst.h"
+#include "../languageAst.h"
+
 
 void printIndentationSpaces(int indent) {
     for (int i = 0; i < indent; i++) {
@@ -20,20 +22,21 @@ std::string generateIfCondition(ProgrammingLanguageGenerator& generator) {
 
 // Generation Methods
 
-void StatementCode::gen(ProgrammingLanguageGenerator& generator) {
+void CStatementCode::gen(ProgrammingLanguageGenerator& generator) {
     stmt->gen(generator);
     code->gen(generator);
 }
 
-void LambdaCode::gen(ProgrammingLanguageGenerator& generator) {
+void CLambdaCode::gen(ProgrammingLanguageGenerator& generator) {
     // No operation for lambda code generation
 }
 
-void Id::gen(ProgrammingLanguageGenerator& generator) {
+void CId::gen(ProgrammingLanguageGenerator& generator) {
     // TODO: What to do with ids?
 }
 
-void Insert::gen(ProgrammingLanguageGenerator& generator) {
+void CInsert::gen(ProgrammingLanguageGenerator& generator) {
+
     int varCount = generator.currentScope.top().avaiableVarsID.size();
     if (varCount == 0) return;
 
@@ -41,9 +44,11 @@ void Insert::gen(ProgrammingLanguageGenerator& generator) {
     GeneratorVariable* var = generator.variables[generator.currentScope.top().avaiableVarsID[varPos]];
     std::vector<std::string> lines = var->insert();
     generator.addLine(lines);
+
 }
 
-void Remove::gen(ProgrammingLanguageGenerator& generator) {
+void CRemove::gen(ProgrammingLanguageGenerator& generator) {
+  
     int varCount = generator.currentScope.top().avaiableVarsID.size();
     if (varCount == 0) return;
 
@@ -51,15 +56,18 @@ void Remove::gen(ProgrammingLanguageGenerator& generator) {
     GeneratorVariable* var = generator.variables[generator.currentScope.top().avaiableVarsID[varPos]];
     std::vector<std::string> lines = var->remove();
     generator.addLine(lines);
+    
 }
 
-void New::gen(ProgrammingLanguageGenerator& generator) {
+void CNew::gen(ProgrammingLanguageGenerator& generator) {
+
     int id = generator.addVar(generator.varType);
     std::vector<std::string> lines = generator.variables[id]->new_(!generator.currentFunction.top()->insertBack);
     generator.addLine(lines);
 }
 
-void Contains::gen(ProgrammingLanguageGenerator& generator) {
+void CContains::gen(ProgrammingLanguageGenerator& generator) {
+
     int varCount = generator.currentScope.top().getVarCounter();
     if (varCount == 0) return;
 
@@ -69,7 +77,8 @@ void Contains::gen(ProgrammingLanguageGenerator& generator) {
     generator.addLine(lines);
 }
 
-void Loop::gen(ProgrammingLanguageGenerator& generator) {
+void CLoop::gen(ProgrammingLanguageGenerator& generator) {
+
     std::string loopVar = "loop" + std::to_string(generator.loopCounter);
     std::string loopVarLine = "unsigned int " + loopVar + " = 0;";
     generator.addLine(loopVarLine);
@@ -91,7 +100,7 @@ void Loop::gen(ProgrammingLanguageGenerator& generator) {
     generator.loopLevel--;
 }
 
-void Call::gen(ProgrammingLanguageGenerator& generator) {
+void CCall::gen(ProgrammingLanguageGenerator& generator) {
     int nParameters = std::ceil(conditionalCounts / 64.0);
     generator.callFunc(id, nParameters);
     if (!generator.functionExists(id)) {
@@ -110,11 +119,12 @@ void Call::gen(ProgrammingLanguageGenerator& generator) {
     }
 }
 
-void Seq::gen(ProgrammingLanguageGenerator& generator) {
+void CSeq::gen(ProgrammingLanguageGenerator& generator) {
     // TODO: What to do with sequences?
 }
 
-void If::gen(ProgrammingLanguageGenerator& generator) {
+void CIf::gen(ProgrammingLanguageGenerator& generator) {
+
     std::string condition = generateIfCondition(generator);
     generator.ifCounter.top()++;
     std::string line = "if(" + condition + ") {";
@@ -133,61 +143,61 @@ void If::gen(ProgrammingLanguageGenerator& generator) {
 
 // Printing Methods
 
-void StatementCode::print(int ident) {
+void CStatementCode::print(int ident) {
     printIndentationSpaces(ident);
     std::cout << "StatementCode" << std::endl;
     stmt->print(ident + 2);
     code->print(ident + 2);
 }
 
-void LambdaCode::print(int ident) {
+void CLambdaCode::print(int ident) {
     printIndentationSpaces(ident);
     std::cout << "LambdaCode" << std::endl;
 }
 
-void Id::print(int ident) {
+void CId::print(int ident) {
     printIndentationSpaces(ident);
     std::cout << "Id: " << id << std::endl;
 }
 
-void Insert::print(int ident) {
+void CInsert::print(int ident) {
     printIndentationSpaces(ident);
     std::cout << "Insert" << std::endl;
 }
 
-void Remove::print(int ident) {
+void CRemove::print(int ident) {
     printIndentationSpaces(ident);
     std::cout << "Remove" << std::endl;
 }
 
-void New::print(int ident) {
+void CNew::print(int ident) {
     printIndentationSpaces(ident);
     std::cout << "New" << std::endl;
 }
 
-void Contains::print(int ident) {
+void CContains::print(int ident) {
     printIndentationSpaces(ident);
     std::cout << "Contains" << std::endl;
 }
 
-void Loop::print(int ident) {
+void CLoop::print(int ident) {
     printIndentationSpaces(ident);
     std::cout << "Loop" << std::endl;
     code->print(ident + 2);
 }
 
-void Call::print(int ident) {
+void CCall::print(int ident) {
     printIndentationSpaces(ident);
     std::cout << "Call" << std::endl;
     code->print(ident + 2);
 }
 
-void Seq::print(int ident) {
+void CSeq::print(int ident) {
     printIndentationSpaces(ident);
     std::cout << "Seq" << std::endl;
 }
 
-void If::print(int ident) {
+void CIf::print(int ident) {
     printIndentationSpaces(ident);
     std::cout << "If" << std::endl;
     c1->print(ident + 2);

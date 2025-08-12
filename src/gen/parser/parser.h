@@ -5,7 +5,7 @@
 #include <stack>
 #include <vector>
 
-#include "../ast/ast.h"
+#include "../ast/languageAst.h"
 #include "../shared/enums.h"
 #include "../shared/globalStructs.h"
 

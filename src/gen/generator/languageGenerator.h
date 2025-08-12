@@ -31,6 +31,9 @@ class ProgrammingLanguageGenerator
     std::map<int, GeneratorVariable*> variables;     // Map of variables by their ID
     std::stack<GeneratorScope> currentScope;         // Stack of current scopes
 
+    ProgrammingLanguageGenerator();
+    virtual ~ProgrammingLanguageGenerator();
+    
     static ProgrammingLanguageGenerator* getGenerator(std::string language, std::string varType);
 
     /**

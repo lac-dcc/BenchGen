@@ -1,18 +1,5 @@
 #include "cGenerator.h"
 
-CGenerator::CGenerator(std::string variableType) {
-    this->ifCounter.push(0);
-    this->varCounter = 0;
-    this->loopLevel = 0;
-    this->loopCounter = 0;
-    this->varType = variableType;
-    currentScope.push(GeneratorScope(0));
-    generateIncludes();
-    generateGlobalVars();
-    generateRandomNumberGenerator();
-    generateMainFunction();
-}
-
 void CGenerator::generateIncludes() {
     includes.push_back("#include <stdio.h>");
     includes.push_back("#include <stdlib.h>");
@@ -100,6 +87,7 @@ void CGenerator::startScope() {
 void CGenerator::startFunc(int funcId, int nParameters) {
     GeneratorFunction func = GeneratorFunction(funcId);
     std::string funcHeader = VariableFactory::genTypeString(varType) + "* func" + std::to_string(funcId) + "(" + VariableFactory::genTypeString(varType) + "_param* vars, ";
+    
     for (int i = 0; i < nParameters; i++) {
         funcHeader += "const unsigned long PATH" + std::to_string(i) + ", ";
     }
@@ -162,6 +150,7 @@ int CGenerator::addVar(std::string type) {
 }
 
 void CGenerator::freeVars(bool hasReturn, int returnVarPos) {
+
     int numberOfAddedVars = currentScope.top().numberOfAddedVars;
     std::vector<int> availableVarsId = currentScope.top().avaiableVarsID;
     for (int i = 0; i < numberOfAddedVars; i++) {

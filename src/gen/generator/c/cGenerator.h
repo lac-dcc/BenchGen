@@ -80,18 +80,7 @@ class CGenerator : public ProgrammingLanguageGenerator {
      */
     void genReadme(std::string dir, std::string target);
 
-   public:
-    GeneratorFunction mainFunction;                  // Main function for the generated program
-    std::list<GeneratorFunction> functions;          // List of all functions in the generated program
-    std::stack<GeneratorFunction*> currentFunction;  // Stack of current functions being generated
-    std::stack<int> ifCounter;                       // Counter for managing nested if statements
-    int varCounter;                                  // Counter for variables
-    int loopLevel;                                   // Current nesting level of loops
-    int loopCounter;                                 // Counter for loop iterations
-    std::string varType;                             // Type of variables to use in the generated code
-    std::map<int, GeneratorVariable*> variables;     // Map of variables by their ID
-    std::stack<GeneratorScope> currentScope;         // Stack of current scopes
-
+    public:
     /**
      * @brief Constructs a Generator object with a specified variable type.
      *
@@ -100,7 +89,19 @@ class CGenerator : public ProgrammingLanguageGenerator {
      *
      * @param variableType The type of variable to be used in code generation.
      */
-    CGenerator(std::string variableType);
+    CGenerator(std::string variableType) {
+        this->ifCounter.push(0);
+        this->varCounter = 0;
+        this->loopLevel = 0;
+        this->loopCounter = 0;
+        this->varType = variableType;
+        currentScope.push(GeneratorScope(0));
+        generateIncludes();
+        generateGlobalVars();
+        generateRandomNumberGenerator();
+        generateMainFunction();
+    }
+
 
     /**
      * @brief Destructor for the Generator class.

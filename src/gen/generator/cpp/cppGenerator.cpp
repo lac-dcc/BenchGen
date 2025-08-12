@@ -100,6 +100,8 @@ void CPPGenerator::startScope() {
 void CPPGenerator::startFunc(int funcId, int nParameters) {
     GeneratorFunction func = GeneratorFunction(funcId);
     std::string funcHeader = VariableFactory::genTypeString(varType) + "* func" + std::to_string(funcId) + "(" + VariableFactory::genTypeString(varType) + "_param* vars, ";
+    
+    std::cout << nParameters << std::endl;
     for (int i = 0; i < nParameters; i++) {
         funcHeader += "const unsigned long PATH" + std::to_string(i) + ", ";
     }
@@ -194,33 +196,33 @@ void CPPGenerator::genMakefile(std::string dir, std::string target) {
     std::ofstream makefile;
 
     makefile.open(dir + "Makefile");
-    makefile << "CC = clang\n";
+    makefile << "CXX = clang++\n";
     makefile << "LLVMFLAGS = -DDEBUG -S -emit-llvm\n";
     makefile << "TARGET = " + target + "\n";
     makefile << "SRC_DIR = src\n";
     makefile << "OBJ_DIR = obj\n";
     makefile << "LL_DIR = ll\n\n";
 
-    makefile << "SRC = $(wildcard $(SRC_DIR)/*.c)\n";
-    makefile << "OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))\n";
-    makefile << "LL = $(patsubst $(SRC_DIR)/%.c, $(LL_DIR)/%.ll, $(SRC))\n\n";
+    makefile << "SRC = $(wildcard $(SRC_DIR)/*.cpp)\n";
+    makefile << "OBJ = $(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(SRC))\n";
+    makefile << "LL = $(patsubst $(SRC_DIR)/%.cpp, $(LL_DIR)/%.ll, $(SRC))\n\n";
 
     makefile << "all: $(TARGET)\n\n";
 
     makefile << "$(TARGET): $(OBJ)\n";
-    makefile << "\t$(CC) $(OBJ) -o $(TARGET) \n\n";
+    makefile << "\t$(CXX) $(OBJ) -o $(TARGET) \n\n";
 
-    makefile << "$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)\n";
-    makefile << "\t$(CC) ${CFLAGS} -c $< -o $@\n\n";
+    makefile << "$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp | $(OBJ_DIR)\n";
+    makefile << "\t$(CXX) ${CFLAGS} -c $< -o $@\n\n";
 
-    makefile << "$(LL_DIR)/%.ll: $(SRC_DIR)/%.c | $(LL_DIR)\n";
-    makefile << "\t$(CC) ${LLVMFLAGS} $< -o $@\n\n";
+    makefile << "$(LL_DIR)/%.ll: $(SRC_DIR)/%.cpp | $(LL_DIR)\n";
+    makefile << "\t$(CXX) ${LLVMFLAGS} $< -o $@\n\n";
 
     makefile << "$(OBJ_DIR) $(LL_DIR):\n";
     makefile << "\tmkdir -p $@\n\n";
 
     makefile << "llvm: $(LL)\n";
-    makefile << "\t$(CC) ./ll/*.ll -o llvm_${TARGET}\n\n";
+    makefile << "\t$(CXX) ./ll/*.ll -o llvm_${TARGET}\n\n";
 
     makefile << "clean:\n";
     makefile << "\trm -f $(OBJ) $(LL) $(TARGET) llvm_${TARGET}\n";
@@ -274,8 +276,8 @@ void CPPGenerator::genReadme(std::string dir, std::string target) {
 
 void CPPGenerator::generateFiles(std::string benchmarkName) {
     std::string benchDir = benchmarkName + "/";
-    std::string sourceFile = benchmarkName + ".c";
-    std::string includeName = benchmarkName + ".h";
+    std::string sourceFile = benchmarkName + ".cpp";
+    std::string includeName = benchmarkName + ".hpp";
     std::string sourceDir = benchDir + "src/";
 
     std::filesystem::create_directory(benchDir);
@@ -324,9 +326,9 @@ void CPPGenerator::generateFiles(std::string benchmarkName) {
     for (auto func : functions) {
         std::string funcSource;
         if (func.getId() == -1) {
-            funcSource = "path.c";
+            funcSource = "path.cpp";
         } else {
-            funcSource = "func" + std::to_string(func.getId()) + ".c";
+            funcSource = "func" + std::to_string(func.getId()) + ".cpp";
         }
         std::ofstream funcFile;
         funcFile.open(sourceDir + funcSource);

@@ -1,11 +1,12 @@
-#ifndef AST_H
-#define AST_H
+#ifndef CAST_H
+#define CAST_H
 
 #include <cmath>
 
-#include "../generator/languageGenerator.h"
-#include "../shared/enums.h"
-#include "../shared/globalStructs.h"
+#include "../../generator/languageGenerator.h"
+#include "../../shared/enums.h"
+#include "../../shared/globalStructs.h"
+#include "../languageAst.h"
 
 /**
  * @brief Prints a specified number of indentation spaces.
@@ -27,47 +28,23 @@ void printIndentationSpaces(int indent);
  */
 std::string generateIfCondition(ProgrammingLanguageGenerator& generator);
 
-/**
- * @brief Base class for all nodes in the abstract syntax tree (AST).
- *
- * Defines the interface for generating code and printing the AST structure.
- */
-class Node {
-   public:
-    virtual ~Node() = default;
-
-    /**
-     * @brief Generates code for this AST node.
-     *
-     * @param generator The generator object used to manage code generation.
-     */
-    virtual void gen(ProgrammingLanguageGenerator&) = 0;
-
-    /**
-     * @brief Prints the structure of this AST node.
-     *
-     * @param indent The number of spaces to indent the output.
-     */
-    virtual void print(int indent = 0) = 0;
-};
 
 /**
  * @brief Represents a block of statements in the AST.
  *
  * Contains a statement and the following code block.
  */
-class StatementCode : public Node {
-   private:
-    std::shared_ptr<Node> stmt;  // The statement node
-    std::shared_ptr<Node> code;  // The following code block
+class CStatementCode : public StatementCode {
 
    public:
-    StatementCode(std::shared_ptr<Node> stmt, std::shared_ptr<Node> code) : stmt(stmt), code(code) {
+    CStatementCode(std::shared_ptr<Node> stmt, std::shared_ptr<Node> code) : StatementCode(stmt, code) {
     }
 
     void gen(ProgrammingLanguageGenerator&) override;
 
     void print(int) override;
+
+    ~CStatementCode() = default;
 };
 
 /**
@@ -75,11 +52,13 @@ class StatementCode : public Node {
  *
  * Currently, this class does not generate any code.
  */
-class LambdaCode : public Node {
+class CLambdaCode : public LambdaCode {
    public:
     void gen(ProgrammingLanguageGenerator&) override;
 
     void print(int indent) override;
+
+    ~CLambdaCode() = default;
 };
 
 /**
@@ -87,17 +66,17 @@ class LambdaCode : public Node {
  *
  * Holds the name of the identifier.
  */
-class Id : public Node {
-   private:
-    std::string id;  // The identifier's name
+class CId : public Id {
 
    public:
-    Id(std::string id) : id(id) {
+    CId(std::string id) : Id(id) {
     }
 
     void gen(ProgrammingLanguageGenerator&) override;
 
     void print(int indent) override;
+
+    ~CId() = default;
 };
 
 /**
@@ -105,11 +84,13 @@ class Id : public Node {
  *
  * Generates code to insert into a variable.
  */
-class Insert : public Node {
+class CInsert : public Insert {
    public:
     void gen(ProgrammingLanguageGenerator&) override;
 
     void print(int indent) override;
+
+    ~CInsert() = default;
 };
 
 /**
@@ -117,11 +98,13 @@ class Insert : public Node {
  *
  * Generates code to remove from a variable.
  */
-class Remove : public Node {
+class CRemove : public Remove {
    public:
     void gen(ProgrammingLanguageGenerator&) override;
 
     void print(int indent) override;
+
+    ~CRemove() = default;
 };
 
 /**
@@ -129,11 +112,13 @@ class Remove : public Node {
  *
  * Generates code to create a new variable.
  */
-class New : public Node {
+class CNew : public New {
    public:
     void gen(ProgrammingLanguageGenerator&) override;
 
     void print(int indent) override;
+
+    ~CNew() = default;
 };
 
 /**
@@ -141,11 +126,13 @@ class New : public Node {
  *
  * Generates code to check if a variable contains a value.
  */
-class Contains : public Node {
+class CContains : public Contains {
    public:
     void gen(ProgrammingLanguageGenerator&) override;
 
     void print(int indent) override;
+
+    ~CContains() = default;
 };
 
 /**
@@ -153,17 +140,17 @@ class Contains : public Node {
  *
  * Contains the code block to be executed in the loop.
  */
-class Loop : public Node {
-   private:
-    std::shared_ptr<Node> code;  // The code block to be executed in the loop
+class CLoop : public Loop {
 
    public:
-    Loop(std::shared_ptr<Node> code) : code(code) {
+    CLoop(std::shared_ptr<Node> code) : Loop(code) {
     }
 
     void gen(ProgrammingLanguageGenerator&) override;
 
     void print(int indent) override;
+
+    ~CLoop() = default;
 };
 
 /**
@@ -171,41 +158,40 @@ class Loop : public Node {
  *
  * Manages the function's parameters, ID, and code block.
  */
-class Call : public Node {
-   private:
-    int id;                      // The ID of the function being called
-    std::shared_ptr<Node> code;  // The code block of the function
+class CCall : public Call {
 
    public:
-    int conditionalCounts;  // Tracks the number of conditional statements in the call
+   
+   ~CCall(){};
 
-    Call(int id, std::shared_ptr<Node> code) : id(id), code(code), conditionalCounts(0) {
-    }
 
-    Call() : conditionalCounts(0) {
-    }
+    CCall(int id, std::shared_ptr<Node> code) : Call(id, code) {}
+
+    CCall() {};
 
     /**
      * @brief Sets the ID of the function being called.
      *
      * @param id The function ID.
      */
-    void setId(int id) {
-        this->id = id;
-    }
+    void setId(int id) override {
+      this->id = id;
+    };
 
     /**
      * @brief Sets the code block of the function being called.
      *
      * @param code The code block.
      */
-    void setCode(std::shared_ptr<Node> code) {
-        this->code = code;
-    }
+    void setCode(std::shared_ptr<Node> code) override {
+      this->code = code;
+    };
 
     void gen(ProgrammingLanguageGenerator&) override;
 
     void print(int indent) override;
+
+
 };
 
 /**
@@ -213,17 +199,17 @@ class Call : public Node {
  *
  * Contains the code block for the sequence.
  */
-class Seq : public Node {
-   private:
-    std::shared_ptr<Node> code;  // The code block for the sequence
+class CSeq : public Seq {
 
    public:
-    Seq(std::shared_ptr<Node> code) : code(code) {
+    CSeq(std::shared_ptr<Node> code) : Seq(code) {
     }
 
     void gen(ProgrammingLanguageGenerator&) override;
 
     void print(int indent) override;
+
+    ~CSeq() = default;
 };
 
 /**
@@ -231,18 +217,19 @@ class Seq : public Node {
  *
  * Contains the parameters and the else clause for the if statement.
  */
-class If : public Node {
-   private:
-    std::shared_ptr<Node> c1;
-    std::shared_ptr<Node> c2;
-
+class CIf : public If {
+  
    public:
-    If(std::shared_ptr<Node> c1, std::shared_ptr<Node> c2) : c1(c1), c2(c2) {
+    CIf(std::shared_ptr<Node> c1, std::shared_ptr<Node> c2) : If(c1, c2) {
     }
 
     void gen(ProgrammingLanguageGenerator&) override;
 
     void print(int indent) override;
+
+     ~CIf() = default;
 };
+
+
 
 #endif

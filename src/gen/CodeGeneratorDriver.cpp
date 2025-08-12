@@ -5,6 +5,8 @@
 #include "lexer/lexer.h"
 #include "parser/parser.h"
 #include "shared/consts.h"
+#include "ast/languageAst.h"
+#include <memory>
 
 void tokenizeInput(std::vector<Token>& inputTokens, Lexer& lexer, const std::string& inputFile);
 
@@ -55,12 +57,13 @@ int main(int argc, char const* argv[]) {
         return 1;
     }
 
+    ProgrammingLanguage::LANGUAGE = language;
 
     Lexer lexer = Lexer();
     Parser parser = Parser();
 
     
-    ProgrammingLanguageGenerator* generator = ProgrammingLanguageGenerator().getGenerator(language, varType);
+    std::unique_ptr<ProgrammingLanguageGenerator> generator(ProgrammingLanguageGenerator().getGenerator(language, varType));
 
     std::vector<Token> inputTokens;
 
@@ -69,10 +72,10 @@ int main(int argc, char const* argv[]) {
     applyLSystem(inputTokens, lexer, iterations, productionRulesFile);
 
     std::shared_ptr<Node> AST = parseTokensToAST(parser, inputTokens);
+    
+    generateCode(*generator, AST);
 
-    generateCode((ProgrammingLanguageGenerator &)generator, AST);
-
-    generateFiles((ProgrammingLanguageGenerator &)generator, bench_name);
+    generateFiles(*generator, bench_name);
 
     std::cout << "Done!" << std::endl;
 
@@ -101,5 +104,5 @@ void generateCode(ProgrammingLanguageGenerator& generator, std::shared_ptr<Node>
 }
 
 void generateFiles(ProgrammingLanguageGenerator& generator, std::string bench_name) {
-    generator.generateFiles(bench_name);
+   generator.generateFiles(bench_name);
 }
