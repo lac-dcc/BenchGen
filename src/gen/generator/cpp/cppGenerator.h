@@ -1,5 +1,5 @@
-#ifndef GENERATOR_H
-#define GENERATOR_H
+#ifndef CPPGENERATOR_H
+#define CPPGENERATOR_H
 #include <filesystem>
 #include <fstream>
 #include <iostream>
@@ -12,13 +12,14 @@
 #include "../generatorVariable.h"
 #include "../languageGenerator.h"
 
+
 /**
  * @brief The Generator class handles the generation of code and files for benchmarks.
  *
  * This class manages the creation of variables, functions, scopes, and file outputs
  * required for generating complete benchmark programs.
  */
-class CPPGenerator : public ProgrammingLanguageGenerator {
+class CppGenerator : public ProgrammingLanguageGenerator {
    private:
     std::vector<std::string> includes;    // List of include statements for the generated code
     std::vector<std::string> globalVars;  // List of global variable declarations
@@ -81,7 +82,6 @@ class CPPGenerator : public ProgrammingLanguageGenerator {
     void genReadme(std::string dir, std::string target);
 
    public:
-    
 
     /**
      * @brief Constructs a Generator object with a specified variable type.
@@ -91,14 +91,14 @@ class CPPGenerator : public ProgrammingLanguageGenerator {
      *
      * @param variableType The type of variable to be used in code generation.
      */
-    CPPGenerator(std::string variableType);
+    CppGenerator(std::string variableType);
 
     /**
      * @brief Destructor for the Generator class.
      *
      * Cleans up dynamically allocated variables.
      */
-    ~CPPGenerator() {
+    ~CppGenerator() {
         for (auto& vpair : variables) {
             delete vpair.second;
         }

@@ -1,6 +1,6 @@
 #include "cppGenerator.h"
 
-CPPGenerator::CPPGenerator(std::string variableType) {
+CppGenerator::CppGenerator(std::string variableType) {
     this->ifCounter.push(0);
     this->varCounter = 0;
     this->loopLevel = 0;
@@ -13,7 +13,7 @@ CPPGenerator::CPPGenerator(std::string variableType) {
     generateMainFunction();
 }
 
-void CPPGenerator::generateIncludes() {
+void CppGenerator::generateIncludes() {
     includes.push_back("#include <stdio.h>");
     includes.push_back("#include <stdlib.h>");
     includes.push_back("#include <string.h>");
@@ -34,14 +34,14 @@ void CPPGenerator::generateIncludes() {
     }
 }
 
-void CPPGenerator::generateGlobalVars() {
+void CppGenerator::generateGlobalVars() {
     std::vector<std::string> varGlobalVars = VariableFactory::genGlobalVars(varType);
     for (auto gVar : varGlobalVars) {
         globalVars.push_back(gVar);
     }
 }
 
-void CPPGenerator::generateRandomNumberGenerator() {
+void CppGenerator::generateRandomNumberGenerator() {
     GeneratorFunction rngFunction = GeneratorFunction(-1);
     rngFunction.addLine({"unsigned long get_path() {",
                          "   const char* path = getenv(\"BENCH_PATH\");",
@@ -55,7 +55,7 @@ void CPPGenerator::generateRandomNumberGenerator() {
     functions.push_back(rngFunction);
 }
 
-void CPPGenerator::generateMainFunction() {
+void CppGenerator::generateMainFunction() {
     mainFunction = GeneratorFunction(-1);
     mainFunction.addLine({"int main(int argc, char** argv) {",
                           "   int loopsFactor = 100;",
@@ -81,27 +81,26 @@ void CPPGenerator::generateMainFunction() {
     startScope();
 }
 
-void CPPGenerator::addLine(std::string line, int d) {
+void CppGenerator::addLine(std::string line, int d) {
     std::string indentedLine = currentScope.top().getIndentationTabs(d) + line;
     currentFunction.top()->addLine(indentedLine);
 }
 
-void CPPGenerator::addLine(std::vector<std::string> lines, int d) {
+void CppGenerator::addLine(std::vector<std::string> lines, int d) {
     for (auto line : lines) {
         addLine(line, d);
     }
 }
 
-void CPPGenerator::startScope() {
+void CppGenerator::startScope() {
     GeneratorScope scope = GeneratorScope(currentScope.top().avaiableVarsID, currentScope.top().avaiableParamsID, currentScope.top().getIndentation());
     currentScope.push(scope);
 }
 
-void CPPGenerator::startFunc(int funcId, int nParameters) {
+void CppGenerator::startFunc(int funcId, int nParameters) {
     GeneratorFunction func = GeneratorFunction(funcId);
     std::string funcHeader = VariableFactory::genTypeString(varType) + "* func" + std::to_string(funcId) + "(" + VariableFactory::genTypeString(varType) + "_param* vars, ";
     
-    std::cout << nParameters << std::endl;
     for (int i = 0; i < nParameters; i++) {
         funcHeader += "const unsigned long PATH" + std::to_string(i) + ", ";
     }
@@ -116,7 +115,7 @@ void CPPGenerator::startFunc(int funcId, int nParameters) {
     addLine("size_t pCounter = vars->size;");
 }
 
-bool CPPGenerator::functionExists(int funcId) {
+bool CppGenerator::functionExists(int funcId) {
     for (auto func : functions) {
         if (func.getId() == funcId) {
             return true;
@@ -125,7 +124,7 @@ bool CPPGenerator::functionExists(int funcId) {
     return false;
 }
 
-std::string CPPGenerator::createParams() {
+std::string CppGenerator::createParams() {
     std::string name = "params" + std::to_string(currentScope.top().addParam());
     std::vector<GeneratorVariable*> varsParams;
     for (int i = 0; i < (int)currentScope.top().avaiableVarsID.size(); i++) {
@@ -136,7 +135,7 @@ std::string CPPGenerator::createParams() {
     return name;
 }
 
-void CPPGenerator::callFunc(int funcId, int nParameters) {
+void CppGenerator::callFunc(int funcId, int nParameters) {
     std::string param = "";
     param = createParams();
 
@@ -157,13 +156,13 @@ void CPPGenerator::callFunc(int funcId, int nParameters) {
     addLine(line);
 }
 
-int CPPGenerator::addVar(std::string type) {
+int CppGenerator::addVar(std::string type) {
     this->variables[varCounter] = VariableFactory::createVariable(type, varCounter);
     this->currentScope.top().addVar(varCounter);
     return varCounter++;
 }
 
-void CPPGenerator::freeVars(bool hasReturn, int returnVarPos) {
+void CppGenerator::freeVars(bool hasReturn, int returnVarPos) {
     int numberOfAddedVars = currentScope.top().numberOfAddedVars;
     std::vector<int> availableVarsId = currentScope.top().avaiableVarsID;
     for (int i = 0; i < numberOfAddedVars; i++) {
@@ -175,24 +174,24 @@ void CPPGenerator::freeVars(bool hasReturn, int returnVarPos) {
     }
 }
 
-void CPPGenerator::returnFunc(int returnVarPos) {
+void CppGenerator::returnFunc(int returnVarPos) {
     GeneratorVariable* var = variables[currentScope.top().avaiableVarsID[returnVarPos]];
     addLine("return " + var->name + ";");
 }
 
-void CPPGenerator::endScope() {
+void CppGenerator::endScope() {
     std::string line = currentScope.top().getIndentationTabs(-1) + "}";
     currentFunction.top()->addLine(line);
     currentScope.pop();
 }
 
-void CPPGenerator::endFunc() {
+void CppGenerator::endFunc() {
     endScope();
     currentFunction.pop();
     ifCounter.pop();
 }
 
-void CPPGenerator::genMakefile(std::string dir, std::string target) {
+void CppGenerator::genMakefile(std::string dir, std::string target) {
     std::ofstream makefile;
 
     makefile.open(dir + "Makefile");
@@ -229,7 +228,7 @@ void CPPGenerator::genMakefile(std::string dir, std::string target) {
     makefile << "\trm -rf $(OBJ_DIR) $(LL_DIR)\n\n";
 }
 
-void CPPGenerator::genReadme(std::string dir, std::string target) {
+void CppGenerator::genReadme(std::string dir, std::string target) {
     std::ofstream readme;
     readme.open(dir + "README.md");
     readme << "# " + target + " Program\n\n";
@@ -274,7 +273,7 @@ void CPPGenerator::genReadme(std::string dir, std::string target) {
     readme << "```";
 }
 
-void CPPGenerator::generateFiles(std::string benchmarkName) {
+void CppGenerator::generateFiles(std::string benchmarkName) {
     std::string benchDir = benchmarkName + "/";
     std::string sourceFile = benchmarkName + ".cpp";
     std::string includeName = benchmarkName + ".hpp";

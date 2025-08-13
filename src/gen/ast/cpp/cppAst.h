@@ -1,5 +1,5 @@
-#ifndef CAST_H
-#define CAST_H
+#ifndef CPPAST_H
+#define CPPAST_H
 
 #include <cmath>
 
@@ -15,7 +15,7 @@
  *
  * @param indent The number of spaces to print.
  */
-void cprintIndentationSpaces(int indent);
+void cppprintIndentationSpaces(int indent);
 
 /**
  * @brief Generates a condition string for an if statement.
@@ -26,7 +26,7 @@ void cprintIndentationSpaces(int indent);
  * @param generator The generator object used to track the current state of code generation.
  * @return A string representing the generated condition.
  */
-std::string cgenerateIfCondition(ProgrammingLanguageGenerator& generator);
+std::string cppgenerateIfCondition(ProgrammingLanguageGenerator& generator);
 
 
 /**
@@ -34,17 +34,17 @@ std::string cgenerateIfCondition(ProgrammingLanguageGenerator& generator);
  *
  * Contains a statement and the following code block.
  */
-class CStatementCode : public StatementCode {
+class CppStatementCode : public StatementCode {
 
    public:
-    CStatementCode(std::shared_ptr<Node> stmt, std::shared_ptr<Node> code) : StatementCode(stmt, code) {
+    CppStatementCode(std::shared_ptr<Node> stmt, std::shared_ptr<Node> code) : StatementCode(stmt, code) {
     }
 
     void gen(ProgrammingLanguageGenerator&) override;
 
     void print(int) override;
 
-    ~CStatementCode() = default;
+    ~CppStatementCode() = default;
 };
 
 /**
@@ -52,13 +52,13 @@ class CStatementCode : public StatementCode {
  *
  * Currently, this class does not generate any code.
  */
-class CLambdaCode : public LambdaCode {
+class CppLambdaCode : public LambdaCode {
    public:
     void gen(ProgrammingLanguageGenerator&) override;
 
     void print(int indent) override;
 
-    ~CLambdaCode() = default;
+    ~CppLambdaCode() = default;
 };
 
 /**
@@ -66,17 +66,17 @@ class CLambdaCode : public LambdaCode {
  *
  * Holds the name of the identifier.
  */
-class CId : public Id {
+class CppId : public Id {
 
    public:
-    CId(std::string id) : Id(id) {
+    CppId(std::string id) : Id(id) {
     }
 
     void gen(ProgrammingLanguageGenerator&) override;
 
     void print(int indent) override;
 
-    ~CId() = default;
+    ~CppId() = default;
 };
 
 /**
@@ -84,13 +84,13 @@ class CId : public Id {
  *
  * Generates code to insert into a variable.
  */
-class CInsert : public Insert {
+class CppInsert : public Insert {
    public:
     void gen(ProgrammingLanguageGenerator&) override;
 
     void print(int indent) override;
 
-    ~CInsert() = default;
+    ~CppInsert() = default;
 };
 
 /**
@@ -98,13 +98,13 @@ class CInsert : public Insert {
  *
  * Generates code to remove from a variable.
  */
-class CRemove : public Remove {
+class CppRemove : public Remove {
    public:
     void gen(ProgrammingLanguageGenerator&) override;
 
     void print(int indent) override;
 
-    ~CRemove() = default;
+    ~CppRemove() = default;
 };
 
 /**
@@ -112,13 +112,13 @@ class CRemove : public Remove {
  *
  * Generates code to create a new variable.
  */
-class CNew : public New {
+class CppNew : public New {
    public:
     void gen(ProgrammingLanguageGenerator&) override;
 
     void print(int indent) override;
 
-    ~CNew() = default;
+    ~CppNew() = default;
 };
 
 /**
@@ -126,13 +126,13 @@ class CNew : public New {
  *
  * Generates code to check if a variable contains a value.
  */
-class CContains : public Contains {
+class CppContains : public Contains {
    public:
     void gen(ProgrammingLanguageGenerator&) override;
 
     void print(int indent) override;
 
-    ~CContains() = default;
+    ~CppContains() = default;
 };
 
 /**
@@ -140,17 +140,17 @@ class CContains : public Contains {
  *
  * Contains the code block to be executed in the loop.
  */
-class CLoop : public Loop {
+class CppLoop : public Loop {
 
    public:
-    CLoop(std::shared_ptr<Node> code) : Loop(code) {
+    CppLoop(std::shared_ptr<Node> code) : Loop(code) {
     }
 
     void gen(ProgrammingLanguageGenerator&) override;
 
     void print(int indent) override;
 
-    ~CLoop() = default;
+    ~CppLoop() = default;
 };
 
 /**
@@ -158,16 +158,16 @@ class CLoop : public Loop {
  *
  * Manages the function's parameters, ID, and code block.
  */
-class CCall : public Call {
+class CppCall : public Call {
 
    public:
    
-   ~CCall(){};
+   ~CppCall(){};
 
 
-    CCall(int id, std::shared_ptr<Node> code) : Call(id, code) {}
+    CppCall(int id, std::shared_ptr<Node> code) : Call(id, code) {}
 
-    CCall() {};
+    CppCall() {};
 
     /**
      * @brief Sets the ID of the function being called.
@@ -199,17 +199,17 @@ class CCall : public Call {
  *
  * Contains the code block for the sequence.
  */
-class CSeq : public Seq {
+class CppSeq : public Seq {
 
    public:
-    CSeq(std::shared_ptr<Node> code) : Seq(code) {
+    CppSeq(std::shared_ptr<Node> code) : Seq(code) {
     }
 
     void gen(ProgrammingLanguageGenerator&) override;
 
     void print(int indent) override;
 
-    ~CSeq() = default;
+    ~CppSeq() = default;
 };
 
 /**
@@ -217,17 +217,17 @@ class CSeq : public Seq {
  *
  * Contains the parameters and the else clause for the if statement.
  */
-class CIf : public If {
+class CppIf : public If {
   
    public:
-    CIf(std::shared_ptr<Node> c1, std::shared_ptr<Node> c2) : If(c1, c2) {
+    CppIf(std::shared_ptr<Node> c1, std::shared_ptr<Node> c2) : If(c1, c2) {
     }
 
     void gen(ProgrammingLanguageGenerator&) override;
 
     void print(int indent) override;
 
-     ~CIf() = default;
+     ~CppIf() = default;
 };
 
 

@@ -1,5 +1,5 @@
-#ifndef GENERATOR_H
-#define GENERATOR_H
+#ifndef CGENERATOR_H
+#define CGENERATOR_H
 #include <filesystem>
 #include <fstream>
 #include <iostream>

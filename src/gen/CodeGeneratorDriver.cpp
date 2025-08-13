@@ -21,8 +21,8 @@ void generateFiles(ProgrammingLanguageGenerator& generator, std::string bench_na
 int main(int argc, char const* argv[]) {
     if (argc < 6) {
         std::cout << "ERROR! Missing arguments!" << std::endl;
-        std::cout << "Please provide Number of Iterations, Production Rules, Seed String File, Output Folder Name and Variable Type." << std::endl;
-        std::cout << "Usage: ./main <number_of_iterations> <production_rules_file> <seed_string_file> <bench_name> <var_type>" << std::endl;
+        std::cout << "Please provide Number of Iterations, Production Rules, Seed String File, Output Folder Name, Variable Type and Programming Language." << std::endl;
+        std::cout << "Usage: ./main <number_of_iterations> <production_rules_file> <seed_string_file> <bench_name> <var_type> <programming_language>" << std::endl;
         return 1;
     }
     
