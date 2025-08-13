@@ -1,6 +1,7 @@
 #include "languageAst.h"
 #include "c/cAst.h"
 #include "cpp/cppAst.h"
+#include "rust/rustAst.h"
 
 Insert::~Insert() {};
 Remove::~Remove() {};
@@ -22,6 +23,9 @@ void printIndentationSpaces(int ident)
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CPP)
     {
         cppprintIndentationSpaces(ident);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
+    {
+        rustprintIndentationSpaces(ident);
     }
 }
 
@@ -34,7 +38,10 @@ std::string generateIfCondition(ProgrammingLanguageGenerator& generator)
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CPP)
     {
         return cppgenerateIfCondition(generator);
-    } 
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
+    {
+        return rustgenerateIfCondition(generator);
+    }
 }
 
 Insert get_insert(std::string language)
@@ -45,6 +52,9 @@ Insert get_insert(std::string language)
     }else if(language == ProgrammingLanguage::CPP)
     {
         return CppInsert();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
+    {
+        return RustInsert();
     }
 }
 
@@ -56,6 +66,9 @@ Remove get_remove(std::string language)
     }else if(language == ProgrammingLanguage::CPP)
     {
         return CppRemove();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
+    {
+        return RustRemove();
     }
 }
 
@@ -67,6 +80,9 @@ New get_new(std::string language)
     }else if(language == ProgrammingLanguage::CPP)
     {
         return CppNew();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
+    {
+        return RustNew();
     }
 }
 
@@ -78,6 +94,9 @@ Contains get_contains(std::string language)
     }else if(language == ProgrammingLanguage::CPP)
     {
         return CppContains();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
+    {
+        return RustContains();
     }
 }
 
@@ -90,6 +109,9 @@ StatementCode get_statementcode(std::string language, std::shared_ptr<Node> stmt
     }else if(language == ProgrammingLanguage::CPP)
     {
         return CppStatementCode(stmt, code);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
+    {
+        return RustStatementCode(stmt, code);
     }
 }
 
@@ -102,6 +124,9 @@ Loop get_loop(std::string language, std::shared_ptr<Node> code)
     }else if(language == ProgrammingLanguage::CPP)
     {
         return CppLoop(code);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
+    {
+        return RustLoop(code);
     }
 }
 
@@ -113,6 +138,9 @@ Call get_call(std::string language)
     }else if(language == ProgrammingLanguage::CPP)
     {
         return CppCall();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
+    {
+        return RustCall();
     }
 }
 
@@ -124,6 +152,9 @@ Call get_call(std::string language, int id, std::shared_ptr<Node> code)
     }else if(language == ProgrammingLanguage::CPP)
     {
         return CppCall(id, code);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
+    {
+        return RustCall(id, code);
     }
 }
 
@@ -136,6 +167,9 @@ Seq get_seq(std::string language, std::shared_ptr<Node> code)
     }else if(language == ProgrammingLanguage::CPP)
     {
         return CppSeq(code);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
+    {
+        return RustSeq(code);
     }
 }
 
@@ -147,6 +181,9 @@ If get_if(std::string language, std::shared_ptr<Node> c1, std::shared_ptr<Node> 
     }else if(language == ProgrammingLanguage::CPP)
     {
         return CppIf(c1, c2);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
+    {
+        return RustIf(c1, c2);
     }
 }
 
@@ -158,6 +195,9 @@ Id get_id(std::string language, std::string id)
     }else if(language == ProgrammingLanguage::CPP)
     {
         return CppId(id);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
+    {
+        return RustId(id);
     }
 }
 
@@ -168,6 +208,9 @@ void Loop::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CPP)
     {
         CppLoop(this->code).gen(generator);   
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
+    {
+        return RustLoop(this->code).gen(generator);
     }
 };
 
@@ -178,6 +221,9 @@ void Loop::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CPP)
     {
         CppLoop(this->code).print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
+    {
+        return RustLoop(this->code).print(0);
     }
 };
 
@@ -192,6 +238,11 @@ void Call::gen(ProgrammingLanguageGenerator& generator) {
         CppCall cppcall = CppCall(this->id, this->code);
         cppcall.conditionalCounts = this->conditionalCounts;
         cppcall.gen(generator);  
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
+    {
+        RustCall rustcall = RustCall(this->id, this->code);
+        rustcall.conditionalCounts = this->conditionalCounts;
+        rustcall.gen(generator); 
     }
 };
 
@@ -206,6 +257,11 @@ void Call::print(int) {
         CppCall cppcall = CppCall(this->id, this->code);
         cppcall.conditionalCounts = this->conditionalCounts;
         cppcall.print(0);   
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
+    {
+        RustCall rustcall = RustCall(this->id, this->code);
+        rustcall.conditionalCounts = this->conditionalCounts;
+        rustcall.print(0);   
     }
 };
 
@@ -224,6 +280,9 @@ void Seq::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CPP)
     {
         CppSeq(this->code).gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
+    {
+        RustSeq(this->code).gen(generator);
     }
 };
 
@@ -234,6 +293,9 @@ void Seq::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CPP)
     {
         CppSeq(this->code).print(0);   
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
+    {
+        RustSeq(this->code).print(0);
     }
  };
 
@@ -245,6 +307,9 @@ void If::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CPP)
     {
         CppIf(this->c1, this->c2).gen(generator);   
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
+    {
+        RustIf(this->c1, this->c2).gen(generator);
     }
 };
 
@@ -255,6 +320,9 @@ void If::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CPP)
     {
         CppIf(this->c1, this->c2).print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
+    {
+        RustIf(this->c1, this->c2).print(0);
     }
 };
 
@@ -265,7 +333,10 @@ void Id::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CPP)
     {
         CppId(this->id).gen(generator);
-    }  
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
+    {
+        RustId(this->id).gen(generator);
+    }
 };
 
 void Id::print(int) { 
@@ -275,6 +346,9 @@ void Id::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CPP)
     {
         CppId(this->id).print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
+    {
+        RustId(this->id).print(0);
     }  
 };
 
@@ -285,6 +359,9 @@ void Insert::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CPP)
     {
         CppInsert().gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
+    {
+        RustInsert().gen(generator);
     }
 };
 
@@ -296,6 +373,9 @@ void Insert::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CPP)
     {
         CppInsert().print(0);   
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
+    {
+        RustInsert().print(0);
     }    
 };
 
@@ -306,7 +386,10 @@ void Remove::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CPP)
     {
         CppRemove().gen(generator);
-    }
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
+    {
+        RustRemove().gen(generator);
+    } 
 };
 
 void Remove::print(int) { 
@@ -316,7 +399,10 @@ void Remove::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CPP)
     {
         CppRemove().print(0);
-    }    
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
+    {
+        RustRemove().print(0);
+    } 
 };
 
 void New::gen(ProgrammingLanguageGenerator& generator) {
@@ -326,7 +412,10 @@ void New::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CPP)
     {
         CppNew().gen(generator);   
-    }
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
+    {
+        RustNew().gen(generator);
+    } 
 };
 
 void New::print(int) { 
@@ -336,6 +425,9 @@ void New::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CPP)
     {
         CppNew().print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
+    {
+        RustNew().print(0);
     }
  };
 
@@ -346,6 +438,9 @@ void Contains::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CPP)
     {
         CppContains().gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
+    {
+        RustContains().gen(generator);
     }
 };
 
@@ -356,6 +451,9 @@ void Contains::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CPP)
     {
         CppContains().print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
+    {
+        RustContains().print(0);
     }
  };
 
@@ -366,6 +464,9 @@ void StatementCode::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CPP)
     {
         CppStatementCode(this->stmt, this->code).gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
+    {
+        RustStatementCode(this->stmt, this->code).gen(generator);
     }
 };
 
@@ -378,6 +479,9 @@ void StatementCode::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CPP)
     {
         CppStatementCode(this->stmt, this->code).print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
+    {
+        RustStatementCode(this->stmt, this->code).print(0);
     }
 };
 
@@ -388,6 +492,9 @@ void LambdaCode::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CPP)
     {
         CppLambdaCode().gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
+    {
+        RustLambdaCode().gen(generator);
     }
 };
 
@@ -398,5 +505,8 @@ void LambdaCode::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CPP)
     {
         CppLambdaCode().print(0);   
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
+    {
+        RustLambdaCode().print(0);
     }
 };
