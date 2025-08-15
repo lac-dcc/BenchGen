@@ -44,12 +44,12 @@ std::string generateIfCondition(ProgrammingLanguageGenerator& generator)
     }
 }
 
-Insert get_insert(std::string language)
+Insert get_insert()
 {
-    if(language == ProgrammingLanguage::C)
+    if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::C)
     {
         return CInsert();
-    }else if(language == ProgrammingLanguage::CPP)
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CPP)
     {
         return CppInsert();
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
@@ -58,12 +58,12 @@ Insert get_insert(std::string language)
     }
 }
 
-Remove get_remove(std::string language)
+Remove get_remove()
 {
-    if(language == ProgrammingLanguage::C)
+    if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::C)
     {
         return CRemove();
-    }else if(language == ProgrammingLanguage::CPP)
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CPP)
     {
         return CppRemove();
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
@@ -72,12 +72,12 @@ Remove get_remove(std::string language)
     }
 }
 
-New get_new(std::string language)
+New get_new()
 {
-    if(language == ProgrammingLanguage::C)
+    if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::C)
     {
         return CNew();
-    }else if(language == ProgrammingLanguage::CPP)
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CPP)
     {
         return CppNew();
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
@@ -86,12 +86,12 @@ New get_new(std::string language)
     }
 }
 
-Contains get_contains(std::string language)
+Contains get_contains()
 {
-    if(language == ProgrammingLanguage::C)
+    if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::C)
     {
         return CContains();
-    }else if(language == ProgrammingLanguage::CPP)
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CPP)
     {
         return CppContains();
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
@@ -101,12 +101,12 @@ Contains get_contains(std::string language)
 }
 
 
-StatementCode get_statementcode(std::string language, std::shared_ptr<Node> stmt, std::shared_ptr<Node> code)
+StatementCode get_statementcode(std::shared_ptr<Node> stmt, std::shared_ptr<Node> code)
 {
-    if(language == ProgrammingLanguage::C)
+    if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::C)
     {
         return CStatementCode(stmt, code);
-    }else if(language == ProgrammingLanguage::CPP)
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CPP)
     {
         return CppStatementCode(stmt, code);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
@@ -116,12 +116,12 @@ StatementCode get_statementcode(std::string language, std::shared_ptr<Node> stmt
 }
 
 
-Loop get_loop(std::string language, std::shared_ptr<Node> code)
+Loop get_loop(std::shared_ptr<Node> code)
 {
-    if(language == ProgrammingLanguage::C)
+    if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::C)
     {
         return CLoop(code);
-    }else if(language == ProgrammingLanguage::CPP)
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CPP)
     {
         return CppLoop(code);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
@@ -130,12 +130,12 @@ Loop get_loop(std::string language, std::shared_ptr<Node> code)
     }
 }
 
-Call get_call(std::string language)
+Call get_call()
 {
-    if(language == ProgrammingLanguage::C)
+    if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::C)
     {
         return CCall();
-    }else if(language == ProgrammingLanguage::CPP)
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CPP)
     {
         return CppCall();
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
@@ -144,12 +144,12 @@ Call get_call(std::string language)
     }
 }
 
-Call get_call(std::string language, int id, std::shared_ptr<Node> code)
+Call get_call(int id, std::shared_ptr<Node> code)
 {
-    if(language == ProgrammingLanguage::C)
+    if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::C)
     {
         return CCall(id, code);
-    }else if(language == ProgrammingLanguage::CPP)
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CPP)
     {
         return CppCall(id, code);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
@@ -159,12 +159,12 @@ Call get_call(std::string language, int id, std::shared_ptr<Node> code)
 }
 
 
-Seq get_seq(std::string language, std::shared_ptr<Node> code)
+Seq get_seq(std::shared_ptr<Node> code)
 {
-      if(language == ProgrammingLanguage::C)
+      if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::C)
     {
         return CSeq(code);
-    }else if(language == ProgrammingLanguage::CPP)
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CPP)
     {
         return CppSeq(code);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
@@ -173,12 +173,12 @@ Seq get_seq(std::string language, std::shared_ptr<Node> code)
     }
 }
 
-If get_if(std::string language, std::shared_ptr<Node> c1, std::shared_ptr<Node> c2)
+If get_if(std::shared_ptr<Node> c1, std::shared_ptr<Node> c2)
 {
-      if(language == ProgrammingLanguage::C)
+      if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::C)
     {
         return CIf(c1, c2);
-    }else if(language == ProgrammingLanguage::CPP)
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CPP)
     {
         return CppIf(c1, c2);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
@@ -187,12 +187,12 @@ If get_if(std::string language, std::shared_ptr<Node> c1, std::shared_ptr<Node> 
     }
 }
 
-Id get_id(std::string language, std::string id)
+Id get_id(std::string id)
 {
-      if(language == ProgrammingLanguage::C)
+      if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::C)
     {
         return CId(id);
-    }else if(language == ProgrammingLanguage::CPP)
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CPP)
     {
         return CppId(id);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)

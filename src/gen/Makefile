@@ -16,37 +16,37 @@ $(OBJ):
 
 # One rule per dependency. Add more here when creating new files!
 $(OBJ)languageAst.o: ast/languageAst.cpp | $(OBJ)
-	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@
+	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
 $(OBJ)cAst.o: ast/c/cAst.cpp | $(OBJ)
-	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@
+	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
 $(OBJ)cppAst.o: ast/cpp/cppAst.cpp | $(OBJ)
-	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@
+	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
 $(OBJ)rustAst.o: ast/rust/rustAst.cpp | $(OBJ)
-	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@
+	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
 $(OBJ)factory.o: generator/c/factory.cpp | $(OBJ)
-	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@
+	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
 $(OBJ)generatorFunction.o: generator/generatorFunction.cpp | $(OBJ)
-	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@
+	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
 $(OBJ)generatorVariable.o: generator/c/generatorVariable.cpp | $(OBJ)
-	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@
+	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
 $(OBJ)generatorScope.o: generator/generatorScope.cpp | $(OBJ)
-	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@
+	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
 $(OBJ)languageGenerator.o: generator/languageGenerator.cpp | $(OBJ)
-	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@
+	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
 $(OBJ)cGenerator.o: generator/c/cGenerator.cpp | $(OBJ)
-	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@
+	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
 $(OBJ)cppGenerator.o: generator/cpp/cppGenerator.cpp | $(OBJ)
-	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@
+	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
 $(OBJ)rustGenerator.o: generator/rust/rustGenerator.cpp | $(OBJ)
-	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@
+	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
 $(OBJ)lexer.o: lexer/lexer.cpp | $(OBJ)
-	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@
+	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
 $(OBJ)lSystem.o: lSystem/lSystem.cpp | $(OBJ)
-	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@
+	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
 $(OBJ)parser.o: parser/parser.cpp | $(OBJ)
-	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@
+	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
 $(OBJ)CodeGeneratorDriver.o: CodeGeneratorDriver.cpp | $(OBJ)
-	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@
+	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
 
 clean: 
 	rm -f $(OBJ)*.o

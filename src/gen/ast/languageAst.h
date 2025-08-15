@@ -275,25 +275,25 @@ class If : public Node {
     virtual ~If();
 };
 
-Insert get_insert(std::string language);
+Insert get_insert();
 
-Remove get_remove(std::string language);
+Remove get_remove();
 
-New get_new(std::string language);
+New get_new();
 
-Contains get_contains(std::string language);
+Contains get_contains();
 
-StatementCode get_statementcode(std::string language, std::shared_ptr<Node> stmt, std::shared_ptr<Node> code);
+StatementCode get_statementcode(std::shared_ptr<Node> stmt, std::shared_ptr<Node> code);
 
-Loop get_loop(std::string language, std::shared_ptr<Node> code);
+Loop get_loop(std::shared_ptr<Node> code);
 
-Call get_call(std::string language, int id, std::shared_ptr<Node> code);
+Call get_call(int id, std::shared_ptr<Node> code);
 
-Call get_call(std::string language);
+Call get_call();
 
-Id get_id(std::string language, std::string id);
+Id get_id(std::string id);
 
-Seq get_seq(std::string language, std::shared_ptr<Node> code);
+Seq get_seq(std::shared_ptr<Node> code);
 
-If get_if(std::string language, std::shared_ptr<Node> c1, std::shared_ptr<Node> c2);
+If get_if(std::shared_ptr<Node> c1, std::shared_ptr<Node> c2);
 #endif
