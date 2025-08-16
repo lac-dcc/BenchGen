@@ -5,7 +5,7 @@ SRC = ./src/
 OBJ = ./obj/
 TARGET = benchGen
 #Dependencies in objects. Add more here when creating new files!
-DEPS = $(OBJ)factory.o $(OBJ)languageAst.o $(OBJ)cAst.o $(OBJ)cppAst.o $(OBJ)rustAst.o $(OBJ)generatorFunction.o $(OBJ)generatorVariable.o $(OBJ)generatorScope.o $(OBJ)languageGenerator.o $(OBJ)cGenerator.o $(OBJ)cppGenerator.o $(OBJ)rustGenerator.o $(OBJ)lexer.o $(OBJ)lSystem.o $(OBJ)parser.o $(OBJ)CodeGeneratorDriver.o
+DEPS = $(OBJ)factory.o $(OBJ)languageAst.o $(OBJ)cAst.o $(OBJ)cppAst.o $(OBJ)rustAst.o $(OBJ)generatorFunction.o  $(OBJ)generatorVariable.o $(OBJ)cGeneratorVariable.o $(OBJ)cppGeneratorVariable.o $(OBJ)rustGeneratorVariable.o $(OBJ)generatorScope.o $(OBJ)languageGenerator.o $(OBJ)cGenerator.o $(OBJ)cppGenerator.o $(OBJ)rustGenerator.o $(OBJ)lexer.o $(OBJ)lSystem.o $(OBJ)parser.o $(OBJ)CodeGeneratorDriver.o
 #SHARED = $(IMP)ast.h $(IMP)enums.h $(IMP)globalIncludes.h $(IMP)globalStructs.h
 
 $(TARGET): $(DEPS) 
@@ -23,11 +23,17 @@ $(OBJ)cppAst.o: ast/cpp/cppAst.cpp | $(OBJ)
 	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
 $(OBJ)rustAst.o: ast/rust/rustAst.cpp | $(OBJ)
 	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
-$(OBJ)factory.o: generator/c/factory.cpp | $(OBJ)
+$(OBJ)factory.o: generator/factory.cpp | $(OBJ)
 	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
 $(OBJ)generatorFunction.o: generator/generatorFunction.cpp | $(OBJ)
 	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
-$(OBJ)generatorVariable.o: generator/c/generatorVariable.cpp | $(OBJ)
+$(OBJ)generatorVariable.o: generator/generatorVariable.cpp | $(OBJ)
+	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
+$(OBJ)cGeneratorVariable.o: generator/c/cGeneratorVariable.cpp | $(OBJ)
+	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
+$(OBJ)cppGeneratorVariable.o: generator/cpp/cppGeneratorVariable.cpp | $(OBJ)
+	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
+$(OBJ)rustGeneratorVariable.o: generator/rust/rustGeneratorVariable.cpp | $(OBJ)
 	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
 $(OBJ)generatorScope.o: generator/generatorScope.cpp | $(OBJ)
 	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type

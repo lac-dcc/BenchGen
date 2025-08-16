@@ -1,45 +1,14 @@
-#include "../generatorVariable.h"
+#include "cGeneratorVariable.h"
 
-unsigned int VariableFactory::var_counter = 0;
 
-std::string VariableFactory::genTypeString(std::string type) {
-    GeneratorVariable* var = createVariable(type, 0);
-    std::string typeString = var->typeString;
-    delete var;
-    return typeString;
-}
-
-std::vector<std::string> VariableFactory::genIncludes(std::string type) {
-    GeneratorVariable* var = createVariable(type, 0);
-    std::vector<std::string> includes = var->genIncludes();
-    delete var;
-    return includes;
-}
-
-std::vector<std::string> VariableFactory::genGlobalVars(std::string type) {
-    GeneratorVariable* var = createVariable(type, 0);
-    std::vector<std::string> globalVars = var->genGlobalVars();
-    delete var;
-    return globalVars;
-}
-
-std::vector<std::string> VariableFactory::genParams(std::string type, std::string paramName, std::vector<GeneratorVariable*> varsParams) {
-    GeneratorVariable* var = createVariable(type, 0);
-    std::vector<std::string> params = var->genParams(paramName, varsParams);
-    delete var;
-    return params;
-}
-
-// ARRAY
-
-GeneratorArray::GeneratorArray(int size, int id) {
+CGeneratorArray::CGeneratorArray(int size, int id) {
     this->typeString = "array_t";
     this->totalSize = size;
     this->id = id;
     this->name = VarTypes::ARRAY + std::to_string(id);
 }
 
-std::vector<std::string> GeneratorArray::new_(bool inFunction) {
+std::vector<std::string> CGeneratorArray::new_(bool inFunction) {
     std::vector<std::string> temp = {this->typeString + "* " + this->name + ";"};
     if (inFunction) {
         temp.push_back("if (pCounter > 0) {");
@@ -67,21 +36,21 @@ std::vector<std::string> GeneratorArray::new_(bool inFunction) {
     return temp;
 }
 
-std::vector<std::string> GeneratorArray::insert() {
+std::vector<std::string> CGeneratorArray::insert() {
     std::vector<std::string> temp = {"for (int i = 0; i < " + this->name + "->size; i++) {"};
     temp.push_back("   " + this->name + "->data[i]++;");
     temp.push_back("}");
     return temp;
 }
 
-std::vector<std::string> GeneratorArray::remove() {
+std::vector<std::string> CGeneratorArray::remove() {
     std::vector<std::string> temp = {"for (int i = 0; i < " + this->name + "->size; i++) {"};
     temp.push_back("   " + this->name + "->data[i]--;");
     temp.push_back("}");
     return temp;
 }
 
-std::vector<std::string> GeneratorArray::contains(bool shouldReturn) {
+std::vector<std::string> CGeneratorArray::contains(bool shouldReturn) {
     int compare = rand() % 100;  // Random value to compare against
     std::vector<std::string> temp = {};
     temp.push_back("for (int i = 0; i < " + this->name + "->size; i++) {");
@@ -96,7 +65,7 @@ std::vector<std::string> GeneratorArray::contains(bool shouldReturn) {
     return temp;
 }
 
-std::vector<std::string> GeneratorArray::free() {
+std::vector<std::string> CGeneratorArray::free() {
     std::vector<std::string> temp = {};
     temp.push_back(this->name + "->refC--;");
     temp.push_back("if(" + this->name + "->refC == 0) {");
@@ -107,11 +76,11 @@ std::vector<std::string> GeneratorArray::free() {
     return temp;
 }
 
-std::vector<std::string> GeneratorArray::genIncludes() {
+std::vector<std::string> CGeneratorArray::genIncludes() {
     return {};
 }
 
-std::vector<std::string> GeneratorArray::genGlobalVars() {
+std::vector<std::string> CGeneratorArray::genGlobalVars() {
     std::vector<std::string> temp = {};
     temp.push_back("typedef struct {");
     temp.push_back("   unsigned int* data;");
@@ -126,7 +95,7 @@ std::vector<std::string> GeneratorArray::genGlobalVars() {
     return temp;
 }
 
-std::vector<std::string> GeneratorArray::genParams(std::string paramName, std::vector<GeneratorVariable*> varsParams) {
+std::vector<std::string> CGeneratorArray::genParams(std::string paramName, std::vector<GeneratorVariable*> varsParams) {
     std::vector<std::string> temp = {};
     temp.push_back(this->typeString + "_param " + paramName + ";");
     temp.push_back(paramName + ".size = " + std::to_string(varsParams.size()) + ";");
@@ -137,27 +106,27 @@ std::vector<std::string> GeneratorArray::genParams(std::string paramName, std::v
     return temp;
 }
 
-GeneratorArray::~GeneratorArray() {
+CGeneratorArray::~CGeneratorArray() {
 }
 
 // SORTED LIST
 
-GeneratorSortedList::GeneratorSortedList(int id) {
+CGeneratorSortedList::CGeneratorSortedList(int id) {
     this->typeString = "sortedlist_t";
     this->id = id;
     this->name = VarTypes::SORTEDLIST + std::to_string(id);
 }
 
-GeneratorSortedList::~GeneratorSortedList() {
+CGeneratorSortedList::~CGeneratorSortedList() {
 }
 
-std::vector<std::string> GeneratorSortedList::genIncludes() {
+std::vector<std::string> CGeneratorSortedList::genIncludes() {
     std::vector<std::string> temp = {};
     temp.push_back("#include <stdbool.h>");
     return temp;
 }
 
-std::vector<std::string> GeneratorSortedList::new_(bool inFunction) {
+std::vector<std::string> CGeneratorSortedList::new_(bool inFunction) {
     std::vector<std::string> tmp = {};
 
     if (inFunction) {
@@ -185,7 +154,7 @@ std::vector<std::string> GeneratorSortedList::new_(bool inFunction) {
     return tmp;
 }
 
-std::vector<std::string> GeneratorSortedList::insert() {
+std::vector<std::string> CGeneratorSortedList::insert() {
     std::vector<std::string> tmp = {};
 
     int value = rand() % 100;
@@ -228,7 +197,7 @@ std::vector<std::string> GeneratorSortedList::insert() {
     return tmp;
 }
 
-std::vector<std::string> GeneratorSortedList::remove() {
+std::vector<std::string> CGeneratorSortedList::remove() {
     std::vector<std::string> tmp = {};
 
     int value = rand() % 100;
@@ -256,7 +225,7 @@ std::vector<std::string> GeneratorSortedList::remove() {
     return tmp;
 }
 
-std::vector<std::string> GeneratorSortedList::contains(bool shouldReturn) {
+std::vector<std::string> CGeneratorSortedList::contains(bool shouldReturn) {
     std::vector<std::string> tmp = {};
     int value = rand() % 100;
 
@@ -273,7 +242,7 @@ std::vector<std::string> GeneratorSortedList::contains(bool shouldReturn) {
     return tmp;
 }
 
-std::vector<std::string> GeneratorSortedList::free() {
+std::vector<std::string> CGeneratorSortedList::free() {
     std::vector<std::string> tmp = {};
 
     std::string cell_varname = "cell" + std::to_string(VariableFactory::var_counter);
@@ -295,7 +264,7 @@ std::vector<std::string> GeneratorSortedList::free() {
     return tmp;
 }
 
-std::vector<std::string> GeneratorSortedList::genGlobalVars() {
+std::vector<std::string> CGeneratorSortedList::genGlobalVars() {
     std::vector<std::string> tmp = {};
 
     tmp.push_back("typedef struct cell_t {");
@@ -317,7 +286,7 @@ std::vector<std::string> GeneratorSortedList::genGlobalVars() {
     return tmp;
 }
 
-std::vector<std::string> GeneratorSortedList::genParams(std::string paramName, std::vector<GeneratorVariable*> varsParams) {
+std::vector<std::string> CGeneratorSortedList::genParams(std::string paramName, std::vector<GeneratorVariable*> varsParams) {
     std::vector<std::string> tmp = {};
     tmp.push_back(this->typeString + "_param " + paramName + ";");
     tmp.push_back(paramName + ".size = " + std::to_string(varsParams.size()) + ";");
