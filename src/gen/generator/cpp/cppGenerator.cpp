@@ -15,19 +15,22 @@ CppGenerator::CppGenerator(std::string variableType) {
 
 void CppGenerator::generateIncludes() {
     includes.push_back("#include <stdio.h>");
-    includes.push_back("#include <stdlib.h>");
-    includes.push_back("#include <string.h>");
+    includes.push_back("#include <cstdlib>");
+    includes.push_back("#include <string>");
+    includes.push_back("#include \"path.hpp\"");
+    includes.push_back("#include <algorithm>");
+    includes.push_back("#include <vector>\n\n");
     includes.push_back("#ifdef DEBUG");
-    includes.push_back("    #define DEBUG_NEW(id) printf(\"[NEW]\\t\\tId \%d created\\n\", id)");
-    includes.push_back("    #define DEBUG_COPY(id) printf(\"[COPY]\\t\\tId \%d copied\\n\", id)");
-    includes.push_back("    #define DEBUG_RETURN(id) printf(\"[RETURN]\\tId \%d returned\\n\", id)");
-    includes.push_back("    #define DEBUG_FREE(id) printf(\"[FREE]\\t\\tId \%d freed\\n\", id)");
+    includes.push_back("    #define DEBUG_NEW(id) std::cout << \"[NEW]\t\tId\" << id << \" created\" << std::endl");
+    includes.push_back("    #define DEBUG_COPY(id) std::cout << \"[COPY]\t\tId \" << id << \" copied\" << std::endl");
+    includes.push_back("    #define DEBUG_RETURN(id) std::cout << \"[RETURN]\tId \" << id << \" returned\" << std::endl");
+    includes.push_back("    #define DEBUG_FREE(id) std::cout << \"[FREE]\t\tId \" << id << \" freed\" << std::endl");
     includes.push_back("#else");
     includes.push_back("    #define DEBUG_NEW(id)");
     includes.push_back("    #define DEBUG_COPY(id)");
     includes.push_back("    #define DEBUG_RETURN(id)");
     includes.push_back("    #define DEBUG_FREE(id)");
-    includes.push_back("#endif");
+    includes.push_back("#endif\n\n");
     std::vector<std::string> varIncludes = VariableFactory::genIncludes(varType);
     for (auto var : varIncludes) {
         globalVars.push_back(var);
@@ -43,39 +46,49 @@ void CppGenerator::generateGlobalVars() {
 
 void CppGenerator::generateRandomNumberGenerator() {
     GeneratorFunction rngFunction = GeneratorFunction(-1);
-    rngFunction.addLine({"unsigned long get_path() {",
-                         "   const char* path = getenv(\"BENCH_PATH\");",
-                         "   if(path != NULL) { ",
-                         "      return atoi(path);",
+    rngFunction.addLine({"#include \"path.hpp\"",
+                        "#include <cstdlib>",
+                        "#include <string>",
+                        "#include <random>\n\n",
+                        "unsigned long get_path() {",
+                         "   const char* path = std::getenv(\"BENCH_PATH\");",
+                         "   if(path != nullptr) { ",
+                         "      return std::stoul(path);",
                          "   }else {",
-                         "      unsigned long n = rand();",
-                         "      return (n << 32) | rand();",
+                         "      static std::mt19937_64 rng(std::random_device{}());",
+                         "      return rng();",
                          "   }",
-                         "}"});
+                         "}",
+                         });
     functions.push_back(rngFunction);
 }
 
 void CppGenerator::generateMainFunction() {
     mainFunction = GeneratorFunction(-1);
-    mainFunction.addLine({"int main(int argc, char** argv) {",
+    mainFunction.addLine({"#include <iostream>",
+                          "#include <string>",
+                          "#include <random>\n\n",
+                          "int main(int argc, char** argv) {",
                           "   int loopsFactor = 100;",
-                          "   srand(0);",
+                          "   std::mt19937 rng(0);",
                           "   for (int i = 1; i < argc; i++) {",
-                          "      if (strcmp(argv[i], \"-path-seed\") == 0) {",
-                          "         i++;",
-                          "         if (i < argc) {",
-                          "            srand(atoi(argv[i]));",
-                          "         }",
-                          "      }",
-                          "      else if (strcmp(argv[i], \"-loops-factor\") == 0) {",
-                          "         i++;",
-                          "         if (i < argc) {",
-                          "            loopsFactor = atoi(argv[i]);",
-                          "         }",
-                          "      }",
-                          "   }",
-                          "   return 0;",
-                          "}"});
+                          "      std::string arg = argv[i];",
+                          "      if (arg == \"-path-seed\") {",
+                         "         i++;",
+                         "         if (i < argc) {",
+                         "            int seed = std::stoi(argv[i]);",
+                         "            rng.seed(seed);",
+                              "         }",
+                         "      }",
+                         "      else if (arg == \"-loops-factor\") {",
+                         "         i++;",
+                         "         if (i < argc) {",
+                         "            loopsFactor = std::stoi(argv[i]);",
+                         "         }",
+                         "      }",
+                         "   }",
+                         "   return 0;",
+                         "}"});
     mainFunction.insertBack = true;
     currentFunction.push(&mainFunction);
     startScope();
@@ -151,8 +164,9 @@ void CppGenerator::callFunc(int funcId, int nParameters) {
 
     line = "DEBUG_RETURN(" + var->name + "->id);";
     addLine(line);
-
-    line = "free(" + param + ".data);";
+    line = "for (Array* ptr : "+param+".data) { delete ptr; }";
+    addLine(line);
+    line = param+".data.clear();";
     addLine(line);
 }
 
@@ -295,6 +309,7 @@ void CppGenerator::generateFiles(std::string benchmarkName) {
     for (auto include : includes) {
         includeFile << include << std::endl;
     }
+    
     file << "#include \"" << includeName << "\"";
     file << std::endl;
 
@@ -307,10 +322,14 @@ void CppGenerator::generateFiles(std::string benchmarkName) {
     // Headers
     for (auto func : functions) {
         std::string header = func.getLines()[0];
-        header.pop_back();
-        header.pop_back();
-        header += ";";
-        includeFile << header << std::endl;
+        
+        if(header != "#include \"path.hpp\"")
+        {
+            header.pop_back();
+            header.pop_back();
+            header += ";";
+            includeFile << header << std::endl;
+        }
     }
     file << std::endl;
 
@@ -324,21 +343,43 @@ void CppGenerator::generateFiles(std::string benchmarkName) {
     // Functions
     for (auto func : functions) {
         std::string funcSource;
+        std::ofstream funcFile;
+
         if (func.getId() == -1) {
             funcSource = "path.cpp";
+            funcFile.open(sourceDir + funcSource);
+
+            lines = func.getLines();
+        
+            for (auto line : lines) {
+                funcFile << line << std::endl;
+            }
+            funcFile << std::endl;
+            funcFile.close();
+
+            funcSource = "path.hpp";
+
+            funcFile.open(sourceDir + funcSource);
+
+            funcFile << "#ifndef cpppath" << std::endl;
+            funcFile << "#define cpppath" << std::endl;
+            funcFile << "extern unsigned long get_path();" << std::endl;
+            funcFile << "#endif" << std::endl;
+            funcFile << std::endl;
+            funcFile.close();
         } else {
             funcSource = "func" + std::to_string(func.getId()) + ".cpp";
-        }
-        std::ofstream funcFile;
-        funcFile.open(sourceDir + funcSource);
-        funcFile << "#include \"" << includeName << "\" \n";
+            funcFile.open(sourceDir + funcSource);
+            funcFile << "#include \"" << includeName << "\" \n";
 
-        lines = func.getLines();
-        for (auto line : lines) {
-            funcFile << line << std::endl;
+            lines = func.getLines();
+        
+            for (auto line : lines) {
+                funcFile << line << std::endl;
+            }
+            funcFile << std::endl;
+            funcFile.close();
         }
-        funcFile << std::endl;
-        funcFile.close();
     }
     includeFile << "#endif";
     this->genMakefile(benchDir, benchmarkName);
