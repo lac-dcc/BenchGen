@@ -14,20 +14,46 @@ RustGenerator::RustGenerator(std::string variableType) {
 }
 
 void RustGenerator::generateIncludes() {
-    includes.push_back("#include <stdio.h>");
-    includes.push_back("#include <stdlib.h>");
-    includes.push_back("#include <string.h>");
-    includes.push_back("#ifdef DEBUG");
-    includes.push_back("    #define DEBUG_NEW(id) printf(\"[NEW]\\t\\tId \%d created\\n\", id)");
-    includes.push_back("    #define DEBUG_COPY(id) printf(\"[COPY]\\t\\tId \%d copied\\n\", id)");
-    includes.push_back("    #define DEBUG_RETURN(id) printf(\"[RETURN]\\tId \%d returned\\n\", id)");
-    includes.push_back("    #define DEBUG_FREE(id) printf(\"[FREE]\\t\\tId \%d freed\\n\", id)");
-    includes.push_back("#else");
-    includes.push_back("    #define DEBUG_NEW(id)");
-    includes.push_back("    #define DEBUG_COPY(id)");
-    includes.push_back("    #define DEBUG_RETURN(id)");
-    includes.push_back("    #define DEBUG_FREE(id)");
-    includes.push_back("#endif");
+    includes.push_back("use std::ffi::CString;");
+    includes.push_back("use std::os::raw::c_char;\n\n");
+    includes.push_back("#[cfg(debug_assertions)]");
+    includes.push_back("macro_rules! debug_new {");
+    includes.push_back("    ($id:expr) => {");
+    includes.push_back("        println!(\"[NEW]\t\tId {} created\", $id);");
+    includes.push_back("    };");
+    includes.push_back("}\n");
+    includes.push_back("#[cfg(not(debug_assertions))]");
+    includes.push_back("macro_rules! debug_new {");
+    includes.push_back("    ($id:expr) => {};\n");
+    includes.push_back("#[cfg(debug_assertions)]");
+    includes.push_back("macro_rules! debug_copy {\n");
+    includes.push_back("    ($id:expr) => {\n");
+    includes.push_back("        println!(\"[COPY]\t\tId {} copied\", $id);\n");
+    includes.push_back("    };\n");
+    includes.push_back("}\n");
+    includes.push_back("#[cfg(not(debug_assertions))]");
+    includes.push_back("macro_rules! debug_copy {\n");
+    includes.push_back("    ($id:expr) => {};\n");
+    includes.push_back("}\n");
+    includes.push_back("#[cfg(debug_assertions)]");
+    includes.push_back("macro_rules! debug_return {");
+    includes.push_back("    ($id:expr) => {");
+    includes.push_back("        println!(\"[RETURN]\tId {} returned\", $id);");
+    includes.push_back("    };\n");
+    includes.push_back("#[cfg(not(debug_assertions))]");
+    includes.push_back("macro_rules! debug_return {");
+    includes.push_back("    ($id:expr) => {};");
+    includes.push_back("}\n");
+    includes.push_back("#[cfg(debug_assertions)]");
+    includes.push_back("macro_rules! debug_free {");
+    includes.push_back("    ($id:expr) => {");
+    includes.push_back("        println!(\"[FREE]\t\tId {} freed\", $id);");
+    includes.push_back("    };");
+    includes.push_back("}\n");
+    includes.push_back("#[cfg(not(debug_assertions))]\n");
+    includes.push_back("macro_rules! debug_free {\n");
+    includes.push_back("    ($id:expr) => {};\n");
+    includes.push_back("}\n");
     std::vector<std::string> varIncludes = VariableFactory::genIncludes(varType);
     for (auto var : varIncludes) {
         globalVars.push_back(var);
@@ -43,38 +69,52 @@ void RustGenerator::generateGlobalVars() {
 
 void RustGenerator::generateRandomNumberGenerator() {
     GeneratorFunction rngFunction = GeneratorFunction(-1);
-    rngFunction.addLine({"unsigned long get_path() {",
-                         "   const char* path = getenv(\"BENCH_PATH\");",
-                         "   if(path != NULL) { ",
-                         "      return atoi(path);",
-                         "   }else {",
-                         "      unsigned long n = rand();",
-                         "      return (n << 32) | rand();",
-                         "   }",
-                         "}"});
+    rngFunction.addLine({"use std::env;",
+                     "use rand::Rng;\n",
+                     "fn get_path() -> u64 {",
+                     "    if let Ok(path) = env::var(\"BENCH_PATH\") {",
+                     "        if let Ok(num) = path.parse::<u64>() {",
+                     "            return num;",
+                     "        }",
+                     "    }",
+                     "    let mut rng = rand::thread_rng();",
+                     "    rng.gen::<u64>()",
+                    "}"});
+
     functions.push_back(rngFunction);
 }
 
 void RustGenerator::generateMainFunction() {
     mainFunction = GeneratorFunction(-1);
-    mainFunction.addLine({"int main(int argc, char** argv) {",
-                          "   int loopsFactor = 100;",
-                          "   srand(0);",
-                          "   for (int i = 1; i < argc; i++) {",
-                          "      if (strcmp(argv[i], \"-path-seed\") == 0) {",
-                          "         i++;",
-                          "         if (i < argc) {",
-                          "            srand(atoi(argv[i]));",
-                          "         }",
-                          "      }",
-                          "      else if (strcmp(argv[i], \"-loops-factor\") == 0) {",
-                          "         i++;",
-                          "         if (i < argc) {",
-                          "            loopsFactor = atoi(argv[i]);",
-                          "         }",
-                          "      }",
-                          "   }",
-                          "   return 0;",
+    mainFunction.addLine({"use std::env;\n",
+                          "fn main() {",
+                          "    let mut loops_factor = 100;",
+                          "    let mut rng_seed: Option<u64> = Some(0);\n",
+                          "    let args: Vec<String> = env::args().collect();",
+                          "    let mut i = 1;",
+                          "    while i < args.len() {",
+                          "        match args[i].as_str() {",
+                          "            \"-path-seed\" => {",
+                          "                 i += 1;",
+                          "                if i < args.len() {",
+                          "                    if let Ok(seed) = args[i].parse::<u64>() {",
+                          "                        rng_seed = Some(seed);",
+                          "                    }",
+                          "                }",
+                          "            }",
+                          "            \"-loops-factor\" => {",
+                          "                i += 1;",
+                          "                if i < args.len() {",
+                          "                    if let Ok(val) = args[i].parse::<i32>() {",
+                          "                        loops_factor = val;",
+                          "                    }",
+                          "                }",
+                          "            }",
+                          "            _ => {}",
+                          "        }",
+                          "        i += 1;",
+                          "    }",
+                          "\n",
                           "}"});
     mainFunction.insertBack = true;
     currentFunction.push(&mainFunction);
@@ -99,20 +139,20 @@ void RustGenerator::startScope() {
 
 void RustGenerator::startFunc(int funcId, int nParameters) {
     GeneratorFunction func = GeneratorFunction(funcId);
-    std::string funcHeader = VariableFactory::genTypeString(varType) + "* func" + std::to_string(funcId) + "(" + VariableFactory::genTypeString(varType) + "_param* vars, ";
+    std::string funcHeader = "fn func" + std::to_string(funcId) + "(vars: "+VariableFactory::genTypeString(varType) + "_param, ";
     
     for (int i = 0; i < nParameters; i++) {
-        funcHeader += "const unsigned long PATH" + std::to_string(i) + ", ";
+        funcHeader += "PATH" + std::to_string(i) + ": u64, ";
     }
-    funcHeader += "int loopsFactor";
-    funcHeader += ") {";
+    funcHeader += "loopsFactor: i32";
+    funcHeader += ") -> "+ VariableFactory::genTypeString(varType) +" {";
     func.addLine(funcHeader);
     functions.push_back(func);
     currentFunction.push(&(functions.back()));
     GeneratorScope scope = GeneratorScope();
     currentScope.push(scope);
     this->ifCounter.push(0);
-    addLine("size_t pCounter = vars->size;");
+    addLine("let pCounter = vars.size;");
 }
 
 bool RustGenerator::functionExists(int funcId) {
@@ -141,7 +181,7 @@ void RustGenerator::callFunc(int funcId, int nParameters) {
 
     int id = addVar(varType);
     GeneratorVariable* var = variables[id];
-    std::string line = var->typeString + "* " + var->name + " = func" + std::to_string(funcId) + "(&" + param + ", ";
+    std::string line = "let " + var->name + " = func" + std::to_string(funcId) + "(" + param + ", ";
 
     for (int i = 0; i < nParameters; i++)
         line += "get_path(), ";
@@ -149,10 +189,7 @@ void RustGenerator::callFunc(int funcId, int nParameters) {
     line += ");";
     addLine(line);
 
-    line = "DEBUG_RETURN(" + var->name + "->id);";
-    addLine(line);
-
-    line = "free(" + param + ".data);";
+    line = "debug_return(" + var->name + ".id);";
     addLine(line);
 }
 
@@ -276,7 +313,7 @@ void RustGenerator::genReadme(std::string dir, std::string target) {
 void RustGenerator::generateFiles(std::string benchmarkName) {
     std::string benchDir = benchmarkName + "/";
     std::string sourceFile = benchmarkName + ".rs";
-    std::string includeName = benchmarkName + ".rs";
+    std::string includeName = benchmarkName + "_head.rs";
     std::string sourceDir = benchDir + "src/";
 
     std::filesystem::create_directory(benchDir);
@@ -288,14 +325,11 @@ void RustGenerator::generateFiles(std::string benchmarkName) {
     std::ofstream includeFile;
     includeFile.open(sourceDir + includeName);
 
-    // Includes
-    includeFile << "#ifndef " + benchmarkName + "\n";
-    includeFile << "#define " + benchmarkName + "\n";
 
     for (auto include : includes) {
         includeFile << include << std::endl;
     }
-    file << "#include \"" << includeName << "\"";
+    file << "use crate::" << includeName;
     file << std::endl;
 
     // Global variables
@@ -305,13 +339,6 @@ void RustGenerator::generateFiles(std::string benchmarkName) {
     includeFile << std::endl;
 
     // Headers
-    for (auto func : functions) {
-        std::string header = func.getLines()[0];
-        header.pop_back();
-        header.pop_back();
-        header += ";";
-        includeFile << header << std::endl;
-    }
     file << std::endl;
 
     // Main function
@@ -331,7 +358,7 @@ void RustGenerator::generateFiles(std::string benchmarkName) {
         }
         std::ofstream funcFile;
         funcFile.open(sourceDir + funcSource);
-        funcFile << "#include \"" << includeName << "\" \n";
+        funcFile << "use crate::" << includeName << "\n";
 
         lines = func.getLines();
         for (auto line : lines) {
@@ -340,7 +367,6 @@ void RustGenerator::generateFiles(std::string benchmarkName) {
         funcFile << std::endl;
         funcFile.close();
     }
-    includeFile << "#endif";
     this->genMakefile(benchDir, benchmarkName);
     this->genReadme(benchDir, benchmarkName);
     includeFile.close();

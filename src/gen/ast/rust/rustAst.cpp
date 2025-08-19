@@ -75,15 +75,13 @@ void RustContains::gen(ProgrammingLanguageGenerator& generator) {
 
 void RustLoop::gen(ProgrammingLanguageGenerator& generator) {
     std::string loopVar = "loop" + std::to_string(generator.loopCounter);
-    std::string loopVarLine = "unsigned int " + loopVar + " = 0;";
-    generator.addLine(loopVarLine);
 
     std::string loopLimitVar = "loopLimit" + std::to_string(generator.loopCounter);
-    std::string loopLimitValue = "(rand()%loopsFactor)/" + std::to_string(generator.loopLevel + 1) + " + 1";
-    std::string loopLimitLine = "unsigned int " + loopLimitVar + " = " + loopLimitValue + ";";
+    std::string loopLimitValue = "(rand::thread_rng().gen_range(0..100)%loopsFactor)/" + std::to_string(generator.loopLevel + 1) + " + 1";
+    std::string loopLimitLine = "let mut " + loopLimitVar + " = " + loopLimitValue + ";";
     generator.addLine(loopLimitLine);
-
-    std::string forLine = "for(; " + loopVar + " < " + loopLimitVar + "; " + loopVar + "++) {";
+    generator.addLine("let mut i = "+ loopVar);
+    std::string forLine = "for "+loopVar+" in i..."+loopLimitVar + " {";
     generator.addLine(forLine);
 
     generator.startScope();

@@ -103,7 +103,8 @@ std::vector<std::string> CppGeneratorArray::genParams(std::string paramName, std
     std::vector<std::string> temp = {};
     temp.push_back(this->typeString + "_param " + paramName + ";");
     temp.push_back(paramName + ".size = " + std::to_string(varsParams.size()) + ";");
-    temp.push_back(paramName + ".data.resize(" + std::to_string(varsParams.size()) + ");");
+    temp.push_back("std::vector<Array*> data_"+paramName+"("+std::to_string(varsParams.size())+");");
+    temp.push_back(paramName + ".data = data_"+paramName+";");
     for (int i = 0; i < (int)varsParams.size(); i++) {
         temp.push_back(paramName + ".data[" + std::to_string(i) + "] = " + varsParams[i]->name + ";");
     }
