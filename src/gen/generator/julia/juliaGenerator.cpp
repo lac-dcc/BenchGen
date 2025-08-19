@@ -1,6 +1,6 @@
-#include "rustGenerator.h"
+#include "juliaGenerator.h"
 
-RustGenerator::RustGenerator(std::string variableType) {
+JuliaGenerator::JuliaGenerator(std::string variableType) {
     this->ifCounter.push(0);
     this->varCounter = 0;
     this->loopLevel = 0;
@@ -13,7 +13,7 @@ RustGenerator::RustGenerator(std::string variableType) {
     generateMainFunction();
 }
 
-void RustGenerator::generateIncludes() {
+void JuliaGenerator::generateIncludes() {
     includes.push_back("use std::ffi::CString;");
     includes.push_back("use std::os::raw::c_char;\n\n");
     includes.push_back("#[cfg(debug_assertions)]");
@@ -60,14 +60,14 @@ void RustGenerator::generateIncludes() {
     }
 }
 
-void RustGenerator::generateGlobalVars() {
+void JuliaGenerator::generateGlobalVars() {
     std::vector<std::string> varGlobalVars = VariableFactory::genGlobalVars(varType);
     for (auto gVar : varGlobalVars) {
         globalVars.push_back(gVar);
     }
 }
 
-void RustGenerator::generateRandomNumberGenerator() {
+void JuliaGenerator::generateRandomNumberGenerator() {
     GeneratorFunction rngFunction = GeneratorFunction(-1);
     rngFunction.addLine({"use std::env;",
                      "use rand::Rng;\n",
@@ -84,7 +84,7 @@ void RustGenerator::generateRandomNumberGenerator() {
     functions.push_back(rngFunction);
 }
 
-void RustGenerator::generateMainFunction() {
+void JuliaGenerator::generateMainFunction() {
     mainFunction = GeneratorFunction(-1);
     mainFunction.addLine({"use std::env;\n",
                           "fn main() {",
@@ -121,23 +121,23 @@ void RustGenerator::generateMainFunction() {
     startScope();
 }
 
-void RustGenerator::addLine(std::string line, int d) {
+void JuliaGenerator::addLine(std::string line, int d) {
     std::string indentedLine = currentScope.top().getIndentationTabs(d) + line;
     currentFunction.top()->addLine(indentedLine);
 }
 
-void RustGenerator::addLine(std::vector<std::string> lines, int d) {
+void JuliaGenerator::addLine(std::vector<std::string> lines, int d) {
     for (auto line : lines) {
         addLine(line, d);
     }
 }
 
-void RustGenerator::startScope() {
+void JuliaGenerator::startScope() {
     GeneratorScope scope = GeneratorScope(currentScope.top().avaiableVarsID, currentScope.top().avaiableParamsID, currentScope.top().getIndentation());
     currentScope.push(scope);
 }
 
-void RustGenerator::startFunc(int funcId, int nParameters) {
+void JuliaGenerator::startFunc(int funcId, int nParameters) {
     GeneratorFunction func = GeneratorFunction(funcId);
     std::string funcHeader = "fn func" + std::to_string(funcId) + "(vars: "+VariableFactory::genTypeString(varType) + "_param, ";
     
@@ -155,7 +155,7 @@ void RustGenerator::startFunc(int funcId, int nParameters) {
     addLine("let mut pCounter = vars.size;");
 }
 
-bool RustGenerator::functionExists(int funcId) {
+bool JuliaGenerator::functionExists(int funcId) {
     for (auto func : functions) {
         if (func.getId() == funcId) {
             return true;
@@ -164,7 +164,7 @@ bool RustGenerator::functionExists(int funcId) {
     return false;
 }
 
-std::string RustGenerator::createParams() {
+std::string JuliaGenerator::createParams() {
     std::string name = "params" + std::to_string(currentScope.top().addParam());
     std::vector<GeneratorVariable*> varsParams;
     for (int i = 0; i < (int)currentScope.top().avaiableVarsID.size(); i++) {
@@ -175,7 +175,7 @@ std::string RustGenerator::createParams() {
     return name;
 }
 
-void RustGenerator::callFunc(int funcId, int nParameters) {
+void JuliaGenerator::callFunc(int funcId, int nParameters) {
     std::string param = "";
     param = createParams();
 
@@ -193,13 +193,13 @@ void RustGenerator::callFunc(int funcId, int nParameters) {
     addLine(line);
 }
 
-int RustGenerator::addVar(std::string type) {
+int JuliaGenerator::addVar(std::string type) {
     this->variables[varCounter] = VariableFactory::createVariable(type, varCounter);
     this->currentScope.top().addVar(varCounter);
     return varCounter++;
 }
 
-void RustGenerator::freeVars(bool hasReturn, int returnVarPos) {
+void JuliaGenerator::freeVars(bool hasReturn, int returnVarPos) {
     int numberOfAddedVars = currentScope.top().numberOfAddedVars;
     std::vector<int> availableVarsId = currentScope.top().avaiableVarsID;
     for (int i = 0; i < numberOfAddedVars; i++) {
@@ -211,24 +211,24 @@ void RustGenerator::freeVars(bool hasReturn, int returnVarPos) {
     }
 }
 
-void RustGenerator::returnFunc(int returnVarPos) {
+void JuliaGenerator::returnFunc(int returnVarPos) {
     GeneratorVariable* var = variables[currentScope.top().avaiableVarsID[returnVarPos]];
     addLine("return " + var->name + ";");
 }
 
-void RustGenerator::endScope() {
+void JuliaGenerator::endScope() {
     std::string line = currentScope.top().getIndentationTabs(-1) + "}";
     currentFunction.top()->addLine(line);
     currentScope.pop();
 }
 
-void RustGenerator::endFunc() {
+void JuliaGenerator::endFunc() {
     endScope();
     currentFunction.pop();
     ifCounter.pop();
 }
 
-void RustGenerator::genMakefile(std::string dir, std::string target) {
+void JuliaGenerator::genMakefile(std::string dir, std::string target) {
     std::ofstream makefile;
 
     makefile.open(dir + "Makefile");
@@ -265,7 +265,7 @@ void RustGenerator::genMakefile(std::string dir, std::string target) {
     makefile << "\trm -rf $(OBJ_DIR) $(LL_DIR)\n\n";
 }
 
-void RustGenerator::genReadme(std::string dir, std::string target) {
+void JuliaGenerator::genReadme(std::string dir, std::string target) {
     std::ofstream readme;
     readme.open(dir + "README.md");
     readme << "# " + target + " Program\n\n";
@@ -310,7 +310,7 @@ void RustGenerator::genReadme(std::string dir, std::string target) {
     readme << "```";
 }
 
-void RustGenerator::generateFiles(std::string benchmarkName) {
+void JuliaGenerator::generateFiles(std::string benchmarkName) {
     std::string benchDir = benchmarkName + "/";
     std::string sourceFile = benchmarkName + ".rs";
     std::string includeName = benchmarkName + "_head.rs";

@@ -1,14 +1,14 @@
-#include "rustAst.h"
+#include "juliaAst.h"
 #include "../languageAst.h"
 
 
-void rustprintIndentationSpaces(int indent) {
+void juliaprintIndentationSpaces(int indent) {
     for (int i = 0; i < indent; i++) {
         std::cout << " ";
     }
 }
 
-std::string rustgenerateIfCondition(ProgrammingLanguageGenerator& generator) {
+std::string juliagenerateIfCondition(ProgrammingLanguageGenerator& generator) {
     bool isMain = generator.currentFunction.top()->insertBack;
     if (isMain) {
         return "get_path() & 1";
@@ -22,20 +22,20 @@ std::string rustgenerateIfCondition(ProgrammingLanguageGenerator& generator) {
 
 // Generation Methods
 
-void RustStatementCode::gen(ProgrammingLanguageGenerator& generator) {
+void JuliaStatementCode::gen(ProgrammingLanguageGenerator& generator) {
     stmt->gen(generator);
     code->gen(generator);
 }
 
-void RustLambdaCode::gen(ProgrammingLanguageGenerator& generator) {
+void JuliaLambdaCode::gen(ProgrammingLanguageGenerator& generator) {
     // No operation for lambda code generation
 }
 
-void RustId::gen(ProgrammingLanguageGenerator& generator) {
+void JuliaId::gen(ProgrammingLanguageGenerator& generator) {
     // TODO: What to do with ids?
 }
 
-void RustInsert::gen(ProgrammingLanguageGenerator& generator) {
+void JuliaInsert::gen(ProgrammingLanguageGenerator& generator) {
     int varCount = generator.currentScope.top().avaiableVarsID.size();
     if (varCount == 0) return;
 
@@ -46,7 +46,7 @@ void RustInsert::gen(ProgrammingLanguageGenerator& generator) {
 
 }
 
-void RustRemove::gen(ProgrammingLanguageGenerator& generator) {
+void JuliaRemove::gen(ProgrammingLanguageGenerator& generator) {
     int varCount = generator.currentScope.top().avaiableVarsID.size();
     if (varCount == 0) return;
 
@@ -57,13 +57,13 @@ void RustRemove::gen(ProgrammingLanguageGenerator& generator) {
     
 }
 
-void RustNew::gen(ProgrammingLanguageGenerator& generator) {
+void JuliaNew::gen(ProgrammingLanguageGenerator& generator) {
     int id = generator.addVar(generator.varType);
     std::vector<std::string> lines = generator.variables[id]->new_(!generator.currentFunction.top()->insertBack);
     generator.addLine(lines);
 }
 
-void RustContains::gen(ProgrammingLanguageGenerator& generator) {
+void JuliaContains::gen(ProgrammingLanguageGenerator& generator) {
     int varCount = generator.currentScope.top().getVarCounter();
     if (varCount == 0) return;
 
@@ -73,7 +73,7 @@ void RustContains::gen(ProgrammingLanguageGenerator& generator) {
     generator.addLine(lines);
 }
 
-void RustLoop::gen(ProgrammingLanguageGenerator& generator) {
+void JuliaLoop::gen(ProgrammingLanguageGenerator& generator) {
     std::string loopVar = "loop" + std::to_string(generator.loopCounter);
 
     std::string loopLimitVar = "loopLimit" + std::to_string(generator.loopCounter);
@@ -93,7 +93,7 @@ void RustLoop::gen(ProgrammingLanguageGenerator& generator) {
     generator.loopLevel--;
 }
 
-void RustCall::gen(ProgrammingLanguageGenerator& generator) {
+void JuliaCall::gen(ProgrammingLanguageGenerator& generator) {
     int nParameters = std::ceil(conditionalCounts / 64.0);
     generator.callFunc(id, nParameters);
     if (!generator.functionExists(id)) {
@@ -112,11 +112,11 @@ void RustCall::gen(ProgrammingLanguageGenerator& generator) {
     }
 }
 
-void RustSeq::gen(ProgrammingLanguageGenerator& generator) {
+void JuliaSeq::gen(ProgrammingLanguageGenerator& generator) {
     // TODO: What to do with sequences?
 }
 
-void RustIf::gen(ProgrammingLanguageGenerator& generator) {
+void JuliaIf::gen(ProgrammingLanguageGenerator& generator) {
     std::string condition = generateIfCondition(generator);
     generator.ifCounter.top()++;
     std::string line = "if " + condition + " {";
@@ -135,61 +135,61 @@ void RustIf::gen(ProgrammingLanguageGenerator& generator) {
 
 // Printing Methods
 
-void RustStatementCode::print(int ident) {
+void JuliaStatementCode::print(int ident) {
     printIndentationSpaces(ident);
     std::cout << "StatementCode" << std::endl;
     stmt->print(ident + 2);
     code->print(ident + 2);
 }
 
-void RustLambdaCode::print(int ident) {
+void JuliaLambdaCode::print(int ident) {
     printIndentationSpaces(ident);
     std::cout << "LambdaCode" << std::endl;
 }
 
-void RustId::print(int ident) {
+void JuliaId::print(int ident) {
     printIndentationSpaces(ident);
     std::cout << "Id: " << id << std::endl;
 }
 
-void RustInsert::print(int ident) {
+void JuliaInsert::print(int ident) {
     printIndentationSpaces(ident);
     std::cout << "Insert" << std::endl;
 }
 
-void RustRemove::print(int ident) {
+void JuliaRemove::print(int ident) {
     printIndentationSpaces(ident);
     std::cout << "Remove" << std::endl;
 }
 
-void RustNew::print(int ident) {
+void JuliaNew::print(int ident) {
     printIndentationSpaces(ident);
     std::cout << "New" << std::endl;
 }
 
-void RustContains::print(int ident) {
+void JuliaContains::print(int ident) {
     printIndentationSpaces(ident);
     std::cout << "Contains" << std::endl;
 }
 
-void RustLoop::print(int ident) {
+void JuliaLoop::print(int ident) {
     printIndentationSpaces(ident);
     std::cout << "Loop" << std::endl;
     code->print(ident + 2);
 }
 
-void RustCall::print(int ident) {
+void JuliaCall::print(int ident) {
     printIndentationSpaces(ident);
     std::cout << "Call" << std::endl;
     code->print(ident + 2);
 }
 
-void RustSeq::print(int ident) {
+void JuliaSeq::print(int ident) {
     printIndentationSpaces(ident);
     std::cout << "Seq" << std::endl;
 }
 
-void RustIf::print(int ident) {
+void JuliaIf::print(int ident) {
     printIndentationSpaces(ident);
     std::cout << "If" << std::endl;
     c1->print(ident + 2);

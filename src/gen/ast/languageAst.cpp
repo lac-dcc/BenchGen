@@ -1,6 +1,7 @@
 #include "languageAst.h"
 #include "c/cAst.h"
 #include "cpp/cppAst.h"
+#include "julia/juliaAst.h"
 #include "rust/rustAst.h"
 
 Insert::~Insert() {};
@@ -41,6 +42,9 @@ std::string generateIfCondition(ProgrammingLanguageGenerator& generator)
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
     {
         return rustgenerateIfCondition(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::JULIA)
+    {
+        return juliagenerateIfCondition(generator);
     }
 }
 
@@ -55,6 +59,9 @@ Insert get_insert()
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
     {
         return RustInsert();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::JULIA)
+    {
+        return JuliaInsert();
     }
 }
 
@@ -69,6 +76,9 @@ Remove get_remove()
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
     {
         return RustRemove();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::JULIA)
+    {
+        return JuliaRemove();
     }
 }
 
@@ -83,6 +93,9 @@ New get_new()
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
     {
         return RustNew();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::JULIA)
+    {
+        return JuliaNew();
     }
 }
 
@@ -97,6 +110,9 @@ Contains get_contains()
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
     {
         return RustContains();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::JULIA)
+    {
+        return JuliaContains();
     }
 }
 
@@ -112,6 +128,9 @@ StatementCode get_statementcode(std::shared_ptr<Node> stmt, std::shared_ptr<Node
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
     {
         return RustStatementCode(stmt, code);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::JULIA)
+    {
+        return JuliaStatementCode(stmt, code);
     }
 }
 
@@ -127,6 +146,9 @@ Loop get_loop(std::shared_ptr<Node> code)
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
     {
         return RustLoop(code);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::JULIA)
+    {
+        return JuliaLoop(code);
     }
 }
 
@@ -141,6 +163,9 @@ Call get_call()
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
     {
         return RustCall();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::JULIA)
+    {
+        return JuliaCall();
     }
 }
 
@@ -155,6 +180,9 @@ Call get_call(int id, std::shared_ptr<Node> code)
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
     {
         return RustCall(id, code);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::JULIA)
+    {
+        return JuliaCall(id, code);
     }
 }
 
@@ -170,6 +198,9 @@ Seq get_seq(std::shared_ptr<Node> code)
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
     {
         return RustSeq(code);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::JULIA)
+    {
+        return JuliaSeq(code);
     }
 }
 
@@ -184,6 +215,9 @@ If get_if(std::shared_ptr<Node> c1, std::shared_ptr<Node> c2)
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
     {
         return RustIf(c1, c2);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::JULIA)
+    {
+        return JuliaIf(c1, c2);
     }
 }
 
@@ -198,6 +232,9 @@ Id get_id(std::string id)
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
     {
         return RustId(id);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::JULIA)
+    {
+        return JuliaId(id);
     }
 }
 
@@ -211,6 +248,9 @@ void Loop::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
     {
         return RustLoop(this->code).gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::JULIA)
+    {
+        return JuliaLoop(this->code).gen(generator);
     }
 };
 
@@ -224,6 +264,9 @@ void Loop::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
     {
         return RustLoop(this->code).print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::JULIA)
+    {
+        return JuliaLoop(this->code).print(0);
     }
 };
 
@@ -243,6 +286,11 @@ void Call::gen(ProgrammingLanguageGenerator& generator) {
         RustCall rustcall = RustCall(this->id, this->code);
         rustcall.conditionalCounts = this->conditionalCounts;
         rustcall.gen(generator); 
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::JULIA)
+    {
+        JuliaCall juliacall = JuliaCall(this->id, this->code);
+        juliacall.conditionalCounts = this->conditionalCounts;
+        juliacall.gen(generator); 
     }
 };
 
@@ -262,6 +310,11 @@ void Call::print(int) {
         RustCall rustcall = RustCall(this->id, this->code);
         rustcall.conditionalCounts = this->conditionalCounts;
         rustcall.print(0);   
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::JULIA)
+    {
+        JuliaCall juliacall = JuliaCall(this->id, this->code);
+        juliacall.conditionalCounts = this->conditionalCounts;
+        juliacall.print(0); 
     }
 };
 
@@ -283,6 +336,9 @@ void Seq::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
     {
         RustSeq(this->code).gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::JULIA)
+    {
+        JuliaSeq(this->code).gen(generator);
     }
 };
 
@@ -296,6 +352,9 @@ void Seq::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
     {
         RustSeq(this->code).print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::JULIA)
+    {
+        JuliaSeq(this->code).print(0);   
     }
  };
 
@@ -310,6 +369,9 @@ void If::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
     {
         RustIf(this->c1, this->c2).gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::JULIA)
+    {
+        JuliaIf(this->c1, this->c2).gen(generator);
     }
 };
 
@@ -323,6 +385,9 @@ void If::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
     {
         RustIf(this->c1, this->c2).print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::JULIA)
+    {
+        JuliaIf(this->c1, this->c2).print(0);
     }
 };
 
@@ -336,6 +401,9 @@ void Id::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
     {
         RustId(this->id).gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::JULIA)
+    {
+        JuliaId(this->id).gen(generator);   
     }
 };
 
@@ -349,7 +417,10 @@ void Id::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
     {
         RustId(this->id).print(0);
-    }  
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::JULIA)
+    {
+        JuliaId(this->id).print(0);   
+    }
 };
 
 void Insert::gen(ProgrammingLanguageGenerator& generator) {
@@ -362,6 +433,9 @@ void Insert::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
     {
         RustInsert().gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::JULIA)
+    {
+        JuliaInsert().gen(generator);   
     }
 };
 
@@ -376,7 +450,10 @@ void Insert::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
     {
         RustInsert().print(0);
-    }    
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::JULIA)
+    {
+        JuliaInsert().print(0);   
+    }
 };
 
 void Remove::gen(ProgrammingLanguageGenerator& generator) {
@@ -389,7 +466,10 @@ void Remove::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
     {
         RustRemove().gen(generator);
-    } 
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::JULIA)
+    {
+        JuliaRemove().gen(generator);   
+    }
 };
 
 void Remove::print(int) { 
@@ -402,7 +482,10 @@ void Remove::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
     {
         RustRemove().print(0);
-    } 
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::JULIA)
+    {
+        JuliaRemove().print(0);   
+    }
 };
 
 void New::gen(ProgrammingLanguageGenerator& generator) {
@@ -415,7 +498,10 @@ void New::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
     {
         RustNew().gen(generator);
-    } 
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::JULIA)
+    {
+        JuliaNew().gen(generator);   
+    }
 };
 
 void New::print(int) { 
@@ -428,6 +514,9 @@ void New::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
     {
         RustNew().print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::JULIA)
+    {
+        JuliaNew().print(0);
     }
  };
 
@@ -441,6 +530,9 @@ void Contains::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
     {
         RustContains().gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::JULIA)
+    {
+        JuliaContains().gen(generator);   
     }
 };
 
@@ -454,6 +546,9 @@ void Contains::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
     {
         RustContains().print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::JULIA)
+    {
+        JuliaContains().print(0);   
     }
  };
 
@@ -467,6 +562,9 @@ void StatementCode::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
     {
         RustStatementCode(this->stmt, this->code).gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::JULIA)
+    {
+        JuliaStatementCode(this->stmt, this->code).gen(generator);   
     }
 };
 
@@ -482,6 +580,9 @@ void StatementCode::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
     {
         RustStatementCode(this->stmt, this->code).print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::JULIA)
+    {
+        JuliaStatementCode(this->stmt, this->code).print(0);   
     }
 };
 
@@ -495,6 +596,9 @@ void LambdaCode::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
     {
         RustLambdaCode().gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::JULIA)
+    {
+        JuliaLambdaCode().gen(generator);   
     }
 };
 
@@ -508,5 +612,8 @@ void LambdaCode::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
     {
         RustLambdaCode().print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::JULIA)
+    {
+        JuliaLambdaCode().print(0);   
     }
 };

@@ -1,15 +1,15 @@
-#include "rustGeneratorVariable.h"
+#include "juliaGeneratorVariable.h"
 
 // ARRAY
 
-RustGeneratorArray::RustGeneratorArray(int size, int id) {
+JuliaGeneratorArray::JuliaGeneratorArray(int size, int id) {
     this->typeString = "Array";
     this->totalSize = size;
     this->id = id;
     this->name = VarTypes::ARRAY + std::to_string(id);
 }
 
-std::vector<std::string> RustGeneratorArray::new_(bool inFunction) {
+std::vector<std::string> JuliaGeneratorArray::new_(bool inFunction) {
     std::vector<std::string> temp = {};
     if (inFunction) {
        temp.push_back("let mut "+this->name+".data = Array::new_infunction(&mut vars, &mut counter,"+std::to_string(this->totalSize)+","+this->name + "->id);");
@@ -19,36 +19,36 @@ std::vector<std::string> RustGeneratorArray::new_(bool inFunction) {
     return temp;
 }
 
-std::vector<std::string> RustGeneratorArray::insert() {
+std::vector<std::string> JuliaGeneratorArray::insert() {
     std::vector<std::string> temp = {};
     temp.push_back(this->name + ".insert();");
     return temp;
 }
 
-std::vector<std::string> RustGeneratorArray::remove() {
+std::vector<std::string> JuliaGeneratorArray::remove() {
     std::vector<std::string> temp = {};
     temp.push_back(this->name + ".remove();");
     return temp;
 }
 
-std::vector<std::string> RustGeneratorArray::contains(bool shouldReturn) {
+std::vector<std::string> JuliaGeneratorArray::contains(bool shouldReturn) {
     int compare = rand() % 100;  // Random value to compare against
     std::vector<std::string> temp = {};
     temp.push_back(this->name + ".contains("+std::to_string(compare)+",true);");
     return temp;
 }
 
-std::vector<std::string> RustGeneratorArray::free() {
+std::vector<std::string> JuliaGeneratorArray::free() {
     std::vector<std::string> temp = {};
     temp.push_back(this->name + ".free();");
     return temp;
 }
 
-std::vector<std::string> RustGeneratorArray::genIncludes() {
+std::vector<std::string> JuliaGeneratorArray::genIncludes() {
     return {};
 }
 
-std::vector<std::string> RustGeneratorArray::genGlobalVars() {
+std::vector<std::string> JuliaGeneratorArray::genGlobalVars() {
     std::vector<std::string> temp = {};
     temp.push_back("pub struct "+this->typeString+" {");
     temp.push_back("    pub data: Vec<u32>,");
@@ -123,7 +123,7 @@ std::vector<std::string> RustGeneratorArray::genGlobalVars() {
     return temp;
 }
 
-std::vector<std::string> RustGeneratorArray::genParams(std::string paramName, std::vector<GeneratorVariable*> varsParams) {
+std::vector<std::string> JuliaGeneratorArray::genParams(std::string paramName, std::vector<GeneratorVariable*> varsParams) {
     std::vector<std::string> temp = {};
 
     temp.push_back("let mut "+paramName+".data = Array_param { data: Vec::with_capacity("+std::to_string(varsParams.size())+"), };");
@@ -134,5 +134,5 @@ std::vector<std::string> RustGeneratorArray::genParams(std::string paramName, st
     return temp;
 }
 
-RustGeneratorArray::~RustGeneratorArray() {
+JuliaGeneratorArray::~JuliaGeneratorArray() {
 }
