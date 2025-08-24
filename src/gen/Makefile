@@ -5,7 +5,7 @@ SRC = ./src/
 OBJ = ./obj/
 TARGET = benchGen
 #Dependencies in objects. Add more here when creating new files!
-DEPS = $(OBJ)factory.o $(OBJ)languageAst.o $(OBJ)cAst.o $(OBJ)cppAst.o $(OBJ)rustAst.o $(OBJ)generatorFunction.o  $(OBJ)generatorVariable.o $(OBJ)cGeneratorVariable.o $(OBJ)cppGeneratorVariable.o $(OBJ)rustGeneratorVariable.o $(OBJ)generatorScope.o $(OBJ)languageGenerator.o $(OBJ)cGenerator.o $(OBJ)cppGenerator.o $(OBJ)rustGenerator.o $(OBJ)lexer.o $(OBJ)lSystem.o $(OBJ)parser.o $(OBJ)CodeGeneratorDriver.o
+DEPS = $(OBJ)factory.o $(OBJ)languageAst.o $(OBJ)cAst.o $(OBJ)cppAst.o $(OBJ)rustAst.o $(OBJ)juliaAst.o $(OBJ)generatorFunction.o  $(OBJ)generatorVariable.o $(OBJ)cGeneratorVariable.o $(OBJ)cppGeneratorVariable.o $(OBJ)rustGeneratorVariable.o $(OBJ)juliaGenerator.o $(OBJ)generatorScope.o $(OBJ)languageGenerator.o $(OBJ)cGenerator.o $(OBJ)cppGenerator.o $(OBJ)rustGenerator.o $(OBJ)lexer.o $(OBJ)lSystem.o $(OBJ)parser.o $(OBJ)CodeGeneratorDriver.o
 #SHARED = $(IMP)ast.h $(IMP)enums.h $(IMP)globalIncludes.h $(IMP)globalStructs.h
 
 $(TARGET): $(DEPS) 
@@ -22,6 +22,8 @@ $(OBJ)cAst.o: ast/c/cAst.cpp | $(OBJ)
 $(OBJ)cppAst.o: ast/cpp/cppAst.cpp | $(OBJ)
 	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
 $(OBJ)rustAst.o: ast/rust/rustAst.cpp | $(OBJ)
+	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
+$(OBJ)juliaAst.o: ast/julia/juliaAst.cpp | $(OBJ)
 	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
 $(OBJ)factory.o: generator/factory.cpp | $(OBJ)
 	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
@@ -44,6 +46,8 @@ $(OBJ)cGenerator.o: generator/c/cGenerator.cpp | $(OBJ)
 $(OBJ)cppGenerator.o: generator/cpp/cppGenerator.cpp | $(OBJ)
 	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
 $(OBJ)rustGenerator.o: generator/rust/rustGenerator.cpp | $(OBJ)
+	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
+$(OBJ)juliaGenerator.o: generator/julia/juliaGenerator.cpp | $(OBJ)
 	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
 $(OBJ)lexer.o: lexer/lexer.cpp | $(OBJ)
 	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type

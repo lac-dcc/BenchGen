@@ -312,8 +312,8 @@ void JuliaGenerator::genReadme(std::string dir, std::string target) {
 
 void JuliaGenerator::generateFiles(std::string benchmarkName) {
     std::string benchDir = benchmarkName + "/";
-    std::string sourceFile = benchmarkName + ".rs";
-    std::string includeName = benchmarkName + "_head.rs";
+    std::string sourceFile = benchmarkName + ".jl";
+    std::string includeName = benchmarkName + "_head.jl";
     std::string sourceDir = benchDir + "src/";
 
     std::filesystem::create_directory(benchDir);
@@ -352,9 +352,9 @@ void JuliaGenerator::generateFiles(std::string benchmarkName) {
     for (auto func : functions) {
         std::string funcSource;
         if (func.getId() == -1) {
-            funcSource = "path.rs";
+            funcSource = "path.jl";
         } else {
-            funcSource = "func" + std::to_string(func.getId()) + ".rs";
+            funcSource = "func" + std::to_string(func.getId()) + ".jl";
         }
         std::ofstream funcFile;
         funcFile.open(sourceDir + funcSource);
