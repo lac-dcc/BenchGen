@@ -228,7 +228,7 @@ void CppGenerator::genMakefile(std::string dir, std::string target) {
     makefile << "\t$(CXX) $(OBJ) -o $(TARGET) \n\n";
 
     makefile << "$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp | $(OBJ_DIR)\n";
-    makefile << "\t$(CXX) ${CFLAGS} -c $< -o $@\n\n";
+    makefile << "\t$(CXX) ${CXXFLAGS} -c $< -o $@\n\n";
 
     makefile << "$(LL_DIR)/%.ll: $(SRC_DIR)/%.cpp | $(LL_DIR)\n";
     makefile << "\t$(CXX) ${LLVMFLAGS} $< -o $@\n\n";
