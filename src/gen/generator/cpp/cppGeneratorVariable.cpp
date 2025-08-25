@@ -11,8 +11,7 @@ std::vector<std::string> CppGeneratorArray::new_(bool inFunction) {
     std::vector<std::string> temp = {this->typeString + "* " + this->name + ";"};
     if (inFunction) {
         temp.push_back("if (pCounter > 0) {");
-        temp.push_back("   " + this->name + " = vars->data.back();");
-        temp.push_back("vars->data.pop_back();");
+        temp.push_back("   " + this->name + " = vars->data.at(--pCounter);");
         temp.push_back("   " + this->name + "->refC++;");
         temp.push_back("   DEBUG_COPY(" + this->name + "->id);");
         temp.push_back("} else {");
