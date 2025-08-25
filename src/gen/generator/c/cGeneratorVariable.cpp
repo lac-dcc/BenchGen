@@ -38,7 +38,7 @@ std::vector<std::string> CGeneratorArray::new_(bool inFunction) {
 
 std::vector<std::string> CGeneratorArray::insert() {
     std::vector<std::string> temp = {"for (int i = 0; i < " + this->name + "->size; i++) {"};
-    temp.push_back("   " + this->name + "->data[i]++;");
+    temp.push_back("   " + this->name + "->data[i] = i;");
     temp.push_back("}");
     return temp;
 }
