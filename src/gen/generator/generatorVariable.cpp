@@ -2,6 +2,7 @@
 
 #include "c/cGeneratorVariable.h"
 #include "cpp/cppGeneratorVariable.h"
+#include "julia/juliaGeneratorVariable.h"
 #include "rust/rustGeneratorVariable.h"
 
 unsigned int VariableFactory::var_counter = 0;
@@ -65,6 +66,9 @@ std::vector<std::string> GeneratorArray::new_(bool inFunction)
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
     {
         return RustGeneratorArray().new_(inFunction);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::JULIA)
+    {
+        return JuliaGeneratorArray().new_(inFunction);
     }
 }
 
@@ -79,6 +83,9 @@ std::vector<std::string>  GeneratorArray::insert()
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
     {
         return RustGeneratorArray().insert();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::JULIA)
+    {
+        return JuliaGeneratorArray().insert();
     }
 }
 
@@ -93,6 +100,9 @@ std::vector<std::string>  GeneratorArray::remove()
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
     {
         return RustGeneratorArray().remove();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::JULIA)
+    {
+        return JuliaGeneratorArray().remove();
     }
 }
 
@@ -107,6 +117,9 @@ std::vector<std::string>  GeneratorArray::contains(bool shouldReturn)
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
     {
         return CppGeneratorArray().contains(shouldReturn);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::JULIA)
+    {
+        return JuliaGeneratorArray().contains(shouldReturn);
     }
 }
 
@@ -121,6 +134,9 @@ std::vector<std::string>  GeneratorArray::free()
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
     {
         return CppGeneratorArray().free(); 
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::JULIA)
+    {
+        return JuliaGeneratorArray().free();   
     }
 }
 
@@ -135,6 +151,9 @@ std::vector<std::string>  GeneratorArray::genIncludes()
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
     {
         return RustGeneratorArray().genIncludes();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::JULIA)
+    {
+        return JuliaGeneratorArray().genIncludes();   
     }
 }
 
@@ -149,6 +168,9 @@ std::vector<std::string>  GeneratorArray::genGlobalVars()
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
     {
         return RustGeneratorArray().genGlobalVars();   
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::JULIA)
+    {
+        return JuliaGeneratorArray().genGlobalVars();   
     }
 }
 
@@ -163,6 +185,9 @@ std::vector<std::string>  GeneratorArray::genParams(std::string paramName, std::
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
     {
         return RustGeneratorArray().genParams(paramName, varsParams);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::JULIA)
+    {
+        return JuliaGeneratorArray().genParams(paramName, varsParams);   
     }
 }
 

@@ -59,6 +59,7 @@ class ProgrammingLanguageGenerator
      */
     virtual void startScope();
 
+    virtual void endIfScope();
     /**
      * @brief Starts the definition of a new function.
      *

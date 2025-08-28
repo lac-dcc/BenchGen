@@ -191,6 +191,7 @@ class JuliaGenerator : public ProgrammingLanguageGenerator {
      */
     void endScope() override;
 
+    void endIfScope() override;
     /**
      * @brief Ends the current function.
      *

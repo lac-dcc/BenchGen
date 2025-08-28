@@ -11,12 +11,12 @@ void juliaprintIndentationSpaces(int indent) {
 std::string juliagenerateIfCondition(ProgrammingLanguageGenerator& generator) {
     bool isMain = generator.currentFunction.top()->insertBack;
     if (isMain) {
-        return "get_path() & 1";
+        return "(get_path() & 1) != 0";
     }
     int ifCounter = generator.ifCounter.top();
     int pathNumber = std::ceil((ifCounter + 1) / 64.0) - 1;
     int bit = std::pow(2, ifCounter % 64);
-    std::string condition = "PATH" + std::to_string(pathNumber) + " & " + std::to_string(bit);
+    std::string condition = "(PATH" + std::to_string(pathNumber) + " & " + std::to_string(bit) +") != 0";
     return condition;
 }
 
@@ -74,14 +74,12 @@ void JuliaContains::gen(ProgrammingLanguageGenerator& generator) {
 }
 
 void JuliaLoop::gen(ProgrammingLanguageGenerator& generator) {
-    std::string loopVar = "loop" + std::to_string(generator.loopCounter);
 
     std::string loopLimitVar = "loopLimit" + std::to_string(generator.loopCounter);
-    std::string loopLimitValue = "(rand::thread_rng().gen_range(0..100)%loopsFactor)/" + std::to_string(generator.loopLevel + 1) + " + 1";
-    std::string loopLimitLine = "let mut " + loopLimitVar + " = " + loopLimitValue + ";";
+    std::string loopLimitValue = "(rand(0:99)%loopsFactor)/" + std::to_string(generator.loopLevel + 1) + " + 1";
+    std::string loopLimitLine = loopLimitVar + " = " + loopLimitValue;
     generator.addLine(loopLimitLine);
-    generator.addLine("let mut i"+loopVar+" = "+ loopVar);
-    std::string forLine = "for "+loopVar+" in i..."+loopLimitVar + " {";
+    std::string forLine = "for i in 1:"+loopLimitVar + " ";
     generator.addLine(forLine);
 
     generator.startScope();
@@ -119,13 +117,13 @@ void JuliaSeq::gen(ProgrammingLanguageGenerator& generator) {
 void JuliaIf::gen(ProgrammingLanguageGenerator& generator) {
     std::string condition = generateIfCondition(generator);
     generator.ifCounter.top()++;
-    std::string line = "if " + condition + " {";
+    std::string line = "if " + condition;
     generator.addLine(line);
     generator.startScope();
     c1->gen(generator);
     generator.freeVars();
-    generator.endScope();
-    line = "else {";
+    generator.endIfScope();
+    line = "else ";
     generator.addLine(line);
     generator.startScope();
     c2->gen(generator);

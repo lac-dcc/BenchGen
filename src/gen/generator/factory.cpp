@@ -1,6 +1,7 @@
 #include "generatorVariable.h"
 #include "c/cGeneratorVariable.h"
 #include "cpp/cppGeneratorVariable.h"
+#include "julia/juliaGeneratorVariable.h"
 #include "rust/rustGeneratorVariable.h"
 
 GeneratorVariable* VariableFactory::createVariable(std::string type, int identifier) {
@@ -23,6 +24,12 @@ GeneratorVariable* VariableFactory::createVariable(std::string type, int identif
         if (type == VarTypes::ARRAY) {
             int size = rand() % 1000;  // Random size for the array
             return new RustGeneratorArray(size, identifier);
+        }
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::JULIA)
+    {
+        if (type == VarTypes::ARRAY) {
+            int size = rand() % 1000;  // Random size for the array
+            return new JuliaGeneratorArray(size, identifier);
         }
     }
     // TODO: Error Handling

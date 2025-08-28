@@ -1,5 +1,7 @@
 #include "juliaGenerator.h"
 
+std::vector<std::string> funcs = {};
+
 JuliaGenerator::JuliaGenerator(std::string variableType) {
     this->ifCounter.push(0);
     this->varCounter = 0;
@@ -14,46 +16,7 @@ JuliaGenerator::JuliaGenerator(std::string variableType) {
 }
 
 void JuliaGenerator::generateIncludes() {
-    includes.push_back("use std::ffi::CString;");
-    includes.push_back("use std::os::raw::c_char;\n\n");
-    includes.push_back("#[cfg(debug_assertions)]");
-    includes.push_back("macro_rules! debug_new {");
-    includes.push_back("    ($id:expr) => {");
-    includes.push_back("        println!(\"[NEW]\t\tId {} created\", $id);");
-    includes.push_back("    };");
-    includes.push_back("}\n");
-    includes.push_back("#[cfg(not(debug_assertions))]");
-    includes.push_back("macro_rules! debug_new {");
-    includes.push_back("    ($id:expr) => {};\n");
-    includes.push_back("#[cfg(debug_assertions)]");
-    includes.push_back("macro_rules! debug_copy {\n");
-    includes.push_back("    ($id:expr) => {\n");
-    includes.push_back("        println!(\"[COPY]\t\tId {} copied\", $id);\n");
-    includes.push_back("    };\n");
-    includes.push_back("}\n");
-    includes.push_back("#[cfg(not(debug_assertions))]");
-    includes.push_back("macro_rules! debug_copy {\n");
-    includes.push_back("    ($id:expr) => {};\n");
-    includes.push_back("}\n");
-    includes.push_back("#[cfg(debug_assertions)]");
-    includes.push_back("macro_rules! debug_return {");
-    includes.push_back("    ($id:expr) => {");
-    includes.push_back("        println!(\"[RETURN]\tId {} returned\", $id);");
-    includes.push_back("    };\n");
-    includes.push_back("#[cfg(not(debug_assertions))]");
-    includes.push_back("macro_rules! debug_return {");
-    includes.push_back("    ($id:expr) => {};");
-    includes.push_back("}\n");
-    includes.push_back("#[cfg(debug_assertions)]");
-    includes.push_back("macro_rules! debug_free {");
-    includes.push_back("    ($id:expr) => {");
-    includes.push_back("        println!(\"[FREE]\t\tId {} freed\", $id);");
-    includes.push_back("    };");
-    includes.push_back("}\n");
-    includes.push_back("#[cfg(not(debug_assertions))]\n");
-    includes.push_back("macro_rules! debug_free {\n");
-    includes.push_back("    ($id:expr) => {};\n");
-    includes.push_back("}\n");
+    
     std::vector<std::string> varIncludes = VariableFactory::genIncludes(varType);
     for (auto var : varIncludes) {
         globalVars.push_back(var);
@@ -69,53 +32,41 @@ void JuliaGenerator::generateGlobalVars() {
 
 void JuliaGenerator::generateRandomNumberGenerator() {
     GeneratorFunction rngFunction = GeneratorFunction(-1);
-    rngFunction.addLine({"use std::env;",
-                     "use rand::Rng;\n",
-                     "fn get_path() -> u64 {",
-                     "    if let Ok(path) = env::var(\"BENCH_PATH\") {",
-                     "        if let Ok(num) = path.parse::<u64>() {",
-                     "            return num;",
-                     "        }",
-                     "    }",
-                     "    let mut rng = rand::thread_rng();",
-                     "    rng.gen::<u64>()",
-                    "}"});
+    rngFunction.addLine({"function get_path()::UInt64",
+                         "   path = get(ENV, \"BENCH_PATH\", nothing)",
+                         "   if path !== nothing",
+                         "       return parse(UInt64, path)",
+                         "   else",
+                         "       n = rand(UInt32)",
+                         "       return (UInt64(n) << 32) | UInt64(rand(UInt32))",
+                         "   end",
+                         "end"});
 
     functions.push_back(rngFunction);
 }
 
 void JuliaGenerator::generateMainFunction() {
     mainFunction = GeneratorFunction(-1);
-    mainFunction.addLine({"use std::env;\n",
-                          "fn main() {",
-                          "    let mut loops_factor = 100;",
-                          "    let mut rng_seed: Option<u64> = Some(0);\n",
-                          "    let args: Vec<String> = env::args().collect();",
-                          "    let mut i = 1;",
-                          "    while i < args.len() {",
-                          "        match args[i].as_str() {",
-                          "            \"-path-seed\" => {",
-                          "                 i += 1;",
-                          "                if i < args.len() {",
-                          "                    if let Ok(seed) = args[i].parse::<u64>() {",
-                          "                        rng_seed = Some(seed);",
-                          "                    }",
-                          "                }",
-                          "            }",
-                          "            \"-loops-factor\" => {",
-                          "                i += 1;",
-                          "                if i < args.len() {",
-                          "                    if let Ok(val) = args[i].parse::<i32>() {",
-                          "                        loops_factor = val;",
-                          "                    }",
-                          "                }",
-                          "            }",
-                          "            _ => {}",
-                          "        }",
-                          "        i += 1;",
-                          "    }",
-                          "\n",
-                          "}"});
+    mainFunction.addLine({"function main()",
+                          "   loopsFactor = 100",
+                          "   Random.seed!(0)",
+                          "   i = 1",
+                          "   while i <= length(ARGS)",
+                          "       if ARGS[i] == \"-path-seed\"",
+                          "           i += 1",
+                          "           if i <= length(ARGS)",
+                          "               Random.seed!(parse(Int, ARGS[i]))",
+                          "           end",
+                          "       elseif ARGS[i] == \"-loops-factor\"",
+                          "           i += 1",
+                          "           if i <= length(ARGS)",
+                          "               loopsFactor = parse(Int, ARGS[i])",
+                          "           end",
+                          "       end",
+                          "       i += 1",
+                          "   end",
+                          "end",
+                          "main()",});
     mainFunction.insertBack = true;
     currentFunction.push(&mainFunction);
     startScope();
@@ -139,20 +90,20 @@ void JuliaGenerator::startScope() {
 
 void JuliaGenerator::startFunc(int funcId, int nParameters) {
     GeneratorFunction func = GeneratorFunction(funcId);
-    std::string funcHeader = "fn func" + std::to_string(funcId) + "(vars: "+VariableFactory::genTypeString(varType) + "_param, ";
+    std::string funcHeader = "function func" + std::to_string(funcId) + "(vars::"+VariableFactory::genTypeString(varType) + "_param, ";
     
     for (int i = 0; i < nParameters; i++) {
-        funcHeader += "PATH" + std::to_string(i) + ": u64, ";
+        funcHeader += "PATH" + std::to_string(i) + "::UInt64, ";
     }
-    funcHeader += "loopsFactor: i32";
-    funcHeader += ") -> "+ VariableFactory::genTypeString(varType) +" {";
+    funcHeader += "loopsFactor::Int";
+    funcHeader += ")::"+VariableFactory::genTypeString(varType);
     func.addLine(funcHeader);
     functions.push_back(func);
     currentFunction.push(&(functions.back()));
     GeneratorScope scope = GeneratorScope();
     currentScope.push(scope);
     this->ifCounter.push(0);
-    addLine("let mut pCounter = vars.size;");
+    addLine("pCounter = length(vars.data)");
 }
 
 bool JuliaGenerator::functionExists(int funcId) {
@@ -181,7 +132,8 @@ void JuliaGenerator::callFunc(int funcId, int nParameters) {
 
     int id = addVar(varType);
     GeneratorVariable* var = variables[id];
-    std::string line = "let mut " + var->name + " = func" + std::to_string(funcId) + "(" + param + ", ";
+    std::string line = var->name + " = func" + std::to_string(funcId) + "(" + param + ", ";
+    funcs.push_back("func" + std::to_string(funcId)+".jl");
 
     for (int i = 0; i < nParameters; i++)
         line += "get_path(), ";
@@ -189,8 +141,8 @@ void JuliaGenerator::callFunc(int funcId, int nParameters) {
     line += ");";
     addLine(line);
 
-    line = "debug_return(" + var->name + ".id);";
-    addLine(line);
+   // line = "debug_return(" + var->name + ".id);";
+   // addLine(line);
 }
 
 int JuliaGenerator::addVar(std::string type) {
@@ -217,7 +169,13 @@ void JuliaGenerator::returnFunc(int returnVarPos) {
 }
 
 void JuliaGenerator::endScope() {
-    std::string line = currentScope.top().getIndentationTabs(-1) + "}";
+    std::string line = currentScope.top().getIndentationTabs(-1) + "end";
+    currentFunction.top()->addLine(line);
+    currentScope.pop();
+}
+
+void JuliaGenerator::endIfScope() {
+    std::string line = currentScope.top().getIndentationTabs(-1) + "";
     currentFunction.top()->addLine(line);
     currentScope.pop();
 }
@@ -325,11 +283,17 @@ void JuliaGenerator::generateFiles(std::string benchmarkName) {
     std::ofstream includeFile;
     includeFile.open(sourceDir + includeName);
 
-
     for (auto include : includes) {
         includeFile << include << std::endl;
     }
-    file << "use crate::" << includeName;
+
+    for(auto func : funcs)
+    {
+        file << "include(\"" << func << "\")\n";
+    }
+
+    file << "include(\"" << includeName << "\")\n";
+    file << "include(\"" << "path.jl" << "\")\n";
     file << std::endl;
 
     // Global variables
@@ -358,7 +322,8 @@ void JuliaGenerator::generateFiles(std::string benchmarkName) {
         }
         std::ofstream funcFile;
         funcFile.open(sourceDir + funcSource);
-        funcFile << "use crate::" << includeName << "\n";
+
+        funcFile << "include(\"" << includeName << "\")\n";
 
         lines = func.getLines();
         for (auto line : lines) {

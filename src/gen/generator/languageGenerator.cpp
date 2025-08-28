@@ -174,6 +174,13 @@ void ProgrammingLanguageGenerator::endScope(){
     }
 };
 
+void ProgrammingLanguageGenerator::endIfScope(){
+    if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::JULIA)
+    {
+        JuliaGenerator(this->varType).endIfScope();
+    }
+};
+
 void ProgrammingLanguageGenerator::endFunc(){
     if (ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::C)
     {
