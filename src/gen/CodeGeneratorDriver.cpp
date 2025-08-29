@@ -50,7 +50,7 @@ int main(int argc, char const* argv[]) {
         return 1;
     }
 
-    if(language != ProgrammingLanguage::C && language != ProgrammingLanguage::CPP && language != ProgrammingLanguage::RUST &&  language != ProgrammingLanguage::JULIA)
+    if(language != ProgrammingLanguage::C && language != ProgrammingLanguage::CPP && language != ProgrammingLanguage::RUST &&  language != ProgrammingLanguage::JULIA && language != ProgrammingLanguage::GO)
     {
         std::cout << "Programming language " + language + " is wrong!" << std::endl;
         std::cout << "Avaliable '" + ProgrammingLanguage::C + "', " + ProgrammingLanguage::CPP + "' and '" + ProgrammingLanguage::RUST << std::endl;

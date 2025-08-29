@@ -3,6 +3,7 @@
 #include "cpp/cppGeneratorVariable.h"
 #include "julia/juliaGeneratorVariable.h"
 #include "rust/rustGeneratorVariable.h"
+#include "go/goGeneratorVariable.h"
 
 GeneratorVariable* VariableFactory::createVariable(std::string type, int identifier) {
     if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::C)
@@ -30,6 +31,12 @@ GeneratorVariable* VariableFactory::createVariable(std::string type, int identif
         if (type == VarTypes::ARRAY) {
             int size = rand() % 1000;  // Random size for the array
             return new JuliaGeneratorArray(size, identifier);
+        }
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::GO)
+    {
+        if (type == VarTypes::ARRAY) {
+            int size = rand() % 1000;  // Random size for the array
+            return new GoGeneratorArray(size, identifier);
         }
     }
     // TODO: Error Handling
