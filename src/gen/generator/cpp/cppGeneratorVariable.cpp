@@ -51,7 +51,7 @@ std::vector<std::string> CppGeneratorArray::remove() {
 std::vector<std::string> CppGeneratorArray::contains(bool shouldReturn) {
     int compare = rand() % 100;  // Random value to compare against
     std::vector<std::string> temp = {};
-    temp.push_back("bool is_"+this->name+" = std::find("+this->name+"->data.begin(), "+this->name+"->data.end(), "+std::to_string(compare)+") != "+this->name+"->data.end();");
+    temp.push_back("bool is_"+this->name+std::to_string(compare) + " = std::find("+this->name+"->data.begin(), "+this->name+"->data.end(), "+std::to_string(compare)+") != "+this->name+"->data.end();");
     if (shouldReturn) {
         temp.push_back("      return " + this->name + ";");
     }
