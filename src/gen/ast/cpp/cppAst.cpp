@@ -84,7 +84,7 @@ void CppLoop::gen(ProgrammingLanguageGenerator& generator) {
     generator.addLine(loopVarLine);
 
     std::string loopLimitVar = "loopLimit" + std::to_string(generator.loopCounter);
-    std::string loopLimitValue = "(1000000000%loopsFactor)/" + std::to_string(generator.loopLevel + 1) + " + 1";
+    std::string loopLimitValue = "(1000000000)/" + std::to_string(generator.loopLevel + 1) + " + 1";
     std::string loopLimitLine = "unsigned int " + loopLimitVar + " = " + loopLimitValue + ";";
     generator.addLine(loopLimitLine);
 
