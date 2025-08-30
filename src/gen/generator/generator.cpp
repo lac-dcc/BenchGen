@@ -28,6 +28,15 @@ void Generator::generateIncludes() {
     includes.push_back("    #define DEBUG_RETURN(id)");
     includes.push_back("    #define DEBUG_FREE(id)");
     includes.push_back("#endif");
+    includes.push_back("#ifdef COUNT");
+    includes.push_back("    #define COUNT_INSERT() printf(\"insert\\n\")");
+    includes.push_back("    #define COUNT_REMOVE() printf(\"remove\\n\")");
+    includes.push_back("    #define COUNT_CONTAINS() printf(\"contains\\n\")");
+    includes.push_back("#else");
+    includes.push_back("    #define COUNT_INSERT()");
+    includes.push_back("    #define COUNT_REMOVE()");
+    includes.push_back("    #define COUNT_CONTAINS()");
+    includes.push_back("#endif");
     std::vector<std::string> varIncludes = VariableFactory::genIncludes(varType);
     for (auto var : varIncludes) {
         globalVars.push_back(var);

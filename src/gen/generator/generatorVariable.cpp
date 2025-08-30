@@ -71,6 +71,7 @@ std::vector<std::string> GeneratorArray::insert() {
     std::vector<std::string> temp = {"for (int i = 0; i < " + this->name + "->size; i++) {"};
     temp.push_back("   " + this->name + "->data[i]++;");
     temp.push_back("}");
+    temp.push_back("COUNT_INSERT();");
     return temp;
 }
 
@@ -78,6 +79,7 @@ std::vector<std::string> GeneratorArray::remove() {
     std::vector<std::string> temp = {"for (int i = 0; i < " + this->name + "->size; i++) {"};
     temp.push_back("   " + this->name + "->data[i]--;");
     temp.push_back("}");
+    temp.push_back("COUNT_REMOVE();");
     return temp;
 }
 
@@ -93,6 +95,7 @@ std::vector<std::string> GeneratorArray::contains(bool shouldReturn) {
     }
     temp.push_back("   }");
     temp.push_back("}");
+    temp.push_back("COUNT_CONTAINS();");
     return temp;
 }
 
@@ -224,6 +227,7 @@ std::vector<std::string> GeneratorSortedList::insert() {
     tmp.push_back("         }");
     tmp.push_back("     }");
     tmp.push_back("}");
+    tmp.push_back("COUNT_INSERT();");
     VariableFactory::var_counter++;
     return tmp;
 }
@@ -251,6 +255,7 @@ std::vector<std::string> GeneratorSortedList::remove() {
     tmp.push_back("        }");
     tmp.push_back("     }");
     tmp.push_back("}");
+    tmp.push_back("COUNT_REMOVE();");
     VariableFactory::var_counter++;
 
     return tmp;
@@ -268,6 +273,7 @@ std::vector<std::string> GeneratorSortedList::contains(bool shouldReturn) {
         tmp.push_back("     return " + cell_varname + " != NULL ? " + this->name + " : NULL;");
     }
     tmp.push_back("}");
+    tmp.push_back("COUNT_CONTAINS();");
     VariableFactory::var_counter++;
 
     return tmp;
@@ -343,8 +349,6 @@ std::vector<std::string> GeneratorGHashTable::genIncludes() {
     std::vector<std::string> temp = {};
     temp.push_back("#include <stdbool.h>");
     temp.push_back("#include <glib.h>");
-    std::string dalloc_name = "\"Dalloc.h\"";
-    temp.push_back("#include " + dalloc_name);
     return temp;
 }
 
@@ -384,6 +388,7 @@ std::vector<std::string> GeneratorGHashTable::insert() {
 
     tmp.push_back("g_hash_table_insert("+this->name+"->hash,\""+ str_value +"\",\""+ str_value +"\");");
     tmp.push_back(this->name + "->n = g_hash_table_size("+this->name + "->hash);");
+    tmp.push_back("COUNT_INSERT();");
     
     VariableFactory::var_counter++;
     return tmp;
@@ -397,6 +402,7 @@ std::vector<std::string> GeneratorGHashTable::remove() {
 
     tmp.push_back("g_hash_table_remove("+this->name+"->hash,\""+ str_value +"\");");
     tmp.push_back(this->name + "->n = g_hash_table_size("+this->name + "->hash);");
+    tmp.push_back("COUNT_REMOVE();");
     VariableFactory::var_counter++;
 
     return tmp;
@@ -409,6 +415,7 @@ std::vector<std::string> GeneratorGHashTable::contains(bool shouldReturn) {
     std::string str_value = std::to_string(value);
      
     tmp.push_back("g_hash_table_contains("+this->name+"->hash,\""+ str_value +"\");");
+    tmp.push_back("COUNT_CONTAINS();");
     
     VariableFactory::var_counter++;
 
@@ -421,7 +428,7 @@ std::vector<std::string> GeneratorGHashTable::free() {
     tmp.push_back(this->name + "->refC--;");
     tmp.push_back("if(" + this->name + "->refC == 0){");
     tmp.push_back("	g_hash_table_remove_all("+this->name + "->hash);");
-    tmp.push_back("	" + this->name + "->n = 0");
+    tmp.push_back("	" + this->name + "->n = 0;");
     tmp.push_back("  DEBUG_FREE(" + this->name + "->id);");
     tmp.push_back("	free("+this->name+");");
     tmp.push_back("}");
@@ -471,8 +478,6 @@ std::vector<std::string> GeneratorGList::genIncludes() {
     std::vector<std::string> temp = {};
     temp.push_back("#include <stdbool.h>");
     temp.push_back("#include <glib.h>");
-    std::string dalloc_name = "\"Dalloc.h\"";
-    temp.push_back("#include " + dalloc_name);
     return temp;
 }
 
@@ -512,6 +517,7 @@ std::vector<std::string> GeneratorGList::insert() {
 
     tmp.push_back(this->name+"->list = g_list_append("+this->name+"->list,\""+ str_value +"\");");
     tmp.push_back(this->name + "->n = g_list_length("+this->name + "->list);");
+    tmp.push_back("COUNT_INSERT();");
     
     VariableFactory::var_counter++;
     return tmp;
@@ -525,6 +531,7 @@ std::vector<std::string> GeneratorGList::remove() {
 
     tmp.push_back(this->name+"->list = g_list_remove("+this->name+"->list,\""+ str_value +"\");");
     tmp.push_back(this->name + "->n = g_list_length("+this->name + "->list);");
+    tmp.push_back("COUNT_REMOVE();");
     VariableFactory::var_counter++;
 
     return tmp;
@@ -537,6 +544,7 @@ std::vector<std::string> GeneratorGList::contains(bool shouldReturn) {
     std::string str_value = std::to_string(value);
 
     tmp.push_back("g_list_find("+this->name+"->list,\""+ str_value +"\");");
+    tmp.push_back("COUNT_CONTAINS();");
     
     VariableFactory::var_counter++;
 
@@ -549,7 +557,7 @@ std::vector<std::string> GeneratorGList::free() {
     tmp.push_back(this->name + "->refC--;");
     tmp.push_back("if(" + this->name + "->refC == 0){");
     tmp.push_back("	g_list_free("+this->name + "->list);");
-    tmp.push_back("	" + this->name + "->n = 0");
+    tmp.push_back("	" + this->name + "->n = 0;");
     tmp.push_back("  DEBUG_FREE(" + this->name + "->id);");
     tmp.push_back("	free("+this->name+");");
     tmp.push_back("}");
@@ -639,6 +647,7 @@ std::vector<std::string> GeneratorGArray::insert() {
     tmp.push_back("gint var"+std::to_string(VariableFactory::var_counter)+" = "+str_value+";");
     tmp.push_back("g_array_append_val("+this->name+"->garray, var"+std::to_string(VariableFactory::var_counter)+");");
     tmp.push_back(this->name + "->n = " + this->name+"->garray->len;");
+    tmp.push_back("COUNT_INSERT();");
     
     VariableFactory::var_counter++;
     return tmp;
@@ -655,6 +664,7 @@ std::vector<std::string> GeneratorGArray::remove() {
     tmp.push_back("		g_array_remove_index("+this->name+"->garray, i);");
     tmp.push_back("	}");
     tmp.push_back("}");
+    tmp.push_back("COUNT_REMOVE();");
     VariableFactory::var_counter++;
 
     return tmp;
@@ -674,6 +684,7 @@ std::vector<std::string> GeneratorGArray::contains(bool shouldReturn) {
     tmp.push_back("		i = "+this->name+"->garray->len;");
     tmp.push_back("	}");
     tmp.push_back("}");
+    tmp.push_back("COUNT_CONTAINS();");
     
     
     VariableFactory::var_counter++;
@@ -687,7 +698,7 @@ std::vector<std::string> GeneratorGArray::free() {
     tmp.push_back(this->name + "->refC--;");
     tmp.push_back("if(" + this->name + "->refC == 0){");
     tmp.push_back("	g_array_free("+this->name + "->garray,TRUE);");
-    tmp.push_back("	" + this->name + "->n = 0");
+    tmp.push_back("	" + this->name + "->n = 0;");
     tmp.push_back("  DEBUG_FREE(" + this->name + "->id);");
     tmp.push_back("	free("+this->name+");");
     tmp.push_back("}");
@@ -737,8 +748,6 @@ std::vector<std::string> GeneratorGTree::genIncludes() {
     std::vector<std::string> temp = {};
     temp.push_back("#include <stdbool.h>");
     temp.push_back("#include <glib.h>");
-    std::string dalloc_name = "\"Dalloc.h\"";
-    temp.push_back("#include " + dalloc_name);
     return temp;
 }
 
@@ -778,6 +787,7 @@ std::vector<std::string> GeneratorGTree::insert() {
 
     tmp.push_back("g_tree_insert("+this->name+"->tree,\""+ str_value +"\",\""+ str_value +"\");");
     tmp.push_back(this->name + "->n = g_tree_height("+this->name + "->tree);");
+    tmp.push_back("COUNT_INSERT();");
     
     VariableFactory::var_counter++;
     return tmp;
@@ -791,6 +801,7 @@ std::vector<std::string> GeneratorGTree::remove() {
 
     tmp.push_back("g_tree_remove("+this->name+"->tree,\""+ str_value +"\");");
     tmp.push_back(this->name + "->n = g_tree_height("+this->name + "->tree);");
+    tmp.push_back("COUNT_REMOVE();");
     VariableFactory::var_counter++;
 
     return tmp;
@@ -803,6 +814,7 @@ std::vector<std::string> GeneratorGTree::contains(bool shouldReturn) {
     std::string str_value = std::to_string(value);
      
     tmp.push_back("g_tree_lookup("+this->name+"->tree,\""+ str_value +"\");");
+    tmp.push_back("COUNT_CONTAINS();");
     
     VariableFactory::var_counter++;
 
@@ -815,7 +827,7 @@ std::vector<std::string> GeneratorGTree::free() {
     tmp.push_back(this->name + "->refC--;");
     tmp.push_back("if(" + this->name + "->refC == 0){");
     tmp.push_back("	g_tree_destroy("+this->name + "->tree);");
-    tmp.push_back("	" + this->name + "->n = 0");
+    tmp.push_back("	" + this->name + "->n = 0;");
     tmp.push_back(" DEBUG_FREE(" + this->name + "->id);");
     tmp.push_back("	free("+this->name+");");
     tmp.push_back("}");
@@ -865,8 +877,6 @@ std::vector<std::string> GeneratorGQueue::genIncludes() {
     std::vector<std::string> temp = {};
     temp.push_back("#include <stdbool.h>");
     temp.push_back("#include <glib.h>");
-    std::string dalloc_name = "\"Dalloc.h\"";
-    temp.push_back("#include " + dalloc_name);
     return temp;
 }
 
@@ -906,6 +916,7 @@ std::vector<std::string> GeneratorGQueue::insert() {
 
     tmp.push_back("g_queue_push_tail("+this->name+"->queue,\""+ str_value +"\");");
     tmp.push_back(this->name + "->n = g_queue_get_length("+this->name + "->queue);");
+    tmp.push_back("COUNT_INSERT();");
     
     VariableFactory::var_counter++;
     return tmp;
@@ -919,6 +930,7 @@ std::vector<std::string> GeneratorGQueue::remove() {
 
     tmp.push_back("g_queue_remove("+this->name+"->queue,\""+ str_value +"\");");
     tmp.push_back(this->name + "->n = g_queue_get_length("+this->name + "->queue);");
+    tmp.push_back("COUNT_REMOVE();");
     VariableFactory::var_counter++;
 
     return tmp;
@@ -931,6 +943,7 @@ std::vector<std::string> GeneratorGQueue::contains(bool shouldReturn) {
     std::string str_value = std::to_string(value);
      
     tmp.push_back("g_queue_find("+this->name+"->queue,\""+ str_value +"\");");
+    tmp.push_back("COUNT_CONTAINS();");
     
     VariableFactory::var_counter++;
 
@@ -943,7 +956,7 @@ std::vector<std::string> GeneratorGQueue::free() {
     tmp.push_back(this->name + "->refC--;");
     tmp.push_back("if(" + this->name + "->refC == 0){");
     tmp.push_back("	g_queue_free("+this->name + "->queue);");
-    tmp.push_back("	" + this->name + "->n = 0");
+    tmp.push_back("	" + this->name + "->n = 0;");
     tmp.push_back(" DEBUG_FREE(" + this->name + "->id);");
     tmp.push_back("	free("+this->name+");");
     tmp.push_back("}");
@@ -994,8 +1007,6 @@ std::vector<std::string> GeneratorGString::genIncludes() {
     std::vector<std::string> temp = {};
     temp.push_back("#include <stdbool.h>");
     temp.push_back("#include <glib.h>");
-    std::string dalloc_name = "\"Dalloc.h\"";
-    temp.push_back("#include " + dalloc_name);
     return temp;
 }
 
@@ -1035,6 +1046,7 @@ std::vector<std::string> GeneratorGString::insert() {
 
     tmp.push_back("g_string_append("+this->name+"->gstring->str,\""+ str_value +"\");");
     tmp.push_back(this->name + "->n = "+this->name + "->gstring->len);");
+    tmp.push_back("COUNT_INSERT();");
     
     VariableFactory::var_counter++;
     return tmp;
@@ -1048,6 +1060,7 @@ std::vector<std::string> GeneratorGString::remove() {
 
     tmp.push_back("strstr("+this->name+"->gstring->str,\""+ str_value +"\");");
     tmp.push_back(this->name + "->n = "+this->name + "->gstring->len);");
+    tmp.push_back("COUNT_REMOVE();");
     VariableFactory::var_counter++;
 
     return tmp;
@@ -1060,6 +1073,7 @@ std::vector<std::string> GeneratorGString::contains(bool shouldReturn) {
     std::string str_value = std::to_string(value);
      
     tmp.push_back("strstr("+this->name+"->gstring->str,\""+ str_value +"\");");
+    tmp.push_back("COUNT_CONTAINS();");
     
     VariableFactory::var_counter++;
 
@@ -1072,7 +1086,7 @@ std::vector<std::string> GeneratorGString::free() {
     tmp.push_back(this->name + "->refC--;");
     tmp.push_back("if(" + this->name + "->refC == 0){");
     tmp.push_back("	g_string_free("+this->name + "->gstring, 1);");
-    tmp.push_back("	" + this->name + "->n = 0");
+    tmp.push_back("	" + this->name + "->n = 0;");
     tmp.push_back(" DEBUG_FREE(" + this->name + "->id);");
     tmp.push_back("	free("+this->name+");");
     tmp.push_back("}");
