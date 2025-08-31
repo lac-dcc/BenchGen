@@ -19,15 +19,16 @@ void GoGenerator::generateRandomNumberGenerator() {
     GeneratorFunction rngFunction = GeneratorFunction(-1);
     rngFunction.addLine({
         "func getPath() uint64 {",
-        "    path := os.Getenv(\"BENCH_PATH\")",
-        "    if path != \"\" {",
-        "        val, err := strconv.ParseUint(path, 10, 64)",
-        "        if err == nil {",
-        "            return val",
-        "        }",
-        "    }",
-        "    n := uint64(rand.Uint32())",
-        "    return (n << 32) | uint64(rand.Uint32())",
+        "   return 1",
+        //"    path := os.Getenv(\"BENCH_PATH\")",
+        //"    if path != \"\" {",
+        //"        val, err := strconv.ParseUint(path, 10, 64)",
+        //"        if err == nil {",
+        //"            return val",
+        //"        }",
+        //"    }",
+        //"    n := uint64(rand.Uint32())",
+        //"    return (n << 32) | uint64(rand.Uint32())",
         "}",
     });
     functions.push_back(rngFunction);

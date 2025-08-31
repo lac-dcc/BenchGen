@@ -51,7 +51,7 @@ void CppGenerator::generateRandomNumberGenerator() {
                         "#include <string>",
                         "#include <random>\n\n",
                         "unsigned long get_path() {",
-                        "   return 2;",
+                        "   return 1;",
                          //"   const char* path = std::getenv(\"BENCH_PATH\");",
                          //"   if(path != nullptr) { ",
                          //"      return std::stoul(path);",
