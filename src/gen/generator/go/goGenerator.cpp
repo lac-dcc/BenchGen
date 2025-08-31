@@ -332,10 +332,10 @@ void GoGenerator::generateFiles(std::string benchmarkName) {
         
         funcFile << "import \"math/rand\"" << std::endl;
 
-        if(funcSource == "path.go"){
-            funcFile << "import \"os\"" << std::endl;
-            funcFile << "import \"strconv\"" << std::endl;
-        }
+        //if(funcSource == "path.go"){
+        //    funcFile << "import \"os\"" << std::endl;
+        //    funcFile << "import \"strconv\"" << std::endl;
+        //}
 
         funcFile <<  "var _ = rand.Intn" << std::endl;
         
