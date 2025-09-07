@@ -44,15 +44,11 @@ std::vector<std::string> CppGeneratorArray::insert() {
 
 std::vector<std::string> CppGeneratorArray::remove() {
     std::vector<unsigned int> newData;
-    std::vector<std::string> temp = {
-    "std::vector<unsigned int> newData"+std::to_string(tmp_counter)+";",
-    "newData"+std::to_string(tmp_counter)+".reserve(" + this->name + "->data.size());",
-    "for (auto v : " + this->name + "->data) {",
-    "    if (v >= " + this->name + "->size)",
-    "        newData"+std::to_string(tmp_counter)+".push_back(v);",
-    "}",
-    this->name + "->data.swap(newData"+std::to_string(tmp_counter)+");"
-    };
+    std::vector<std::string> temp = {"for (int i = 0; i < " + this->name + "->size; i++) {"};
+    temp.push_back("   " + this->name + "->data[i]--;");
+    temp.push_back("}");
+
+    tmp_counter++;
     return temp;
 }
 
