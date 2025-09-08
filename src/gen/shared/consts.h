@@ -16,6 +16,10 @@ class VarTypes {
     inline static const std::string SORTEDLIST = "sortedlist";
 };
 
+class Parameters{
+    public:
+    inline static int ITERATIONS = -1;
+};
 class ProgrammingLanguage {
     public:
     

@@ -58,6 +58,7 @@ int main(int argc, char const* argv[]) {
     }
 
     ProgrammingLanguage::LANGUAGE = language;
+    Parameters::ITERATIONS = iterations;
 
     Lexer lexer = Lexer();
     Parser parser = Parser();
