@@ -12,7 +12,7 @@ GeneratorVariable* VariableFactory::createVariable(std::string type, int identif
     if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::C)
     {
         if (type == VarTypes::ARRAY) {
-            int size = (iterations*1000);
+            int size = (iterations*500);
             return new CGeneratorArray(size, identifier);
         } else if (type == VarTypes::SORTEDLIST) {
             return new CGeneratorSortedList(identifier);
@@ -20,25 +20,25 @@ GeneratorVariable* VariableFactory::createVariable(std::string type, int identif
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CPP)
     {
         if (type == VarTypes::ARRAY) {
-            int size = (iterations*1000);
+            int size = (iterations*500);
             return new CppGeneratorArray(size, identifier);
         }
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::RUST)
     {
         if (type == VarTypes::ARRAY) {
-            int size = (iterations*1000);
+            int size = (iterations*500);
             return new RustGeneratorArray(size, identifier);
         }
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::JULIA)
     {
         if (type == VarTypes::ARRAY) {
-            int size = (iterations*1000);
+            int size = (iterations*500);
             return new JuliaGeneratorArray(size, identifier);
         }
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::GO)
     {
         if (type == VarTypes::ARRAY) {
-            int size = (iterations*1000);
+            int size = (iterations*500);
             return new GoGeneratorArray(size, identifier);
         }
     }
