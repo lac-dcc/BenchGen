@@ -19,16 +19,15 @@ void GoGenerator::generateRandomNumberGenerator() {
     GeneratorFunction rngFunction = GeneratorFunction(-1);
     rngFunction.addLine({
         "func getPath() uint64 {",
-        "   return 1",
-        //"    path := os.Getenv(\"BENCH_PATH\")",
-        //"    if path != \"\" {",
-        //"        val, err := strconv.ParseUint(path, 10, 64)",
-        //"        if err == nil {",
-        //"            return val",
-        //"        }",
-        //"    }",
-        //"    n := uint64(rand.Uint32())",
-        //"    return (n << 32) | uint64(rand.Uint32())",
+        "    path := os.Getenv(\"BENCH_PATH\")",
+        "    if path != \"\" {",
+        "        val, err := strconv.ParseUint(path, 10, 64)",
+        "        if err == nil {",
+        "            return val",
+        "        }",
+        "    }",
+        "    n := uint64(rand.Uint32())",
+        "    return (n << 32) | uint64(rand.Uint32())",
         "}",
     });
     functions.push_back(rngFunction);
@@ -332,10 +331,10 @@ void GoGenerator::generateFiles(std::string benchmarkName) {
         
         funcFile << "import \"math/rand\"" << std::endl;
 
-        //if(funcSource == "path.go"){
-        //    funcFile << "import \"os\"" << std::endl;
-        //    funcFile << "import \"strconv\"" << std::endl;
-        //}
+        if(funcSource == "path.go"){
+            funcFile << "import \"os\"" << std::endl;
+            funcFile << "import \"strconv\"" << std::endl;
+        }
 
         funcFile <<  "var _ = rand.Intn" << std::endl;
         

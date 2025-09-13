@@ -84,7 +84,7 @@ void GoLoop::gen(ProgrammingLanguageGenerator& generator) {
     generator.addLine(loopVarLine);
 
     std::string loopLimitVar = "loopLimit" + std::to_string(generator.loopCounter);
-    std::string loopLimitValue = "(1000)/" + std::to_string(generator.loopLevel + 1) + " + 1";
+    std::string loopLimitValue = "(rand.Intn(100)%loopsFactor)/" + std::to_string(generator.loopLevel + 1) + " + 1";
     std::string loopLimitLine = "var " + loopLimitVar + " int = " + loopLimitValue + ";";
     generator.addLine(loopLimitLine);
 

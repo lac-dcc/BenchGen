@@ -31,14 +31,13 @@ void CGenerator::generateGlobalVars() {
 void CGenerator::generateRandomNumberGenerator() {
     GeneratorFunction rngFunction = GeneratorFunction(-1);
     rngFunction.addLine({"unsigned long get_path() {",
-                         "   return 1;",
-                         //"   const char* path = getenv(\"BENCH_PATH\");",
-                         //"   if(path != NULL) { ",
-                         //"      return atoi(path);",
-                         //"   }else {",
-                         //"      unsigned long n = rand();",
-                         //"      return (n << 32) | rand();",
-                         //"   }",
+                         "   const char* path = getenv(\"BENCH_PATH\");",
+                         "   if(path != NULL) { ",
+                         "      return atoi(path);",
+                         "   }else {",
+                         "      unsigned long n = rand();",
+                         "      return (n << 32) | rand();",
+                         "   }",
                          "}"});
     functions.push_back(rngFunction);
 }

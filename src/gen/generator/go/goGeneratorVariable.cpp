@@ -41,7 +41,7 @@ std::vector<std::string> GoGeneratorArray::insert() {
     std::vector<std::string> temp = {
     "for i := 0; i < " + this->name + ".Size; i++ {"
     };
-    temp.push_back("    " + this->name + ".Data[i] = uint32(i)");
+    temp.push_back("    " + this->name + ".Data[i]++");
     temp.push_back("}");
     return temp;
 }
