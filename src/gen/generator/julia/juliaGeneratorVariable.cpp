@@ -31,7 +31,7 @@ std::vector<std::string> JuliaGeneratorArray::new_(bool inFunction) {
 
 std::vector<std::string> JuliaGeneratorArray::insert() {
     std::vector<std::string> temp = {"for i in 0:(" + this->name + ".size-1) "};
-    temp.push_back("   " + this->name + ".data[i+1] += i");
+    temp.push_back("   " + this->name + ".data[i+1] += 1");
     temp.push_back("end");
     return temp;
 }

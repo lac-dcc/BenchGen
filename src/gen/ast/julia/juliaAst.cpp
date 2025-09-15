@@ -76,7 +76,7 @@ void JuliaContains::gen(ProgrammingLanguageGenerator& generator) {
 void JuliaLoop::gen(ProgrammingLanguageGenerator& generator) {
 
     std::string loopLimitVar = "loopLimit" + std::to_string(generator.loopCounter);
-    std::string loopLimitValue = "(rand(0:typemax(Int32))%loopsFactor)/" + std::to_string(generator.loopLevel + 1) + " + 1";
+    std::string loopLimitValue = "(50)/" + std::to_string(generator.loopLevel + 1) + " + 1";
     std::string loopLimitLine = loopLimitVar + " = " + loopLimitValue;
     generator.addLine(loopLimitLine);
     std::string forLine = "for i in 1:"+loopLimitVar + " ";

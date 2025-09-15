@@ -1,5 +1,306 @@
 #include "cppGeneratorVariable.h"
 
+
+CppGeneratorArray::CppGeneratorArray(int size, int id) {
+    this->typeString = "array_t";
+    this->totalSize = size;
+    this->id = id;
+    this->name = VarTypes::ARRAY + std::to_string(id);
+}
+
+std::vector<std::string> CppGeneratorArray::new_(bool inFunction) {
+    std::vector<std::string> temp = {this->typeString + "* " + this->name + ";"};
+    if (inFunction) {
+        temp.push_back("if (pCounter > 0) {");
+        temp.push_back("   " + this->name + " = vars->data[--pCounter];");
+        temp.push_back("   " + this->name + "->refC++;");
+        temp.push_back("   DEBUG_COPY(" + this->name + "->id);");
+        temp.push_back("} else {");
+        temp.push_back("   " + this->name + " = (" + this->typeString + "*)malloc(sizeof(" + this->typeString + "));");
+        temp.push_back("   " + this->name + "->size = " + std::to_string(this->totalSize) + ";");
+        temp.push_back("   " + this->name + "->refC = 1;");
+        temp.push_back("   " + this->name + "->id = " + std::to_string(this->id) + ";");
+        temp.push_back("   " + this->name + "->data = (unsigned int*)malloc(" + this->name + "->size*sizeof(unsigned int));");
+        temp.push_back("   memset(" + this->name + "->data, 0, " + this->name + "->size*sizeof(unsigned int));");
+        temp.push_back("   DEBUG_NEW(" + this->name + "->id);");
+        temp.push_back("}");
+    } else {
+        temp.push_back(this->name + " = (" + this->typeString + "*)malloc(sizeof(" + this->typeString + "));");
+        temp.push_back(this->name + "->size = " + std::to_string(this->totalSize) + ";");
+        temp.push_back(this->name + "->refC = 1;");
+        temp.push_back("   " + this->name + "->id = " + std::to_string(this->id) + ";");
+        temp.push_back(this->name + "->data = (unsigned int*)malloc(" + this->name + "->size*sizeof(unsigned int));");
+        temp.push_back("memset(" + this->name + "->data, 0, " + this->name + "->size*sizeof(unsigned int));");
+        temp.push_back("DEBUG_NEW(" + this->name + "->id);");
+    }
+    return temp;
+}
+
+std::vector<std::string> CppGeneratorArray::insert() {
+    std::vector<std::string> temp = {"for (int i = 0; i < " + this->name + "->size; i++) {"};
+    temp.push_back("   " + this->name + "->data[i]++;");
+    temp.push_back("}");
+    return temp;
+}
+
+std::vector<std::string> CppGeneratorArray::remove() {
+    std::vector<std::string> temp = {"for (int i = 0; i < " + this->name + "->size; i++) {"};
+    temp.push_back("   " + this->name + "->data[i]--;");
+    temp.push_back("}");
+    return temp;
+}
+
+std::vector<std::string> CppGeneratorArray::contains(bool shouldReturn) {
+    int compare = rand() % 100;  // Random value to compare against
+    std::vector<std::string> temp = {};
+    temp.push_back("for (int i = 0; i < " + this->name + "->size; i++) {");
+    temp.push_back("   if (" + this->name + "->data[i] == " + std::to_string(compare) + ") { ");
+    if (shouldReturn) {
+        temp.push_back("      return " + this->name + ";");
+    } else {
+        temp.push_back("      " + this->name + "->data[i] += " + std::to_string(compare) + ";");
+    }
+    temp.push_back("   }");
+    temp.push_back("}");
+    return temp;
+}
+
+std::vector<std::string> CppGeneratorArray::free() {
+    std::vector<std::string> temp = {};
+    temp.push_back(this->name + "->refC--;");
+    temp.push_back("if(" + this->name + "->refC == 0) {");
+    temp.push_back("   free(" + this->name + "->data);");
+    temp.push_back("   free(" + this->name + ");");
+    temp.push_back("   DEBUG_FREE(" + this->name + "->id);");
+    temp.push_back("}");
+    return temp;
+}
+
+std::vector<std::string> CppGeneratorArray::genIncludes() {
+    return {};
+}
+
+std::vector<std::string> CppGeneratorArray::genGlobalVars() {
+    std::vector<std::string> temp = {};
+    temp.push_back("typedef struct {");
+    temp.push_back("   unsigned int* data;");
+    temp.push_back("   size_t size;");
+    temp.push_back("   size_t refC;");
+    temp.push_back("    int id;");
+    temp.push_back("} " + this->typeString + ";");
+    temp.push_back("typedef struct {");
+    temp.push_back("   " + this->typeString + "** data;");
+    temp.push_back("   size_t size;");
+    temp.push_back("} " + this->typeString + "_param;");
+    return temp;
+}
+
+std::vector<std::string> CppGeneratorArray::genParams(std::string paramName, std::vector<GeneratorVariable*> varsParams) {
+    std::vector<std::string> temp = {};
+    temp.push_back(this->typeString + "_param " + paramName + ";");
+    temp.push_back(paramName + ".size = " + std::to_string(varsParams.size()) + ";");
+    temp.push_back(paramName + ".data = (" + this->typeString + "**)malloc(" + paramName + ".size*sizeof(" + this->typeString + "*));");
+    for (int i = 0; i < (int)varsParams.size(); i++) {
+        temp.push_back(paramName + ".data[" + std::to_string(i) + "] = " + varsParams[i]->name + ";");
+    }
+    return temp;
+}
+
+CppGeneratorArray::~CppGeneratorArray() {
+}
+
+// SORTED LIST
+
+CGeneratorSortedList::CGeneratorSortedList(int id) {
+    this->typeString = "sortedlist_t";
+    this->id = id;
+    this->name = VarTypes::SORTEDLIST + std::to_string(id);
+}
+
+CGeneratorSortedList::~CGeneratorSortedList() {
+}
+
+std::vector<std::string> CGeneratorSortedList::genIncludes() {
+    std::vector<std::string> temp = {};
+    temp.push_back("#include <stdbool.h>");
+    return temp;
+}
+
+std::vector<std::string> CGeneratorSortedList::new_(bool inFunction) {
+    std::vector<std::string> tmp = {};
+
+    if (inFunction) {
+        tmp.push_back("sortedlist_t* " + this->name + ";");
+        tmp.push_back("if (pCounter > 0) {");
+        tmp.push_back("   " + this->name + " = vars->data[--pCounter];");
+        tmp.push_back("   " + this->name + "->refC++;");
+        tmp.push_back("   DEBUG_COPY(" + this->name + "->id);");
+        tmp.push_back("} else {");
+        tmp.push_back("   " + this->name + " = (sortedlist_t*)malloc(sizeof(sortedlist_t));");
+        tmp.push_back("   " + this->name + "->refC = 1;");
+        tmp.push_back("   " + this->name + "->id = " + std::to_string(this->id) + ";");
+        tmp.push_back("   " + this->name + "->n = 0;");
+        tmp.push_back("   " + this->name + "->root = NULL;");
+        tmp.push_back("   DEBUG_NEW(" + this->name + "->id);");
+        tmp.push_back("}");
+    } else {
+        tmp.push_back("sortedlist_t* " + this->name + " = (sortedlist_t*)malloc(sizeof(sortedlist_t));");
+        tmp.push_back(this->name + "->refC = 1;");
+        tmp.push_back(this->name + "->id = " + std::to_string(this->id) + ";");
+        tmp.push_back(this->name + "->n = 0;");
+        tmp.push_back(this->name + "->root = NULL;");
+        tmp.push_back("DEBUG_NEW(" + this->name + "->id);");
+    }
+    return tmp;
+}
+
+std::vector<std::string> CGeneratorSortedList::insert() {
+    std::vector<std::string> tmp = {};
+
+    int value = rand() % 100;
+
+    std::string cell_varname = "cell" + std::to_string(VariableFactory::var_counter);
+    std::string tmp_varname = "tmp" + std::to_string(VariableFactory::var_counter);
+    std::string int_tmp_varname = "tmp_val" + std::to_string(VariableFactory::var_counter);
+
+    tmp.push_back("if(" + this->name + " != NULL && " + this->name + "->n > 0) {");
+    tmp.push_back("     cell_t* " + cell_varname + " = " + this->name + "->root;");
+    tmp.push_back("     if(" + this->name + "->n == 0) {");
+    tmp.push_back("         " + this->name + "->root = (cell_t*)malloc(sizeof(cell_t));");
+    tmp.push_back("         " + this->name + "->root->val  = " + std::to_string(value) + ";");
+    tmp.push_back("         " + this->name + "->root->next = NULL;");
+    tmp.push_back("         " + this->name + "->n++;");
+    tmp.push_back("     } else {");
+    tmp.push_back("         while(" + cell_varname + " != NULL)");
+    tmp.push_back("         {");
+    tmp.push_back("             if(" + cell_varname + "->next == NULL && " + cell_varname + "->val < " + std::to_string(value) + ") {");
+    tmp.push_back("                 " + cell_varname + "->next = (cell_t*)malloc(sizeof(cell_t));");
+    tmp.push_back("                 " + cell_varname + "->next->next = NULL;");
+    tmp.push_back("                 " + cell_varname + "->next->val  = " + std::to_string(value) + ";");
+    tmp.push_back("                 " + this->name + "->n++;");
+    tmp.push_back("                 break;");
+    tmp.push_back("             } else if(" + std::to_string(value) + " < " + cell_varname + "->val) {");
+    tmp.push_back("                 cell_t* " + tmp_varname + " = " + cell_varname + "->next;");
+    tmp.push_back("                 " + cell_varname + "->next = (cell_t*)malloc(sizeof(cell_t));");
+    tmp.push_back("                 " + cell_varname + "->next->next = " + tmp_varname + ";");
+    tmp.push_back("                 int " + int_tmp_varname + " = " + cell_varname + "->val;");
+    tmp.push_back("                 " + cell_varname + "->val = " + std::to_string(value) + ";");
+    tmp.push_back("                 " + cell_varname + "->next->val = " + int_tmp_varname + ";");
+    tmp.push_back("                 " + this->name + "->n++;");
+    tmp.push_back("                 break;");
+    tmp.push_back("             }");
+    tmp.push_back("             " + cell_varname + " = " + cell_varname + "->next;");
+    tmp.push_back("         }");
+    tmp.push_back("     }");
+    tmp.push_back("}");
+    VariableFactory::var_counter++;
+    return tmp;
+}
+
+std::vector<std::string> CGeneratorSortedList::remove() {
+    std::vector<std::string> tmp = {};
+
+    int value = rand() % 100;
+
+    std::string cell_varname = "cell" + std::to_string(VariableFactory::var_counter);
+
+    tmp.push_back("if(" + this->name + " != NULL && " + this->name + "->n > 0)");
+    tmp.push_back("{");
+    tmp.push_back("    cell_t* " + cell_varname + " = " + this->name + "->root;");
+    tmp.push_back("    if(" + cell_varname + "->val == " + std::to_string(value) + ")");
+    tmp.push_back("    {");
+    tmp.push_back("        " + cell_varname + " = " + cell_varname + "->next;");
+    tmp.push_back("        " + this->name + "->n--;");
+    tmp.push_back("    }else{");
+    tmp.push_back("        while(" + cell_varname + "->next != NULL && " + cell_varname + "->next->val != " + std::to_string(value) + ") " + cell_varname + " = " + cell_varname + "->next;");
+    tmp.push_back("        if(" + cell_varname + "->next != NULL)");
+    tmp.push_back("        {");
+    tmp.push_back("            " + cell_varname + " = " + cell_varname + "->next->next;");
+    tmp.push_back("            " + this->name + "->n--;");
+    tmp.push_back("        }");
+    tmp.push_back("     }");
+    tmp.push_back("}");
+    VariableFactory::var_counter++;
+
+    return tmp;
+}
+
+std::vector<std::string> CGeneratorSortedList::contains(bool shouldReturn) {
+    std::vector<std::string> tmp = {};
+    int value = rand() % 100;
+
+    std::string cell_varname = "cell" + std::to_string(VariableFactory::var_counter);
+    tmp.push_back("if(" + this->name + " != NULL && " + this->name + "->n > 0){");
+    tmp.push_back("     cell_t* " + cell_varname + " = " + this->name + "->root;");
+    tmp.push_back("     while(" + cell_varname + " != NULL && " + cell_varname + "->val != " + std::to_string(value) + ") " + cell_varname + " = " + cell_varname + "->next;");
+    if (shouldReturn) {
+        tmp.push_back("     return " + cell_varname + " != NULL ? " + this->name + " : NULL;");
+    }
+    tmp.push_back("}");
+    VariableFactory::var_counter++;
+
+    return tmp;
+}
+
+std::vector<std::string> CGeneratorSortedList::free() {
+    std::vector<std::string> tmp = {};
+
+    std::string cell_varname = "cell" + std::to_string(VariableFactory::var_counter);
+    std::string tmp_varname = "tmp" + std::to_string(VariableFactory::var_counter);
+
+    tmp.push_back(this->name + "->refC--;");
+    tmp.push_back("if(" + this->name + "->refC == 0){");
+    tmp.push_back("     cell_t* " + cell_varname + " = " + this->name + "->root;");
+    tmp.push_back("     cell_t* " + tmp_varname + "  = NULL;");
+    tmp.push_back("     while(" + cell_varname + " != NULL) {");
+    tmp.push_back("         " + tmp_varname + " = " + cell_varname + "->next;");
+    tmp.push_back("         free(" + cell_varname + ");");
+    tmp.push_back("         " + cell_varname + " = " + tmp_varname + ";");
+    tmp.push_back("     }");
+    tmp.push_back("     free(" + this->name + ");");
+    tmp.push_back("     DEBUG_FREE(" + this->name + "->id);");
+    tmp.push_back("}");
+    VariableFactory::var_counter++;
+    return tmp;
+}
+
+std::vector<std::string> CGeneratorSortedList::genGlobalVars() {
+    std::vector<std::string> tmp = {};
+
+    tmp.push_back("typedef struct cell_t {");
+    tmp.push_back("     struct cell_t* next;");
+    tmp.push_back("     unsigned int val;");
+    tmp.push_back("} cell_t;");
+
+    tmp.push_back("typedef struct sortedlist_t {");
+    tmp.push_back("     cell_t* root;");
+    tmp.push_back("     size_t refC;");
+    tmp.push_back("     int id;");
+    tmp.push_back("     unsigned int n;");
+    tmp.push_back("} sortedlist_t;");
+
+    tmp.push_back("typedef struct {");
+    tmp.push_back("   sortedlist_t** data;");
+    tmp.push_back("   size_t size;");
+    tmp.push_back("} " + this->typeString + "_param;");
+    return tmp;
+}
+
+std::vector<std::string> CGeneratorSortedList::genParams(std::string paramName, std::vector<GeneratorVariable*> varsParams) {
+    std::vector<std::string> tmp = {};
+    tmp.push_back(this->typeString + "_param " + paramName + ";");
+    tmp.push_back(paramName + ".size = " + std::to_string(varsParams.size()) + ";");
+    tmp.push_back(paramName + ".data = (" + this->typeString + "**)malloc(" + paramName + ".size*sizeof(" + this->typeString + "*));");
+    for (int i = 0; i < (int)varsParams.size(); i++) {
+        tmp.push_back(paramName + ".data[" + std::to_string(i) + "] = " + varsParams[i]->name + ";");
+    }
+
+    return tmp;
+}
+
+/** 
+#include "cppGeneratorVariable.h"
+
 int tmp_counter = 0;
 
 CppGeneratorArray::CppGeneratorArray(int size, int id) {
@@ -122,3 +423,4 @@ std::vector<std::string> CppGeneratorArray::genParams(std::string paramName, std
 
 CppGeneratorArray::~CppGeneratorArray() {
 }
+*/
