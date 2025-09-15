@@ -164,9 +164,9 @@ void CppGenerator::callFunc(int funcId, int nParameters) {
 
     line = "DEBUG_RETURN(" + var->name + "->id);";
     addLine(line);
-    line = "if("+param+".data.size() > 0) {";
+    line = "if("+param+".size > 0) {";
     addLine(line);
-    line = "\t"+param+".data.clear();";
+    line = "\t"+param+".data = nullptr;";
     addLine(line);
     line = "}";
     addLine(line);
