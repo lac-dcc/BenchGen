@@ -28,6 +28,15 @@ void Generator::generateIncludes() {
     includes.push_back("    #define DEBUG_RETURN(id)");
     includes.push_back("    #define DEBUG_FREE(id)");
     includes.push_back("#endif");
+    includes.push_back("#ifdef COUNT");
+    includes.push_back("    #define COUNT_INSERT() printf(\"insert\\n\")");
+    includes.push_back("    #define COUNT_REMOVE() printf(\"remove\\n\")");
+    includes.push_back("    #define COUNT_CONTAINS() printf(\"contains\\n\")");
+    includes.push_back("#else");
+    includes.push_back("    #define COUNT_INSERT()");
+    includes.push_back("    #define COUNT_REMOVE()");
+    includes.push_back("    #define COUNT_CONTAINS()");
+    includes.push_back("#endif");
     std::vector<std::string> varIncludes = VariableFactory::genIncludes(varType);
     for (auto var : varIncludes) {
         globalVars.push_back(var);
@@ -199,7 +208,9 @@ void Generator::genMakefile(std::string dir, std::string target) {
     makefile << "TARGET = " + target + "\n";
     makefile << "SRC_DIR = src\n";
     makefile << "OBJ_DIR = obj\n";
-    makefile << "LL_DIR = ll\n\n";
+    makefile << "LL_DIR = ll\n";
+    makefile << "GLIB_CFLAGS = $(shell pkg-config --cflags glib-2.0)\n";
+    makefile << "GLIB_LIBS = $(shell pkg-config --libs glib-2.0)\n\n";
 
     makefile << "SRC = $(wildcard $(SRC_DIR)/*.c)\n";
     makefile << "OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))\n";
@@ -208,10 +219,11 @@ void Generator::genMakefile(std::string dir, std::string target) {
     makefile << "all: $(TARGET)\n\n";
 
     makefile << "$(TARGET): $(OBJ)\n";
-    makefile << "\t$(CC) $(OBJ) -o $(TARGET) \n\n";
+  
+    makefile << "\t$(CC) ${CFLAGS} $(OBJ) -o $(TARGET) $(GLIB_LIBS)\n\n";
 
     makefile << "$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)\n";
-    makefile << "\t$(CC) ${CFLAGS} -c $< -o $@\n\n";
+    makefile << "\t$(CC) ${CFLAGS} $(GLIB_CFLAGS) -c $< -o $@\n\n";
 
     makefile << "$(LL_DIR)/%.ll: $(SRC_DIR)/%.c | $(LL_DIR)\n";
     makefile << "\t$(CC) ${LLVMFLAGS} $< -o $@\n\n";
