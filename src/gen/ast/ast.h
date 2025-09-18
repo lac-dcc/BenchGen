@@ -2,10 +2,16 @@
 #define AST_H
 
 #include <cmath>
+#include <format>
 
 #include "../generator/generator.h"
 #include "../shared/enums.h"
 #include "../shared/globalStructs.h"
+
+void path_stack_init();
+
+
+int get_mask();
 
 /**
  * @brief Prints a specified number of indentation spaces.

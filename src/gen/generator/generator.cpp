@@ -1,4 +1,5 @@
 #include "generator.h"
+#include "../ast/ast.h"
 
 Generator::Generator(std::string variableType) {
     this->ifCounter.push(0);
@@ -107,6 +108,8 @@ void Generator::startScope() {
 }
 
 void Generator::startFunc(int funcId, int nParameters) {
+    
+    path_stack_init();
     GeneratorFunction func = GeneratorFunction(funcId);
     std::string funcHeader = VariableFactory::genTypeString(varType) + "* func" + std::to_string(funcId) + "(" + VariableFactory::genTypeString(varType) + "_param* vars, ";
     for (int i = 0; i < nParameters; i++) {
