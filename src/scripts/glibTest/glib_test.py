@@ -9,23 +9,30 @@ import shutil
 import logging
 import itertools
 import csv
+import resource
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(
+    level=logging.INFO,
+    format="[%(asctime)s %(levelname)s] %(message)s",
+    handlers=[
+        logging.FileHandler("glibTest.log"),
+        logging.StreamHandler()
+    ]
+)
 logger = logging.getLogger(__name__)
 
 BENCHGEN_ROOT = pathlib.Path("../../gen/").resolve()
 HYPERFINE_WARMUP = 1
-HYPERFINE_RUNS = 2
-OUTPUT = "out.csv"
+HYPERFINE_RUNS = 1
 
-DEPTH = 6
+DEPTH = 5
 
 GRAMMAR = """
-A0 = A1 A1 A1 A1;
-A1 = A2 A2 A2 A2;
-A2 = A3 A3 A3 A3;
-A3 = insert insert insert insert;
-B = LOOP(IF(CALL(B), C));
+A0 = A1 A1 A1 A1 A1 A1 A1 A1;
+A1 = A2 A2 A2 A2 A2 A2 A2 A2;
+A2 = A3 A3 A3 A3 A3 A3 A3 A3;
+A3 = insert insert;
+B = LOOP(CALL(B) C);
 C = B {} B;
 """
 
@@ -126,10 +133,11 @@ def generate_and_run(var, i, r, c):
     return var, i_count, r_count, c_count, time
 
 if __name__ == "__main__":
-    for var in ["ghash", "glist", "garray", "gqueue", "gtree"]:
-        for i, r, c in itertools.product(range(11), repeat=3):
+    # resource.setrlimit(resource.RLIMIT_STACK, (resource.RLIM_INFINITY, resource.RLIM_INFINITY))
+    for var in ["ghash", "gtree", "glist", "gqueue"]: # "garray"
+        for i, r, c in itertools.product(range(0, 11, 2), repeat=3):
             res = generate_and_run(var, i, r, c)
             logger.info(f"writing {res} to output file")
-            with open(OUTPUT, "a", newline="") as f:
+            with open("out.csv", "a", newline="") as f:
                     writer = csv.writer(f)
                     writer.writerow(res)
