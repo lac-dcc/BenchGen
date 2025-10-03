@@ -8,7 +8,7 @@ The BenchGen project aims to synthesize programs that are sufficiently expressiv
 
 BenchGen implements an [L-System](https://en.wikipedia.org/wiki/L-system) to generate programs from a seed string and a set of production rules, enabling the creation of large programs through iterative expansion of the L-System. 
 The program generator is entirely written in C++.
-To know more about how BenchGen works, you can read a brief [report](docs/BenchGen.pdf) about it.
+To know more about how BenchGen works, you can read a brief [report](https://lac-dcc.github.io/pubs/TechReports/LaC_TechReport022025.pdf) about it.
 
 The BenchGen project is sponsored by FAPEMIG and by Google.
 
