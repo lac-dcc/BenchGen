@@ -23,7 +23,8 @@ logger = logging.getLogger(__name__)
 
 BENCHGEN_ROOT = pathlib.Path("../../gen/").resolve()
 HYPERFINE_WARMUP = 1
-HYPERFINE_RUNS = 1
+HYPERFINE_MIN_RUNS = 1
+HYPERFINE_MAX_RUNS = 3
 
 DEPTH = 5
 
@@ -73,7 +74,8 @@ def hyperfine(cmd):
     proc = subprocess.run([
         "hyperfine",
         "-w", str(HYPERFINE_WARMUP),
-        "-r", str(HYPERFINE_RUNS),
+        "--min-runs", str(HYPERFINE_MIN_RUNS),
+        "--max-runs", str(HYPERFINE_MAX_RUNS),
         "--export-json", "-",
         "--style", "none",
         "-N",
