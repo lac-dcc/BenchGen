@@ -483,7 +483,7 @@ std::vector<std::string> GeneratorGList::new_(bool inFunction) {
 
 std::vector<std::string> GeneratorGList::insert() {
     std::vector<std::string> tmp = {};
-    tmp.push_back(this->name+"->list = g_list_append("+this->name+"->list,GINT_TO_POINTER(rand()%(1<<10)));");
+    tmp.push_back(this->name+"->list = g_list_prepend("+this->name+"->list,GINT_TO_POINTER(rand()%(1<<10)));");
     tmp.push_back("COUNT_INSERT();");
     return tmp;
 }
