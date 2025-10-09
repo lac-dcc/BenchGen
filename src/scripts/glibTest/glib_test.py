@@ -23,10 +23,10 @@ logger = logging.getLogger(__name__)
 
 BENCHGEN_ROOT = pathlib.Path("../../gen/").resolve()
 HYPERFINE_WARMUP = 1
-HYPERFINE_MIN_RUNS = 1
-HYPERFINE_MAX_RUNS = 3
+HYPERFINE_MIN_RUNS = 2
+HYPERFINE_MAX_RUNS = 5
 
-DEPTH = 5
+DEPTH = 4
 
 GRAMMAR = """
 A0 = A1 A1 A1 A1 A1 A1 A1 A1;
@@ -136,8 +136,8 @@ def generate_and_run(var, i, r, c):
 
 if __name__ == "__main__":
     # resource.setrlimit(resource.RLIMIT_STACK, (resource.RLIM_INFINITY, resource.RLIM_INFINITY))
-    for var in ["ghash", "gtree", "glist", "gqueue"]: # "garray"
-        for i, r, c in itertools.product(range(0, 11, 2), repeat=3):
+    for var in ["ghash", "gtree", "glist", "gqueue", "garray"]:
+        for i, r, c in itertools.product(range(0, 126, 20), repeat=3):
             res = generate_and_run(var, i, r, c)
             logger.info(f"writing {res} to output file")
             with open("out.csv", "a", newline="") as f:
