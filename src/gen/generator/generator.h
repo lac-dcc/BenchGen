@@ -48,7 +48,14 @@ class Generator {
      *
      * Creates a function that returns a 64-bit random number by combining two 32-bit numbers.
      */
-    void generateRandomNumberGenerator();
+    void generateGetPathFunction();
+    
+    /**
+     * @brief Generates a random number generator function.
+     *
+     * Creates a function that implements a simple 10-bit linear congruential generator.
+     */
+    void generateRngFunction();
 
     /**
      * @brief Creates a parameter object to pass into a function.

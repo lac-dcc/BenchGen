@@ -9,13 +9,12 @@ import shutil
 import logging
 import itertools
 import csv
-import resource
 
 logging.basicConfig(
     level=logging.INFO,
-    format="[%(asctime)s %(levelname)s] %(message)s",
+    format="[%(asctime)s] %(message)s",
     handlers=[
-        logging.FileHandler("glibTest.log"),
+        logging.FileHandler("log"),
         logging.StreamHandler()
     ]
 )
@@ -85,7 +84,9 @@ def hyperfine(cmd):
     if proc.returncode != 0:
         raise RuntimeError(proc.stderr)
 
-    return json.loads(proc.stdout)["results"][0]["mean"]
+    res = json.loads(proc.stdout)["results"][0]
+    logger.info(f"{len(res['times'])} runs, mean: {res['mean']}, stddev: {res['stddev']}")
+    return res["mean"]
 
 def generate_grammar(i, r, c):
     logger.info(f"generating grammar with parameters i={i}, r={r}, c={c}")
@@ -135,11 +136,20 @@ def generate_and_run(var, i, r, c):
     return var, i_count, r_count, c_count, time
 
 if __name__ == "__main__":
-    # resource.setrlimit(resource.RLIMIT_STACK, (resource.RLIM_INFINITY, resource.RLIM_INFINITY))
+    logger.info("running experiment `all`")
     for var in ["ghash", "gtree", "glist", "gqueue", "garray"]:
-        for i, r, c in itertools.product(range(0, 126, 20), repeat=3):
+        for i, r, c in itertools.product(range(0, 11, 2), repeat=3):
             res = generate_and_run(var, i, r, c)
             logger.info(f"writing {res} to output file")
-            with open("out.csv", "a", newline="") as f:
+            with open("all.csv", "a", newline="") as f:
+                    writer = csv.writer(f)
+                    writer.writerow(res)
+
+    logger.info("running experiment `ghash vs gtree`")
+    for var in ["ghash", "gtree"]:
+        for i, r, c in itertools.product(range(0, 101, 20), repeat=3):
+            res = generate_and_run(var, i, r, c)
+            logger.info(f"writing {res} to output file")
+            with open("ghash_gtree.csv", "a", newline="") as f:
                     writer = csv.writer(f)
                     writer.writerow(res)

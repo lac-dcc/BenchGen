@@ -9,7 +9,8 @@ Generator::Generator(std::string variableType) {
     currentScope.push(GeneratorScope(0));
     generateIncludes();
     generateGlobalVars();
-    generateRandomNumberGenerator();
+    generateGetPathFunction();
+    generateRngFunction();
     generateMainFunction();
 }
 
@@ -50,9 +51,9 @@ void Generator::generateGlobalVars() {
     }
 }
 
-void Generator::generateRandomNumberGenerator() {
-    GeneratorFunction rngFunction = GeneratorFunction(-1);
-    rngFunction.addLine({"unsigned long get_path() {",
+void Generator::generateGetPathFunction() {
+    GeneratorFunction pathFunction = GeneratorFunction(-1);
+    pathFunction.addLine({"unsigned long get_path() {",
                          "   const char* path = getenv(\"BENCH_PATH\");",
                          "   if(path != NULL) { ",
                          "      return atoi(path);",
@@ -60,6 +61,16 @@ void Generator::generateRandomNumberGenerator() {
                          "      unsigned long n = rand();",
                          "      return (n << 32) | rand();",
                          "   }",
+                         "}"});
+    functions.push_back(pathFunction);
+}
+
+void Generator::generateRngFunction() {
+    GeneratorFunction rngFunction = GeneratorFunction(-2);
+    rngFunction.addLine({"int rng() {",
+                         "   static int seed = 42;",
+                         "   seed = (885*seed+271)&((1<<10)-1);",
+                         "   return seed;",
                          "}"});
     functions.push_back(rngFunction);
 }
@@ -324,7 +335,7 @@ void Generator::generateFiles(std::string benchmarkName) {
         includeFile << header << std::endl;
     }
     file << std::endl;
-
+    
     // Main function
     auto lines = mainFunction.getLines();
     for (auto line : lines) {
@@ -337,6 +348,8 @@ void Generator::generateFiles(std::string benchmarkName) {
         std::string funcSource;
         if (func.getId() == -1) {
             funcSource = "path.c";
+        } else if (func.getId() == -2) {
+            funcSource = "rng.c";
         } else {
             funcSource = "func" + std::to_string(func.getId()) + ".c";
         }
