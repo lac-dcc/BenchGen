@@ -1,0 +1,6 @@
+A0 = A1 A1 A1 A1 A1 A1 A1 A1;
+A1 = A2 A2 A2 A2 A2 A2 A2 A2;
+A2 = A3 A3 A3 A3 A3 A3 A3 A3;
+A3 = insert insert;
+B = LOOP(CALL(B) C);
+C = B remove contains contains contains insert remove B;
