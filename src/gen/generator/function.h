@@ -1,43 +1,43 @@
-#ifndef GENERATORFUNCTION_H
-#define GENERATORFUNCTION_H
+#ifndef FUNCTION_H
+#define FUNCTION_H
 #include "../shared/enums.h"
 #include "../shared/globalStructs.h"
 
 /**
- * @brief The GeneratorFunction class represents a function in the generated code.
+ * @brief The Function class represents a function in the generated code.
  *
  * This class is responsible for managing the lines of code within a function,
  * including adding lines and retrieving them. It also handles function identifiers
  * and determines where to insert new lines based on specific logic.
  */
-class GeneratorFunction {
-   private:
+class Function {
+private:
     int id;                          // The unique identifier for this function
     std::vector<std::string> lines;  // The lines of code that make up the function
 
-   public:
+public:
     bool insertBack = false;  // Flag to determine where to insert new lines in the function
 
     /**
-     * @brief Default constructor for GeneratorFunction.
+     * @brief Default constructor for Function.
      *
-     * Initializes a new instance of the GeneratorFunction class without setting an ID.
+     * Initializes a new instance of the Function class without setting an ID.
      */
-    GeneratorFunction() {}
+    Function() {}
 
     /**
-     * @brief Constructs a GeneratorFunction with a specific ID.
+     * @brief Constructs a Function with a specific ID.
      *
      * @param id The unique identifier for the function.
      */
-    GeneratorFunction(int id) : id(id) {}
+    Function(int id) : id(id) {}
 
     /**
-     * @brief Destructor for the GeneratorFunction class.
+     * @brief Destructor for the Function class.
      *
      * Currently, this destructor does not perform any special operations.
      */
-    ~GeneratorFunction() = default;
+    ~Function() = default;
 
     /**
      * @brief Gets the ID of the generator function.

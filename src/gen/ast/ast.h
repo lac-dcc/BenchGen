@@ -4,34 +4,39 @@
 #include <cmath>
 #include <format>
 
-#include "../generator/generator.h"
 #include "../shared/enums.h"
 #include "../shared/globalStructs.h"
 
+class Node;
+class Statement;
+class Lambda;
+class Id;
+class New;
+class Insert;
+class Remove;
+class Contains;
+class Loop;
+class Call;
+class Seq;
+class If;
+
+class Visitor {
+public:
+   virtual void visit(const Statement&) = 0;
+   virtual void visit(const Lambda&) = 0;
+   virtual void visit(const Id&) = 0 ;
+   virtual void visit(const New&) = 0;
+   virtual void visit(const Insert&) = 0;
+   virtual void visit(const Remove&) = 0;
+   virtual void visit(const Contains&) = 0;
+   virtual void visit(const Loop&) = 0;
+   virtual void visit(const Call&) = 0;
+   virtual void visit(const Seq&) = 0;
+   virtual void visit(const If&) = 0;
+};
+
 void path_stack_init();
-
-
 int get_mask();
-
-/**
- * @brief Prints a specified number of indentation spaces.
- *
- * Used for formatting output to visualize the structure of the AST.
- *
- * @param indent The number of spaces to print.
- */
-void printIndentationSpaces(int indent);
-
-/**
- * @brief Generates a condition string for an if statement.
- *
- * Generates a condition based on the generator's current context, either returning
- * a random condition or a condition based on PATH variables.
- *
- * @param generator The generator object used to track the current state of code generation.
- * @return A string representing the generated condition.
- */
-std::string generateIfCondition(Generator& generator);
 
 /**
  * @brief Base class for all nodes in the abstract syntax tree (AST).
@@ -39,22 +44,9 @@ std::string generateIfCondition(Generator& generator);
  * Defines the interface for generating code and printing the AST structure.
  */
 class Node {
-   public:
-    virtual ~Node() = default;
-
-    /**
-     * @brief Generates code for this AST node.
-     *
-     * @param generator The generator object used to manage code generation.
-     */
-    virtual void gen(Generator&) = 0;
-
-    /**
-     * @brief Prints the structure of this AST node.
-     *
-     * @param indent The number of spaces to indent the output.
-     */
-    virtual void print(int indent = 0) = 0;
+public:
+   virtual ~Node() = default;
+   virtual void accept(Visitor& v) const = 0;
 };
 
 /**
@@ -62,96 +54,66 @@ class Node {
  *
  * Contains a statement and the following code block.
  */
-class StatementCode : public Node {
-   private:
-    std::shared_ptr<Node> stmt;  // The statement node
-    std::shared_ptr<Node> code;  // The following code block
+class Statement : public Node {
+public:
+   std::shared_ptr<Node> stmt;  // The statement node
+   std::shared_ptr<Node> code;  // The following code block
 
-   public:
-    StatementCode(std::shared_ptr<Node> stmt, std::shared_ptr<Node> code) : stmt(stmt), code(code) {
-    }
+   Statement(std::shared_ptr<Node> stmt, std::shared_ptr<Node> code) : stmt(stmt), code(code) {
+   }
 
-    void gen(Generator&) override;
-
-    void print(int) override;
+   void accept(Visitor& v) const override;
 };
 
 /**
  * @brief Represents a lambda expression in the AST.
- *
- * Currently, this class does not generate any code.
  */
-class LambdaCode : public Node {
+class Lambda : public Node {
    public:
-    void gen(Generator&) override;
-
-    void print(int indent) override;
+    void accept(Visitor& v) const override;
 };
 
 /**
  * @brief Represents an identifier in the AST.
- *
- * Holds the name of the identifier.
  */
 class Id : public Node {
-   private:
-    std::string id;  // The identifier's name
+public:
+   std::string id;  // The identifier's name
 
-   public:
-    Id(std::string id) : id(id) {
-    }
-
-    void gen(Generator&) override;
-
-    void print(int indent) override;
+   Id(std::string id) : id(id) { }
+   void accept(Visitor& v) const override;
 };
 
 /**
  * @brief Represents an insert operation in the AST.
- *
- * Generates code to insert into a variable.
  */
 class Insert : public Node {
-   public:
-    void gen(Generator&) override;
-
-    void print(int indent) override;
+public:
+   void accept(Visitor& v) const override;
 };
 
 /**
  * @brief Represents a remove operation in the AST.
- *
- * Generates code to remove from a variable.
  */
 class Remove : public Node {
-   public:
-    void gen(Generator&) override;
-
-    void print(int indent) override;
+public:
+   void accept(Visitor& v) const override;
 };
 
 /**
  * @brief Represents a new variable creation in the AST.
- *
- * Generates code to create a new variable.
  */
 class New : public Node {
-   public:
-    void gen(Generator&) override;
-
-    void print(int indent) override;
+public:
+   void accept(Visitor& v) const override;
 };
 
 /**
  * @brief Represents a contains operation in the AST.
- *
- * Generates code to check if a variable contains a value.
  */
 class Contains : public Node {
-   public:
-    void gen(Generator&) override;
-
-    void print(int indent) override;
+public:
+   void accept(Visitor& v) const override;
 };
 
 /**
@@ -160,16 +122,11 @@ class Contains : public Node {
  * Contains the code block to be executed in the loop.
  */
 class Loop : public Node {
-   private:
-    std::shared_ptr<Node> code;  // The code block to be executed in the loop
+public:
+   std::shared_ptr<Node> code;  // The code block to be executed in the loop
 
-   public:
-    Loop(std::shared_ptr<Node> code) : code(code) {
-    }
-
-    void gen(Generator&) override;
-
-    void print(int indent) override;
+   Loop(std::shared_ptr<Node> code) : code(code) { }
+   void accept(Visitor& v) const override;
 };
 
 /**
@@ -178,11 +135,10 @@ class Loop : public Node {
  * Manages the function's parameters, ID, and code block.
  */
 class Call : public Node {
-   private:
+public:
     int id;                      // The ID of the function being called
     std::shared_ptr<Node> code;  // The code block of the function
 
-   public:
     int conditionalCounts;  // Tracks the number of conditional statements in the call
 
     Call(int id, std::shared_ptr<Node> code) : id(id), code(code), conditionalCounts(0) {
@@ -205,13 +161,11 @@ class Call : public Node {
      *
      * @param code The code block.
      */
-    void setCode(std::shared_ptr<Node> code) {
+   void setCode(std::shared_ptr<Node> code) {
         this->code = code;
-    }
+   }
 
-    void gen(Generator&) override;
-
-    void print(int indent) override;
+   void accept(Visitor& v) const override;
 };
 
 /**
@@ -220,16 +174,12 @@ class Call : public Node {
  * Contains the code block for the sequence.
  */
 class Seq : public Node {
-   private:
-    std::shared_ptr<Node> code;  // The code block for the sequence
+public:
+    std::shared_ptr<Node> code; // The code block for the sequence
 
-   public:
-    Seq(std::shared_ptr<Node> code) : code(code) {
-    }
-
-    void gen(Generator&) override;
-
-    void print(int indent) override;
+    Seq(std::shared_ptr<Node> code) : code(code) { }
+   
+    void accept(Visitor& v) const override;
 };
 
 /**
@@ -238,17 +188,14 @@ class Seq : public Node {
  * Contains the parameters and the else clause for the if statement.
  */
 class If : public Node {
-   private:
+public:
     std::shared_ptr<Node> c1;
     std::shared_ptr<Node> c2;
 
-   public:
     If(std::shared_ptr<Node> c1, std::shared_ptr<Node> c2) : c1(c1), c2(c2) {
     }
 
-    void gen(Generator&) override;
-
-    void print(int indent) override;
+    void accept(Visitor& v) const override;
 };
 
 #endif

@@ -11,7 +11,7 @@ void Parser::match(int symbol) {
 
 std::shared_ptr<Node> Parser::parse_CODE() {
     if ((int)tokens.size() <= tokenIndex) {
-        return std::make_shared<LambdaCode>(LambdaCode());
+        return std::make_shared<Lambda>(Lambda());
     }
 
     switch (tokens[tokenIndex].type) {
@@ -25,11 +25,11 @@ std::shared_ptr<Node> Parser::parse_CODE() {
         case TOK_IF:
         case TOK_ID: {
             std::shared_ptr<Node> n = parse_STATEMENT();
-            return std::make_shared<StatementCode>(StatementCode(n, parse_CODE()));
+            return std::make_shared<Statement>(Statement(n, parse_CODE()));
         }
         case TOK_CPAREN:
         case TOK_COMMA:
-            return std::make_shared<LambdaCode>(LambdaCode());
+            return std::make_shared<Lambda>(Lambda());
         default:
             // TODO: Error handling
             std::cout << "ERROR PARSING CODE! AT " << tokens[tokenIndex].type << std::endl;

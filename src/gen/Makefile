@@ -1,12 +1,17 @@
 CC = clang++
-CFLAGS = -std=c++20 -Wall
-IMP = ./imports/
+CFLAGS = -g -std=c++20 -Wall -fsanitize=address,undefined
 SRC = ./src/
 OBJ = ./obj/
 TARGET = benchGen
-#Dependencies in objects. Add more here when creating new files!
-DEPS = $(OBJ)ast.o $(OBJ)factory.o $(OBJ)generatorFunction.o $(OBJ)generatorVariable.o $(OBJ)generatorScope.o $(OBJ)generator.o $(OBJ)lexer.o $(OBJ)lSystem.o $(OBJ)parser.o $(OBJ)CodeGeneratorDriver.o
-#SHARED = $(IMP)ast.h $(IMP)enums.h $(IMP)globalIncludes.h $(IMP)globalStructs.h
+DEPS = $(OBJ)ast.o \
+			 $(OBJ)function.o \
+			 $(OBJ)scope.o \
+			 $(OBJ)generator.o \
+			 $(OBJ)lexer.o \
+			 $(OBJ)lSystem.o \
+			 $(OBJ)parser.o \
+			 $(OBJ)driver.o \
+			 $(OBJ)carray.o
 
 $(TARGET): $(DEPS) 
 	$(CC) $(CFLAGS) $^ -o $@
@@ -14,27 +19,24 @@ $(TARGET): $(DEPS)
 $(OBJ): 
 	mkdir $(OBJ)
 
-# One rule per dependency. Add more here when creating new files!
+$(OBJ)carray.o: lang/c/array.cpp | $(OBJ)
+	$(CC) $(CFLAGS) -c $^ -o $@
 $(OBJ)ast.o: ast/ast.cpp | $(OBJ)
-	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@
-$(OBJ)factory.o: generator/factory.cpp | $(OBJ)
-	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@
-$(OBJ)generatorFunction.o: generator/generatorFunction.cpp | $(OBJ)
-	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@
-$(OBJ)generatorVariable.o: generator/generatorVariable.cpp | $(OBJ)
-	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@
-$(OBJ)generatorScope.o: generator/generatorScope.cpp | $(OBJ)
-	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@
+	$(CC) $(CFLAGS) -c $^ -o $@
+$(OBJ)function.o: generator/function.cpp | $(OBJ)
+	$(CC) $(CFLAGS) -c $^ -o $@
+$(OBJ)scope.o: generator/scope.cpp | $(OBJ)
+	$(CC) $(CFLAGS) -c $^ -o $@
 $(OBJ)generator.o: generator/generator.cpp | $(OBJ)
-	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@
+	$(CC) $(CFLAGS) -c $^ -o $@
 $(OBJ)lexer.o: lexer/lexer.cpp | $(OBJ)
-	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@
+	$(CC) $(CFLAGS) -c $^ -o $@
 $(OBJ)lSystem.o: lSystem/lSystem.cpp | $(OBJ)
-	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@
+	$(CC) $(CFLAGS) -c $^ -o $@
 $(OBJ)parser.o: parser/parser.cpp | $(OBJ)
-	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@
-$(OBJ)CodeGeneratorDriver.o: CodeGeneratorDriver.cpp | $(OBJ)
-	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@
+	$(CC) $(CFLAGS) -c $^ -o $@
+$(OBJ)driver.o: driver.cpp | $(OBJ)
+	$(CC) $(CFLAGS) -c $^ -o $@
 
 clean: 
 	rm $(OBJ)*

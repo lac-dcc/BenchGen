@@ -1,14 +1,14 @@
-#include "generatorFunction.h"
+#include "function.h"
 
-int GeneratorFunction::getId() {
+int Function::getId() {
     return id;
 }
 
-std::vector<std::string> GeneratorFunction::getLines() {
+std::vector<std::string> Function::getLines() {
     return lines;
 }
 
-void GeneratorFunction::addLine(std::string line) {
+void Function::addLine(std::string line) {
     if (insertBack) {
         lines.insert(lines.end() - 2, line);  // Insert before the last two lines
     } else {
@@ -16,7 +16,7 @@ void GeneratorFunction::addLine(std::string line) {
     }
 }
 
-void GeneratorFunction::addLine(std::vector<std::string> lines) {
+void Function::addLine(std::vector<std::string> lines) {
     for (auto line : lines) {
         addLine(line);
     }

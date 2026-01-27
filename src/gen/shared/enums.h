@@ -9,29 +9,23 @@
  * it from positive values that might be used for other purposes.
  */
 enum TokenType {
-    TOK_IF = -2,    // Token for an "if" statement
-    TOK_LOOP = -3,  // Token for a loop
-    TOK_CALL = -4,  // Token for a function call
-    TOK_SEQ = -5,   // Token for a sequence operation
-
-    TOK_INSERT = -6,    // Token for an insert operation
-    TOK_REMOVE = -7,    // Token for a remove operation
-    TOK_NEW = -8,       // Token for creating a new variable
-    TOK_CONTAINS = -9,  // Token for a contains operation
-
-    TOK_END = -10,  // Token marking the end of a production rule (e.g., ';')
-
-    TOK_OPAREN = -11,   // Token for an open parenthesis '('
-    TOK_CPAREN = -12,   // Token for a close parenthesis ')'
-    TOK_COMMA = -13,    // Token for a comma ','
-    TOK_EQUAL = -14,    // Token for an equality check or assignment '='
-    TOK_COMMENT = -15,  // Token for a comment line (e.g., '#')
-
-    TOK_ID = -16,  // Token for an identifier (e.g., production rules names)
-
-    TOK_CALL_ID = -17,  // Token specifically for function call identifiers
-
-    TOK_ERROR = -1  // Token indicating an error or unrecognized token
+    TOK_IF,         // if statement
+    TOK_LOOP,       // loop
+    TOK_CALL,       // function call
+    TOK_SEQ,        // sequence operation
+    TOK_INSERT,     // insert operation
+    TOK_REMOVE,     // remove operation
+    TOK_NEW,        // new operation
+    TOK_CONTAINS,   // contains operation
+    TOK_END,        // end of a production rule (e.g. ';')
+    TOK_OPAREN,     // open parenthesis '('
+    TOK_CPAREN,     // close parenthesis ')'
+    TOK_COMMA,      // comma ','
+    TOK_EQUAL,      // assignment '='
+    TOK_COMMENT,    // ccomment line (e.g. '#')
+    TOK_ID,         // identifier (e.g. production rules names)
+    TOK_CALL_ID,    // function call identifiers
+    TOK_ERROR       // unrecognized token
 };
 
 #endif
