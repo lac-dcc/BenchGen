@@ -6,8 +6,11 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <stack>
+
 using std::vector;
 using std::string;
+using std::stack;
 
 #include "../ast/ast.h"
 
@@ -26,9 +29,9 @@ using std::string;
 template<typename VarType>
 class Generator : public Visitor {
 protected:
-    vector<string> includes;    // List of include statements for the generated code
-    vector<string> globalVars;  // List of global variable declarations 
-    std::stack<int> path_stack;
+    string includes;    // Include statements for the generated code
+    string globalVars;  // Global variable declarations 
+    stack<int> path_stack;
 
     void path_stack_init() {
         path_stack.push(1);
@@ -51,9 +54,7 @@ protected:
      * Calls variable-specific methods to add global variable declarations.
      */
     void generateGlobalVars() {
-        vector<string> varGlobalVars = VarType::genGlobalVars();
-        for (auto gVar : varGlobalVars)
-            globalVars.push_back(gVar);
+        globalVars = VarType::genGlobalVars();
     }
 
     /**
@@ -111,17 +112,55 @@ public:
     std::stack<Scope> currentScope;                 // Stack of current scopes
 
     // Visitor methods
-    virtual void visit(const Statement&) = 0;
-    virtual void visit(const Lambda&) = 0;
-    virtual void visit(const Id&) = 0;
-    virtual void visit(const New&) = 0;
-    virtual void visit(const Insert&) = 0;
-    virtual void visit(const Remove&) = 0;
-    virtual void visit(const Contains&) = 0;
-    virtual void visit(const Loop&) = 0;
-    virtual void visit(const Call&) = 0;
-    virtual void visit(const Seq&) = 0;
-    virtual void visit(const If&) = 0;
+    virtual void visit(const Statement& s) override {
+        s.stmt->accept(*this);
+        s.code->accept(*this);
+    }
+
+    virtual void visit(const Lambda&) override {
+    }
+
+    virtual void visit(const Id&) override {
+    }
+    
+    virtual void visit(const Seq&) override {
+    }
+    
+    virtual void visit(const New&) override {
+        int id = addVar();
+        addLine(variables[id]->new_(!(currentFunction.top()->isMainFunction)));
+    }
+    
+    virtual void visit(const Insert&) override {
+        int varCount = currentScope.top().availableVarIDs.size();
+        if (varCount == 0) return;
+
+        int varPos = rand() % varCount;
+        Variable* var = variables[currentScope.top().availableVarIDs[varPos]];
+        addLine(var->insert());
+    }
+    
+    virtual void visit(const Remove&) override {
+        int varCount = currentScope.top().availableVarIDs.size();
+        if (varCount == 0) return;
+
+        int varPos = rand() % varCount;
+        Variable* var = variables[currentScope.top().availableVarIDs[varPos]];
+        addLine(var->remove());
+    }
+    
+    virtual void visit(const Contains&) override {
+        int varCount = currentScope.top().getVarCounter();
+        if (varCount == 0) return;
+
+        int varPos = rand() % varCount;
+        Variable* var = variables[currentScope.top().availableVarIDs[varPos]];
+        addLine(var->contains(!(currentFunction.top()->isMainFunction)));
+    }
+
+    virtual void visit(const Loop&) override = 0;
+    virtual void visit(const Call&) override = 0;
+    virtual void visit(const If&) override = 0;
 
     /**
      * @brief Constructs a Generator object with a specified variable type.
@@ -153,7 +192,7 @@ public:
     }
 
     /**
-     * @brief Adds a line of code to the current function with optional indentation.
+     * @brief Adds code to the current function with optional indentation.
      *
      * @param line The line of code to add.
      * @param d Additional depth for indentation (default is 0).
@@ -161,17 +200,6 @@ public:
     void addLine(string line, int d = 0) {
         line = currentScope.top().generateSpaces(d) + line;
         currentFunction.top()->addLine(line);
-    }
-
-    /**
-     * @brief Adds multiple lines of code to the current function with optional indentation.
-     *
-     * @param lines A vector of lines of code to add.
-     * @param d Additional depth for indentation (default is 0).
-     */
-    void addLine(vector<string> lines, int d = 0) {
-        for (auto line : lines)
-            addLine(line, d);
     }
 
     /**

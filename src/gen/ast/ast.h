@@ -35,9 +35,6 @@ public:
    virtual void visit(const If&) = 0;
 };
 
-void path_stack_init();
-int get_mask();
-
 /**
  * @brief Base class for all nodes in the abstract syntax tree (AST).
  *

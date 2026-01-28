@@ -6,7 +6,6 @@ TARGET = benchGen
 DEPS = $(OBJ)ast.o \
 			 $(OBJ)function.o \
 			 $(OBJ)scope.o \
-			 $(OBJ)generator.o \
 			 $(OBJ)lexer.o \
 			 $(OBJ)lSystem.o \
 			 $(OBJ)parser.o \
@@ -26,8 +25,6 @@ $(OBJ)ast.o: ast/ast.cpp | $(OBJ)
 $(OBJ)function.o: generator/function.cpp | $(OBJ)
 	$(CC) $(CFLAGS) -c $^ -o $@
 $(OBJ)scope.o: generator/scope.cpp | $(OBJ)
-	$(CC) $(CFLAGS) -c $^ -o $@
-$(OBJ)generator.o: generator/generator.cpp | $(OBJ)
 	$(CC) $(CFLAGS) -c $^ -o $@
 $(OBJ)lexer.o: lexer/lexer.cpp | $(OBJ)
 	$(CC) $(CFLAGS) -c $^ -o $@

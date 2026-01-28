@@ -3,6 +3,10 @@
 
 #include "../../generator/generator.h"
 
+using std::string;
+using std::to_string;
+using std::format;
+
 template<typename VarType>
 class CGenerator : public Generator<VarType> {
 public:
@@ -25,66 +29,16 @@ public:
     using Generator<VarType>::endFunc;
     using Generator<VarType>::path_stack_init;
     using Generator<VarType>::get_mask;
-
-    void visit(const Statement& s) override {
-        s.stmt->accept(*this);
-        s.code->accept(*this);
-    }
-    
-    void visit(const Lambda&) override {
-    }
-    
-    void visit(const Id&) override {
-    }
-    
-    void visit(const New&) override {
-        int id = addVar();
-        std::vector<std::string> lines = variables[id]->new_(!(currentFunction.top()->insertBack));
-        addLine(lines);
-    }
-   
-    void visit(const Insert&) override {
-        int varCount = currentScope.top().availableVarIDs.size();
-        if (varCount == 0) return;
-
-        int varPos = rand() % varCount;
-        Variable* var = variables[currentScope.top().availableVarIDs[varPos]];
-        std::vector<std::string> lines = var->insert();
-        addLine(lines);
-    }
-    
-    void visit(const Remove&) override {
-        int varCount = currentScope.top().availableVarIDs.size();
-        if (varCount == 0) return;
-
-        int varPos = rand() % varCount;
-        Variable* var = variables[currentScope.top().availableVarIDs[varPos]];
-        std::vector<std::string> lines = var->remove();
-        addLine(lines);
-    }
-    
-    void visit(const Contains&) override {
-        int varCount = currentScope.top().getVarCounter();
-        if (varCount == 0) return;
-
-        int varPos = rand() % varCount;
-        Variable* var = variables[currentScope.top().availableVarIDs[varPos]];
-        std::vector<std::string> lines = var->contains(!(currentFunction.top()->insertBack));
-        addLine(lines);
-    }
-    
+  
     void visit(const Loop& l) override {
-        std::string loopVar = "loop" + std::to_string(loopCounter);
-        std::string loopVarLine = "unsigned int " + loopVar + " = 0;";
-        addLine(loopVarLine);
+        string loopVar = format("loop{}", loopCounter);
+        addLine(format("unsigned int {} = 0;", loopVar));
+    
+        string loopLimitVar = format("loopLimit{}", loopCounter);
+        string loopLimitValue = format("(rand()%loopsFactor)/{} + 1", loopLevel+1);
+        addLine(format("unsigned int {} = {};", loopLimitVar, loopLimitValue));
 
-        std::string loopLimitVar = "loopLimit" + std::to_string(loopCounter);
-        std::string loopLimitValue = "(rand()%loopsFactor)/" + std::to_string(loopLevel + 1) + " + 1";
-        std::string loopLimitLine = "unsigned int " + loopLimitVar + " = " + loopLimitValue + ";";
-        addLine(loopLimitLine);
-
-        std::string forLine = "for(; " + loopVar + " < " + loopLimitVar + "; " + loopVar + "++) {";
-        addLine(forLine);
+        addLine(format("for (; {} < {}; {}++) {{", loopVar, loopLimitVar, loopVar));
 
         startScope();
         loopLevel++;
@@ -94,49 +48,23 @@ public:
         endScope();
         loopLevel--;
     }
-    
-    void visit(const Call& c) override {
-        int nParameters = std::ceil(c.conditionalCounts / 64.0);
-        callFunc(c.id, nParameters);
-
-        if (!functionExists(c.id)) {
-
-            std::stack<int> aux = path_stack;
-            startFunc(c.id, nParameters);
-            c.code->accept(*this);
-            if (currentScope.top().availableVarIDs.size() == 0) {
-                int id = addVar();
-                std::vector<std::string> lines = variables[id]->new_(!currentFunction.top()->insertBack);
-                addLine(lines);
-            }
-            int varCount = currentScope.top().availableVarIDs.size();
-            int returnVarPos = rand() % varCount;
-            freeVars(true, returnVarPos);
-            returnFunc(returnVarPos);
-            endFunc();
-            path_stack = aux;
-        }
-    }
-    
-    void visit(const Seq&) override {
-    }
-    
+     
     void visit(const If& i) override {
-        bool isMain = currentFunction.top()->insertBack;
-        std::string bit = std::format("{:#x}", get_mask());
+        bool isMain = currentFunction.top()->isMainFunction;
+        string bit = format("{:#x}", get_mask());
 
-        std::string condition;
+        string condition;
 
         if (isMain) {
             condition = "get_path() & " + bit;
         } else {
             int cnt = this->ifCounter.top();
             int pathNumber = std::ceil((cnt+1)/64.0) - 1; 
-            condition = "PATH" + std::to_string(pathNumber) + " & " + bit;
+            condition = "PATH" + to_string(pathNumber) + " & " + bit;
         } 
 
         this->ifCounter.top()++;
-        std::string line = "if(" + condition + ") {";
+        string line = "if(" + condition + ") {";
         addLine(line);
 
         path_stack.push(path_stack.top() + 1);
@@ -163,37 +91,83 @@ public:
         path_stack.push(std::max(then_counter, else_counter)); 
     }
     
-    void generateIncludes() override {
-        includes.push_back("#include <stdio.h>");
-        includes.push_back("#include <stdlib.h>");
-        includes.push_back("#include <string.h>");
-        includes.push_back("#ifdef DEBUG");
-        includes.push_back("    #define DEBUG_NEW(id) printf(\"[NEW]\\t\\tId \%d created\\n\", id)");
-        includes.push_back("    #define DEBUG_COPY(id) printf(\"[COPY]\\t\\tId \%d copied\\n\", id)");
-        includes.push_back("    #define DEBUG_RETURN(id) printf(\"[RETURN]\\tId \%d returned\\n\", id)");
-        includes.push_back("    #define DEBUG_FREE(id) printf(\"[FREE]\\t\\tId \%d freed\\n\", id)");
-        includes.push_back("#else");
-        includes.push_back("    #define DEBUG_NEW(id)");
-        includes.push_back("    #define DEBUG_COPY(id)");
-        includes.push_back("    #define DEBUG_RETURN(id)");
-        includes.push_back("    #define DEBUG_FREE(id)");
-        includes.push_back("#endif");
-        includes.push_back("#ifdef COUNT");
-        includes.push_back("    #define COUNT_INSERT() printf(\"insert\\n\")");
-        includes.push_back("    #define COUNT_REMOVE() printf(\"remove\\n\")");
-        includes.push_back("    #define COUNT_CONTAINS() printf(\"contains\\n\")");
-        includes.push_back("#else");
-        includes.push_back("    #define COUNT_INSERT()");
-        includes.push_back("    #define COUNT_REMOVE()");
-        includes.push_back("    #define COUNT_CONTAINS()");
-        includes.push_back("#endif");
-        vector<string> varIncludes = VarType::genIncludes();
-        for (auto var : varIncludes)
-            globalVars.push_back(var);
+    void visit(const Call& c) override {
+        int nParameters = std::ceil(c.conditionalCounts / 64.0);
+        callFunc(c.id, nParameters);
+
+        if (!functionExists(c.id)) {
+
+            std::stack<int> aux = path_stack;
+            startFunc(c.id, nParameters);
+            c.code->accept(*this);
+            if (currentScope.top().availableVarIDs.size() == 0) {
+                int id = addVar();
+                addLine(variables[id]->new_(!(currentFunction.top()->isMainFunction)));
+            }
+            int varCount = currentScope.top().availableVarIDs.size();
+            int returnVarPos = rand() % varCount;
+            freeVars(true, returnVarPos);
+            returnFunc(returnVarPos);
+            endFunc();
+            path_stack = aux;
+        }
+    }
+     
+    void startFunc(int funcId, int nParams) override {
+        path_stack_init();
+        Function func = Function(funcId);
+        string funcHeader = VarType::type + "* func" + to_string(funcId) + "(" + VarType::type + "_param* vars, ";
+        for (int i = 0; i < nParams; i++) {
+            funcHeader += "const unsigned long PATH" + to_string(i) + ", ";
+        }
+        funcHeader += "int loopsFactor";
+        funcHeader += ") {";
+        func.addLine(funcHeader);
+        functions.push_back(func);
+        currentFunction.push(&(functions.back()));
+        Scope scope = Scope();
+        currentScope.push(scope);
+        this->ifCounter.push(0);
+        addLine("size_t pCounter = vars->size;");
+    }
+    
+    string createParams() override {
+        string name = "params" + to_string(currentScope.top().addParam());
+        vector<Variable*> varsParams;
+        for (int i = 0; i < (int)currentScope.top().availableVarIDs.size(); i++) {
+            varsParams.push_back(variables[currentScope.top().availableVarIDs[i]]);
+        }
+        addLine(VarType::genParams(name, varsParams));
+        return name;
     }
 
+    void callFunc(int funcId, int nParameters) {
+        string param = createParams();
+
+        int id = addVar();
+        Variable* var = variables[id];
+        string line = var->type + "* " + var->name + " = func" + to_string(funcId) + "(&" + param + ", ";
+
+        for (int i = 0; i < nParameters; i++)
+            line += "get_path(), ";
+        line += "loopsFactor";
+        line += ");";
+        addLine(line);
+
+        line = "DEBUG_RETURN(" + var->name + "->id);";
+        addLine(line);
+
+        line = "free(" + param + ".data);";
+        addLine(line);
+    }
+
+    void returnFunc(int returnVarPos) {
+        Variable* var = variables[currentScope.top().availableVarIDs[returnVarPos]];
+        addLine("return " + var->name + ";");
+    }
+    
     void generateMainFunction() override {
-        mainFunction = Function(-1);
+        mainFunction = Function(-1, true);
         mainFunction.addLine({"int main(int argc, char** argv) {",
                               "   int loopsFactor = 100;",
                               "   srand(0);",
@@ -213,9 +187,38 @@ public:
                               "   }",
                               "   return 0;",
                               "}"});
-        mainFunction.insertBack = true;
+        mainFunction.setOffset(2);
         currentFunction.push(&mainFunction);
         startScope();
+    }
+    
+    void generateIncludes() override {
+        includes = R"(
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#ifdef DEBUG
+    #define DEBUG_NEW(id) printf("[NEW]\t\tId %d created\n", id)
+    #define DEBUG_COPY(id) printf("[COPY]\t\tId %d copied\n", id)
+    #define DEBUG_RETURN(id) printf("[RETURN]\tId %d returned\n", id)
+    #define DEBUG_FREE(id) printf("[FREE]\t\tId %d freed\n", id)
+#else
+    #define DEBUG_NEW(id)
+    #define DEBUG_COPY(id)
+    #define DEBUG_RETURN(id)
+    #define DEBUG_FREE(id)
+#endif
+#ifdef COUNT
+    #define COUNT_INSERT() printf("insert\n")
+    #define COUNT_REMOVE() printf("remove\n")
+    #define COUNT_CONTAINS() printf("contains\n")
+#else
+    #define COUNT_INSERT()
+    #define COUNT_REMOVE()
+    #define COUNT_CONTAINS()
+#endif
+)";
+        globalVars = VarType::genIncludes();
     }
 
     void generateRandomNumberGenerator() override {
@@ -231,18 +234,7 @@ public:
                              "}"});
         functions.push_back(rngFunction);
     }
-
-    string createParams() override {
-        string name = "params" + std::to_string(currentScope.top().addParam());
-        vector<Variable*> varsParams;
-        for (int i = 0; i < (int)currentScope.top().availableVarIDs.size(); i++) {
-            varsParams.push_back(variables[currentScope.top().availableVarIDs[i]]);
-        }
-        vector<string> params = VarType::genParams(name, varsParams);
-        addLine(params);
-        return name;
-    }
-    
+ 
     void generateFiles(std::filesystem::path benchDir) override {
         std::filesystem::path sourceDir = benchDir / "src";
        
@@ -265,18 +257,12 @@ public:
         // Includes
         includeFile << "#ifndef " + benchName + "\n";
         includeFile << "#define " + benchName + "\n";
-
-        for (auto include : includes) {
-            includeFile << include << std::endl;
-        }
+        includeFile << includes << std::endl;
         file << "#include \"" << includeName << "\"";
         file << std::endl;
 
         // Global variables
-        for (auto var : globalVars) {
-            includeFile << var << std::endl;
-        }
-        includeFile << std::endl;
+        includeFile << globalVars << std::endl;
 
         // Headers
         for (auto func : functions) {
@@ -301,7 +287,7 @@ public:
             if (func.getId() == -1) {
                 funcSource = "path.c";
             } else {
-                funcSource = "func" + std::to_string(func.getId()) + ".c";
+                funcSource = "func" + to_string(func.getId()) + ".c";
             }
             std::ofstream funcFile;
             funcFile.open(sourceDir/funcSource);
@@ -405,51 +391,6 @@ public:
         readme << "./" + target + " -loops-factor 50 -path-seed 123\n";
         readme << "```";
     }
-
-    void startFunc(int funcId, int nParams) override {
-        path_stack_init();
-        Function func = Function(funcId);
-        string funcHeader = VarType::type + "* func" + std::to_string(funcId) + "(" + VarType::type + "_param* vars, ";
-        for (int i = 0; i < nParams; i++) {
-            funcHeader += "const unsigned long PATH" + std::to_string(i) + ", ";
-        }
-        funcHeader += "int loopsFactor";
-        funcHeader += ") {";
-        func.addLine(funcHeader);
-        functions.push_back(func);
-        currentFunction.push(&(functions.back()));
-        Scope scope = Scope();
-        currentScope.push(scope);
-        this->ifCounter.push(0);
-        addLine("size_t pCounter = vars->size;");
-    }
-
-    void callFunc(int funcId, int nParameters) {
-        string param = "";
-        param = createParams();
-
-        int id = addVar();
-        Variable* var = variables[id];
-        string line = var->type + "* " + var->name + " = func" + std::to_string(funcId) + "(&" + param + ", ";
-
-        for (int i = 0; i < nParameters; i++)
-            line += "get_path(), ";
-        line += "loopsFactor";
-        line += ");";
-        addLine(line);
-
-        line = "DEBUG_RETURN(" + var->name + "->id);";
-        addLine(line);
-
-        line = "free(" + param + ".data);";
-        addLine(line);
-    }
-
-    void returnFunc(int returnVarPos) {
-        Variable* var = variables[currentScope.top().availableVarIDs[returnVarPos]];
-        addLine("return " + var->name + ";");
-    }
-
 };
 
 #endif

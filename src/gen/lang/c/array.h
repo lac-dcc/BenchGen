@@ -31,14 +31,14 @@ public:
      */
     ~CArray();
 
-    static vector<string> genIncludes();
-    static vector<string> genGlobalVars();
-    vector<string> new_(bool = false) override;
-    vector<string> insert() override;
-    vector<string> remove() override;
-    vector<string> contains(bool shouldReturn = false) override;
-    vector<string> free() override;
-    static vector<string> genParams(string, vector<Variable*>);
+    static string genIncludes();
+    static string genGlobalVars();
+    string new_(bool = false) override;
+    string insert() override;
+    string remove() override;
+    string contains(bool shouldReturn = false) override;
+    string free() override;
+    static string genParams(string, vector<Variable*>);
 };
 
 #endif

@@ -1,11 +1,9 @@
-#include <exception>
 #include <iostream>
 
 #include "lSystem/lSystem.h"
 #include "lexer/lexer.h"
 #include "parser/parser.h"
 
-#include "generator/generator.h"
 #include "lang/c/generator.h"
 #include "lang/c/array.h"
 

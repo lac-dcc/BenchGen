@@ -3,6 +3,11 @@
 #include "../shared/enums.h"
 #include "../shared/globalStructs.h"
 
+#include <vector>
+#include <string>
+using std::vector;
+using std::string;
+
 /**
  * @brief The Function class represents a function in the generated code.
  *
@@ -12,11 +17,12 @@
  */
 class Function {
 private:
-    int id;                          // The unique identifier for this function
-    std::vector<std::string> lines;  // The lines of code that make up the function
+    int id;                // The unique identifier for this function
+    vector<string> lines;  // The code that makes up the function
+    size_t insert_offset = 0;
 
 public:
-    bool insertBack = false;  // Flag to determine where to insert new lines in the function
+    bool isMainFunction = false;
 
     /**
      * @brief Default constructor for Function.
@@ -30,7 +36,7 @@ public:
      *
      * @param id The unique identifier for the function.
      */
-    Function(int id) : id(id) {}
+    Function(int id, bool main = false) : id(id), isMainFunction(main) {}
 
     /**
      * @brief Destructor for the Function class.
@@ -38,6 +44,8 @@ public:
      * Currently, this destructor does not perform any special operations.
      */
     ~Function() = default;
+
+    void setOffset(size_t offset);
 
     /**
      * @brief Gets the ID of the generator function.
@@ -47,28 +55,28 @@ public:
     int getId();
 
     /**
-     * @brief Retrieves the lines of code in the generator function.
+     * @brief Retrieves the lines of code in the function.
      *
      * @return A vector of strings, each representing a line of code.
      */
-    std::vector<std::string> getLines();
+    vector<string> getLines();
 
     /**
      * @brief Adds a single line of code to the generator function.
      *
      * @param line The line of code to add.
      */
-    void addLine(std::string);
+    void addLine(string);
 
     /**
-     * @brief Adds multiple lines of code to the generator function.
+     * @brief Adds multiple lines of code to the function.
      *
      * This method takes a vector of strings, each representing a line of code,
      * and adds them to the function.
      *
      * @param lines A vector of lines of code to add.
      */
-    void addLine(std::vector<std::string>);
+    void addLine(vector<string>);
 };
 
 #endif
