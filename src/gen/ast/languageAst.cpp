@@ -8,6 +8,7 @@
 #include "carbon/carbonAst.h"
 #include "zig/zigAst.h"
 #include "odin/odinAst.h"
+#include "d/dAst.h"
 #include "mlir/mlirAst.h"
 
 Insert::~Insert() {};
@@ -58,6 +59,9 @@ void printIndentationSpaces(int ident)
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ODIN)
     {
         odinprintIndentationSpaces(ident);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
+    {
+        dprintIndentationSpaces(ident);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::MLIR)
     {
         mlirprintIndentationSpaces(ident);
@@ -93,6 +97,9 @@ std::string generateIfCondition(ProgrammingLanguageGenerator& generator)
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ODIN)
     {
         return odingenerateIfCondition(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
+    {
+        return dgenerateIfCondition(generator);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::MLIR)
     {
         return mlirgenerateIfCondition(generator);
@@ -128,6 +135,9 @@ Insert get_insert()
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ODIN)
     {
         return OdinInsert();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
+    {
+        return DInsert();
     }
 }
 
@@ -160,6 +170,9 @@ Remove get_remove()
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ODIN)
     {
         return OdinRemove();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
+    {
+        return DRemove();
     }
 }
 
@@ -192,6 +205,9 @@ New get_new()
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ODIN)
     {
         return OdinNew();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
+    {
+        return DNew();
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::MLIR)
     {
         return MlirNew();
@@ -227,6 +243,9 @@ Contains get_contains()
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ODIN)
     {
         return OdinContains();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
+    {
+        return DContains();
     }
 }
 
@@ -260,6 +279,9 @@ StatementCode get_statementcode(std::shared_ptr<Node> stmt, std::shared_ptr<Node
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ODIN)
     {
         return OdinStatementCode(stmt, code);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
+    {
+        return DStatementCode(stmt, code);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::MLIR)
     {
         return MlirStatementCode(stmt, code);
@@ -296,6 +318,9 @@ Loop get_loop(std::shared_ptr<Node> code)
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ODIN)
     {
         return OdinLoop(code);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
+    {
+        return DLoop(code);
     }
 }
 
@@ -328,6 +353,9 @@ Call get_call()
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ODIN)
     {
         return OdinCall();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
+    {
+        return DCall();
     }
 }
 
@@ -360,6 +388,9 @@ Call get_call(int id, std::shared_ptr<Node> code)
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ODIN)
     {
         return OdinCall(id, code);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
+    {
+        return DCall(id, code);
     }
 }
 
@@ -393,6 +424,9 @@ Seq get_seq(std::shared_ptr<Node> code)
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ODIN)
     {
         return OdinSeq(code);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
+    {
+        return DSeq(code);
     }
 }
 
@@ -425,6 +459,9 @@ If get_if(std::shared_ptr<Node> c1, std::shared_ptr<Node> c2)
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ODIN)
     {
         return OdinIf(c1, c2);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
+    {
+        return DIf(c1, c2);
     }
 }
 
@@ -457,6 +494,9 @@ Id get_id(std::string id)
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ODIN)
     {
         return OdinId(id);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
+    {
+        return DId(id);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::MLIR)
     {
         return MlirId(id);
@@ -627,6 +667,9 @@ void Loop::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ODIN)
     {
         return OdinLoop(this->code).gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
+    {
+        return DLoop(this->code).gen(generator);
     }
 };
 
@@ -658,6 +701,9 @@ void Loop::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ODIN)
     {
         return OdinLoop(this->code).print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
+    {
+        return DLoop(this->code).print(0);
     }
 };
 
@@ -707,6 +753,11 @@ void Call::gen(ProgrammingLanguageGenerator& generator) {
         OdinCall odincall = OdinCall(this->id, this->code);
         odincall.conditionalCounts = this->conditionalCounts;
         odincall.gen(generator); 
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
+    {
+        DCall dcall = DCall(this->id, this->code);
+        dcall.conditionalCounts = this->conditionalCounts;
+        dcall.gen(generator); 
     }
 };
 
@@ -759,6 +810,11 @@ void Call::print(int) {
         OdinCall odincall = OdinCall(this->id, this->code);
         odincall.conditionalCounts = this->conditionalCounts;
         odincall.print(0); 
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
+    {
+        DCall dcall = DCall(this->id, this->code);
+        dcall.conditionalCounts = this->conditionalCounts;
+        dcall.print(0); 
     }
 };
 
@@ -798,6 +854,9 @@ void Seq::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ODIN)
     {
         OdinSeq(this->code).gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
+    {
+        DSeq(this->code).gen(generator);
     }
 };
 
@@ -829,6 +888,9 @@ void Seq::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ODIN)
     {
         OdinSeq(this->code).print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
+    {
+        DSeq(this->code).print(0);
     }
  };
 
@@ -861,6 +923,9 @@ void If::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ODIN)
     {
         OdinIf(this->c1, this->c2).gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
+    {
+        DIf(this->c1, this->c2).gen(generator);
     }
 };
 
@@ -892,6 +957,9 @@ void If::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ODIN)
     {
         OdinIf(this->c1, this->c2).print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
+    {
+        DIf(this->c1, this->c2).print(0);
     }
 };
 
@@ -923,6 +991,9 @@ void Id::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ODIN)
     {
         OdinId(this->id).gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
+    {
+        DId(this->id).gen(generator);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::MLIR)
     {
         MlirId(this->id).gen(generator);
@@ -957,6 +1028,9 @@ void Id::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ODIN)
     {
         OdinId(this->id).print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
+    {
+        DId(this->id).print(0);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::MLIR)
     {
         MlirId(this->id).print(0);
@@ -991,6 +1065,9 @@ void Insert::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ODIN)
     {
         OdinInsert().gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
+    {
+        DInsert().gen(generator);
     }
 };
 
@@ -1023,6 +1100,9 @@ void Insert::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ODIN)
     {
         OdinInsert().print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
+    {
+        DInsert().print(0);
     }
 };
 
@@ -1054,6 +1134,9 @@ void Remove::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ODIN)
     {
         OdinRemove().gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
+    {
+        DRemove().gen(generator);
     }
 };
 
@@ -1085,6 +1168,9 @@ void Remove::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ODIN)
     {
         OdinRemove().print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
+    {
+        DRemove().print(0);
     }
 };
 
@@ -1116,6 +1202,9 @@ void New::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ODIN)
     {
         OdinNew().gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
+    {
+        DNew().gen(generator);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::MLIR)
     {
         MlirNew().gen(generator);
@@ -1150,6 +1239,9 @@ void New::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ODIN)
     {
         OdinNew().print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
+    {
+        DNew().print(0);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::MLIR)
     {
         MlirNew().print(0);
@@ -1184,6 +1276,9 @@ void Contains::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ODIN)
     {
         OdinContains().gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
+    {
+        DContains().gen(generator);
     }
 };
 
@@ -1215,6 +1310,9 @@ void Contains::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ODIN)
     {
         OdinContains().print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
+    {
+        DContains().print(0);
     }
  };
 
@@ -1246,6 +1344,9 @@ void StatementCode::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ODIN)
     {
         OdinStatementCode(this->stmt, this->code).gen(generator);  
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
+    {
+        DStatementCode(this->stmt, this->code).gen(generator);  
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::MLIR)
     {
         MlirStatementCode(this->stmt, this->code).gen(generator);  
@@ -1282,6 +1383,9 @@ void StatementCode::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ODIN)
     {
         OdinStatementCode(this->stmt, this->code).print(0);  
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
+    {
+        DStatementCode(this->stmt, this->code).print(0);  
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::MLIR)
     {
         MlirStatementCode(this->stmt, this->code).print(0);  
@@ -1316,6 +1420,9 @@ void LambdaCode::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ODIN)
     {
         OdinLambdaCode().gen(generator);  
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
+    {
+        DLambdaCode().gen(generator);  
     }
 };
 
@@ -1347,6 +1454,9 @@ void LambdaCode::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ODIN)
     {
         OdinLambdaCode().print(0);  
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
+    {
+        DLambdaCode().print(0);  
     }
 };
 

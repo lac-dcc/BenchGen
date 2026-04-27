@@ -40,6 +40,7 @@ class ProgrammingLanguage {
     inline static const std::string ZIG    = "zig";
     inline static const std::string ODIN   = "odin";
     inline static const std::string MLIR   = "mlir";
+    inline static const std::string D      = "d";
 
 
     inline static std::string LANGUAGE = "";
