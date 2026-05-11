@@ -10,6 +10,9 @@ void MlirGenerator::generateMainFunction() {
       {"module {",
        "  func.func @main() -> f32 {"
         "",
+          "    %c0_i64 = arith.constant 0 : i64",
+          "    %argv_mock = llvm.mlir.zero : !llvm.ptr",
+          "    %ptr_val = llvm.ptrtoint %argv_mock : !llvm.ptr to i64",
           "    %ret = arith.constant 0.0 : f32\n",
        "       func.return %ret : f32\n    }",
        "}",
@@ -127,3 +130,4 @@ void MlirGenerator::generateFiles(std::string benchmarkName) {
     file << std::endl;
     file.close();
 }
+
