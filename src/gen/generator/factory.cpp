@@ -10,6 +10,7 @@
 #include "zig/zigGeneratorVariable.h"
 #include "odin/odinGeneratorVariable.h"
 #include "d/dGeneratorVariable.h"
+#include "nim/nimGeneratorVariable.h"
 #include "../shared/consts.h"
 
 GeneratorVariable* VariableFactory::createVariable(std::string type, int identifier) {
@@ -62,6 +63,11 @@ GeneratorVariable* VariableFactory::createVariable(std::string type, int identif
     {
         if (type == VarTypes::ARRAY) {
             return new OdinGeneratorArray(size, identifier);
+        }
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::NIM)
+    {
+        if (type == VarTypes::ARRAY) {
+            return new NimGeneratorArray(size, identifier);
         }
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
     {

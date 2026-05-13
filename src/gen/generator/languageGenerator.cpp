@@ -14,6 +14,7 @@
 #include "zig/zigGenerator.h"
 #include "odin/odinGenerator.h"
 #include "d/dGenerator.h"
+#include "nim/nimGenerator.h"
 
 
 ProgrammingLanguageGenerator::ProgrammingLanguageGenerator(){};
@@ -47,6 +48,9 @@ void ProgrammingLanguageGenerator::addLine(std::vector<std::string> lines, int d
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ODIN)
     {
         OdinGenerator(this->varType).addLine(lines, d);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::NIM)
+    {
+        NimGenerator(this->varType).addLine(lines, d);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
     {
         DGenerator(this->varType).addLine(lines, d);
@@ -84,6 +88,9 @@ void ProgrammingLanguageGenerator::addLine(std::string line, int d){
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ODIN)
     {
         OdinGenerator(this->varType).addLine(line, d);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::NIM)
+    {
+        NimGenerator(this->varType).addLine(line, d);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
     {
         DGenerator(this->varType).addLine(line, d);
@@ -121,6 +128,9 @@ void ProgrammingLanguageGenerator::startScope(){
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ODIN)
     {
         OdinGenerator(this->varType).startScope();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::NIM)
+    {
+        NimGenerator(this->varType).startScope();
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
     {
         DGenerator(this->varType).startScope();
@@ -158,6 +168,9 @@ void ProgrammingLanguageGenerator::startFunc(int funcId, int nParameters){
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ODIN)
     {
         OdinGenerator(this->varType).startFunc(funcId, nParameters);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::NIM)
+    {
+        NimGenerator(this->varType).startFunc(funcId, nParameters);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
     {
         DGenerator(this->varType).startFunc(funcId, nParameters);
@@ -195,6 +208,9 @@ bool ProgrammingLanguageGenerator::functionExists(int funcId){
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ODIN)
     {
         OdinGenerator(this->varType).functionExists(funcId);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::NIM)
+    {
+        NimGenerator(this->varType).functionExists(funcId);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
     {
         DGenerator(this->varType).functionExists(funcId);
@@ -232,6 +248,9 @@ void ProgrammingLanguageGenerator::callFunc(int funcId, int nParameters){
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ODIN)
     {
         OdinGenerator(this->varType).callFunc(funcId, nParameters);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::NIM)
+    {
+        NimGenerator(this->varType).callFunc(funcId, nParameters);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
     {
         DGenerator(this->varType).callFunc(funcId, nParameters);
@@ -269,6 +288,9 @@ int ProgrammingLanguageGenerator::addVar(std::string type){
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ODIN)
     {
         OdinGenerator(this->varType).addVar(type);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::NIM)
+    {
+        NimGenerator(this->varType).addVar(type);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
     {
         DGenerator(this->varType).addVar(type);
@@ -307,6 +329,9 @@ void ProgrammingLanguageGenerator::freeVars(bool hasReturn, int returnVarPos){
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ODIN)
     {
         OdinGenerator(this->varType).freeVars(hasReturn, returnVarPos);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::NIM)
+    {
+        NimGenerator(this->varType).freeVars(hasReturn, returnVarPos);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
     {
         DGenerator(this->varType).freeVars(hasReturn, returnVarPos);
@@ -345,6 +370,9 @@ void ProgrammingLanguageGenerator::returnFunc(int returnVarPos){
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ODIN)
     {
         OdinGenerator(this->varType).returnFunc(returnVarPos);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::NIM)
+    {
+        NimGenerator(this->varType).returnFunc(returnVarPos);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
     {
         DGenerator(this->varType).returnFunc(returnVarPos);
@@ -382,6 +410,9 @@ void ProgrammingLanguageGenerator::endScope(){
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ODIN)
     {
         OdinGenerator(this->varType).endScope();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::NIM)
+    {
+        NimGenerator(this->varType).endScope();
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
     {
         DGenerator(this->varType).endScope();
@@ -411,6 +442,9 @@ void ProgrammingLanguageGenerator::endIfScope(){
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ODIN)
     {
         OdinGenerator(this->varType).endIfScope();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::NIM)
+    {
+        NimGenerator(this->varType).endIfScope();
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::MLIR)
     {
         MlirGenerator(this->varType).endIfScope();
@@ -445,6 +479,9 @@ void ProgrammingLanguageGenerator::endFunc(){
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ODIN)
     {
         OdinGenerator(this->varType).endFunc();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::NIM)
+    {
+        NimGenerator(this->varType).endFunc();
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
     {
         DGenerator(this->varType).endFunc();
@@ -483,6 +520,9 @@ void ProgrammingLanguageGenerator::generateFiles(std::string benchmarkName){
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ODIN)
     {
         OdinGenerator(this->varType).generateFiles(benchmarkName);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::NIM)
+    {
+        NimGenerator(this->varType).generateFiles(benchmarkName);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
     {
         DGenerator(this->varType).generateFiles(benchmarkName);
@@ -521,6 +561,9 @@ ProgrammingLanguageGenerator* ProgrammingLanguageGenerator::getGenerator(std::st
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ODIN)
     {
         return new OdinGenerator(varType);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::NIM)
+    {
+        return new NimGenerator(varType);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
     {
         return new DGenerator(varType);
