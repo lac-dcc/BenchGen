@@ -276,9 +276,23 @@ void NimGenerator::generateFiles(std::string benchmarkName) {
         }
         mainFile << "\n";
 
-        // Include path first, then function files in reverse order (callees before callers).
-        // The functions vector has callers before callees (DFS push order), so reversing
-        // ensures each function's dependencies are textually defined before it is.
+        // Emit forward declarations for every function so the include order doesn't
+        // matter. DFS-order reversal alone is insufficient: a callee may be visited
+        // by multiple callers, and the first-visit position can land before some of
+        // its callers in the reversed order, leaving the body textually before the
+        // declaration. Forward decls sidestep the ordering problem entirely.
+        for (auto& func : functions) {
+            if (func.getId() == -1) continue;
+            const auto& lines = func.getLines();
+            if (lines.empty()) continue;
+            std::string header = lines.front();
+            if (header.size() >= 2 && header.substr(header.size() - 2) == " =") {
+                header.erase(header.size() - 2);
+            }
+            mainFile << header << "\n";
+        }
+        mainFile << "\n";
+
         mainFile << "include \"path\"\n";
         for (int i = (int)funcIds.size() - 1; i >= 0; i--) {
             mainFile << "include \"func" << funcIds[i] << "\"\n";
