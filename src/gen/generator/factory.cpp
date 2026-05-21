@@ -11,6 +11,7 @@
 #include "odin/odinGeneratorVariable.h"
 #include "d/dGeneratorVariable.h"
 #include "nim/nimGeneratorVariable.h"
+#include "ada/adaGeneratorVariable.h"
 #include "../shared/consts.h"
 
 GeneratorVariable* VariableFactory::createVariable(std::string type, int identifier) {
@@ -73,6 +74,11 @@ GeneratorVariable* VariableFactory::createVariable(std::string type, int identif
     {
         if (type == VarTypes::ARRAY) {
             return new DGeneratorArray(size, identifier);
+        }
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        if (type == VarTypes::ARRAY) {
+            return new AdaGeneratorArray(size, identifier);
         }
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::MLIR)
     {
