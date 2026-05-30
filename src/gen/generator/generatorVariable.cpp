@@ -12,6 +12,7 @@
 #include "d/dGeneratorVariable.h"
 #include "nim/nimGeneratorVariable.h"
 #include "ada/adaGeneratorVariable.h"
+#include "vale/valeGeneratorVariable.h"
 #include "mlir/mlirGeneratorVariable.h"
 
 unsigned int VariableFactory::var_counter = 0;
@@ -106,6 +107,9 @@ std::vector<std::string> GeneratorArray::new_(bool inFunction)
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         return AdaGeneratorArray().new_(inFunction);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::VALE)
+    {
+        return ValeGeneratorArray().new_(inFunction);
     }
 }
 
@@ -148,6 +152,9 @@ std::vector<std::string>  GeneratorArray::insert()
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         return AdaGeneratorArray().insert();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::VALE)
+    {
+        return ValeGeneratorArray().insert();
     }
 }
 
@@ -189,6 +196,9 @@ std::vector<std::string>  GeneratorArray::remove()
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         return AdaGeneratorArray().remove();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::VALE)
+    {
+        return ValeGeneratorArray().remove();
     }
 }
 
@@ -230,6 +240,9 @@ std::vector<std::string>  GeneratorArray::contains(bool shouldReturn)
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         return AdaGeneratorArray().contains(shouldReturn);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::VALE)
+    {
+        return ValeGeneratorArray().contains(shouldReturn);
     }
 }
 
@@ -271,6 +284,9 @@ std::vector<std::string>  GeneratorArray::free()
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         return AdaGeneratorArray().free();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::VALE)
+    {
+        return ValeGeneratorArray().free();
     }
 }
 
@@ -312,6 +328,9 @@ std::vector<std::string>  GeneratorArray::genIncludes()
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         return AdaGeneratorArray().genIncludes();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::VALE)
+    {
+        return ValeGeneratorArray().genIncludes();
     }
 }
 
@@ -353,6 +372,9 @@ std::vector<std::string>  GeneratorArray::genGlobalVars()
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         return AdaGeneratorArray().genGlobalVars();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::VALE)
+    {
+        return ValeGeneratorArray().genGlobalVars();
     }
 }
 
@@ -394,6 +416,9 @@ std::vector<std::string>  GeneratorArray::genParams(std::string paramName, std::
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         return AdaGeneratorArray().genParams(paramName, varsParams);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::VALE)
+    {
+        return ValeGeneratorArray().genParams(paramName, varsParams);
     }
 }
 

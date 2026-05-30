@@ -11,6 +11,7 @@
 #include "d/dAst.h"
 #include "nim/nimAst.h"
 #include "ada/adaAst.h"
+#include "vale/valeAst.h"
 #include "mlir/mlirAst.h"
 
 Insert::~Insert() {};
@@ -70,6 +71,9 @@ void printIndentationSpaces(int ident)
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         adaprintIndentationSpaces(ident);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::VALE)
+    {
+        valeprintIndentationSpaces(ident);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::MLIR)
     {
         mlirprintIndentationSpaces(ident);
@@ -114,6 +118,9 @@ std::string generateIfCondition(ProgrammingLanguageGenerator& generator)
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         return adagenerateIfCondition(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::VALE)
+    {
+        return valegenerateIfCondition(generator);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::MLIR)
     {
         return mlirgenerateIfCondition(generator);
@@ -158,6 +165,9 @@ Insert get_insert()
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         return AdaInsert();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::VALE)
+    {
+        return ValeInsert();
     }
 }
 
@@ -199,6 +209,9 @@ Remove get_remove()
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         return AdaRemove();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::VALE)
+    {
+        return ValeRemove();
     }
 }
 
@@ -240,6 +253,9 @@ New get_new()
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         return AdaNew();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::VALE)
+    {
+        return ValeNew();
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::MLIR)
     {
         return MlirNew();
@@ -284,6 +300,9 @@ Contains get_contains()
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         return AdaContains();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::VALE)
+    {
+        return ValeContains();
     }
 }
 
@@ -326,6 +345,9 @@ StatementCode get_statementcode(std::shared_ptr<Node> stmt, std::shared_ptr<Node
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         return AdaStatementCode(stmt, code);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::VALE)
+    {
+        return ValeStatementCode(stmt, code);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::MLIR)
     {
         return MlirStatementCode(stmt, code);
@@ -371,6 +393,9 @@ Loop get_loop(std::shared_ptr<Node> code)
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         return AdaLoop(code);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::VALE)
+    {
+        return ValeLoop(code);
     }
 }
 
@@ -412,6 +437,9 @@ Call get_call()
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         return AdaCall();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::VALE)
+    {
+        return ValeCall();
     }
 }
 
@@ -453,6 +481,9 @@ Call get_call(int id, std::shared_ptr<Node> code)
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         return AdaCall(id, code);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::VALE)
+    {
+        return ValeCall(id, code);
     }
 }
 
@@ -495,6 +526,9 @@ Seq get_seq(std::shared_ptr<Node> code)
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         return AdaSeq(code);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::VALE)
+    {
+        return ValeSeq(code);
     }
 }
 
@@ -536,6 +570,9 @@ If get_if(std::shared_ptr<Node> c1, std::shared_ptr<Node> c2)
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         return AdaIf(c1, c2);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::VALE)
+    {
+        return ValeIf(c1, c2);
     }
 }
 
@@ -577,6 +614,9 @@ Id get_id(std::string id)
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         return AdaId(id);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::VALE)
+    {
+        return ValeId(id);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::MLIR)
     {
         return MlirId(id);
@@ -756,6 +796,9 @@ void Loop::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         return AdaLoop(this->code).gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::VALE)
+    {
+        return ValeLoop(this->code).gen(generator);
     }
 };
 
@@ -796,6 +839,9 @@ void Loop::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         return AdaLoop(this->code).print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::VALE)
+    {
+        return ValeLoop(this->code).print(0);
     }
 };
 
@@ -860,6 +906,11 @@ void Call::gen(ProgrammingLanguageGenerator& generator) {
         AdaCall adacall = AdaCall(this->id, this->code);
         adacall.conditionalCounts = this->conditionalCounts;
         adacall.gen(generator); 
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::VALE)
+    {
+        ValeCall valecall = ValeCall(this->id, this->code);
+        valecall.conditionalCounts = this->conditionalCounts;
+        valecall.gen(generator); 
     }
 };
 
@@ -927,6 +978,11 @@ void Call::print(int) {
         AdaCall adacall = AdaCall(this->id, this->code);
         adacall.conditionalCounts = this->conditionalCounts;
         adacall.print(0); 
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::VALE)
+    {
+        ValeCall valecall = ValeCall(this->id, this->code);
+        valecall.conditionalCounts = this->conditionalCounts;
+        valecall.print(0); 
     }
 };
 
@@ -975,6 +1031,9 @@ void Seq::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         AdaSeq(this->code).gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::VALE)
+    {
+        ValeSeq(this->code).gen(generator);
     }
 };
 
@@ -1015,6 +1074,9 @@ void Seq::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         AdaSeq(this->code).print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::VALE)
+    {
+        ValeSeq(this->code).print(0);
     }
  };
 
@@ -1056,6 +1118,9 @@ void If::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         AdaIf(this->c1, this->c2).gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::VALE)
+    {
+        ValeIf(this->c1, this->c2).gen(generator);
     }
 };
 
@@ -1096,6 +1161,9 @@ void If::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         AdaIf(this->c1, this->c2).print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::VALE)
+    {
+        ValeIf(this->c1, this->c2).print(0);
     }
 };
 
@@ -1136,6 +1204,9 @@ void Id::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         AdaId(this->id).gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::VALE)
+    {
+        ValeId(this->id).gen(generator);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::MLIR)
     {
         MlirId(this->id).gen(generator);
@@ -1179,6 +1250,9 @@ void Id::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         AdaId(this->id).print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::VALE)
+    {
+        ValeId(this->id).print(0);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::MLIR)
     {
         MlirId(this->id).print(0);
@@ -1222,6 +1296,9 @@ void Insert::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         AdaInsert().gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::VALE)
+    {
+        ValeInsert().gen(generator);
     }
 };
 
@@ -1263,6 +1340,9 @@ void Insert::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         AdaInsert().print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::VALE)
+    {
+        ValeInsert().print(0);
     }
 };
 
@@ -1303,6 +1383,9 @@ void Remove::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         AdaRemove().gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::VALE)
+    {
+        ValeRemove().gen(generator);
     }
 };
 
@@ -1343,6 +1426,9 @@ void Remove::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         AdaRemove().print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::VALE)
+    {
+        ValeRemove().print(0);
     }
 };
 
@@ -1383,6 +1469,9 @@ void New::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         AdaNew().gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::VALE)
+    {
+        ValeNew().gen(generator);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::MLIR)
     {
         MlirNew().gen(generator);
@@ -1426,6 +1515,9 @@ void New::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         AdaNew().print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::VALE)
+    {
+        ValeNew().print(0);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::MLIR)
     {
         MlirNew().print(0);
@@ -1469,6 +1561,9 @@ void Contains::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         AdaContains().gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::VALE)
+    {
+        ValeContains().gen(generator);
     }
 };
 
@@ -1509,6 +1604,9 @@ void Contains::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         AdaContains().print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::VALE)
+    {
+        ValeContains().print(0);
     }
  };
 
@@ -1549,6 +1647,9 @@ void StatementCode::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         AdaStatementCode(this->stmt, this->code).gen(generator);  
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::VALE)
+    {
+        ValeStatementCode(this->stmt, this->code).gen(generator);  
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::MLIR)
     {
         MlirStatementCode(this->stmt, this->code).gen(generator);  
@@ -1594,6 +1695,9 @@ void StatementCode::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         AdaStatementCode(this->stmt, this->code).print(0);  
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::VALE)
+    {
+        ValeStatementCode(this->stmt, this->code).print(0);  
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::MLIR)
     {
         MlirStatementCode(this->stmt, this->code).print(0);  
@@ -1637,6 +1741,9 @@ void LambdaCode::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         AdaLambdaCode().gen(generator);  
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::VALE)
+    {
+        ValeLambdaCode().gen(generator);  
     }
 };
 
@@ -1677,6 +1784,9 @@ void LambdaCode::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         AdaLambdaCode().print(0);  
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::VALE)
+    {
+        ValeLambdaCode().print(0);  
     }
 };
 
