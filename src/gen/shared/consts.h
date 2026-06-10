@@ -43,6 +43,7 @@ class ProgrammingLanguage {
     inline static const std::string D      = "d";
     inline static const std::string NIM    = "nim";
     inline static const std::string ADA    = "ada";
+    inline static const std::string CANGJIE = "cangjie";
 
 
     inline static std::string LANGUAGE = "";

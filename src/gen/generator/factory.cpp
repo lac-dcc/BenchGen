@@ -12,6 +12,7 @@
 #include "d/dGeneratorVariable.h"
 #include "nim/nimGeneratorVariable.h"
 #include "ada/adaGeneratorVariable.h"
+#include "cangjie/cangjieGeneratorVariable.h"
 #include "../shared/consts.h"
 
 GeneratorVariable* VariableFactory::createVariable(std::string type, int identifier) {
@@ -84,6 +85,11 @@ GeneratorVariable* VariableFactory::createVariable(std::string type, int identif
     {
         if (type == VarTypes::SCALAR) {
             return new MlirGeneratorScalar(size, identifier);
+        }
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        if(type == VarTypes::ARRAY){
+            return new CangjieGeneratorArray(size, identifier);
         }
     }
     // TODO: Error Handling

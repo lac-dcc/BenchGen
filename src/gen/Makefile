@@ -19,6 +19,7 @@ DEPS = $(OBJ)factory.o \
 	   $(OBJ)dAst.o \
 	   $(OBJ)nimAst.o \
 	   $(OBJ)adaAst.o \
+	   $(OBJ)cangjieAst.o \
 	   $(OBJ)mlirAst.o \
 	   $(OBJ)generatorFunction.o  \
 	   $(OBJ)generatorVariable.o \
@@ -34,6 +35,7 @@ DEPS = $(OBJ)factory.o \
 	   $(OBJ)dGeneratorVariable.o \
 	   $(OBJ)nimGeneratorVariable.o \
 	   $(OBJ)adaGeneratorVariable.o \
+	   $(OBJ)cangjieGeneratorVariable.o \
 	   $(OBJ)mlirGeneratorVariable.o \
 	   $(OBJ)generatorScope.o \
 	   $(OBJ)languageGenerator.o \
@@ -50,6 +52,7 @@ DEPS = $(OBJ)factory.o \
 	   $(OBJ)dGenerator.o \
 	   $(OBJ)nimGenerator.o \
 	   $(OBJ)adaGenerator.o \
+	   $(OBJ)cangjieGenerator.o \
 	   $(OBJ)lexer.o \
 	   $(OBJ)lSystem.o \
 	   $(OBJ)parser.o \
@@ -91,6 +94,8 @@ $(OBJ)nimAst.o: ast/nim/nimAst.cpp | $(OBJ)
 	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
 $(OBJ)adaAst.o: ast/ada/adaAst.cpp | $(OBJ)
 	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
+$(OBJ)cangjieAst.o: ast/cangjie/cangjieAst.cpp | $(OBJ)
+	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
 $(OBJ)factory.o: generator/factory.cpp | $(OBJ)
 	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
 $(OBJ)generatorFunction.o: generator/generatorFunction.cpp | $(OBJ)
@@ -123,6 +128,8 @@ $(OBJ)nimGeneratorVariable.o: generator/nim/nimGeneratorVariable.cpp | $(OBJ)
 	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
 $(OBJ)adaGeneratorVariable.o: generator/ada/adaGeneratorVariable.cpp | $(OBJ)
 	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
+$(OBJ)cangjieGeneratorVariable.o: generator/cangjie/cangjieGeneratorVariable.cpp | $(OBJ)
+	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
 $(OBJ)generatorScope.o: generator/generatorScope.cpp | $(OBJ)
 	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
 $(OBJ)languageGenerator.o: generator/languageGenerator.cpp | $(OBJ)
@@ -150,6 +157,8 @@ $(OBJ)dGenerator.o: generator/d/dGenerator.cpp | $(OBJ)
 $(OBJ)nimGenerator.o: generator/nim/nimGenerator.cpp | $(OBJ)
 	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
 $(OBJ)adaGenerator.o: generator/ada/adaGenerator.cpp | $(OBJ)
+	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
+$(OBJ)cangjieGenerator.o: generator/cangjie/cangjieGenerator.cpp | $(OBJ)
 	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
 $(OBJ)mlirGenerator.o: generator/mlir/mlirGenerator.cpp | $(OBJ)
 	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type

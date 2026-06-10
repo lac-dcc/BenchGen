@@ -12,6 +12,7 @@
 #include "nim/nimAst.h"
 #include "ada/adaAst.h"
 #include "mlir/mlirAst.h"
+#include "cangjie/cangjieAst.h"
 
 Insert::~Insert() {};
 Remove::~Remove() {};
@@ -73,6 +74,9 @@ void printIndentationSpaces(int ident)
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::MLIR)
     {
         mlirprintIndentationSpaces(ident);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        cangjieprintIndentationSpaces(ident);
     }
 }
 
@@ -117,6 +121,9 @@ std::string generateIfCondition(ProgrammingLanguageGenerator& generator)
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::MLIR)
     {
         return mlirgenerateIfCondition(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        return cangjiegenerateIfCondition(generator);
     }
 }
 
@@ -158,6 +165,9 @@ Insert get_insert()
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         return AdaInsert();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        return CangjieInsert();
     }
 }
 
@@ -199,6 +209,9 @@ Remove get_remove()
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         return AdaRemove();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        return CangjieRemove();
     }
 }
 
@@ -243,6 +256,9 @@ New get_new()
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::MLIR)
     {
         return MlirNew();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        return CangjieNew();
     }
 }
 
@@ -284,6 +300,9 @@ Contains get_contains()
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         return AdaContains();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        return CangjieContains();
     }
 }
 
@@ -329,6 +348,9 @@ StatementCode get_statementcode(std::shared_ptr<Node> stmt, std::shared_ptr<Node
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::MLIR)
     {
         return MlirStatementCode(stmt, code);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        return CangjieStatementCode(stmt, code);
     }
 }
 
@@ -371,6 +393,9 @@ Loop get_loop(std::shared_ptr<Node> code)
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         return AdaLoop(code);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        return CangjieLoop(code);
     }
 }
 
@@ -412,6 +437,9 @@ Call get_call()
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         return AdaCall();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        return CangjieCall();
     }
 }
 
@@ -453,6 +481,9 @@ Call get_call(int id, std::shared_ptr<Node> code)
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         return AdaCall(id, code);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        return CangjieCall(id, code);
     }
 }
 
@@ -495,6 +526,9 @@ Seq get_seq(std::shared_ptr<Node> code)
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         return AdaSeq(code);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        return CangjieSeq(code);
     }
 }
 
@@ -536,6 +570,9 @@ If get_if(std::shared_ptr<Node> c1, std::shared_ptr<Node> c2)
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         return AdaIf(c1, c2);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        return CangjieIf(c1,c2);
     }
 }
 
@@ -580,6 +617,9 @@ Id get_id(std::string id)
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::MLIR)
     {
         return MlirId(id);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        return CangjieId(id);
     }
 }
 
@@ -756,6 +796,9 @@ void Loop::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         return AdaLoop(this->code).gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        return CangjieLoop(this->code).gen(generator);
     }
 };
 
@@ -796,6 +839,9 @@ void Loop::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         return AdaLoop(this->code).print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        return CangjieLoop(this->code).print(0);
     }
 };
 
@@ -860,6 +906,11 @@ void Call::gen(ProgrammingLanguageGenerator& generator) {
         AdaCall adacall = AdaCall(this->id, this->code);
         adacall.conditionalCounts = this->conditionalCounts;
         adacall.gen(generator); 
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieCall cangjiecall = CangjieCall(this->id, this->code);
+        cangjiecall.conditionalCounts = this->conditionalCounts;
+        cangjiecall.gen(generator); 
     }
 };
 
@@ -927,6 +978,11 @@ void Call::print(int) {
         AdaCall adacall = AdaCall(this->id, this->code);
         adacall.conditionalCounts = this->conditionalCounts;
         adacall.print(0); 
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieCall cangjiecall = CangjieCall(this->id, this->code);
+        cangjiecall.conditionalCounts = this->conditionalCounts;
+        cangjiecall.print(0);    
     }
 };
 
@@ -975,6 +1031,9 @@ void Seq::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         AdaSeq(this->code).gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieSeq(this->code).gen(generator);
     }
 };
 
@@ -1015,6 +1074,9 @@ void Seq::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         AdaSeq(this->code).print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieSeq(this->code).print(0);
     }
  };
 
@@ -1056,6 +1118,9 @@ void If::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         AdaIf(this->c1, this->c2).gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieIf(this->c1,this->c2).gen(generator);
     }
 };
 
@@ -1096,6 +1161,9 @@ void If::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         AdaIf(this->c1, this->c2).print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieIf(this->c1, this->c2).print(0);
     }
 };
 
@@ -1139,6 +1207,9 @@ void Id::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::MLIR)
     {
         MlirId(this->id).gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieId(this->id).gen(generator);
     }
 };
 
@@ -1182,6 +1253,9 @@ void Id::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::MLIR)
     {
         MlirId(this->id).print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieId(this->id).print(0);
     }
 };
 
@@ -1222,6 +1296,8 @@ void Insert::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         AdaInsert().gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE){
+        CangjieInsert().gen(generator);
     }
 };
 
@@ -1263,6 +1339,9 @@ void Insert::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         AdaInsert().print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieInsert().print(0);
     }
 };
 
@@ -1303,6 +1382,9 @@ void Remove::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         AdaRemove().gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieRemove().gen(generator);
     }
 };
 
@@ -1343,6 +1425,9 @@ void Remove::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         AdaRemove().print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieRemove().print(0);
     }
 };
 
@@ -1386,6 +1471,9 @@ void New::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::MLIR)
     {
         MlirNew().gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieNew().gen(generator);
     }
 };
 
@@ -1429,6 +1517,9 @@ void New::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::MLIR)
     {
         MlirNew().print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieNew().print(0);
     }
  };
 
@@ -1469,6 +1560,9 @@ void Contains::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         AdaContains().gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieContains().gen(generator);
     }
 };
 
@@ -1509,6 +1603,9 @@ void Contains::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         AdaContains().print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieContains().print(0);
     }
  };
 
@@ -1552,6 +1649,9 @@ void StatementCode::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::MLIR)
     {
         MlirStatementCode(this->stmt, this->code).gen(generator);  
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieStatementCode(this->stmt, this->code).gen(generator);
     }
 };
 
@@ -1597,6 +1697,9 @@ void StatementCode::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::MLIR)
     {
         MlirStatementCode(this->stmt, this->code).print(0);  
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieStatementCode(this->stmt, this->code).print(0);
     }
 };
 
@@ -1637,6 +1740,9 @@ void LambdaCode::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         AdaLambdaCode().gen(generator);  
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieLambdaCode().gen(generator);
     }
 };
 
@@ -1677,6 +1783,9 @@ void LambdaCode::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
     {
         AdaLambdaCode().print(0);  
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieLambdaCode().print(0);
     }
 };
 
