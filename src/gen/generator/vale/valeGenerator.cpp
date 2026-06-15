@@ -14,6 +14,7 @@ void ValeGenerator::generateMainFunction() {
     // dropped when main.vale is emitted (genMainFile).
     mainFunction.addLine({
         "rng = makeRng(0);",
+        "pool = List<BenchArray>();",
         "// anchor",
         "// anchor"
     });
@@ -40,10 +41,11 @@ void ValeGenerator::startScope() {
 
 void ValeGenerator::startFunc(int funcId, int nParameters) {
     GeneratorFunction func = GeneratorFunction(funcId);
-    // Every function takes only the rng borrow and returns a BenchArray. nParameters
-    // (the path-word count other backends thread) is unused: Vale drives branches off
-    // the rng directly.
-    func.addLine("func Func" + std::to_string(funcId) + "(rng &Rng) BenchArray {");
+    // Every function takes the rng borrow and the free-list pool borrow, and returns a
+    // BenchArray. nParameters (the path-word count other backends thread) is unused:
+    // Vale drives branches off the rng directly. The pool is threaded by borrow so the
+    // function can recycle/allocate arrays through it (see takeOrMake).
+    func.addLine("func Func" + std::to_string(funcId) + "(rng &Rng, pool &List<BenchArray>) BenchArray {");
     functions.push_back(func);
     currentFunction.push(&(functions.back()));
     GeneratorScope scope = GeneratorScope();
@@ -63,10 +65,11 @@ bool ValeGenerator::functionExists(int funcId) {
 void ValeGenerator::callFunc(int funcId, int nParameters) {
     int id = addVar(varType);
     GeneratorVariable* var = variables[id];
-    // In main the rng is an owned local (borrow it with &); inside a function it is
-    // already a &Rng borrow and is forwarded as-is.
+    // In main the rng and pool are owned locals (borrow them with &); inside a function
+    // they are already borrows and are forwarded as-is.
     std::string rngArg = currentFunction.top()->insertBack ? "&rng" : "rng";
-    addLine(var->name + " = Func" + std::to_string(funcId) + "(" + rngArg + ");");
+    std::string poolArg = currentFunction.top()->insertBack ? "&pool" : "pool";
+    addLine(var->name + " = Func" + std::to_string(funcId) + "(" + rngArg + ", " + poolArg + ");");
 }
 
 int ValeGenerator::addVar(std::string type) {
@@ -75,8 +78,21 @@ int ValeGenerator::addVar(std::string type) {
     return varCounter++;
 }
 
-// No-op: Vale frees owned values automatically when their references drop.
-void ValeGenerator::freeVars(bool hasReturn, int returnVarPos) {}
+// Recycle the scope's owned arrays into the free-list pool (var->free() emits
+// `pool.add(...)`), except the return variable when there is one. Mirrors the Rust
+// backend's freeVars: walk the variables added in this scope from newest to oldest.
+// Emitted only at scope exits, after the variables' last use, so each move is safe.
+void ValeGenerator::freeVars(bool hasReturn, int returnVarPos) {
+    int numberOfAddedVars = currentScope.top().numberOfAddedVars;
+    std::vector<int> availableVarsId = currentScope.top().avaiableVarsID;
+    for (int i = 0; i < numberOfAddedVars; i++) {
+        int varPos = availableVarsId.size() - i - 1;
+        if (!hasReturn || varPos != returnVarPos) {
+            GeneratorVariable* var = variables[availableVarsId[varPos]];
+            addLine(var->free());
+        }
+    }
+}
 
 void ValeGenerator::returnFunc(int returnVarPos) {
     GeneratorVariable* var = variables[currentScope.top().avaiableVarsID[returnVarPos]];
@@ -112,7 +128,8 @@ void ValeGenerator::genFuncFiles(const std::string& dir) {
         std::ofstream body;
         body.open(dir + "func" + std::to_string(id) + ".vale");
         auto lines = func.getLines();
-        body << lines.front() << "\n";  // "func Func<id>(rng &Rng) BenchArray {"
+        body << "import stdlib.collections.list.*;\n\n";  // List is referenced in the signature
+        body << lines.front() << "\n";  // "func Func<id>(rng &Rng, pool &List<BenchArray>) BenchArray {"
         for (size_t i = 1; i < lines.size(); i++) {
             body << "   " << lines[i] << "\n";
         }
@@ -124,6 +141,7 @@ void ValeGenerator::genFuncFiles(const std::string& dir) {
 void ValeGenerator::genMainFile(const std::string& dir) {
     std::ofstream main;
     main.open(dir + "main.vale");
+    main << "import stdlib.collections.list.*;\n\n";  // List is referenced in main's body
     main << "exported func main() {\n";
     auto lines = mainFunction.getLines();
     // Drop the two trailing anchors planted by generateMainFunction.

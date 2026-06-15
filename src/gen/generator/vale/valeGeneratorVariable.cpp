@@ -9,14 +9,18 @@ ValeGeneratorArray::ValeGeneratorArray(int size, int id) {
 
 ValeGeneratorArray::~ValeGeneratorArray() {}
 
-// `Var<id> = makeArray(<size>, <id>);` — `makeArray` (emitted in genGlobalVars)
-// allocates a zero-filled runtime array. The inFunction flag is irrelevant in
-// Vale: there is no caller-owned pool to draw from, allocation is always fresh.
+// `Var<id> = pool.takeOrMake(<size>, <id>);` — reuse a recycled array from the
+// free-list pool if one is available, otherwise allocate a fresh zero-filled one
+// (see takeOrMake in genGlobalVars). This is the single-ownership analogue of the
+// C/Rust array pool: because Vale has no shared ownership, the pool can only hand
+// back arrays that were previously freed (pushed back via free()), not still-live
+// caller arrays. The inFunction flag is irrelevant: the pool is threaded into
+// every function (and main), so allocation is avoided wherever the pool is non-empty.
 std::vector<std::string> ValeGeneratorArray::new_(bool inFunction) {
     std::string n = this->name;
     std::string sz = std::to_string(this->totalSize);
     std::string idStr = std::to_string(this->id);
-    return {n + " = makeArray(" + sz + ", " + idStr + ");"};
+    return {n + " = pool.takeOrMake(" + sz + ", " + idStr + ");"};
 }
 
 std::vector<std::string> ValeGeneratorArray::insert() {
@@ -53,9 +57,12 @@ std::vector<std::string> ValeGeneratorArray::contains(bool shouldReturn) {
     return temp;
 }
 
-// Ownership reclaims the array automatically when the variable goes out of scope.
+// Recycle the array into the free-list pool instead of letting it drop, so a later
+// `new` can reuse it (mirrors C/Rust returning an array to the pool). free() is only
+// emitted at points where the variable is no longer used, so moving it into the pool
+// is move-safe.
 std::vector<std::string> ValeGeneratorArray::free() {
-    return {};
+    return {"pool.add(" + this->name + ");"};
 }
 
 // Vale auto-imports the stdlib prelude, so no include directives are needed.
@@ -67,6 +74,8 @@ std::vector<std::string> ValeGeneratorArray::genIncludes() {
 // plus the small runtime helpers the generated code calls.
 std::vector<std::string> ValeGeneratorArray::genGlobalVars() {
     std::vector<std::string> temp = {};
+    temp.push_back("import stdlib.collections.list.*;");
+    temp.push_back("");
     temp.push_back("struct BenchArray { data []<mut>int; size int; id int; }");
     temp.push_back("");
     temp.push_back("// Threaded pseudo-random state. A one-element mutable array is used as a");
@@ -88,6 +97,16 @@ std::vector<std::string> ValeGeneratorArray::genGlobalVars() {
     temp.push_back("");
     temp.push_back("func makeArray(n int, id int) BenchArray {");
     temp.push_back("   return BenchArray([]int(n, &(i) => { 0 }), n, id);");
+    temp.push_back("}");
+    temp.push_back("");
+    temp.push_back("// Free-list pool: hand back a recycled array when one is available,");
+    temp.push_back("// otherwise allocate a fresh one. Reused arrays keep their original size");
+    temp.push_back("// (as in C/Rust, which reuse the existing buffer rather than resizing).");
+    temp.push_back("func takeOrMake(pool &List<BenchArray>, size int, id int) BenchArray {");
+    temp.push_back("   if pool.len() > 0 {");
+    temp.push_back("      return pool.remove(pool.len() - 1);");
+    temp.push_back("   }");
+    temp.push_back("   return makeArray(size, id);");
     temp.push_back("}");
     return temp;
 }
