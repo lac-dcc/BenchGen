@@ -30,18 +30,19 @@ class Registers{
 class ProgrammingLanguage {
     public:
     
-    inline static const std::string C      = "c";
-    inline static const std::string CPP    = "cpp";
-    inline static const std::string RUST   = "rust";
-    inline static const std::string JULIA  = "julia";
-    inline static const std::string GO     = "go";
-    inline static const std::string V      = "v";
-    inline static const std::string CARBON = "carbon";
-    inline static const std::string ZIG    = "zig";
-    inline static const std::string ODIN   = "odin";
-    inline static const std::string MLIR   = "mlir";
-    inline static const std::string D      = "d";
-    inline static const std::string NIM    = "nim";
+    inline static const std::string C        = "c";
+    inline static const std::string CPP      = "cpp";
+    inline static const std::string RUST     = "rust";
+    inline static const std::string JULIA    = "julia";
+    inline static const std::string GO       = "go";
+    inline static const std::string V        = "v";
+    inline static const std::string CARBON   = "carbon";
+    inline static const std::string ZIG      = "zig";
+    inline static const std::string ODIN     = "odin";
+    inline static const std::string MLIR     = "mlir";
+    inline static const std::string D        = "d";
+    inline static const std::string NIM      = "nim";
+    inline static const std::string PIPEFISH = "pipefish";
 
 
     inline static std::string LANGUAGE = "";

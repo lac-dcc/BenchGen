@@ -11,6 +11,7 @@
 #include "odin/odinGeneratorVariable.h"
 #include "d/dGeneratorVariable.h"
 #include "nim/nimGeneratorVariable.h"
+#include "pipefish/pipefishGeneratorVariable.h"
 #include "../shared/consts.h"
 
 GeneratorVariable* VariableFactory::createVariable(std::string type, int identifier) {
@@ -68,6 +69,11 @@ GeneratorVariable* VariableFactory::createVariable(std::string type, int identif
     {
         if (type == VarTypes::ARRAY) {
             return new NimGeneratorArray(size, identifier);
+        }
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH)
+    {
+        if (type == VarTypes::ARRAY) {
+            return new PipefishGeneratorArray(size, identifier);
         }
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
     {

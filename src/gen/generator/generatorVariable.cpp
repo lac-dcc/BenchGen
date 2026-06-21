@@ -12,6 +12,7 @@
 #include "d/dGeneratorVariable.h"
 #include "nim/nimGeneratorVariable.h"
 #include "mlir/mlirGeneratorVariable.h"
+#include "pipefish/pipefishGeneratorVariable.h"
 
 unsigned int VariableFactory::var_counter = 0;
 
@@ -102,7 +103,11 @@ std::vector<std::string> GeneratorArray::new_(bool inFunction)
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
     {
         return DGeneratorArray().new_(inFunction);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH)
+    {
+        return PipefishGeneratorArray().new_(inFunction);
     }
+    return {};
 }
 
 
@@ -141,7 +146,11 @@ std::vector<std::string>  GeneratorArray::insert()
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
     {
         return DGeneratorArray().insert();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH)
+    {
+        return PipefishGeneratorArray().insert();
     }
+    return {};
 }
 
 std::vector<std::string>  GeneratorArray::remove()
@@ -179,7 +188,11 @@ std::vector<std::string>  GeneratorArray::remove()
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
     {
         return DGeneratorArray().remove();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH)
+    {
+        return PipefishGeneratorArray().remove();
     }
+    return {};
 }
 
 std::vector<std::string>  GeneratorArray::contains(bool shouldReturn)
@@ -217,7 +230,11 @@ std::vector<std::string>  GeneratorArray::contains(bool shouldReturn)
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
     {
         return DGeneratorArray().contains(shouldReturn);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH)
+    {
+        return PipefishGeneratorArray().contains(shouldReturn);
     }
+    return {};
 }
 
 std::vector<std::string>  GeneratorArray::free()
@@ -255,7 +272,11 @@ std::vector<std::string>  GeneratorArray::free()
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
     {
         return DGeneratorArray().free();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH)
+    {
+        return PipefishGeneratorArray().free();
     }
+    return {};
 }
 
 std::vector<std::string>  GeneratorArray::genIncludes()
@@ -293,7 +314,11 @@ std::vector<std::string>  GeneratorArray::genIncludes()
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
     {
         return DGeneratorArray().genIncludes();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH)
+    {
+        return PipefishGeneratorArray().genIncludes();
     }
+    return {};
 }
 
 std::vector<std::string>  GeneratorArray::genGlobalVars()
@@ -331,7 +356,11 @@ std::vector<std::string>  GeneratorArray::genGlobalVars()
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
     {
         return DGeneratorArray().genGlobalVars();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH)
+    {
+        return PipefishGeneratorArray().genGlobalVars();
     }
+    return {};
 }
 
 std::vector<std::string>  GeneratorArray::genParams(std::string paramName, std::vector<GeneratorVariable*> varsParams)
@@ -369,7 +398,11 @@ std::vector<std::string>  GeneratorArray::genParams(std::string paramName, std::
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
     {
         return DGeneratorArray().genParams(paramName, varsParams);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH)
+    {
+        return PipefishGeneratorArray().genParams(paramName, varsParams);
     }
+    return {};
 }
 
 
@@ -433,7 +466,9 @@ std::vector<std::string> GeneratorScalar::genIncludes() {
 std::vector<std::string> GeneratorScalar::genGlobalVars() {
     return {};
 }
-std::vector<std::string> GeneratorScalar::genParams(std::string paramName, std::vector<GeneratorVariable*> varsParams) {}
+std::vector<std::string> GeneratorScalar::genParams(std::string paramName, std::vector<GeneratorVariable*> varsParams) {
+    return {};
+}
 
 std::string VariableFactory::genTypeString(std::string type) {
     GeneratorVariable* var = createVariable(type, 0);
