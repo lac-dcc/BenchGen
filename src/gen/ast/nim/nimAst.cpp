@@ -9,12 +9,14 @@ void nimprintIndentationSpaces(int indent) {
 
 std::string nimgenerateIfCondition(ProgrammingLanguageGenerator& generator) {
     bool isMain = generator.currentFunction.top()->insertBack;
-    if (isMain) {
-        return "(getPath() and 1) != 0";
-    }
     int ifCounter = generator.ifCounter.top();
     int pathNumber = std::ceil((ifCounter + 1) / 64.0) - 1;
     unsigned long long bit = 1ULL << (ifCounter % 64);
+
+    if (isMain) {
+        return "(getPath() and "+std::to_string(bit)+") != 0";
+    }
+    
     std::string condition = "(PATH" + std::to_string(pathNumber) + " and " + std::to_string(bit) + "'u64) != 0";
     return condition;
 }

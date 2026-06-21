@@ -10,12 +10,14 @@ void pipefishprintIndentationSpaces(int indent) {
 
 std::string pipefishgenerateIfCondition(ProgrammingLanguageGenerator& generator) {
     bool isMain = generator.currentFunction.top()->insertBack;
-    if (isMain) {
-        return "path & 1";
-    }
     int ifCounter = generator.ifCounter.top();
     int pathNumber = std::ceil((ifCounter + 1) / 64.0) - 1;
     int bit = std::pow(2, ifCounter % 64);
+
+    if (isMain) {
+        return "path & "+std::to_string(bit);
+    }
+    
     std::string condition = "path_" + std::to_string(pathNumber) + " == " + std::to_string(bit);
     return condition;
 }

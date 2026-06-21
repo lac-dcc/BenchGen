@@ -10,12 +10,14 @@ void cprintIndentationSpaces(int indent) {
 
 std::string cgenerateIfCondition(ProgrammingLanguageGenerator& generator) {
     bool isMain = generator.currentFunction.top()->insertBack;
-    if (isMain) {
-        return "get_path() & 1";
-    }
     int ifCounter = generator.ifCounter.top();
     int pathNumber = std::ceil((ifCounter + 1) / 64.0) - 1;
     int bit = std::pow(2, ifCounter % 64);
+
+    if (isMain) {
+        return "get_path() & " + std::to_string(bit);
+    }
+    
     std::string condition = "PATH" + std::to_string(pathNumber) + " & " + std::to_string(bit);
     return condition;
 }
