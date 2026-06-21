@@ -10,8 +10,10 @@
 #include "odin/odinAst.h"
 #include "d/dAst.h"
 #include "nim/nimAst.h"
+#include "ada/adaAst.h"
 #include "mlir/mlirAst.h"
 #include "pipefish/pipefishAst.h"
+#include "cangjie/cangjieAst.h"
 
 Insert::~Insert() {};
 Remove::~Remove() {};
@@ -67,11 +69,17 @@ void printIndentationSpaces(int ident)
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
     {
         dprintIndentationSpaces(ident);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        adaprintIndentationSpaces(ident);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::MLIR)
     {
         mlirprintIndentationSpaces(ident);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH){
         pipefishprintIndentationSpaces(ident);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        cangjieprintIndentationSpaces(ident);
     }
 }
 
@@ -110,11 +118,17 @@ std::string generateIfCondition(ProgrammingLanguageGenerator& generator)
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
     {
         return dgenerateIfCondition(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        return adagenerateIfCondition(generator);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::MLIR)
     {
         return mlirgenerateIfCondition(generator);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH){
         return pipefishgenerateIfCondition(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        return cangjiegenerateIfCondition(generator);
     }
 }
 
@@ -155,6 +169,12 @@ Insert get_insert()
         return DInsert();
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH){
         return PipefishInsert();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        return AdaInsert();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        return CangjieInsert();
     }
 }
 
@@ -195,6 +215,12 @@ Remove get_remove()
         return DRemove();
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH){
         return PipefishRemove();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        return AdaRemove();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        return CangjieRemove();
     }
 }
 
@@ -233,11 +259,17 @@ New get_new()
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
     {
         return DNew();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        return AdaNew();
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::MLIR)
     {
         return MlirNew();
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH){
         return PipefishNew();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        return CangjieNew();
     }
 }
 
@@ -278,6 +310,12 @@ Contains get_contains()
         return DContains();
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH){
         return PipefishContains();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        return AdaContains();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        return CangjieContains();
     }
 }
 
@@ -317,11 +355,17 @@ StatementCode get_statementcode(std::shared_ptr<Node> stmt, std::shared_ptr<Node
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
     {
         return DStatementCode(stmt, code);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        return AdaStatementCode(stmt, code);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::MLIR)
     {
         return MlirStatementCode(stmt, code);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH){
         return PipefishStatementCode(stmt, code);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        return CangjieStatementCode(stmt, code);
     }
 }
 
@@ -363,6 +407,12 @@ Loop get_loop(std::shared_ptr<Node> code)
         return DLoop(code);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH){
         return PipefishLoop(code);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        return AdaLoop(code);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        return CangjieLoop(code);
     }
 }
 
@@ -403,6 +453,12 @@ Call get_call()
         return DCall();
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH){
         return PipefishCall();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        return AdaCall();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        return CangjieCall();
     }
 }
 
@@ -443,6 +499,12 @@ Call get_call(int id, std::shared_ptr<Node> code)
         return DCall(id, code);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH){
         return PipefishCall(id, code);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        return AdaCall(id, code);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        return CangjieCall(id, code);
     }
 }
 
@@ -484,6 +546,12 @@ Seq get_seq(std::shared_ptr<Node> code)
         return DSeq(code);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH){
         return PipefishSeq(code);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        return AdaSeq(code);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        return CangjieSeq(code);
     }
 }
 
@@ -524,6 +592,12 @@ If get_if(std::shared_ptr<Node> c1, std::shared_ptr<Node> c2)
         return DIf(c1, c2);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH){
         return PipefishIf(c1, c2);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        return AdaIf(c1, c2);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        return CangjieIf(c1,c2);
     }
 }
 
@@ -562,11 +636,17 @@ Id get_id(std::string id)
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
     {
         return DId(id);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        return AdaId(id);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::MLIR)
     {
         return MlirId(id);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH){
         return PipefishId(id);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        return CangjieId(id);
     }
 }
 
@@ -742,6 +822,12 @@ void Loop::gen(ProgrammingLanguageGenerator& generator) {
         return DLoop(this->code).gen(generator);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH){
         return PipefishLoop(this->code).gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        return AdaLoop(this->code).gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        return CangjieLoop(this->code).gen(generator);
     }
 };
 
@@ -781,6 +867,12 @@ void Loop::print(int) {
         return DLoop(this->code).print(0);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH){
         return PipefishLoop(this->code).print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        return AdaLoop(this->code).print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        return CangjieLoop(this->code).print(0);
     }
 };
 
@@ -844,6 +936,16 @@ void Call::gen(ProgrammingLanguageGenerator& generator) {
         PipefishCall pipefishcall = PipefishCall(this->id, this->code);
         pipefishcall.conditionalCounts = this->conditionalCounts;
         pipefishcall.gen(generator); 
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        AdaCall adacall = AdaCall(this->id, this->code);
+        adacall.conditionalCounts = this->conditionalCounts;
+        adacall.gen(generator); 
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieCall cangjiecall = CangjieCall(this->id, this->code);
+        cangjiecall.conditionalCounts = this->conditionalCounts;
+        cangjiecall.gen(generator); 
     }
 };
 
@@ -908,6 +1010,16 @@ void Call::print(int) {
         PipefishCall pipefishcall = PipefishCall(this->id, this->code);
         pipefishcall.conditionalCounts = this->conditionalCounts;
         pipefishcall.print(0); 
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        AdaCall adacall = AdaCall(this->id, this->code);
+        adacall.conditionalCounts = this->conditionalCounts;
+        adacall.print(0); 
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieCall cangjiecall = CangjieCall(this->id, this->code);
+        cangjiecall.conditionalCounts = this->conditionalCounts;
+        cangjiecall.print(0);    
     }
 };
 
@@ -955,6 +1067,12 @@ void Seq::gen(ProgrammingLanguageGenerator& generator) {
         DSeq(this->code).gen(generator);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH){
         PipefishSeq(this->code).gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        AdaSeq(this->code).gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieSeq(this->code).gen(generator);
     }
 };
 
@@ -994,6 +1112,12 @@ void Seq::print(int) {
         DSeq(this->code).print(0);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH){
         PipefishSeq(this->code).print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        AdaSeq(this->code).print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieSeq(this->code).print(0);
     }
  };
 
@@ -1034,6 +1158,12 @@ void If::gen(ProgrammingLanguageGenerator& generator) {
         DIf(this->c1, this->c2).gen(generator);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH){
         PipefishIf(this->c1, this->c2).gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        AdaIf(this->c1, this->c2).gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieIf(this->c1,this->c2).gen(generator);
     }
 };
 
@@ -1073,6 +1203,12 @@ void If::print(int) {
         DIf(this->c1, this->c2).print(0);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH){
         PipefishIf(this->c1, this->c2).print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        AdaIf(this->c1, this->c2).print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieIf(this->c1, this->c2).print(0);
     }
 };
 
@@ -1110,11 +1246,17 @@ void Id::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
     {
         DId(this->id).gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        AdaId(this->id).gen(generator);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::MLIR)
     {
         MlirId(this->id).gen(generator);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH){
         PipefishId(this->id).gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieId(this->id).gen(generator);
     }
 };
 
@@ -1152,11 +1294,17 @@ void Id::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
     {
         DId(this->id).print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        AdaId(this->id).print(0);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::MLIR)
     {
         MlirId(this->id).print(0);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH){
         PipefishId(this->id).print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieId(this->id).print(0);
     }
 };
 
@@ -1196,6 +1344,11 @@ void Insert::gen(ProgrammingLanguageGenerator& generator) {
         DInsert().gen(generator);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH){
         PipefishInsert().gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        AdaInsert().gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE){
+        CangjieInsert().gen(generator);
     }
 };
 
@@ -1236,6 +1389,12 @@ void Insert::print(int) {
         DInsert().print(0);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH){
         PipefishInsert().print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        AdaInsert().print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieInsert().print(0);
     }
 };
 
@@ -1275,6 +1434,12 @@ void Remove::gen(ProgrammingLanguageGenerator& generator) {
         DRemove().gen(generator);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH){
         PipefishRemove().gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        AdaRemove().gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieRemove().gen(generator);
     }
 };
 
@@ -1314,6 +1479,12 @@ void Remove::print(int) {
         DRemove().print(0);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH){
         PipefishRemove().print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        AdaRemove().print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieRemove().print(0);
     }
 };
 
@@ -1351,11 +1522,17 @@ void New::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
     {
         DNew().gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        AdaNew().gen(generator);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::MLIR)
     {
         MlirNew().gen(generator);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH){
         PipefishInsert().gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieNew().gen(generator);
     }
 };
 
@@ -1393,11 +1570,17 @@ void New::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
     {
         DNew().print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        AdaNew().print(0);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::MLIR)
     {
         MlirNew().print(0);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH){
         PipefishNew().print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieNew().print(0);
     }
  };
 
@@ -1437,6 +1620,12 @@ void Contains::gen(ProgrammingLanguageGenerator& generator) {
         DContains().gen(generator);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH){
         PipefishContains().gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        AdaContains().gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieContains().gen(generator);
     }
 };
 
@@ -1476,6 +1665,12 @@ void Contains::print(int) {
         DContains().print(0);
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH){
         PipefishContains().print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        AdaContains().print(0);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieContains().print(0);
     }
  };
 
@@ -1513,11 +1708,17 @@ void StatementCode::gen(ProgrammingLanguageGenerator& generator) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
     {
         DStatementCode(this->stmt, this->code).gen(generator);  
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        AdaStatementCode(this->stmt, this->code).gen(generator);  
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::MLIR)
     {
         MlirStatementCode(this->stmt, this->code).gen(generator);  
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH){
         PipefishStatementCode(this->stmt, this->code).gen(generator);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieStatementCode(this->stmt, this->code).gen(generator);
     }
 };
 
@@ -1557,11 +1758,17 @@ void StatementCode::print(int) {
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::D)
     {
         DStatementCode(this->stmt, this->code).print(0);  
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        AdaStatementCode(this->stmt, this->code).print(0);  
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::MLIR)
     {
         MlirStatementCode(this->stmt, this->code).print(0);  
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH){
         PipefishStatementCode(this->stmt, this->code).print(0);  
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieStatementCode(this->stmt, this->code).print(0);
     }
 };
 
@@ -1601,6 +1808,12 @@ void LambdaCode::gen(ProgrammingLanguageGenerator& generator) {
         DLambdaCode().gen(generator);  
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH){
         PipefishLambdaCode().gen(generator);   
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        AdaLambdaCode().gen(generator);  
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieLambdaCode().gen(generator);
     }
 };
 
@@ -1640,6 +1853,12 @@ void LambdaCode::print(int) {
         DLambdaCode().print(0);  
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH){
         PipefishLambdaCode().print(0);   
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        AdaLambdaCode().print(0);  
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieLambdaCode().print(0);
     }
 };
 

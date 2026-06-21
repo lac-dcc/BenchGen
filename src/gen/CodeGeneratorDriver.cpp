@@ -62,6 +62,8 @@ int main(int argc, char const* argv[]) {
         language != ProgrammingLanguage::D &&
         language != ProgrammingLanguage::NIM &&
         language != ProgrammingLanguage::PIPEFISH &&
+        language != ProgrammingLanguage::ADA &&
+        language != ProgrammingLanguage::CANGJIE &&
         language != ProgrammingLanguage::MLIR)
     {
         std::cout << "Programming language " + language + " is wrong!" << std::endl;
@@ -70,13 +72,15 @@ int main(int argc, char const* argv[]) {
         ProgrammingLanguage::CPP + "', '" +
         ProgrammingLanguage::RUST + "', '" +
         ProgrammingLanguage::JULIA + "', '" +
-		ProgrammingLanguage::CARBON + "', '" +
-		ProgrammingLanguage::ODIN + "', '" +
+		    ProgrammingLanguage::CARBON + "', '" +
+		    ProgrammingLanguage::ODIN + "', '" +
         ProgrammingLanguage::GO + "', '" +
         ProgrammingLanguage::MLIR + "', '" +
         ProgrammingLanguage::D + "', '" +
         ProgrammingLanguage::NIM + "', '" +
         ProgrammingLanguage::PIPEFISH + "', '" +
+        ProgrammingLanguage::ADA + "', '" +
+        ProgrammingLanguage::CANGJIE + "', '" +
         ProgrammingLanguage::V + "' and '" +
         ProgrammingLanguage::ZIG + "'"
         << std::endl;

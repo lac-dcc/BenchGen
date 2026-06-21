@@ -12,6 +12,8 @@
 #include "d/dGeneratorVariable.h"
 #include "nim/nimGeneratorVariable.h"
 #include "pipefish/pipefishGeneratorVariable.h"
+#include "ada/adaGeneratorVariable.h"
+#include "cangjie/cangjieGeneratorVariable.h"
 #include "../shared/consts.h"
 
 GeneratorVariable* VariableFactory::createVariable(std::string type, int identifier) {
@@ -80,10 +82,20 @@ GeneratorVariable* VariableFactory::createVariable(std::string type, int identif
         if (type == VarTypes::ARRAY) {
             return new DGeneratorArray(size, identifier);
         }
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        if (type == VarTypes::ARRAY) {
+            return new AdaGeneratorArray(size, identifier);
+        }
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::MLIR)
     {
         if (type == VarTypes::SCALAR) {
             return new MlirGeneratorScalar(size, identifier);
+        }
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        if(type == VarTypes::ARRAY){
+            return new CangjieGeneratorArray(size, identifier);
         }
     }
     // TODO: Error Handling

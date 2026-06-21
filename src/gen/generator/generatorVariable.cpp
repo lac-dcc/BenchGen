@@ -13,6 +13,8 @@
 #include "nim/nimGeneratorVariable.h"
 #include "mlir/mlirGeneratorVariable.h"
 #include "pipefish/pipefishGeneratorVariable.h"
+#include "ada/adaGeneratorVariable.h"
+#include "cangjie/cangjieGeneratorVariable.h"
 
 unsigned int VariableFactory::var_counter = 0;
 
@@ -106,6 +108,12 @@ std::vector<std::string> GeneratorArray::new_(bool inFunction)
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH)
     {
         return PipefishGeneratorArray().new_(inFunction);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        return AdaGeneratorArray().new_(inFunction);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        return CangjieGeneratorArray().new_(inFunction);
     }
     return {};
 }
@@ -149,6 +157,12 @@ std::vector<std::string>  GeneratorArray::insert()
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH)
     {
         return PipefishGeneratorArray().insert();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        return AdaGeneratorArray().insert();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        return CangjieGeneratorArray().insert();
     }
     return {};
 }
@@ -191,6 +205,12 @@ std::vector<std::string>  GeneratorArray::remove()
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH)
     {
         return PipefishGeneratorArray().remove();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        return AdaGeneratorArray().remove();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        return CangjieGeneratorArray().remove();
     }
     return {};
 }
@@ -233,6 +253,12 @@ std::vector<std::string>  GeneratorArray::contains(bool shouldReturn)
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH)
     {
         return PipefishGeneratorArray().contains(shouldReturn);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        return AdaGeneratorArray().contains(shouldReturn);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        return CangjieGeneratorArray().contains(shouldReturn);
     }
     return {};
 }
@@ -275,6 +301,12 @@ std::vector<std::string>  GeneratorArray::free()
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH)
     {
         return PipefishGeneratorArray().free();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        return AdaGeneratorArray().free();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        return CangjieGeneratorArray().free();
     }
     return {};
 }
@@ -317,6 +349,12 @@ std::vector<std::string>  GeneratorArray::genIncludes()
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH)
     {
         return PipefishGeneratorArray().genIncludes();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        return AdaGeneratorArray().genIncludes();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        return CangjieGeneratorArray().genIncludes();
     }
     return {};
 }
@@ -359,6 +397,12 @@ std::vector<std::string>  GeneratorArray::genGlobalVars()
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH)
     {
         return PipefishGeneratorArray().genGlobalVars();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        return AdaGeneratorArray().genGlobalVars();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        return CangjieGeneratorArray().genGlobalVars();
     }
     return {};
 }
@@ -401,6 +445,12 @@ std::vector<std::string>  GeneratorArray::genParams(std::string paramName, std::
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH)
     {
         return PipefishGeneratorArray().genParams(paramName, varsParams);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        return AdaGeneratorArray().genParams(paramName, varsParams);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        return CangjieGeneratorArray().genParams(paramName, varsParams);
     }
     return {};
 }

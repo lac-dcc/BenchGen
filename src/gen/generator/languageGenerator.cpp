@@ -16,7 +16,8 @@
 #include "d/dGenerator.h"
 #include "nim/nimGenerator.h"
 #include "pipefish/pipefishGenerator.h"
-
+#include "ada/adaGenerator.h"
+#include "cangjie/cangjieGenerator.h"
 
 ProgrammingLanguageGenerator::ProgrammingLanguageGenerator(){};
 ProgrammingLanguageGenerator::~ProgrammingLanguageGenerator(){};
@@ -61,6 +62,12 @@ void ProgrammingLanguageGenerator::addLine(std::vector<std::string> lines, int d
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH)
     {
         PipefishGenerator(this->varType).addLine(lines, d);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        AdaGenerator(this->varType).addLine(lines, d);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieGenerator(this->varType).addLine(lines, d);
     }
 };
 
@@ -104,6 +111,12 @@ void ProgrammingLanguageGenerator::addLine(std::string line, int d){
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH)
     {
         PipefishGenerator(this->varType).addLine(line, d);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        AdaGenerator(this->varType).addLine(line, d);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieGenerator(this->varType).addLine(line, d);
     }
 };
 
@@ -147,6 +160,12 @@ void ProgrammingLanguageGenerator::startScope(){
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH)
     {
         PipefishGenerator(this->varType).startScope();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        AdaGenerator(this->varType).startScope();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieGenerator(this->varType).startScope();
     }
 };
 
@@ -190,6 +209,12 @@ void ProgrammingLanguageGenerator::startFunc(int funcId, int nParameters){
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH)
     {
         PipefishGenerator(this->varType).startFunc(funcId, nParameters);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        AdaGenerator(this->varType).startFunc(funcId, nParameters);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieGenerator(this->varType).startFunc(funcId, nParameters);
     }
 };
 
@@ -233,6 +258,12 @@ bool ProgrammingLanguageGenerator::functionExists(int funcId){
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH)
     {
         return PipefishGenerator(this->varType).functionExists(funcId);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        return AdaGenerator(this->varType).functionExists(funcId);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        return CangjieGenerator(this->varType).functionExists(funcId);
     }
     return false;
 };
@@ -277,6 +308,12 @@ void ProgrammingLanguageGenerator::callFunc(int funcId, int nParameters){
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH)
     {
         PipefishGenerator(this->varType).callFunc(funcId, nParameters);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        AdaGenerator(this->varType).callFunc(funcId, nParameters);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieGenerator(this->varType).callFunc(funcId, nParameters);
     }
 };
 
@@ -320,6 +357,12 @@ int ProgrammingLanguageGenerator::addVar(std::string type){
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH)
     {
         return PipefishGenerator(this->varType).addVar(type);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        return AdaGenerator(this->varType).addVar(type);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        return CangjieGenerator(this->varType).addVar(type);
     }
     return -1;
 };
@@ -365,6 +408,12 @@ void ProgrammingLanguageGenerator::freeVars(bool hasReturn, int returnVarPos){
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH)
     {
         PipefishGenerator(this->varType).freeVars(hasReturn, returnVarPos);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        AdaGenerator(this->varType).freeVars(hasReturn, returnVarPos);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieGenerator(this->varType).freeVars(hasReturn, returnVarPos);
     }
 };
 
@@ -409,6 +458,12 @@ void ProgrammingLanguageGenerator::returnFunc(int returnVarPos){
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH)
     {
         PipefishGenerator(this->varType).returnFunc(returnVarPos);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        AdaGenerator(this->varType).returnFunc(returnVarPos);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieGenerator(this->varType).returnFunc(returnVarPos);
     }
 };
 
@@ -452,6 +507,12 @@ void ProgrammingLanguageGenerator::endScope(){
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH)
     {
         PipefishGenerator(this->varType).endScope();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        AdaGenerator(this->varType).endScope();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieGenerator(this->varType).endScope();
     }
 };
 
@@ -484,6 +545,12 @@ void ProgrammingLanguageGenerator::endIfScope(){
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH)
     {
         PipefishGenerator(this->varType).endIfScope();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        AdaGenerator(this->varType).endIfScope();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieGenerator(this->varType).endIfScope();
     }
 };
 
@@ -527,6 +594,12 @@ void ProgrammingLanguageGenerator::endFunc(){
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH)
     {
         PipefishGenerator(this->varType).endFunc();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        AdaGenerator(this->varType).endFunc();
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieGenerator(this->varType).endFunc();
     }
 };
 
@@ -571,6 +644,12 @@ void ProgrammingLanguageGenerator::generateFiles(std::string benchmarkName){
     }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::PIPEFISH)
     {
         PipefishGenerator(this->varType).generateFiles(benchmarkName);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::ADA)
+    {
+        AdaGenerator(this->varType).generateFiles(benchmarkName);
+    }else if(ProgrammingLanguage::LANGUAGE == ProgrammingLanguage::CANGJIE)
+    {
+        CangjieGenerator(this->varType).generateFiles(benchmarkName);
     }
 };
 
@@ -615,6 +694,12 @@ ProgrammingLanguageGenerator* ProgrammingLanguageGenerator::getGenerator(std::st
     }else if(language == ProgrammingLanguage::PIPEFISH)
     {
         return new PipefishGenerator(varType);
+    }else if(language == ProgrammingLanguage::ADA)
+    {
+        return new AdaGenerator(varType);
+    }else if(language == ProgrammingLanguage::CANGJIE)
+    {
+        return new CangjieGenerator(varType);
     }
 
     return nullptr;
