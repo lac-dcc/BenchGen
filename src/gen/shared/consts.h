@@ -44,7 +44,7 @@ class ProgrammingLanguage {
     inline static const std::string NIM    = "nim";
     inline static const std::string ADA    = "ada";
     inline static const std::string CANGJIE = "cangjie";
-
+    inline static const std::string PIPEFISH = "pipefish";
 
     inline static std::string LANGUAGE = "";
 };

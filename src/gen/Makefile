@@ -18,6 +18,7 @@ DEPS = $(OBJ)factory.o \
 	   $(OBJ)odinAst.o \
 	   $(OBJ)dAst.o \
 	   $(OBJ)nimAst.o \
+	   $(OBJ)pipefishAst.o \
 	   $(OBJ)adaAst.o \
 	   $(OBJ)cangjieAst.o \
 	   $(OBJ)mlirAst.o \
@@ -34,6 +35,7 @@ DEPS = $(OBJ)factory.o \
 	   $(OBJ)odinGeneratorVariable.o \
 	   $(OBJ)dGeneratorVariable.o \
 	   $(OBJ)nimGeneratorVariable.o \
+	   $(OBJ)pipefishGeneratorVariable.o \
 	   $(OBJ)adaGeneratorVariable.o \
 	   $(OBJ)cangjieGeneratorVariable.o \
 	   $(OBJ)mlirGeneratorVariable.o \
@@ -49,6 +51,7 @@ DEPS = $(OBJ)factory.o \
 	   $(OBJ)carbonGenerator.o \
 	   $(OBJ)zigGenerator.o \
 	   $(OBJ)odinGenerator.o \
+	   $(OBJ)pipefishGenerator.o \
 	   $(OBJ)dGenerator.o \
 	   $(OBJ)nimGenerator.o \
 	   $(OBJ)adaGenerator.o \
@@ -92,6 +95,7 @@ $(OBJ)dAst.o: ast/d/dAst.cpp | $(OBJ)
 	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
 $(OBJ)nimAst.o: ast/nim/nimAst.cpp | $(OBJ)
 	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
+$(OBJ)pipefishAst.o: ast/pipefish/pipefishAst.cpp | $(OBJ)
 $(OBJ)adaAst.o: ast/ada/adaAst.cpp | $(OBJ)
 	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
 $(OBJ)cangjieAst.o: ast/cangjie/cangjieAst.cpp | $(OBJ)
@@ -126,6 +130,7 @@ $(OBJ)dGeneratorVariable.o: generator/d/dGeneratorVariable.cpp | $(OBJ)
 	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
 $(OBJ)nimGeneratorVariable.o: generator/nim/nimGeneratorVariable.cpp | $(OBJ)
 	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
+$(OBJ)pipefishGeneratorVariable.o: generator/pipefish/pipefishGeneratorVariable.cpp | $(OBJ)
 $(OBJ)adaGeneratorVariable.o: generator/ada/adaGeneratorVariable.cpp | $(OBJ)
 	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
 $(OBJ)cangjieGeneratorVariable.o: generator/cangjie/cangjieGeneratorVariable.cpp | $(OBJ)
@@ -156,6 +161,7 @@ $(OBJ)dGenerator.o: generator/d/dGenerator.cpp | $(OBJ)
 	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
 $(OBJ)nimGenerator.o: generator/nim/nimGenerator.cpp | $(OBJ)
 	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
+$(OBJ)pipefishGenerator.o: generator/pipefish/pipefishGenerator.cpp | $(OBJ)
 $(OBJ)adaGenerator.o: generator/ada/adaGenerator.cpp | $(OBJ)
 	$(CC) $(CFLAGS) -I $(IMP) -c $^ -o $@ -Wno-return-type
 $(OBJ)cangjieGenerator.o: generator/cangjie/cangjieGenerator.cpp | $(OBJ)
